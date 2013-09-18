@@ -72,10 +72,11 @@ What next?
 
 **jide.js** comes bundled with plenty of documentation that you can directly access from this page.
 
-* [Guide](http://jidejs.jidesoft.com/guide/index.html)
+* [Website](http://js.jidesoft.com)
+* [Guide](http://js.jidesoft.com/guide/index.html)
   The Guide provides a structured introduction to **jide.js** for those who prefer to read.
-* [Examples](http://jidejs.jidesoft.com/examples/index.html)
+* [Examples](http://js.jidesoft.com/examples/index.html)
   The Examples provide an interactive way to learn **jide.js** in case you'd like to explore and test it before
   starting to read the detailed guide or diving into the API documentation.
-* [API](http://jidejs.jidesoft.com/api/index.html)
+* [API](http://js.jidesoft.com/api/index.html)
   If you need to explore the API of a class or method in detail, the API documentation is the best way to do so.
