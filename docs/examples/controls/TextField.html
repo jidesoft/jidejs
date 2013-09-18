@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">TextField</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use a {@link jidejs/ui/control/TextField} to let users insert text into an application.</p>
+</section>
+<div data-role="html"></div>
+<pre data-role="js" class="code">
+require([
+    'jidejs/ui/control/TextField', 'jidejs/ui/control/PasswordField',
+    'jidejs/ui/control/Label', 'jidejs/ui/control/Button',
+    'jidejs/ui/layout/HBox'
+], function(TextField, PasswordField, Label, Button, HBox) {
+    var name = new TextField();
+    var password = new PasswordField();
+    // in order to get baseline alignment, we need to wrap the elements in an HBox and change its style
+    var box = new HBox({
+        spacing: '5px',
+        children: [
+            new Label({ text: 'Name' }),
+            name,
+            new Label({ text: 'Password' }),
+            password,
+            new Button({
+                text: 'Submit',
+                on: {
+                    action: function() {
+                        alert("You've entered the following login data: "+name.text+", "+password.text);
+                    }
+                }
+            })
+        ]
+    });
+    // set styles to align the items at baseline
+    box.style.set('align-items', 'baseline')
+        .set('flex-align', 'baseline')
+        .set('-webkit-align-items', 'baseline')
+        .set('-moz-box-align', 'baseline').update();
+    root.appendChild(box.element);
+});</pre>
+<section data-role="about">
+    <p>This example shows how a very simple login form could be created using <em>jide.js</em>. In order to get baseline
+        alignment, we've chosen to use a simple {@link jidejs/ui/layout/HBox} for the controls.</p>
+    <p>Try to listen to changes to the {@link jidejs/ui/control/TextField} or its action event, which is activated when
+    the user presses the 'Enter' key while the {@link jidejs/ui/control/TextField} has the focus.</p>
+</section>
+</body>
+</html>

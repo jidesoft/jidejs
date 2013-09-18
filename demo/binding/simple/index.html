@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic test page</title>
+    <link rel="stylesheet" type="text/css" href="../../../controls/style/default.css">
+    <style>template { display: none; }</style>
+</head>
+<body>
+    <div>
+        <span id="label"></span>
+    </div>
+    <div id="abscontainer"> <!-- layout test -->
+        <div id="relcontainer">
+            <div id="testtranslate" style="display:inline-block;">Test</div>
+            <div id="test2" style="display: inline-block;">Test 2</div>
+        </div>
+    </div>
+    <template id="project_details">
+        <div>
+            <h1 data-slot="name" data-bind="text: nameProperty"></h1>
+            <h2 data-slot="priority" data-bind="text: priorityProperty"></h2>
+            <div data-slot="description" data-bind="text: descriptionProperty"></div>
+            <div data-bind="template: {data: owner, as: 'user'}">
+                <a data-bind="attr: { href: user.link }, text: user.name"></a>
+            </div>
+        </div>
+    </template>
+    <template id="customLabel">
+        <span>
+            <span data-slot="graphic"></span>
+            <span data-slot="text"></span>
+        </span>
+    </template>
+</body>
+<script src="../../../components/requirejs/require.js" data-main="main.js"></script>
+<script>// layout test
+    var div = document.getElementById('testtranslate'),
+            div2 = document.getElementById('test2');
+    div.style.webkitTransform = "translate(200px, 0px)";
+    div2.style.webkitTransform = "translate(0px, 10px)";
+</script>
+<script>
+    function Class(def) {
+        var proto = def.extends;
+        delete def.extends;
+
+        var mixins = def.mixin;
+        delete def.mixin;
+
+        var constr = def.constructor;
+
+        // setup inheritance chain
+        if(proto) {
+            constr.prototype = Object.create(proto.prototype);
+            constr.prototype.constructor = def.constructor;
+        }
+        // setup custom methods
+        Object.getOwnPropertyNames(def).forEach(function(name) {
+            //if(name !== 'constructor') {
+                var desc = Object.getOwnPropertyDescriptor(def, name);
+                if(desc.hasOwnProperty('value') && Object.prototype.toString.call(desc.value) === '[object Function]') {
+                    desc.enumerable = false;
+                } else if(desc.hasOwnProperty('get')) {
+                    desc.enumerable = true;
+                }
+                Object.defineProperty(constr.prototype, name, desc);
+            //}
+        });
+        if(mixins) {
+            for(var i = 0, len = mixins.length; i < len; i++) {
+                for(var name in mixins[i]) {
+                    if(mixins[i].hasOwnProperty(name) && !(name in constr.prototype)) {
+                        Object.defineProperty(constr.prototype, name, Object.getOwnPropertyDescriptor(mixins[i], name));
+                    }
+                }
+            }
+        }
+        return constr;
+    }
+
+    var Name = (function() {
+        var i = 0;
+        return function Name() {
+            return 'private'+(i++);
+        };
+    }());
+    Name.register = function(obj, privates) {
+        for(var i = 0, len = privates.length; i < len; i++) {
+            Object.defineProperty(obj, privates[i], {
+                writable: true,
+                enumerable: false,
+                configurable: false
+            });
+        }
+    };
+
+    var $firstName = Name(), $lastName = Name();
+    var Person = Class({
+        constructor: function Person(firstName, lastName) {
+            Name.register(this, [$firstName, $lastName]);
+            this[$firstName] = firstName;
+            this[$lastName] = lastName;
+        },
+
+        get fullName() {
+            return this[$firstName] + ' ' + this[$lastName];
+        }
+    });
+
+    var Worker = Class({
+        extends: Person,
+        constructor: function Worker(firstName, lastName, salary) {
+            Person.call(this, firstName, lastName);
+            this.salary = salary;
+        },
+
+        toString: function() {
+            return "Worker: "+this.fullName+"; Salary: "+this.salary;
+        }
+    });
+
+    var me = new Worker('Patrick', 'Gotthardt', 4000);
+    console.log(me.toString());
+    console.log(me);
+    console.log('me instanceof Person', me instanceof Person);
+    console.log('me instanceof Worker', me instanceof Worker);
+    console.log('me.constructor === Worker', me.constructor === Worker);
+    console.log('iterate over properties:');
+    for(var name in me) {
+        console.log(name, me[name]);
+    }
+</script>
+<script>
+    (function() {
+        var macros = {
+            'digit': '[0-9]'
+        };
+        var tokens = {
+            'number': '#{digit}+(?:\\.#{digit}+)?',
+            'unit': 'px|%|fr|em',
+            'size': 'm(?:in|ax)-content',
+            'minmax': 'minmax',
+            'lparen': '\\(',
+            'rparen': '\\)'
+        };
+
+        function expand(token, macros) {
+            return token.replace(/#\{([^\}]+)\}/g, function(match) {
+                var id = match.match(/#\{([^\}]+)\}/)[1];
+                return macros[id];
+            });
+        }
+
+        var tokenPrototypes = [];
+        for(var ruleName in tokens) {
+            if(tokens.hasOwnProperty(ruleName)) {
+                var token = tokens[ruleName];
+                token = expand(token, macros);
+                tokenPrototypes.push({
+                    id: ruleName,
+                    rule: token
+                });
+            }
+        }
+
+        function Token(match, tokenPrototypes) {
+            var index = -1;
+            for(var i = 1, len = tokenPrototypes.length + 1; i < len; i++) {
+                if(match[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            if(index === -1) {
+                return null;
+            }
+            var token = Object.create(tokenPrototypes[index-1]);
+            token.text = match[0];
+            token.index = match[len];
+            return token;
+        }
+        console.log(tokenPrototypes);
+
+        var r = new RegExp('('+tokenPrototypes.map(function(token) {
+            return token.rule;
+        }).join(')|(')+')', 'g');
+        console.log(r.toString());
+        var match,
+            input = '1fr 100px min-content auto minmax(100px, max-content)';
+        var matchedTokens = [];
+        while(match = r.exec(input)) {
+            console.log(match);
+            matchedTokens.push(Token(match, tokenPrototypes));
+        }
+
+        console.log(matchedTokens);
+    }());
+</script>
+</html>

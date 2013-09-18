@@ -1,0 +1,69 @@
+@import "../../../components/bootstrap/less/bootstrap.less";
+@import "../../../style/default.less";
+
+body {
+  padding-top: 50px;
+}
+
+.jide-listview > li:nth-child(even) {
+  background: #FFF;
+}
+
+.jide-listview > li:nth-child(odd) {
+  background: #E3E3E3;
+}
+
+.jide-listview {
+  margin: 10px;
+  padding: 0 !important;
+
+  .jide-cell {
+    padding: 10px;
+  }
+}
+
+.jide-cell > header {
+  margin: 0 10px 10px 0;
+}
+
+.page-header {
+  margin-top: 0;
+}
+
+.bottom-bar {
+  border-top: 1px solid #E3E3E3;
+  margin-top: 10px;
+}
+
+.jide-menubar {
+  #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
+
+  & > .jide-menuitem {
+    float: none;
+    // Vertically center the text given @navbarHeight
+    padding: ((@navbarHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
+    color: @navbarLinkColor;
+    text-decoration: none;
+    text-shadow: 0 1px 0 @navbarBackgroundHighlight;
+
+    &:hover, &:focus {
+      background-color: @navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover/:focus from .active
+      color: @navbarLinkColorHover;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline-offset: 0;
+      outline: 1px solid @navbarLinkBackgroundActive;
+    }
+
+    &.active {
+      color: @navbarLinkColorActive;
+      text-decoration: none;
+      background-color: @navbarLinkBackgroundActive;
+      .box-shadow(inset 0 3px 8px rgba(0,0,0,.125));
+    }
+  }
+}
+
+@import "../../../components/bootstrap/less/utilities.less";

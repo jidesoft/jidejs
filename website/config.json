@@ -1,0 +1,13 @@
+{
+  "locals": {
+    "title": "jide.js Developer Guide"
+  },
+
+	"plugins": [
+		"wintersmith-less",
+		"wintersmith-nunjucks",
+		"./plugins/toc.js",
+		"./plugins/apilink.js",
+		"./plugins/utils.js"
+	]
+}

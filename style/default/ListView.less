@@ -1,0 +1,20 @@
+.jide-listview {
+  //padding: @padding;
+  padding: 0;
+  & > li {
+    & > .jide-cell {
+      padding: @padding;
+      &:hover {
+        .gradient(lighten(@control-background, 10%), @control-background);
+      }
+
+      &.jide-state-selected {
+        .gradient(darken(@control-background, 0%), darken(@control-background, 20%));
+
+        &:hover {
+          .gradient(darken(@control-background, 10%), darken(@control-background, 30%));
+        }
+      }
+    }
+  }
+}

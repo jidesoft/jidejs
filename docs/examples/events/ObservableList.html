@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">ObservableList</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use an {@link jidejs/base/ObservableList} to store a collection of data.</p>
+</section>
+<div data-role="html"><ul id="xlog"></ul></div>
+<pre data-role="js" class="code">
+require(['jidejs/base/ObservableList'], function(ObservableList) {
+    // create a list of people, we represent a person as a string to keep the example small
+    var people = new ObservableList();
+
+    // add some people
+    people.add('George', 'Patrick', 'David', 'John', 'Sarah');
+
+    log(people.toArray().join(', '));
+
+    // now remove John
+    people.removeAt(3);
+    log(people.toArray().join(', '));
+
+    // and now let's remove George
+    people.remove('George');
+    log(people.toArray().join(', '));
+
+    // and insert them back
+    people.insertAt(2, 'John', 'George');
+    log(people.toArray().join(', '));
+
+    // constantly having to log the changes get's boring, listen to the changes instead
+    function changeLogger(event) {
+        // log the new contents of the list
+        log('The people list was changed: '+people.toArray().join(', '));
+        // and now list the changes
+        var changes = event.enumerator();
+        while(changes.moveNext()) {
+            var change = changes.current;
+            if(change.isUpdate) {
+                log('<b>Update</b>: '+change.oldValue+' => '+change.newValue);
+            } else if(change.isDelete) {
+                log('<b>Delete</b>: '+change.oldValue);
+            } else if(change.isInsert) {
+                log('<b>Insert</b>: '+change.newValue);
+            }
+        }
+    }
+    people.on('change', changeLogger);
+
+    // and change the list again
+    people.splice(2, 1, 'Jessica', 'Naomi');
+
+    // we can also sort the list:
+    var sortedPeople = people.sort(function(firstPerson, secondPerson) {
+      return firstPerson.localeCompare(secondPerson);
+    });
+
+    // ignore changes to the original list now
+    people.removeListener('change', changeLogger);
+
+    // and listen to the sorted list instead
+    sortedPeople.on('change', changeLogger);
+
+    // sortedPeople is actually a jidejs/base/Collection so we can't modify it directly, but we can still change the original
+    // list:
+    people.splice(0, 2, 'Michael', 'Peter', 'Xavier');
+
+    // this utility function appends an entry to our visible log
+    function log(msg) {
+        root.querySelector('#xlog').appendChild(function() {
+            var li = document.createElement('li');
+            li.innerHTML = msg;
+            return li;
+        }());
+    }
+});</pre>
+<section data-role="about">
+    <p>Whenever you need to store a collection of objects that should be observable, you should consider to use a
+    {@link jidejs/base/Collection} or an {@link jidejs/base/ObservableList} instead of an array.</p>
+    <p>The {@link jidejs/base/Collection} API provides detailed change events and the power to create sorted, filtered,
+    transformed and grouped collections of the data stored within them that are automatically updated when the original
+    collection changed.</p>
+    <p>To get comfortable with {@link jidejs/base/ObservableList}, as you really should be, try to modify the example so
+        that the list contains an actual Person object with name and age properties and use {@link jidejs/base/Collection~filter}
+    to filter the list to contain only people below 40. In order to see the result, you might need to implement a
+        <code>toString</code> method for your Person object.</p>
+</section>
+</body>
+</html>

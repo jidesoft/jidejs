@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">ListView</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use a {@link jidejs/ui/control/ListView}. ListView is a very powerful control and
+    this example shows only a very limited set of its features.</p>
+</section>
+<div data-role="html"></div>
+<pre data-role="js" class="code">require([
+    'jidejs/base/ObservableList', 'jidejs/ui/control/ListView'
+], function(ObservableList, ListView) {
+    // create the initial data
+    var people = new ObservableList([
+        'John Doe',
+        'Santa Claus',
+        'Jane Doe',
+        'Michael Doe'
+    ]);
+
+    // create a ListView for the people
+    var list = new ListView({
+        items: people
+    });
+
+    // select the first item in the list
+    list.selectionModel.selectFirst();
+
+    // add the 'element' of the ListView to the DOM
+    root.appendChild(list.element);
+});</pre>
+<section data-role="about">
+    <p>{@link jidejs/ui/control/ListView} is a very powerful control that can be fully customized by changing
+    the {@link jidejs/ui/control/Cell} used to render its items.</p>
+</section>
+</body>
+</html>

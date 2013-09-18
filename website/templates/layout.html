@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jide.js Guide: {{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block head %}
+    <script id="require_config">
+        var require = {
+            "packages": [{
+                name: 'jidejs',
+                location: '/jidejs'
+            }]
+        };
+    </script>
+    <script src="/components/requirejs/require.js"></script>
+    {% endblock %}
+
+    <!-- load jide.js docs styling -->
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700|Quattrocento+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!--
+    /* @license
+     * MyFonts Webfont Build ID 2641961, 2013-09-12T04:01:38-0400
+     *
+     * The fonts listed in this notice are subject to the End User License
+     * Agreement(s) entered into by the website owner. All other parties are
+     * explicitly restricted from using the Licensed Webfonts(s).
+     *
+     * You may obtain a valid license at the URLs below.
+     *
+     * Webfont: Museo 700 by exljbris
+     * URL: http://www.myfonts.com/fonts/exljbris/museo/700/
+     *
+     * Webfont: Museo 300 by exljbris
+     * URL: http://www.myfonts.com/fonts/exljbris/museo/300/
+     *
+     * Webfont: Museo 500 by exljbris
+     * URL: http://www.myfonts.com/fonts/exljbris/museo/500/
+     *
+     *
+     * License: http://www.myfonts.com/viewlicense?type=web&buildid=2641961
+     * Licensed pageviews: Unlimited
+     * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
+     *
+     * © 2013 MyFonts Inc
+    */
+
+    -->
+    <link rel="stylesheet" type="text/css" href="/style/MyFontsWebfontsKit.css">
+    <link rel="stylesheet" href="/style/docs.css">
+    <link href="/style/sunburst.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <a class="brand" href="http://js.jidesoft.com">jide.js</a>
+        <ul class="nav">
+            <li{{ ' class="active"' if page.url == "/" }}><a href="/index.html">Getting Started</a></li>
+            <li{{ ' class="active"' if env.helpers.startsWith(page.url, "/guide/") }}><a href="/guide/index.html">Guide</a></li>
+            <li{{ ' class="active"' if env.helpers.startsWith(page.url, "/examples/") }}><a href="/examples/index.html">Examples</a></li>
+            <li{{ ' class="active"' if env.helpers.startsWith(page.url, "/demo/") }}><a href="/demo/index.html">Demos</a></li>
+            <li{{ ' class="active"' if env.helpers.startsWith(page.url, "/api/") }}><a href="/api/index.html">API</a></li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid">
+    {% block content %}
+    <div class="row-fluid">
+        <article class="span12">
+            {{ env['helpers']['doclink'](page.html, page) }}
+        </article>
+    </div>
+    {% endblock %}
+</div>{% block secondary_content %}{% endblock %}
+{#
+<aside class="container-fluid tertiary">
+    <div class="row-fluid company-links">
+        <article class="span3">
+            <h4>About Us</h4>
+            <ul>
+                <li><a href="http://www.jidesoft.com/company.html'">Our History</a></li>
+                <li><a href="http://www.jidesoft.com/company/customers.html">Customers</a></li>
+                <li><a href="http://www.jidesoft.com/company/testimonials.html">Testimonials</a></li>
+                <li><a href="http://www.jidesoft.com/blog/">Blog</a></li>
+                <li><a href="http://www.jidesoft.com/company/contact.html">Contact</a></li>
+            </ul>
+        </article>
+        <article class="span3">
+            <h4>Products</h4>
+            <ul>
+                <li><a href="http://www.jidesoft.com/products/swing.html">Swing</a></li>
+                <li><a href="http://www.jidesoft.com/products/jidefx.html">JideFX</a></li>
+                <li><a href="http://www.jidesoft.com/products/jidejs.html">HTML5</a></li>
+                <li><a href="http://www.jidesoft.com/products/icons.html">UI/Graphics Design</a></li>
+            </ul>
+        </article>
+        <article class="span3">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="http://www.jidesoft.com/downloads/index.php">Releases</a></li>
+                <li><a href="http://www.jidesoft.com/forum/">Forums</a></li>
+                <li><a href="http://www.jidesoft.com/history/index.php">Change Log</a></li>
+                <li><a href="http://www.jidesoft.com/services.html">Services</a></li>
+            </ul>
+        </article>
+        <article class="span3">
+            <h4>Social Profiles</h4>
+            <ul>
+                <li><a href="https://www.facebook.com/jidesoft">Facebook</a></li>
+                <li><a href="http://www.twitter.com/jidesoft">Follow Us On Twitter</a></li>
+                <li><a href="https://plus.google.com/117950435317935099112/posts">Google+</a></li>
+            </ul>
+        </article>
+    </div>
+</aside>
+#}
+<!--==============================footer=================================-->
+<footer>
+    JIDE Software, Inc. 2002-<script>document.write(new Date().getFullYear());</script> | <a href="http://www.jidesoft.com/company/privacy.html">Privacy Policy</a>
+</footer>
+{% block footimport %}
+<!-- load jQuery and bootstrop -->
+<script src="/components/jquery/jquery.min.js"></script>
+{% endblock %}
+</body>
+</html>

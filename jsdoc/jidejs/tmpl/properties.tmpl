@@ -1,0 +1,63 @@
+<?js
+    var props = obj;
+    
+    /* sort subprops under their parent props (like opts.classname) */
+    var parentProp = null;
+    props.forEach(function(prop, i) {
+        if (!prop) { return; }
+        if ( parentProp && prop.name && prop.name.indexOf(parentProp.name + '.') === 0 ) {
+            prop.name = prop.name.substr(parentProp.name.length+1);
+            parentProp.subprops = parentProp.subprops || [];
+            parentProp.subprops.push(prop);
+            props[i] = null;
+        }
+        else {
+            parentProp = prop;
+        }
+    });
+    
+    /* determine if we need extra columns, "attributes" and "default" */
+    props.hasAttributes = false;
+    props.hasDefault = false;
+    props.hasName = false;
+    
+    props.forEach(function(prop) {
+        if (!prop) { return; }
+        
+        if (prop.optional || prop.nullable) {
+            props.hasAttributes = true;
+        }
+        
+        if (prop.name) {
+            props.hasName = true;
+        }
+        
+        if (typeof prop.defaultvalue !== 'undefined') {
+            props.hasDefault = true;
+        }
+    });
+?>
+
+<dl class="params">
+    <?js
+        var self = this;
+	    props.forEach(function(prop) {
+	        if (!prop) { return; }
+	?>
+    <dt><code><?js= prop.name ?></code>
+        <?js if(prop.optional) { ?><span class="badge badge-notice">optional</span><?js } ?>
+        <?js if(prop.nullable) { ?><span class="badge badge-notice">nullable</span><?js } ?>
+        <?js if(prop.type && prop.type.names) { ?>
+            : <span class="type"><?js= self.partial('type.tmpl', prop.type.names) ?></span>
+        <?js } ?>
+        <?js if (typeof prop.defaultvalue !== 'undefined') { ?>
+            <span class="default"><?js= self.htmlsafe(prop.defaultvalue) ?></span>
+        <?js } ?>
+    </dt>
+    <dd>
+        <?js= prop.description ?><?js if (prop.subprops) { ?>
+        <h6>Properties</h6><?js= self.partial('properties.tmpl', prop.subprops) ?>
+        <?js } ?>
+    </dd>
+    <?js }); ?>
+</dl>

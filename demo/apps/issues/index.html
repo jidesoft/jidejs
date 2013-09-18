@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Issue Tracker</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="lib/markdown.js"></script>
+    <script src="lib/Handlebars.js"></script>
+    <script src="lib/moment.js"></script>
+    <script src="../../../components/requirejs/require.js" data-main="main.js"></script>
+
+    <script type="text/template" id="details-tpl">
+        {{#if title}}
+        <div class="page-header">
+        <h2>{{ title }}</h2>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span6">
+                    <small>From {{user.login}} at {{dateFormat createdAt}}</small>
+                </div>
+                <div class="span6 alignright">
+                    <a class="btn" href="{{issueUrl}}">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="body">{{& body }}</div>
+        <div class="page-footer">
+            {{#if commentCount}}
+            There {{#if singleComment}}is{{else}}are{{/if}} {{commentCount}} comment{{#if singleComment}}{{else}}s{{/if}} for this issue.
+            {{else}}
+            There are no comments for this issue yet.
+            {{/if}}
+        </div>
+        {{else}}
+        <div class="page-header">
+        <h2>No issue selected</h2>
+        </div>
+        <p>Please select an issue from the list at the left side. The issues are fetched asynchronously from GitHub.
+            If no issues are displayed, you might be disconnected from the Internet.</p>
+        {{/if}}
+    </script>
+
+    <script type="text/template" id="issue-item-tpl">
+        <header><strong>{{title}}</strong> <span class="label label-info">{{state}}</span></header>
+        <div class="row-fluid">
+            <div class="span3">
+                <img src="{{user.avatarUrl}}" width="80px" height="80px">
+                <div><small>{{user.login}}</small></div>
+            </div>
+            <div class="span9">
+                <dl class="small">
+                    <dt>Created at</dt>
+                    <dd>{{dateFormat createdAt format="LLLL"}}</dd>
+                    <dt>Last updated at</dt>
+                    <dd>{{dateFormat updatedAt format="LLLL"}}</dd>
+                </dl>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="app-bottom-bar-tpl">
+        <div class="row-fluid bottom-bar">
+            <div class="span12">
+                <p>This demo shows how to load data from <a href="http://www.github.com">Github</a> asynchronously.
+                    It uses a custom <a href="./lib/TemplateView.js">TemplateView</a> control that
+                    embeds <a href="http://www.handlebarsjs.com">Handlebars</a>. The issues are rendered using
+                    <a href="https://github.com/evilstreak/markdown-js">markdown-js</a>.</p>
+                <p><span class="badge badge-important">Important</span> Differences in the rendered body text between
+                this demo and Github are due to the different Markdown renderers.</p>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="about-view-tpl">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <aside class="span4">
+                    <h1>About this demo</h1>
+                    <p>This demo shows how data can be fetched asynchronously and inserted into a view dynamically. The issues in the
+                        <a href="../../../api/ListView.html">ListView</a> are bound to the detail view which is implemented using a
+                        custom <a href="./lib/TemplateView.js">TemplateView</a>. We're using the same TemplateView control to implement
+                        the list cells.</p>
+                    <p>The demo uses <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for styling,
+                        <a href="http://www.handlebars.com">Handlebars</a> for the template view (any other template engine would be
+                        just fine, too) and <a href="https://github.com/evilstreak/markdown-js">markdown-js</a> for rendering
+                        the message of the issues.</p>
+                    <p>Issues are loaded from <a href="http://www.github.com">Github</a> from the
+                        <a href="https://github.com/joyent/node">node.js</a> repository. Due to limitations in how many API calls
+                        we can make, we do not fetch lots of details about an issue. For example, there are no comments or similar displayed
+                        in the detail view.</p>
+                </aside>
+                <article class="span8">
+                    <h2>Reading the demo sources</h2>
+                    <p>When trying to read the source code for this demo, it is advisable to understand its basic structure.
+                    This page is meant to help you understand where to locate the different parts of the application.</p>
+                    <dl>
+                        <dt>index.html</dt>
+                        <dd>This file contains the templates used by the demo and loads the required Javascript files.</dd>
+                        <dt>style.less/style.css</dt>
+                        <dd>Contains the CSS stylesheet. Loads and customizes <a href="http://www.bootstrap.org">Bootstrap</a> and
+                        the default <b>jide.js</b> style.</dd>
+                        <dt>main.js</dt>
+                        <dd>The entry point to the application. Requires <code>lib/app.js</code> and adds its view to the DOM.</dd>
+                        <dt>lib/app.js</dt>
+                        <dd>Contains the application view and the menu. It takes care of updating the view and menu when an
+                        item from the menu is selected.</dd>
+                        <dt>lib/bus.js</dt>
+                        <dd>A global EventBus using the <a href="../../../api/EventEmitter.html">EventEmitter</a>-API.</dd>
+                        <dt>lib/Issue.js</dt>
+                        <dd>A data model for a single issue loaded from GitHub.</dd>
+                        <dt>lib/issues.js</dt>
+                        <dd>A global <a href="../../../api/ObservableList.html">ObservableList</a> that contains the issues
+                        loaded from GitHub. Also takes care of loading those issues.</dd>
+                        <dt>lib/User.js</dt>
+                        <dd>A data model for a user as loaded from GitHub.</dd>
+                        <dt>lib/issueList.js</dt>
+                        <dd>A <a href="../../../api/ListView.html">ListView</a> used to display all loaded issues.</dd>
+                        <dt>lib/details.js</dt>
+                        <dd>A detailed view for the currently selected issue. Also establishes the data binding between
+                        this view and the <code>lib/issueList.js</code>.</dd>
+                        <dt>lib/TemplateView.js</dt>
+                        <dd>A custom <b>jide.js</b> control that has an <code>item</code> property and uses
+                            <a href="http://www.handlebars.com">Handlebars</a> to render a template with the
+                            <code>item</code> as the context.</dd>
+                        <dt>lib/Handlebars.js, lib/markdown.js, lib/moment.js</dt>
+                        <dd>Third party dependencies integrated into this demo.</dd>
+                    </dl>
+                </article>
+            </div>
+        </div>
+    </script>
+</head>
+<body>
+</body>
+</html>

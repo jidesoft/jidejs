@@ -1,0 +1,30 @@
+// ChoiceBox
+.jide-choicebox, .jide-comboboxbase {
+  .user-select(none);
+  display: inline-block;
+  cursor: pointer;
+
+  & > .jide-choicebox-label, .jide-textfield {
+    display: inline-block;
+    margin-right: 0.5em;
+  }
+
+  & > .jide-choicebox-button, .jide-button {
+    display: inline-block;
+  }
+
+  & > .jide-textfield, & > .jide-button {
+    height: 100%;
+  }
+}
+
+// ChoiceBox & ComboBox popup
+.jide-popup.jide-choicebox-popup, .jide-popup.jide-combobox-popup {
+  & > .jide-listview {
+    width: 100%;
+
+    & > li > .jide-cell {
+      display: block;
+    }
+  }
+}

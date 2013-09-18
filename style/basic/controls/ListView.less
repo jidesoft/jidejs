@@ -1,0 +1,25 @@
+.jide-listview {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+
+  & > li {
+    margin: 0;
+    padding: 0;
+
+    & > .jide-cell {
+      width: 100%;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.jide-orientation-horizontal {
+    display: inline-table;
+    & > li {
+      display: table-cell;
+    }
+  }
+}

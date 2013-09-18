@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">Using Buttons</title>
+</head>
+<body>
+    <section data-role="intro">
+        <p>This demo shows how to use a {@link jidejs/ui/control/Button}.</p>
+    </section>
+    <div data-role="html"><button id="exampleButton"></button></div>
+<pre data-role="js" class="code">// use AMD/require.js to load the Button control
+require(['jidejs/ui/control/Button'], function(Button) {
+    // create a new Button
+    new Button({
+        // in this case: Select a DOM element
+        element: root.querySelector('#exampleButton'),
+        // specify the text that should be shown for the button
+        text: 'Hello World!',
+        // add the 'action' event handler
+        onaction: function() {
+            // simply show an alert
+            alert('Hello World!');
+        }
+    });
+});</pre>
+    <section data-role="about">
+        <p>This demo shows how to use a {@link jidejs/ui/control/Button}.</p>
+        <p>To get started, try to modify the value of the {@link jidejs/ui/control/Button~text} property and press
+            the <b>Run</b> button.</p>
+    </section>
+</body>
+</html>

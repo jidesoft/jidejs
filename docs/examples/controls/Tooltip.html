@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">Tooltips</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use a {@link jidejs/ui/control/Tooltip} with a {@link jidejs/ui/control/Button}.
+    Tooltips can be added to any controls using the same API.</p>
+</section>
+<div data-role="html"></div>
+<pre data-role="js" class="code">require([
+    'jidejs/ui/control/Tooltip', 'jidejs/ui/control/Button', 'jidejs/ui/control/HTMLView'
+], function(Tooltip, Button, HTMLView) {
+    var showTooltip = new Button({
+        text: 'Hover to see the tooltip.',
+        tooltip: new Tooltip({
+            content: new HTMLView({
+                content: 'This is the tooltip. It <strong>can</strong> contain any content you want.'
+            })
+        })
+    });
+
+    // add the 'element' of the ListView to the DOM
+    root.appendChild(showTooltip.element);
+});</pre>
+<section data-role="about">
+    <p>To specify a {@link jidejs/ui/control/Tooltip} that should be displayed when the user moves the mouse over
+    a control, just assign it to the {@link jidejs/ui/Control~tooltip} property.</p>
+    <p>Every {@link jidejs/ui/Control} has that property and knows how to display a tooltip.</p>
+    <p><span class="label label-important">Important</span> Tooltips should not be the only way to discover the meaning
+    or usage of a control since they can't be implemented for touch interfaces such as most mobile devices.</p>
+</section>
+</body>
+</html>

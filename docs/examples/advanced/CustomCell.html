@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">Customized ListView</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use a {@link jidejs/ui/control/ListView} with a slightly customized appearance.</p>
+</section>
+<div data-role="html"></div>
+<pre data-role="js" class="code">require([
+    'jidejs/base/ObservableList', 'jidejs/ui/control/ListView', 'jidejs/ui/control/Cell'
+], function(ObservableList, ListView, Cell) {
+    // create the initial data
+    var todo = new ObservableList([
+        { title: 'Buy vegetables', priority: 'High', description: 'I really need to buy vegetables for tomorrow.' },
+        { title: 'Clean house', priority: 'High', description: 'Cleaning the house never hurts, does it?' },
+        { title: 'Pay rent', priority: 'Medium', description: "Needs to be done by next week, don't forget it!" },
+        { title: 'Buy new computer', priority: 'Low', description: 'Mine is pretty good, but new is always better!' }
+    ]);
+
+    var priorityToClass = {
+        'High': 'label-important',
+        'Medium': 'label-warning',
+        'Low': 'label-info'
+    };
+
+    // create a ListView for the people
+    var list = new ListView({
+        //classList: ['well', 'well-small'],
+        items: todo,
+        cellFactory: function() {
+            return new Cell({
+                updateItem: function(todo) {
+                  this.text = [
+                    '<div class="media">',
+        '<a class="pull-left" href="#">',
+            '<span class="label '+priorityToClass[todo.priority]+'">'+todo.priority+'</span>',
+            '</a>',
+        '<div class="media-body">',
+            '<h4 class="media-heading">'+todo.title+'</h4>',
+            '<p>'+todo.description+'</p>',
+            '</div>',
+        '</div>'
+                  ].join("");
+                }
+            });
+        }
+    });
+
+    // select the first item in the list
+    list.selectionModel.selectFirst();
+
+    // add the 'element' of the ListView to the DOM
+    root.appendChild(list.element);
+});</pre>
+<section data-role="about">
+    <p>{@link jidejs/ui/control/ListView} is a very powerful control that can be fully customized by changing
+        the {@link jidejs/ui/control/Cell} used to render its items.</p>
+    <p>This is still a very basic example of what can be done with a ListView. You could also embed entire {@link jidejs/ui/Component}s
+    inside a {@link jidejs/ui/control/Cell}.</p>
+</section>
+</body>
+</html>

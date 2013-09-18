@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Integrate jide.js with Web Components</title>
+    <link rel="stylesheet" type="text/css" href="/jidejs/default.css">
+    <script src="document.register.js"></script>
+    <script src="/components/requirejs/require.js" data-main="main.js"></script>
+</head>
+<body>
+<h1>Web Components integration</h1>
+<jide-button text="Hello World" id="helloWorldButton"></jide-button>
+<jide-accordion width="400px">
+    <jide-titledpane title="About">
+        <p>This demo shows how you can use the brand new <code>document.register</code> method with <code>jide.js</code>
+        to be able to create custom HTML elements for <code>jide.js</code> components.</p>
+        <p>This demo defines three new HTML tags:</p>
+        <ul>
+            <li>jide-button</li>
+            <li>jide-accordion</li>
+            <li>jide-titledpane</li>
+        </ul>
+        <p>These elements can be used just like any other HTML element. As soon as the controls are registered,
+        the elements are updated to behave exactly like you'd expect from a <code>jide.js</code> control.</p>
+    </jide-titledpane>
+    <jide-titledpane title="How to">
+        <p>Since <code>jide.js</code> doesn't support Web Components natively (the spec is not supported by most browsers
+        and needs to be shimmed) you need to use a function like the one provided by the <code>register</code> module
+        in this demo. You also need to use a shim like <a href="https://github.com/mozilla/web-components">Mozilla Web Components</a>
+        if you'd like to support most browsers.</p>
+        <p>For this demo, the element doesn't support any of the <code>jide.js</code> components properties. Instead, you need to access its
+        <code>component</code> property for access to the actual component.</p>
+    </jide-titledpane>
+    <jide-titledpane title="Supported features on the element">
+        <ul>
+            <li>You can use custom elements, prefixed with <code>jide-</code> in your HTML that are transformed to components upon startup.</li>
+            <li>You can use <code>document.createElement</code> to directly create such components.</li>
+            <li>You can use <code>setAttribute</code> to set a property on the actual component.</li>
+            <li>Children of the custom element are placed under the components control when possible.</li>
+        </ul>
+    </jide-titledpane>
+</jide-accordion>
+</body>
+</html>

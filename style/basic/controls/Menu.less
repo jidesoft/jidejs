@@ -1,0 +1,15 @@
+.jide-menuitem, .jide-checkboxmenuitem, .jide-radiobuttonmenuitem, .jide-menu {
+  display: block;
+}
+
+.jide-contextmenu {
+  display: inline-table;
+  border-collapse: collapse;
+
+  & > div {
+    display: table-row;
+    width: 100%;
+    vertical-align: middle;
+    font-size: 0; // required, otherwise the element would have a minimum height of 16px.
+  }
+}

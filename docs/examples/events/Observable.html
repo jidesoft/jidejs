@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">Observable</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use {@link jidejs/base/Observable}s as value containers and provides an introduction
+        to the concept of computed observables.</p>
+</section>
+<div data-role="html"><ul id="xlog"></ul></div>
+<pre data-role="js" class="code">
+require(['jidejs/base/Observable'], function(Observable) {
+    // first create an observable value
+    var x = Observable(2);
+    // let's log its value
+    // to access the current value of any observable object, we use the `get` method.
+    log("<b>x</b>: "+x.get());
+    // now create a computed observable
+    var square = Observable.computed(function() {
+        return x.get() * x.get();
+    });
+    // and retrieve its value
+    log("<b>square</b>: "+square.get());
+
+    // it is important to note that the value of a computed observable is only computed when its value is actually
+    // read
+    var timesTwo = Observable.computed(function() {
+        log("Computing <em>timesTwo</em>");
+        return 2 * x.get();
+    });
+    log("Before computing timesTwo");
+    log("Now timesTwo has been computed: "+timesTwo.get());
+
+    // change the value of x and log the new values
+    x.set(4);
+    log("<b>x</b>: "+x.get());
+    log("<b>square</b>: "+square.get());
+    log("<b>timesTwo</b>: "+timesTwo.get());
+
+    // create a writable calculated observable
+    var writableTimesTwo = Observable.computed({
+      read: function() { // define accessor
+        return 2*x.get();
+      },
+      write: function(value) { // define mutator
+        x.set(value / 2);
+      }
+    });
+    log("<b>writableTimesTwo</b>: "+writableTimesTwo.get());
+    writableTimesTwo.set(4);
+    log("<b>x</b>: "+x.get());
+    log("<b>writableTimesTwo</b>: "+writableTimesTwo.get());
+
+    // this utility function appends an entry to our visible log
+    function log(msg) {
+        root.querySelector('#xlog').appendChild(function() {
+            var li = document.createElement('li');
+            li.innerHTML = msg;
+            return li;
+        }());
+    }
+});</pre>
+<section data-role="about">
+    <p>When using an {@link jidejs/base/Observable}, remember that you can access its value using the
+        {@link jidejs/base/Observable~get} method and that you can change its value using the
+    {@link jidejs/base/Observable~set} method.</p>
+    <p>A <code>computed</code> observable will only recalculate its value when one of the observables it depends on has
+    changed. It will also calculate its value lazily, which means that its value will not be calculated before it is actually
+    accessed.</p>
+    <p>Observables are a great way to encapsulate the state of an application if it fits into a single object.</p>
+    <p>In fact, the application that powers this website is built around two observables: The requested example id and
+    the actual example object which contains all necessary data to generate the UI of the application.</p>
+    <p>To learn how to get informed when the value of an observable changes, please take a look at the
+        <a href="#!/events/Subscription.html">Subscription</a> example.</p>
+</section>
+</body>
+</html>

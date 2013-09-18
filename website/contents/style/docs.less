@@ -1,0 +1,458 @@
+@import "../../../components/bootstrap/less/bootstrap.less";
+@import "../../../style/default.less";
+
+body {
+  padding-top: 50px;
+}
+
+.navbar-fixed-top .navbar-inner {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.CodeMirror {
+  border: 1px solid #d4d4d4;
+}
+
+.demo-output {
+  margin-bottom: 20px;
+}
+
+.apidoc > ul > .nav-header {
+  text-transform: none;
+}
+
+.jide-button {
+  .btn;
+}
+
+.navbar .brand {
+  font-family: Museo-700;
+  color: #361e26;
+  font-weight: normal;
+  font-size: 38.5px;
+  line-height: 40px;
+}
+
+.demos img {
+  height: 212px;
+  width: 100%;
+}
+
+.demos .btn {
+  display: block;
+}
+
+.thumbnail > h3 {
+  margin-top: 0;
+}
+
+.checkbox-list {
+  list-style-type: none;
+  margin: 0;
+}
+
+.class-description {
+  font-style: italic;
+  font-size: 130%;
+  line-height: 140%;
+}
+
+section
+{
+  display: block;
+}
+
+.variation {
+  display: none;
+}
+
+.optional:after {
+  content: "opt";
+  font-size: 60%;
+  color: #aaa;
+  font-style: italic;
+  font-weight: lighter;
+}
+
+footer {
+  font-style: italic;
+  font-size: 90%;
+}
+
+h5, .container-overview .subsection-title
+{
+  font-size: 120%;
+  font-weight: bold;
+  letter-spacing: -0.01em;
+}
+
+.important
+{
+  font-weight: bold;
+  color: #950B02;
+}
+
+.yes-def {
+  text-indent: -1000px;
+}
+
+.type-signature {
+  color: #ddd;
+}
+
+.name, .signature, .CodeMirror pre, .CodeMirror-linenumber, .prettyprint code, code.prettyprint,
+code, pre, .params .type {
+  font-family: "Source Code Pro", Consolas, "Lucida Console", Monaco, monospace;
+}
+
+.details {  }
+.details dt { border-left: 2px solid #DDD; }
+.details dd {  }
+.details ul {  }
+.details ul { }
+.details li { }
+
+.description {
+}
+
+.code-caption
+{
+  font-style: italic;
+  font-family: Palatino, 'Palatino Linotype', serif;
+  font-size: 107%;
+  margin: 0;
+}
+
+.prettyprint
+{
+  border: 1px solid #ddd;
+  width: 80%;
+  overflow: auto;
+}
+
+.prettyprint.source {
+  width: inherit;
+}
+
+.prettyprint code, code.prettyprint
+{
+  font-size: 13px;
+  line-height: 18px;
+  display: block;
+  margin: 0;
+  text-space-collapse: preserve;
+}
+
+.CodeMirror pre, .CodeMirror-linenumber {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.params {
+  code {
+    color: #FFF;
+  }
+
+  dl {
+    margin-left: 10px;
+  }
+
+  .type {
+    color: #DDD;
+
+    &:before {
+      content: "{";
+    }
+
+    &:after {
+      content: "}";
+    }
+  }
+}
+
+.disabled {
+  color: #454545;
+}
+
+// implement jidesoft.com styling
+a{color:#B94A48;outline:none;cursor:pointer;text-decoration:none;}
+a:hover{text-decoration:underline}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #FFF;
+  font-family: Museo-300, sans-serif;
+  font-weight: normal;
+  // #0a87dd 1px 1px
+  text-shadow: 1px 1px 0 #0A87dd;
+}
+
+body {
+  padding:0;
+  margin:0 auto;
+  font-family: Candara, 'Quattrocento Sans', 'Droid Sans', sans-serif;
+  font-size: 15px;
+  //letter-spacing: 0.1em;
+  line-height: 1.231;
+}
+
+body > div, body > article {
+  background:url(../images/content-bg.gif) repeat 0 0;
+  padding: 23px 0 52px;
+  color: #222;
+
+  & a {
+    color: #FFA;
+
+    &:hover {
+      color: #CC1;
+    }
+  }
+
+  &.jide-popup {
+    color: #000;
+  }
+
+  & .jide-listview:focus {
+    outline: #055578 auto 5px;
+  }
+
+  & .well {
+    background: rgba(1,1,1,0.1);
+  }
+
+  & .pager a {
+    color: #08c;
+  }
+
+  // must fix highlight for jide.js ListView hovers
+  .jide-listview .jide-cell:hover {
+    background: rgba(1,1,1,0.1);
+  }
+
+  .jide-listview .jide-cell.jide-state-selected {
+    background: rgba(1,1,1,0.2);
+
+    &:hover {
+      background: rgba(1,1,1,0.3);
+    }
+  }
+}
+
+.jide-button:hover, .jide-button:focus {
+  background-position: 0;
+}
+
+body > .tertiary {
+  background:#f2f6ff;
+  padding-bottom: 10px;
+
+  &:before {
+    content: "";
+    height:7px;
+    width:100%;
+    margin-bottom:48px;
+    background:#fff;
+  }
+
+  h4 {
+    color: #000;
+    font-size: 18px;
+    line-height: 22px;
+    text-shadow: none;
+    font-family: Museo-700;
+  }
+
+  a {
+    color:#aeaeae;
+    font-size:13px;
+
+    &:hover {
+      color:#0fcfff;
+    }
+  }
+
+  li {
+    display:block;
+    line-height:17px;
+    background:url(../images/marker4.png) no-repeat 0 5px;
+    padding-bottom: 13px;
+    padding-left: 13px;
+  }
+}
+
+body > .secondary {
+  color: #7D7D7D;
+  background: url(../images/main-bg1.gif) repeat 0 0;
+
+  &:before {
+    content: " ";
+    background: url(../images/content-line1.png) repeat-x 0 0;
+    height: 10px;
+    margin-bottom: 30px;
+  }
+
+  & .thumbnail {
+    border: 0 none;
+  }
+}
+
+.company-links {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+footer {
+  text-align: center;
+  padding:50px 0 15px;
+  background: url(../images/foot-bg.GIF) repeat-x center 0 #fff;
+  color:#333333;
+  font-size:12px;
+  font-weight:bold;
+
+  a {
+    display:inline-block;
+    color:#333333;
+
+    &:hover {
+      color:#0fcfff;
+    }
+  }
+}
+
+.navbar {
+  min-height: 131px - 5px - 53px;
+  padding: 0;
+  background: #fff;
+  font-family: Museo-700;
+  color: #4d4d4d;
+  text-shadow: #fdfdfe 1px 1px;
+
+  &:before {
+    content: "";
+    display: block;
+    background: transparent url(../images/head-line.gif) repeat-x 0 0;
+    width:100%;
+    height:5px;
+  }
+
+  &:after {
+    content: "";
+    display: block;
+    background: transparent url(../images/content-line.png) repeat-x center 0;
+    width:100%;
+    height:53px;
+  }
+
+  &.navbar-fixed-top {
+    position: static;
+
+    & > .navbar-inner {
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      background: none;
+      background-image: none;
+      border: 0;
+      margin: 0;
+
+      & > .nav {
+        float: right;
+      }
+    }
+  }
+
+  & > .navbar-inner > .nav li {
+    background:url(../images/bg-15.png) repeat 0 0;
+  }
+
+  & > .navbar-inner > .nav > li {
+    border-radius:12px;
+    -webkit-border-radius:12px;
+
+    margin-left: 10px;
+
+    &:hover, &.active {
+      background:url(../images/menu-bg1.gif) repeat-x 0 0 #f4f5f8;
+      border-bottom:4px solid #c8cbd1;
+    }
+
+    &.active > a, &.active > a:hover, &.active > a:focus {
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
+}
+
+.jide-popup {
+  border: 1px solid #c8cbd1;
+}
+
+body.container-fluid {
+  padding: 0;
+}
+
+.nav-list > li > a, .nav-list > .nav-header {
+  text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+  color: #FFF;
+  .border-radius(6px);
+
+  &:hover {
+    background: transparent;
+    color: #FFF;
+  }
+}
+
+.nav-list > li > a:hover {
+  background: rgba(1,1,1,0.3);
+}
+
+.nav li {
+  margin-left: 15px;
+}
+
+.nav-header, .jide-component {
+  font-size: 14px;
+}
+
+.about {
+  margin-top: 10px;
+}
+
+label, select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"],
+input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"],
+input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  margin-bottom: 0;
+  height: auto;
+}
+
+@import "../../../components/bootstrap/less/utilities.less";
+
+code, pre {
+  font-size: 13px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #FFF;
+}
+
+.output {
+  .well;
+
+  background-color: rgba(255, 255, 255, 0.1);
+
+  &::before {
+    content: "Example Output";
+    font-family: Museo-300;
+    text-shadow: 1px 1px 0 #0A87dd;
+    color: #FFF;
+    font-size: 24.5px;
+    display: block;
+    margin-bottom: 20px;
+    border-bottom: 1px solid;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+}

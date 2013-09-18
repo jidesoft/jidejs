@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">EventEmitter</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use an {@link jidejs/base/EventEmitter} to dispatch and listen to events.</p>
+</section>
+<div data-role="html"><ul id="xlog"></ul></div>
+<pre data-role="js" class="code">
+require(['jidejs/base/EventEmitter'], function(EventEmitter) {
+    // Create an EventEmitter
+    var eventBus = new EventEmitter();
+
+    // now listen to an event
+    eventBus.on('fileopen', function(filename) {
+        log('Opened file '+filename);
+    });
+
+    // listen to the "all" event for status updates
+    eventBus.on('all', function(eventname) {
+        log('Status changed: '+Array.prototype.join.call(arguments, ", "));
+    });
+
+    // emit an event
+    eventBus.emit('fileopen', 'index.html');
+
+    // emit another event that we do not explicitly listen to
+    eventBus.emit('change:file', 'changed.html', 'index.html');
+
+    // this utility function appends an entry to our visible log
+    function log(msg) {
+        root.querySelector('#xlog').appendChild(function() {
+            var li = document.createElement('li');
+            li.innerHTML = msg;
+            return li;
+        }());
+    }
+});</pre>
+<section data-role="about">
+    <p>The {@link jidejs/base/EventEmitter} is a central part of every <code>jide.js</code> application.
+    It proves highly useful not only as a mixin for the model layer but also as the very backbone of an application.</p>
+    <p>The concept of using an {@link jidejs/base/EventEmitter} as a central module that allows highly decoupled
+        communication between different modules is called an <code>EventBus</code>. Due to using the
+        <abbr title="Asynchronous Module Definition">AMD</abbr> format, it is possible to define a central
+        {@link jidejs/base/EventEmitter} as a module that can be consumed by other modules. To learn more about this concept,
+        please take a look at the <a href="../guide/decoupling.html">Decouping application modules</a> guide.</p>
+    <p>Note that every {@link jidejs/base/Observable} is also an {@link jidejs/base/EventEmitter}.</p>
+</section>
+</body>
+</html>

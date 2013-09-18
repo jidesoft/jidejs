@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row-fluid">
+    <aside class="span2">
+        <nav class="apidoc">
+            <ul class="nav nav-list" id="demo_nav">
+                {% for item in env.helpers.getSubtree(contents.guide) %}
+                <li class="nav-header">{{ item.title }}</li>
+                {% for child in item.children %}
+                <li class="{{ 'active' if child.url == page.url}}"><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </nav>
+    </aside>
+    <article class="span10">
+        {{ env['helpers']['doclink'](page.html, page) }}
+    </article>
+</div>
+{% endblock %}

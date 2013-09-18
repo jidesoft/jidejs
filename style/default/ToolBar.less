@@ -1,0 +1,34 @@
+.jide-menubar, .jide-toolbar {
+  .gradient(lighten(@control-background, 5%), darken(@control-background, 5%));
+
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+}
+
+.jide-toolbar .jide-buttonbase {
+  padding: 2px;
+}
+
+.jide-toolbar .jide-label {
+  padding: @padding;
+}
+
+.jide-toolbar .jide-button:not(:active):not(.armed):not(:hover),
+.jide-toolbar .jide-togglebutton:not(:active):not(.armed):not(:hover):not(.jide-state-selected) {
+  background: none;
+  border: 1px solid transparent;
+
+  -webkit-box-shadow: 0 0 0 rgba(255,255,255,0) inset;
+  -moz-box-shadow: 0 0 0 rgba(255,255,255,0) inset;
+  box-shadow: 0 0 0 rgba(255,255,255,0) inset;
+}
+
+.jide-toolbar .jide-button:hover, .jide-toolbar .jide-togglebutton:hover {
+  border: 1px solid @border-color;
+  .border-radius(3px);
+
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+}

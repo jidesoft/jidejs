@@ -1,0 +1,27 @@
+{
+  "name": "jidejs",
+  "version": "0.1.0",
+  "author": "Patrick Gotthardt, <patrick@jidesoft.com>",
+  "license": "@license JIDESOFT, INC; MIT licensed",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-amd-dist": "~0.4.0",
+    "grunt-lib-amd": "~0.1.2",
+    "grunt-contrib-less": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-zipstream": "~0.2.2",
+    "grunt-contrib-compress": "~0.4.9",
+    "grunt-jsdoc": "~0.3.2",
+		"grunt-wintersmith": "*",
+		"wintersmith-less": "*",
+		"wintersmith-nunjucks": "*",
+    "uglify-js2": "*",
+    "cheerio": "*",
+    "express": "*",
+    "jsdoc": "3.2.0-dev",
+    "markdown": "*",
+    "hogan.js": "*",
+    "nunjucks": "~0.1.10"
+  }
+}

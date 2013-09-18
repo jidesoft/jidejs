@@ -1,0 +1,70 @@
+@import "../../../../style/mixins.less";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  height: calc(100% - 120px);
+  font: 12px Lucida Sans Unicode, Lucida Grande, sans-serif;
+}
+
+.jide-component {
+  .box-sizing(border-box);
+  display: inline-block;
+  font-size: 12px;
+}
+
+@import "../../../../style/basic/basic.less";
+@import "../../../../style/default/ColorScheme";
+@import "../../../../style/default/Component.less";
+@import "../../../../style/default/TextInput.less";
+@import "../../../../style/default/TitledPane";
+@import "../../../../style/default/Popup";
+@import "../../../../style/default/Menu.less";
+
+[draggable] {
+  .user-select(none);
+}
+
+.jide-state-disabled {
+  background: #DDD !important;
+  color: #555 !important;
+  cursor: default !important;
+}
+
+.sourcelist .jide-titledpane-title {
+  position: relative;
+  background: transparent;
+  background-image: none;
+  background-color: transparent;
+  display: block;
+  font-size: 11px;
+  padding: 0px 0px 0px 8px;
+  font-weight: bold;
+  color: hsl(212, 10%, 50%);
+  text-shadow: 0px 1px 0px rgba(255,255,255,.8);
+  text-transform: uppercase;
+}
+.sourcelist .jide-titledpane-title:hover:after {
+  text-transform: none;
+  color: hsla(212, 10%, 50%, .7);
+  content: "Show/Hide";
+  position: absolute;
+  top: 0;
+  right: 4px;
+}
+.sourcelist .jide-titledpane-title:active:after {
+  color: hsla(215, 60%, 63%, 1);
+}
+
+.sourcelist .jide-titledpane.jide-expanded > .jide-titledpane-content {
+  border-top: 0 none;
+}
+
+.sourcelist .jide-titledpane {
+  border: 0 none;
+}
+
+.view {
+  background: #FFF;
+}

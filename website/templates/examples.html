@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<!-- load CodeMirror -->
+<link rel="stylesheet" href="/components/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/components/codemirror/theme/vibrant-ink.css">
+<link rel="stylesheet" href="/components/codemirror/addon/hint/show-hint.css">
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <aside class="span2">
+        <ul class="nav nav-list" id="demo_nav">
+            <li class="nav-header">Properties and Events</li>
+            <li class="active"><a href="#!/events/Observable.html">Observable</a></li>
+            <li><a href="#!/events/EventEmitter.html">EventEmitter</a></li>
+            <li><a href="#!/events/Subscription.html">Subscription</a></li>
+            <li><a href="#!/events/Properties.html">Observable Properties</a></li>
+            <li><a href="#!/events/ObservableList.html">ObservableList</a></li>
+            <li class="nav-header">Data binding</li>
+            <li><a href="#!/binding/Simple.html">Binding observables</a></li>
+            <li><a href="#!/binding/TwoWay.html">Two way binding</a></li>
+            <li><a href="#!/binding/Modifications.html">Computed bindings</a></li>
+            <li class="nav-header">Using controls</li>
+            <li><a href="#!/controls/Button.html">Button</a></li>
+            <li><a href="#!/controls/TextField.html">TextField</a></li>
+            <li><a href="#!/controls/ListView.html">ListView</a></li>
+            <li><a href="#!/controls/Tooltip.html">Tooltips</a></li>
+            <li class="nav-header">Advanced usages</li>
+            <li><a href="#!/advanced/CustomCell.html">Customized ListView</a></li>
+            <li><a href="#!/advanced/GridPane.html">GridPane</a></li>
+        </ul>
+    </aside>
+    <article class="span10" data-example="events/Observable.html">
+        <div>
+            <div class="row-fluid">
+                <h1 data-role="title">{% block title %}Loading demo...{% endblock %}</h1>
+            </div>
+            <section id="intro" class="row-fluid" data-role="intro">{% block intro %}{% endblock %}</section>
+            <div class="row-fluid">
+                <h4 class="span12">About the example.</h4>
+            </div>
+            <section class="row-fluid about" data-role="about">{% block about %}{% endblock %}</section>
+            <div class="row-fluid">
+                <h4 class="span12">Modify the example.</h4>
+            </div>
+            <div class="row-fluid" data-role="jseditor">{% block js %}{% endblock %}</div>
+            <div class="row-fluid" style="margin: 15px 0">
+                <div class="span12"><button class="btn btn-primary btn-large" data-role="run">Run</button></div>
+            </div>
+            <div class="row-fluid">
+                <h4 class="span12">Example output.</h4>
+            </div>
+            <section class="row-fluid demo-output">
+                <div data-role="output">{% block output %}{% endblock %}</div>
+            </section>
+        </div>
+    </article>
+    <ul class="pull-right span10 pager">
+        <li class="previous disabled"><a href="#">&larr; Previous</a></li>
+        <li class="next"><a href="#">&rarr; Next</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block footimport %}
+<!-- load jQuery and bootstrop -->
+<script src="/components/jquery/jquery.min.js"></script>
+<!-- load CodeMirror -->
+<script src="/components/codemirror/lib/codemirror.js"></script>
+<script src="/components/codemirror/addon/hint/show-hint.js"></script>
+<script src="/components/codemirror/addon/edit/closetag.js"></script>
+<script src="/components/codemirror/addon/hint/html-hint.js"></script>
+<script src="/components/codemirror/mode/xml/xml.js"></script>
+<script src="/components/codemirror/mode/javascript/javascript.js"></script>
+<script src="/components/codemirror/mode/css/css.js"></script>
+<script src="/components/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<!-- load documentation app -->
+<script id="require_config">
+    var require = {
+        "packages": [{
+            name: 'jidejs',
+            location: '/jidejs'
+        }, {
+            name: 'examples',
+            location: '/examples'
+        }]
+    };
+</script>
+<script src="/components/requirejs/require.js" data-main="/examples/docs.js"></script>
+{% endblock %}

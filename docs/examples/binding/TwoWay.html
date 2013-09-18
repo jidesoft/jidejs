@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">Bidirectional binding</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to bidirectionally bind the value of an {@link jidejs/base/Observable} to another observable.</p>
+</section>
+<div data-role="html"><ul id="xlog"></ul></div>
+<pre data-role="js" class="code">
+require(['jidejs/base/Observable'], function(Observable) {
+    // first two observable values
+    var x = Observable(2),
+        y = Observable(4),
+        binding;
+
+    log('Initial values');
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get());
+
+    log('Binding y to x');
+    binding = y.bindBidirectional(x);
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get()); // the value of y is now the same as the value of x
+
+    log('Change x');
+    x.set(42);
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get());
+
+    // the binding is bidirectional, changing y also changes x
+    log('Change y');
+    y.set(11);
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get());
+
+    // it is also possible to first convert the value
+    // we start by disposing the old binding
+    binding.dispose();
+    binding = y.bindBidirectional(x, {
+      convertTo: function(value) {
+        return 'John Doe is '+value+' years old';
+      },
+      convertFrom: function(value) {
+        return value.match(/\d+/)[0]
+      }
+    });
+    log('Use converter');
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get());
+
+    log('Change x again');
+    x.set('27');
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get());
+
+    log('Change y');
+    y.set('John Doe is 31 years old');
+    log('<b>x</b>: '+x.get());
+    log('<b>y</b>: '+y.get());
+
+    // this utility function appends an entry to our visible log
+    function log(msg) {
+        root.querySelector('#xlog').appendChild(function() {
+            var li = document.createElement('li');
+            li.innerHTML = msg;
+            return li;
+        }());
+    }
+});</pre>
+<section data-role="about">
+    <p>Bidirectional bindings allow you to bind two observables in a way so that changing either one also changes the other.</p>
+    <p>In combination with a <i>converter</i> this becomes even more useful.</p>
+    <p>Bidirectional binding is also possible with {@link jidejs/base/ObservableProperty}s.</p>
+</section>
+</body>
+</html>

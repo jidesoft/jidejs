@@ -1,0 +1,49 @@
+.jide-buttonbase, .jide-menu {
+  .user-select(none);
+  display: inline-block;
+  cursor: pointer;
+}
+
+.jide-checkbox {
+  & > .jide-labeled-graphic {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  .jide-checkbox-check {
+    opacity: 0;
+  }
+
+  .jide-checkbox-indeterminate {
+    opacity: 0;
+  }
+
+  &.jide-state-selected {
+    .jide-checkbox-check {
+      opacity: 100;
+    }
+  }
+
+  &.jide-state-indeterminate {
+    .jide-checkbox-indeterminate {
+      opacity: 100;
+    }
+  }
+}
+
+.jide-radiobutton {
+  .jide-radiobutton-mark {
+    opacity: 0;
+  }
+
+  &.jide-state-selected {
+    .jide-radiobutton-mark {
+      opacity: 100;
+    }
+  }
+
+  & > .jide-labeled-graphic {
+    margin-right: 5px;
+  }
+}

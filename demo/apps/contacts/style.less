@@ -1,0 +1,128 @@
+// import default styles
+
+@import "../../../style/mixins";
+@import "../../../style/basic/basic";
+
+@import "../../../style/default/ColorScheme";
+// customize color scheme
+@border-color: darken(#2C3E30, 10%);
+@control-background: #2E2C30;
+@pane-background: #ECEAEF;
+@padding: 5px;
+@focus-color: #2E2C30;
+
+@import "../../../style/default/Component";
+@import "../../../style/default/Button";
+@import "../../../style/default/TitledPane";
+@import "../../../style/default/Popup";
+@import "../../../style/default/Menu";
+@import "../../../style/default/Separator";
+@import "../../../style/default/ToolBar";
+@import "../../../style/default/TextInput";
+@import "../../../style/default/ProgressBar";
+@import "../../../style/default/ComboBox";
+@import "../../../style/default/ListView";
+
+// customize for demo
+
+html, body, #approot {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  font: 12px Lucida Sans Unicode, Lucida Grande, sans-serif;
+  height: 100%;
+  width: 100%;
+  background: #2E2C30;
+  color: #FFF;
+}
+
+#approot {
+  padding: 10px 0 20px 20px;
+}
+
+header {
+  color: rgba(255,255,255,0.6);
+  margin-left: 8px;
+}
+
+h2 {
+  color: #2C3E50;
+}
+
+.sidebar {
+  width: 250px;
+}
+
+.jide-button {
+  color: rgba(255,255,255,0.6);
+  .box-shadow(1px 2px 10px rgba(255, 255, 255, 0.2) inset);
+  border: 1px solid @border-color;
+
+  &:hover {
+    color: #FFF;
+  }
+}
+
+.menu {
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 15px !important;
+}
+
+.menu > .jide-button {
+  width: 120px - 5px - 5px;
+  margin: 0 5px;
+}
+
+.jide-listview {
+  margin: 0;
+  color: rgba(255,255,255,0.6);
+  &:focus {
+    outline: none;
+    border: none;
+  }
+
+  & > li {
+    & > .jide-cell {
+      padding: 5px;
+      &:hover {
+        background-image: none;
+        background: lighten(#2E2C30, 10%);
+      }
+
+      &.jide-state-selected {
+        background-image: none;
+        background: darken(#2E2C30, 30%);
+
+        &:hover {
+          background-image: none;
+          background: darken(#2E2C30, 20%);
+        }
+      }
+    }
+  }
+}
+
+.contact-info {
+  background: #ECEAEF;
+  color: #333;
+  border-radius: 8px;
+//  margin-right: 10px;
+  padding: 10px !important;
+
+  & > .jide-component {
+    margin: 10px 0;
+  }
+}
+
+.jide-textinput {
+  background: transparent;
+  border: 0 none;
+  border-bottom: 2px solid #2E2C30;
+
+  &:focus {
+    outline: none;
+  }
+}

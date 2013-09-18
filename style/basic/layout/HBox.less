@@ -1,0 +1,67 @@
+.jide-hbox.jide-use-table {
+  display: table;
+  padding: 0;
+  border-collapse: separate;
+
+  & > div {
+    display: table-cell;
+    vertical-align: top;
+  }
+
+  &.jide-hbox-fillHeight > div {
+    height: 100%;
+  }
+}
+
+.jide-hbox.jide-use-flex {
+  display: -webkit-flex;
+   display: -ms-flexbox;
+     display: -moz-flex;
+       display: -o-flex;
+          display: flex;
+
+  -webkit-align-items: flex-start;
+     -moz-align-items: flex-start;
+       -ms-flex-align: start;
+       -o-align-items: flex-start;
+          align-items: flex-start;
+
+  &.jide-hbox-fillHeight {
+    -webkit-align-items: stretch;
+       -moz-align-items: stretch;
+         -ms-flex-align: stretch;
+         -o-align-items: stretch;
+            align-items: stretch;
+  }
+
+  & > .jide-hbox-grow {
+    -webkit-flex: 1;
+       -moz-flex: 1;
+        -ms-flex: 1 0 auto;
+         -o-flex: 1;
+            flex: 1;
+  }
+}
+
+.jide-hbox.jide-use-legacy-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -o-box;
+
+  -webkit-box-align: start;
+     -moz-box-align: start;
+          box-align: start;
+
+  &.jide-hbox-fillHeight {
+    -webkit-box-align: stretch;
+       -moz-box-align: stretch;
+            box-align: stretch;
+  }
+
+  & > .jide-hbox-grow {
+    -webkit-box-flex: 1;
+       -moz-box-flex: 1;
+         -o-box-flex: 1;
+            box-flex: 1;
+  }
+}

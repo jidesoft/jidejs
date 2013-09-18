@@ -1,0 +1,24 @@
+.jide-accordion > .jide-vbox > div > .jide-titledpane {
+  display: block;
+}
+
+.jide-titledpane {
+  & > .jide-titledpane-title {
+    display: block;
+    .user-select(none);
+    cursor: pointer;
+  }
+
+  & > .jide-titledpane-content {
+    display: none;
+    overflow: hidden;
+  }
+
+  &.jide-expanded > .jide-titledpane-content {
+    display: block;
+  }
+
+  &.jide-titledpane-animated > .jide-titledpane-content {
+    .transition(height 0.5s linear);
+  }
+}

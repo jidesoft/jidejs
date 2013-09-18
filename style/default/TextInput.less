@@ -1,0 +1,17 @@
+.jide-placeholding {
+  @color: #999;
+  color: @color;
+}
+
+.jide-textinput {
+  @color: #999;
+  &:-moz-placeholder {
+    color: @color;
+  }
+  &:-ms-input-placeholder {
+    color: @color;
+  }
+  &::-webkit-input-placeholder {
+    color: @color;
+  }
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">GridPane</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to use the powerful {@link jidejs/ui/layout/GridPane} layout.</p>
+</section>
+<div data-role="html"></div>
+<pre data-role="js" class="code">require([
+	'jidejs/ui/control/Button',
+	'jidejs/ui/control/TitledPane',
+	'jidejs/ui/control/HTMLView',
+	'jidejs/ui/control/Hyperlink',
+	'jidejs/ui/control/Popup',
+	'jidejs/ui/control/TextField',
+	'jidejs/ui/Pos',
+	'jidejs/ui/control/TextArea',
+	'jidejs/ui/control/ComboBox',
+	'jidejs/ui/control/Label',
+	'jidejs/ui/layout/GridPane',
+	'jidejs/ui/layout/VBox'
+],
+function(
+	Button, TitledPane, HTMLView, Hyperlink,
+	Popup, TextField, Pos, TextArea, ComboBox, Label,
+	GridPane, VBox
+) {
+	"use strict";
+
+	var area = GridPane.area;
+	var grid = new GridPane({
+		width: '100%',
+		height: '100%',
+		grid: [
+			'header  header header',
+			'sidebar .      content',
+			'footer  footer footer'
+		],
+		columnDefinition: '250px 5px 1fr',
+		rowDefinition: 'auto 1fr auto',
+		children: [
+			area(new HTMLView({
+				content: '<h1>jide.js - Grid layout demo</h1>'
+			}), 'header'),
+			area(new VBox({
+				children: [
+					new TitledPane({
+						title: "About",
+						width: '100%',
+                        style: { background: '#FFF' },
+						content: new HTMLView({
+                          style: { padding: '5px' },
+                          content: '<p>This demo shows how to use the jide.js GridPane to layout a simple page'+
+        'and a form.</p>'
+                          })
+					}),
+					new TitledPane({
+						title: 'Things to try',
+						width: '100%',
+                        style: { background: '#FFF' },
+						content: new HTMLView({
+                          style: { padding: '5px' },
+                          content: '<p>Resize the browser.</p>'
+                        })
+					})
+				]
+			}), 'sidebar'),
+			area(new GridPane({
+				style: {
+					width: '300px',
+					height: '100%',
+                  	margin: '0 10px'
+				},
+				/*grid: [
+					'a . b b',
+					'. . . .',
+					'c . d d',
+					'. . . .',
+					'e e e e',
+					'. . . .',
+					'f f f f',
+					'. . . .',
+					'. . . i'
+				],*/
+				columnDefinition: 'auto 10px 1fr auto',
+				rowDefinition: 'auto 10px auto 10px auto 10px 1fr 10px auto',
+				children: [
+					area(new Label({
+						text: 'Recipient',
+                      style: { 'line-height': '20px', 'padding': '5px 0 0 0' },
+						'GridPane.position': { row : 1, column: 1 }
+					}), 'a'),
+					area(new TextField({
+						width: '100%',
+						'GridPane.position': { row : 1, column: 3, colspan: 2 }
+					}), 'b'),
+					area(new Label({
+						text: 'Title',
+                      style: { 'line-height': '20px', 'padding': '5px 0 0 0' },
+						'GridPane.position': { row : 3, column: 1 }
+					}), 'c'),
+					area(new TextField({
+						width: '100%',
+						'GridPane.position': { row : 3, column: 3, colspan: 2 }
+					}), 'd'),
+					area(new Label({
+						text: 'Message',
+						'GridPane.position': { row : 5, column: 1, colspan: 4 }
+					}), 'e'),
+					area(new TextArea({
+						width: '100%',
+						height: '100%',
+						'GridPane.position': { row : 7, column: 1, colspan: 4 }
+					}), 'f'),
+					area(new Button({
+						text:'Send',
+						'GridPane.position': { row : 9, column: 4 }
+					}), 'i'),
+				]
+			}), 'content'),
+			area(new Hyperlink({
+				text: 'Copyright &copy; '+(new Date().getFullYear())+' JIDE Software, INC',
+				href: 'http://www.jidesoft.com'
+			}), 'footer')
+		]
+	});
+	root.appendChild(grid.element);
+});</pre>
+<section data-role="about">
+    <p>{@link jidejs/ui/layout/GridPane} is a very powerful layout pane that can be used to create many different types of
+        layouts.</p>
+    <p>This demo shows how to use the jide.js GridPane to layout a simple page and a form.</p>
+</section>
+</body>
+</html>

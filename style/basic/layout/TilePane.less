@@ -1,0 +1,14 @@
+.jide-tilepane {
+  display: table;
+  &.jide-orientation-horizontal > div {
+    display: table-row;
+  }
+
+  &.jide-orientation-vertical > div {
+    display: table-cell;
+  }
+
+  & > div > div {
+    display: table-row;
+  }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-role="title">Subscription</title>
+</head>
+<body>
+<section data-role="intro">
+    <p>This demo shows how to listen to changes in {@link jidejs/base/Observable} objects.</p>
+</section>
+<div data-role="html"><ul id="xlog"></ul></div>
+<pre data-role="js" class="code">
+require(['jidejs/base/Observable'], function(Observable) {
+    // first create some observable values
+    var x = Observable(2),
+        square = Observable.computed(function() {
+            return x.get() * x.get();
+        });
+
+    // if square is never read, its dependencies are not calculated and thus we are ever notified when its value changes
+  	square.get();
+
+    // now listen to changes in x and square
+    x.subscribe(function(event) {
+        log('<b>x</b> changed: newValue = '+event.value+'; oldValue='+event.oldValue);
+    });
+
+    square.subscribe(function() {
+      // since "square" is a computed observable, it doesn't pass its new value to its subscribers,
+      // instead, you need to manually recalculate it when necessary
+      log('<b>square</b> changed: '+square.get());
+    });
+
+    // listen to the change only once
+    var listenOnce = x.subscribe(function() {
+      log('<b>Only once</b>: x changed to '+x.get());
+    }).onlyOnce();
+
+    // provide a binding context
+    var myObject = { name: 'Universe' };
+    var boundSubscription = square.subscribe(function() {
+      log('Hello '+this.name+", you're now "+square.get()+" years old!");
+    }).bind(myObject);
+
+    // now, finally, change the value of x
+    x.set(100);
+
+    // and change it again, to verify that "Only once" is not logged again
+    x.set(1000);
+
+    // dispose the bound subscription to remove it from the property, it will not be notified again
+    boundSubscription.dispose();
+
+    // prove it
+    x.set(42);
+
+    // this utility function appends an entry to our visible log
+    function log(msg) {
+        root.querySelector('#xlog').appendChild(function() {
+            var li = document.createElement('li');
+            li.innerHTML = msg;
+            return li;
+        }());
+    }
+});</pre>
+<section data-role="about">
+    <p>{@link jidejs/base/Subscription}s are a powerful tool to listen to changes in {@link jidejs/base/Observable}s.
+    When you listen to an event from an {@link jidejs/base/EventEmitter} you also get a {@link jidejs/base/Subscription}
+    in return. It is a good practice to always call {@link jidejs/base/Subscription~dispose} on a subscription that
+    you no longer need to make sure that all participating objects can be garbage collected by the browser.</p>
+    <p>As an alternative to {@link jidejs/base/Subscription} you can also manually remove a listener from an event source
+    using {@link jidejs/base/Observable~unsubscribe} or {@link jidejs/base/EventEmitter~removeListener}.</p>
+</section>
+</body>
+</html>

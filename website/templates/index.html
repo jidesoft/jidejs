@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row-fluid">
+    <article class="span8">
+        {{ env['helpers']['doclink'](page.html, page) }}
+    </article>
+    <aside class="span4">
+        <h2>Version: 1.0 beta</h2>
+        <p><b>jide.js</b> is currently in beta state. This means that it is neither feature complete nor without bugs and
+        that its APIs can change when necessary.</p>
+        <h2>Free and OpenSource</h2>
+        <p><b>jide.js</b> has been released under terms of the OpenSource MIT license. It can be used in personal
+            and commercial projects for free. You can even <a href="http://github.com/jidesoft/jidejs">Fork it on Github</a>.</p>
+        <h2>Cross Browser Support</h2>
+        <p><b>jide.js</b> works across all modern browsers.  It has been designed to be the future of web development and makes a
+clean break with older browsers such as IE8 and earlier to enable you to develop for the web as it is now and not as it
+was years ago.</p>
+        <ul class="checkbox-list">
+            <li><i class="icon-ok"></i> Internet Explorer 9+</li>
+            <li><i class="icon-ok"></i> Chrome</li>
+            <li><i class="icon-ok"></i> Firefox</li>
+            <li><i class="icon-ok"></i> Safari</li>
+            <li><i class="icon-ok"></i> Android</li>
+            <li><i class="icon-ok"></i> iOS</li>
+        </ul>
+
+        <h2>Professional Support available</h2>
+        <p>While <b>jide.js</b> is an OpenSource project, we understand the need for professional and fast support, thus
+        you can buy professional support for <b>jide.js</b> directly from <a href="http://www.jidesoft.com">JIDE Software</a>.</p>
+
+        <h2>What next?</h2>
+        <p><b>jide.js</b> comes bundled with plenty of documentation that you can directly access from this page.</p>
+
+        <dl>
+            <dt><a href="/guide/index.html">Guide</a></dt>
+            <dd>The Guide provides a structured introduction to <b>jide.js</b> for those who prefer to read.</dd>
+            <dt><a href="/examples/index.html">Examples</a></dt>
+            <dd>The Examples provide an interactive way to learn <b>jide.js</b> in case you'd like to explore and test it before
+                starting to read the detailed guide or diving into the API documentation.</dd>
+            <dt><a href="/api/index.html">API</a></dt>
+            <dd>If you need to explore the API of a class or method in detail, the API documentation is the best way to do so.</dd>
+        </dl>
+    </aside>
+</div>
+{% endblock %}

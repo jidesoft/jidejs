@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jide.js - Chart extension: LineChart</title>
+    <link rel="stylesheet" type="text/css" href="../../../controls/style/default.css">
+    <link rel="stylesheet" type="text/css" href="../../../grid/style/grid.css">
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 10px;
+        }
+
+        svg {
+            overflow: hidden;
+        }
+
+        svg circle.selected {
+            stroke-width: 2;
+            stroke: #ffde6d;
+        }
+
+        svg circle:hover {
+            stroke-width: 2;
+            stroke: #0e0f79;
+        }
+
+        svg path:hover {
+            stroke: #181abe;
+            stroke-width: 3px;
+        }
+    </style>
+</head>
+<body>
+<div id="chart"></div>
+<script type="text/javascript" src="../../lib/Faker.js"></script>
+<script src="../../lib/require.js" data-main="main.js"></script>
+</body>
+</html>

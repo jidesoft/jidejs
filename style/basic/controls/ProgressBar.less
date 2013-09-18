@@ -1,0 +1,15 @@
+.jide-progressbar {
+  overflow: hidden;
+
+  & > .jide-progress-bar {
+    height: 100%;
+    text-align: center;
+
+    .box-sizing;
+    .transition(width 0.6s ease);
+  }
+
+  &.jide-progressbar-indeterminate > .jide-progress-bar {
+    width: 100% !important;
+  }
+}

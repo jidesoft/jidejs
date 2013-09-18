@@ -1,0 +1,28 @@
+.jide-menu {
+  padding: @padding;
+}
+
+.jide-menuitem, .jide-checkboxmenuitem, .jide-radiobuttonmenuitem, .jide-menu {
+  padding: @padding;
+
+  &:hover, &:focus {
+    .gradient(lighten(@control-background, 5%), darken(@control-background, 5%));
+    .box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+  }
+  &:active, &.armed {
+    .gradient(darken(@control-background, 10%), darken(@control-background, 20%));
+  }
+  &:focus {
+    outline: 1px dashed @focus-color;
+    outline-offset: -4px;
+  }
+}
+
+.jide-contextmenu {
+  padding: 0;
+
+  .jide-menu > .jide-labeled-text:after {
+    content: "\25B6";
+    float: right;
+  }
+}
