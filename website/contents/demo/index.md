@@ -8,7 +8,7 @@ title: jide.js demos
 These demos should help you to learn how to use **jide.js**. They also show useful features, best practices and
 highlight how customizable **jide.js** is.
 
-## Full Application demos
+## Sample demos
 
 <ul class="row-fluid thumbnails demos">
     <li class="span3">
