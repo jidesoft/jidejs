@@ -49,14 +49,14 @@ highlight how customizable **jide.js** is.
 ## Feature demos
 
 <ul class="row-fluid thumbnails demos">
-    <li class="span3">
+    <!--li class="span3">
         <div class="thumbnail">
             <h3>Web Components</h3>
             <p>This demo shows how to use <b>jide.js</b> as Web Components by using custom HTML elements with a small
             amount of glue code.</p>
             <p><a href="./integration/webcomponents/index.html" class="btn">Show</a></p>
         </div>
-    </li>
+    </li-->
     <li class="span3">
         <div class="thumbnail">
             <h3>ListView Streaming</h3>
