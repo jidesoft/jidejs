@@ -1,0 +1,59 @@
+.jide-progressbar {
+  height: (@font-size-base * @line-height-base);
+  width: 10em;
+  background: @lightgray;
+  background-repeat: repeat-x;
+  .border-radius(@border-radius-large);
+
+  & > .jide-progress-bar {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background: @firm;
+    .background-size(40px 40px);
+    .animation(progress-bar-stripes 2s linear infinite);
+  }
+}
+
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@-moz-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@-ms-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@-o-keyframes progress-bar-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 0;
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}

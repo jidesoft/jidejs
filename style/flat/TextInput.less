@@ -1,0 +1,20 @@
+.jide-textinput {
+  #padding > .large();
+  background: @input-bg;
+  border: 1px solid @lightgray;
+  .border-radius(@input-border-radius);
+  .placeholder-color(fade(@button-text, 75%));
+
+  &:hover, &:focus {
+    outline: 0;
+    border-color: @button-primary-hover;
+  }
+
+  &:active, &.armed {
+    border-color: @firm;
+  }
+
+  &.jide-state-disabled, [disabled] {
+    background: @input-bg-disabled;
+  }
+}

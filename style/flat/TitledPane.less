@@ -1,0 +1,25 @@
+.jide-accordion {
+  border: 1px solid @firm;
+  .border-radius(3px);
+}
+
+.jide-accordion > div > .jide-titledpane, .jide-accordion > .jide-titledpane {
+  border: 1px solid @firm;
+  border-width: 0px 0px 1px 0px;
+  .border-radius(0);
+
+  &:last-child {
+    border-bottom-width: 0;
+  }
+}
+
+.jide-titledpane {
+  border: 1px solid @firm;
+  .border-radius(@border-radius-large);
+
+  & > .jide-titledpane-title:extends(.jide-button) {}
+
+  & > .jide-titledpane-content {
+    border-top: 1px solid @firm;
+  }
+}

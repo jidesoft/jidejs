@@ -1,0 +1,39 @@
+.jide-choicebox:extends(.jide-button) {
+//  #padding > .large();
+//  .border-radius(@border-radius-large);
+//  #background > .default();
+}
+
+.jide-comboboxbase {
+  .border-radius(@border-radius-large);
+  #background > .default();
+
+  & > .jide-textfield {
+    border: 0 none;
+    background: inherit;
+    //padding: @padding 0;
+  }
+
+  &.jide-state-editable {
+    & > .jide-textfield {
+      background: @input-bg;
+      padding: 0;
+    }
+  }
+
+//  & > .jide-button {
+//    border: 0 none;
+//    border-left: 1px solid @border-color;
+//  }
+}
+
+.jide-popup.jide-choicebox-popup, .jide-popup.jide-combobox-popup {
+  padding: 0;
+
+  & > .jide-listview > li > .jide-cell {
+    #background > .default();
+    .transition(.25s linear);
+    .user-select(none);
+    .border-radius(@border-radius-large);
+  }
+}

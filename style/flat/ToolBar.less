@@ -1,0 +1,18 @@
+.jide-menubar, .jide-toolbar {
+  //#background > .inverse();
+  background: @wet-asphalt;
+  #padding > .medium();
+
+  & > .jide-labeled {
+    color: @inverse;
+  }
+}
+
+.jide-toolbar .jide-button:not(:active):not(.armed):not(:hover),
+.jide-toolbar .jide-togglebutton:not(:active):not(.armed):not(:hover):not(.jide-state-selected) {
+  background: transparent;
+}
+
+//.jide-toolbar .jide-button:hover, .jide-toolbar .jide-togglebutton:hover {
+//  .border-radius(0);
+//}

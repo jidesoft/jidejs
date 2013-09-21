@@ -1,0 +1,45 @@
+.jide-buttonbase {
+  text-decoration: none;
+}
+
+.jide-button, .jide-togglebutton {
+  #background > .default();
+  .transition(.25s linear);
+  .user-select(none);
+  .border-radius(@border-radius-large);
+  border: 0 solid transparent;
+
+  &.jide-state-selected {
+    #background > .primary();
+  }
+}
+
+.jide-checkbox, .jide-radiobutton {
+  //padding: 0;
+}
+
+.jide-checkbox > .jide-labeled-graphic {
+  & > svg {
+    #background > .default();
+    #padding > .small;
+    .transition(.25s linear);
+    .user-select(none);
+    .border-radius(@border-radius-large);
+  }
+}
+
+.jide-checkbox-check, .jide-checkbox-indeterminate {
+  stroke: @inverse;
+  fill: transparent;
+  stroke-width: (@unit * 4);
+}
+
+.jide-radiobutton-radio {
+  stroke: @inverse;
+  stroke-width: (@unit * 2);
+  fill: @lightgray;
+}
+
+.jide-radiobutton-mark {
+  fill: @inverse;
+}

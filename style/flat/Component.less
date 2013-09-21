@@ -1,0 +1,16 @@
+.jide-component {
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+  font-family: @font-family-base;
+  margin: 0;
+
+  &.jide-state-disabled, &[disabled] {
+    background: @disabled-background !important;
+    color: @disabled-text !important;
+    opacity: .7;
+  }
+}
+
+.jide-labeled {
+  #padding > .medium();
+}

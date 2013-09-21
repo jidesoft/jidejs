@@ -1,0 +1,25 @@
+.jide-listview {
+  padding: 0;
+  & > li {
+    & > .jide-cell {
+      #padding > .large();
+      #background > .transparent();
+      color: @text-color;
+
+      &.jide-state-selected {
+        #background > .primary();
+      }
+    }
+  }
+
+  &.has-border {
+    & > li {
+      & > .jide-cell {
+        border-bottom: 1px solid @lightgray;
+      }
+      &:last-child > .jide-cell {
+        border-bottom-width: 0;
+      }
+    }
+  }
+}

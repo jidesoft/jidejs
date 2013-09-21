@@ -1,0 +1,17 @@
+.jide-menu {
+  #padding > .large();
+}
+
+.jide-menuitem, .jide-checkboxmenuitem, .jide-radiobuttonmenuitem, .jide-menu {
+  #padding > .large();
+  #background > .primary();
+}
+
+.jide-contextmenu {
+  padding: 0;
+
+  .jide-menu > .jide-labeled-text:after {
+    content: "\25B6";
+    float: right;
+  }
+}

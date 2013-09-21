@@ -43,6 +43,15 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
+			debug: {
+				files: [
+					{src: ['components/**'], dest: 'website/build/'},
+					// copy demos
+					{src: ['demo/**'], dest: 'website/build/'},
+					// copy minified jidejs
+					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'jidejs', expand: true}
+				]
+			},
 			website: {
 				files: [
 					{src: ['components/**'], dest: 'website/build/'},
@@ -157,6 +166,10 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('website-no-doc', [
 		'build', 'compile:examples', 'wintersmith', 'copy:website', 'minify:requirejs'
+	]);
+
+	grunt.registerTask('website:debug', [
+		'build', 'compile:examples', 'wintersmith', 'copy:debug'
 	]);
 
 	// the default task is to build everything

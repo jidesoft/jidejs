@@ -29,6 +29,7 @@ require([
 	'jidejs/ui/control/MenuItem',
 	'jidejs/ui/control/ToolBar',
 	'jidejs/ui/control/Tooltip',
+	'jidejs/ui/control/Popup',
 
 	'Icon'
 ], function(
@@ -36,12 +37,23 @@ require([
 	Component, BorderPane, HBox, VBox,
 	Label, Button, Hyperlink, PopupButton, ListView, Cell, HTMLView,
 	SingleSelectionModel, MultipleSelectionModel, ContextMenu, MenuItem, ToolBar, Tooltip,
-	Icon
+	Popup, Icon
 ) {
 	"use strict";
 
 	function notImplemented() {
-		alert('This feature has not been implemented for this demo.');
+//		alert('This feature has not been implemented for this demo.');
+		var popup = new Popup({
+			content: new HTMLView({
+				content: '<p>This feature has not been implemented for this demo.</p><p><a href="#">Close</a></p>'
+			}),
+			on: {
+				click: function() {
+					popup.visible = false;
+				}
+			}
+		});
+		popup.show(listView, Window.width / 2, Window.height / 2);
 	}
 
 	var formatReadableDate = (function() {
@@ -158,7 +170,7 @@ require([
 					}),
 					listView = new ListView({
 						'VBox.grow': 'always',
-						classList: ['emails'],
+						classList: ['emails', 'has-border'],
 						items: emails,
 						selectionModel: new SingleSelectionModel(emails, true),
 						converter: function(email) {
