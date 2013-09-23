@@ -1,8 +1,27 @@
-.jide-buttonbase {
+.jide-buttonbase, .jide-choicebox, .jide-comboboxbase {
   text-decoration: none;
+
+  &.primary, .jide-comboboxbase.primary & {
+    .swap-button-color(@firm, @button-primary-hover, @button-primary-active);
+  }
+  &.info, .jide-comboboxbase.info & {
+    .swap-button-color(@info, @button-info-hover, @button-info-active);
+  }
+  &.danger, .jide-comboboxbase.danger & {
+    .swap-button-color(@danger, @button-danger-hover, @button-danger-active);
+  }
+  &.success, .jide-comboboxbase.success & {
+    .swap-button-color(@success, @button-success-hover, @button-success-active);
+  }
+  &.warning, .jide-comboboxbase.warning & {
+    .swap-button-color(@warning, @button-warning-hover, @button-warning-active);
+  }
+  &.inverse, .jide-comboboxbase.inverse & {
+    .swap-button-color(@base, @button-inverse-hover, @button-inverse-active);
+  }
 }
 
-.jide-button, .jide-togglebutton {
+.jide-button, .jide-togglebutton, .jide-choicebox, .jide-comboboxbase {
   #background > .default();
   .transition(.25s linear);
   .user-select(none);
@@ -14,24 +33,22 @@
   }
 }
 
-.jide-checkbox, .jide-radiobutton {
-  //padding: 0;
-}
-
 .jide-checkbox > .jide-labeled-graphic {
   & > svg {
     #background > .default();
-    #padding > .small;
+    padding: 0;
     .transition(.25s linear);
     .user-select(none);
-    .border-radius(@border-radius-large);
+    .border-radius(0);
+    width: 15px;
+    height: 15px;
   }
 }
 
 .jide-checkbox-check, .jide-checkbox-indeterminate {
   stroke: @inverse;
   fill: transparent;
-  stroke-width: (@unit * 4);
+  stroke-width: (@unit * 3);
 }
 
 .jide-radiobutton-radio {
@@ -42,4 +59,15 @@
 
 .jide-radiobutton-mark {
   fill: @inverse;
+}
+
+.jide-hyperlink {
+  color: @link-color;
+  & > .jide-labeled-text {
+    border-bottom: 1px solid @link-color;
+  }
+
+  &:hover {
+    color: @link-hover-color;
+  }
 }

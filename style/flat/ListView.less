@@ -1,16 +1,25 @@
+.jide-cell {
+  #padding > .large();
+
+  &.jide-state-selected {
+    #background > .info();
+  }
+}
+
 .jide-listview {
   padding: 0;
-  & > li {
-    & > .jide-cell {
-      #padding > .large();
-      #background > .transparent();
-      color: @text-color;
 
-      &.jide-state-selected {
-        #background > .primary();
-      }
-    }
-  }
+  .list-cell(@inverse, @clouds, @silver, @info, @text-color, @text-color);
+
+//  & > li {
+//    & > .jide-cell {
+//      .swap-button-color(@inverse, @silver, @silver, @text-color);
+//    }
+//  }
+//
+//  &.is-striped  > li:nth-child(odd) > .jide-cell {
+//    .swap-button-color(@clouds, @silver, @concrete, @text-color);
+//  }
 
   &.has-border {
     & > li {
@@ -20,6 +29,43 @@
       &:last-child > .jide-cell {
         border-bottom-width: 0;
       }
+    }
+  }
+
+  &.primary {
+    .list-cell(@firm, @green-sea, @button-primary-hover, @emerald, @text-color, @text-color);
+  }
+  &.info {
+    .list-cell(@info, @belize-hole, @button-info-hover, @wisteria, @text-color, @text-color);
+  }
+  &.danger {
+    .list-cell(@danger, @pomegranate, @button-danger-hover, @orange, @text-color, @text-color);
+  }
+  &.success {
+    .list-cell(@success, @nephritis, @button-success-hover, @sun-flower, @text-color, @text-color);
+  }
+  &.warning {
+    .list-cell(@warning, @orange, @button-warning-hover, @pomegranate, @text-color, @text-color);
+  }
+  &.inverse {
+    .list-cell(@base, @midnight-blue, @button-inverse-hover, @wisteria, @inverse, @inverse);
+  }
+}
+
+.list-cell(@primary, @alternative, @hover, @active, @font-color: @button-text, @selected-font-color: @button-text) {
+  & > li > .jide-cell {
+    .swap-button-color(@primary, @hover, @active, @font-color);
+    &.jide-state-selected {
+      background: @active;
+      color: @font-color;
+    }
+  }
+
+  &.is-striped > li:nth-child(odd) > .jide-cell {
+    .swap-button-color(@alternative, @hover, @active, @font-color);
+    &.jide-state-selected {
+      background: @active;
+      color: @selected-font-color;
     }
   }
 }

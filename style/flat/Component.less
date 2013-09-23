@@ -4,10 +4,37 @@
   font-family: @font-family-base;
   margin: 0;
 
+  &:focus {
+    outline: none;
+  }
+
   &.jide-state-disabled, &[disabled] {
     background: @disabled-background !important;
     color: @disabled-text !important;
     opacity: .7;
+  }
+
+  &.primary {
+    background: @firm;
+  }
+  &.info {
+    background: @info;
+  }
+  &.danger {
+    background:@danger;
+  }
+  &.success {
+    background: @success;
+  }
+  &.warning {
+    background: @warning;
+  }
+  &.inverse {
+    background: @base;
+    color: @inverse;
+  }
+  &.default {
+    background: @lightgray;
   }
 }
 

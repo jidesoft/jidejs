@@ -97,13 +97,13 @@
   }
 }
 
-.swap-button-color(@background, @hover, @active) {
+.swap-button-color(@background, @hover, @active, @text: @button-text) {
   background: @background;
-  color: @button-text;
+  color: @text;
 
   &:hover, &:focus {
     background: @hover;
-    color: fade(@button-text, 75%);
+    color: fade(@text, 75%);
   }
 
   &:active, &.armed {
@@ -131,9 +131,30 @@
     .swap-button-color(@base, @button-inverse-hover, @button-inverse-active);
   }
   .default() {
-    .swap-button-color(@lightgray, @button-hover, @button-active);
+    .swap-button-color(@lightgray, @button-hover, @button-active, @text-color);
   }
   .transparent() {
-    .swap-button-color(@inverse, @lightgray, @button-hover);
+    .swap-button-color(@inverse, @lightgray, @button-hover, @text-color);
+  }
+
+  #solid {
+    .info() {
+      background: @info;
+    }
+    .danger() {
+      background:@danger;
+    }
+    .success() {
+      background: @success;
+    }
+    .warning() {
+      background: @warning;
+    }
+    .inverse() {
+      background: @base;
+    }
+    .default() {
+      background: @lightgray;
+    }
   }
 }

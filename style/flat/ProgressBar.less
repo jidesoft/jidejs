@@ -1,15 +1,33 @@
+#gradient {
+  .striped(@background, @highlight) {
+    background-color: @background;
+    background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, @highlight), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, @highlight), color-stop(0.75, @highlight), color-stop(0.75, transparent), to(transparent));
+    background-image: -webkit-linear-gradient(45deg, @highlight 25%, transparent 25%, transparent 50%, @highlight 50%, @highlight 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(45deg, @highlight 25%, transparent 25%, transparent 50%, @highlight 50%, @highlight 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, @highlight 25%, transparent 25%, transparent 50%, @highlight 50%, @highlight 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, @highlight 25%, transparent 25%, transparent 50%, @highlight 50%, @highlight 75%, transparent 75%, transparent);
+    background-repeat: repeat-x;
+  }
+}
+
 .jide-progressbar {
-  height: (@font-size-base * @line-height-base);
   width: 10em;
   background: @lightgray;
   background-repeat: repeat-x;
   .border-radius(@border-radius-large);
 
   & > .jide-progress-bar {
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background: @firm;
+    #padding > .medium();
+    line-height: @line-height-base;
+    font-size: @font-size-base;
+    background: @base;
+    .border-radius(@border-radius-large);
     .background-size(40px 40px);
     .animation(progress-bar-stripes 2s linear infinite);
+  }
+
+  &.jide-progressbar-indeterminate > .jide-progress-bar {
+    #gradient > .striped(@base, @midnight-blue);
   }
 }
 

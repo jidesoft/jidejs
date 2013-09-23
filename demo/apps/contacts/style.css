@@ -61,7 +61,7 @@
   -o-align-items: stretch;
   align-items: stretch;
 }
-.jide-hbox.jide-use-flex.jide-hbox-grow {
+.jide-hbox.jide-use-flex > .jide-hbox-grow {
   -webkit-flex: 1;
   -moz-flex: 1;
   -ms-flex: 1 0 auto;
@@ -81,7 +81,7 @@
   -moz-box-align: stretch;
   box-align: stretch;
 }
-.jide-hbox.jide-use-legacy-flex.jide-hbox-grow {
+.jide-hbox.jide-use-legacy-flex > .jide-hbox-grow {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
@@ -122,7 +122,7 @@
   -o-align-items: stretch;
   align-items: stretch;
 }
-.jide-vbox.jide-use-flex.jide-vbox-grow {
+.jide-vbox.jide-use-flex > .jide-vbox-grow {
   -webkit-flex: 1;
   -moz-flex: 1;
   -ms-flex: 1 0 auto;
@@ -145,7 +145,7 @@
   -moz-box-align: stretch;
   box-align: stretch;
 }
-.jide-vbox.jide-use-legacy-flex.jide-vbox-grow {
+.jide-vbox.jide-use-legacy-flex > .jide-vbox-grow {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
@@ -390,10 +390,10 @@
   display: block;
 }
 .jide-titledpane.jide-titledpane-animated > .jide-titledpane-content {
-  -webkit-transition: height 1s linear;
-  -moz-transition: height 1s linear;
-  -o-transition: height 1s linear;
-  transition: height 1s linear;
+  -webkit-transition: height 0.5s linear;
+  -moz-transition: height 0.5s linear;
+  -o-transition: height 0.5s linear;
+  transition: height 0.5s linear;
 }
 .jide-popup {
   position: absolute;
@@ -401,6 +401,8 @@
   -moz-animation: show-popup 0.25s ease-in;
   -o-animation: show-popup 0.25s ease-in;
   animation: show-popup 0.25s ease-in;
+  left: -1000px;
+  top: -1000px;
 }
 @-webkit-keyframes show-popup {
   0% {
@@ -723,9 +725,9 @@
   background-image: -o-linear-gradient(top, #ffffff, #d2cdd9);
   background-image: -ms-linear-gradient(top, #ffffff, #d2cdd9);
   background-image: linear-gradient(to bottom, #ffffff, #d2cdd9);
-  -webkit-box-shadow: 0.15em 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0.15em 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.4);
-  box-shadow: 0.15em 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
+  box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
 }
 .jide-menu {
   padding: 5px;
@@ -821,6 +823,9 @@
 }
 .jide-toolbar .jide-buttonbase {
   padding: 2px;
+}
+.jide-toolbar .jide-label {
+  padding: 5px;
 }
 .jide-toolbar .jide-button:not(:active):not(.armed):not(:hover),
 .jide-toolbar .jide-togglebutton:not(:active):not(.armed):not(:hover):not(.jide-state-selected) {
@@ -1061,6 +1066,9 @@
   outline-offset: -4px;
 }
 .jide-listview {
+  padding: 0;
+}
+.jide-listview > li > .jide-cell {
   padding: 5px;
 }
 .jide-listview > li > .jide-cell:hover {
@@ -1074,14 +1082,14 @@
   background-image: linear-gradient(to bottom, #48444b, #2e2c30);
 }
 .jide-listview > li > .jide-cell.jide-state-selected {
-  background-color: #000000;
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQtdWNnZy1nZW5lcmF0ZWQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+PC9zdmc+);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#000000));
-  background-image: -webkit-linear-gradient(top, #000000, #000000);
-  background-image: -moz-linear-gradient(top, #000000, #000000);
-  background-image: -o-linear-gradient(top, #000000, #000000);
-  background-image: -ms-linear-gradient(top, #000000, #000000);
-  background-image: linear-gradient(to bottom, #000000, #000000);
+  background-color: #2e2c30;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQtdWNnZy1nZW5lcmF0ZWQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJlMmMzMCIgc3RvcC1vcGFjaXR5PSIxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+PC9zdmc+);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#2e2c30), to(#000000));
+  background-image: -webkit-linear-gradient(top, #2e2c30, #000000);
+  background-image: -moz-linear-gradient(top, #2e2c30, #000000);
+  background-image: -o-linear-gradient(top, #2e2c30, #000000);
+  background-image: -ms-linear-gradient(top, #2e2c30, #000000);
+  background-image: linear-gradient(to bottom, #2e2c30, #000000);
 }
 .jide-listview > li > .jide-cell.jide-state-selected:hover {
   background-color: #141415;

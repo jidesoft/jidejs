@@ -1,18 +1,38 @@
 .jide-menubar, .jide-toolbar {
-  //#background > .inverse();
   background: @wet-asphalt;
   #padding > .medium();
 
   & > .jide-labeled {
     color: @inverse;
   }
-}
 
-.jide-toolbar .jide-button:not(:active):not(.armed):not(:hover),
-.jide-toolbar .jide-togglebutton:not(:active):not(.armed):not(:hover):not(.jide-state-selected) {
-  background: transparent;
-}
+  .jide-button, .jide-togglebutton {
+    #background > .inverse();
+    background: transparent;
 
-//.jide-toolbar .jide-button:hover, .jide-toolbar .jide-togglebutton:hover {
-//  .border-radius(0);
-//}
+    &.primary {
+      .swap-button-color(@firm, @button-primary-hover, @button-primary-active);
+      background: transparent;
+    }
+    &.info {
+      .swap-button-color(@info, @button-info-hover, @button-info-active);
+      background: transparent;
+    }
+    &.danger {
+      .swap-button-color(@danger, @button-danger-hover, @button-danger-active);
+      background: transparent;
+    }
+    &.success {
+      .swap-button-color(@success, @button-success-hover, @button-success-active);
+      background: transparent;
+    }
+    &.warning {
+      .swap-button-color(@warning, @button-warning-hover, @button-warning-active);
+      background: transparent;
+    }
+    &.inverse {
+      .swap-button-color(@base, @button-inverse-hover, @button-inverse-active);
+      background: transparent;
+    }
+  }
+}

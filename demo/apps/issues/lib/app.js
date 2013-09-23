@@ -1,8 +1,8 @@
 define([
 	'jidejs/ui/layout/BorderPane', './issueList', './details', './TemplateView',
 	'jidejs/ui/control/MenuBar', 'jidejs/ui/control/MenuItem', 'jidejs/ui/control/Hyperlink',
-	'jidejs/base/Observable'
-], function(BorderPane, issueList, details, TemplateView, MenuBar, MenuItem, Hyperlink, Observable) {
+	'jidejs/base/Observable', 'jidejs/base/Window'
+], function(BorderPane, issueList, details, TemplateView, MenuBar, MenuItem, Hyperlink, Observable, Window) {
 	"use strict";
 
 	// Create the about view
@@ -49,7 +49,7 @@ define([
 	// this is the menu displayed at the top of the page
 	var menu = new MenuBar({
 		'BorderPane.margin': '0',
-		classList: ['navbar', 'navbar-fixed-top'],
+		classList: ['navbar-fixed-top'],
 		children: [
 			// display our brand using Bootstrap display
 			new Hyperlink({
@@ -77,13 +77,16 @@ define([
 	// activate the "Issues" page
 	activeMenu.set(menu.children.get(1));
 
+	var footer;
 	// create the app layout
 	var appLayout = new BorderPane({
 		width: '100%',
+//		height: Window.heightProperty,
 		children: [
 			BorderPane.margin(BorderPane.region(menu, 'top'), '0'),
 			BorderPane.margin(BorderPane.region(appPage, 'center'), '0'),
-			BorderPane.region(new TemplateView({
+			footer = BorderPane.region(new TemplateView({
+				classList: ['inverse'],
 				'BorderPane.margin': '0',
 				template: 'app-bottom-bar-tpl'
 			}), 'bottom')

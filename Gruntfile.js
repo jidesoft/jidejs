@@ -39,6 +39,13 @@ module.exports = function(grunt) {
 				files: {
 					"dist/jidejs/default.css": "style/default.less"
 				}
+			},
+			demos: {
+				files: {
+					"demo/apps/email/style.css": "demo/apps/email/style.less",
+					"demo/apps/contacts/style.css": "demo/apps/contacts/style.less",
+					"demo/apps/issues/style.css": "demo/apps/issues/style.less"
+				}
 			}
 		},
 
@@ -156,7 +163,7 @@ module.exports = function(grunt) {
 
 	// build dist (minified source + css/less files)
 	grunt.registerTask('build', [
-		'minify:source', 'less:controls', 'copy:themes'
+		'minify:source', 'less:controls', 'less:demos', 'copy:themes'
 	]);
 
 	// build the website
