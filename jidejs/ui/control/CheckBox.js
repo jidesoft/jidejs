@@ -86,8 +86,8 @@ define(
 
 			if(!this.graphic) {
 				this.graphic = new SVGView({
-					width: '1em',
-					height: '1em',
+//					width: '1em',
+//					height: '1em',
 					viewBox: { width: 100, height: 100 },
 					content: svgView.cloneNode(true)
 				});

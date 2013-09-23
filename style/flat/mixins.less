@@ -1,0 +1,160 @@
+// general utility mixins
+
+.animation(@properties) {
+  -webkit-animation: @properties;
+  -moz-animation: @properties;
+  -o-animation: @properties;
+  animation: @properties;
+}
+
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.box-sizing(@boxmodel: border-box) {
+  -webkit-box-sizing: @boxmodel;
+  -moz-box-sizing: @boxmodel;
+  box-sizing: @boxmodel;
+}
+
+.background-clip(@clip: border-box) {
+  -webkit-background-clip: @clip;
+  -moz-background-clip: @clip;
+  background-clip: @clip;
+}
+
+.user-select(@select) {
+  -webkit-user-select: @select;
+  -moz-user-select: @select;
+  -ms-user-select: @select;
+  -o-user-select: @select;
+  user-select: @select;
+}
+
+.placeholder-height(@height) {
+  &:-moz-placeholder {
+    line-height: @height;
+  }
+  &::-webkit-input-placeholder {
+    line-height: @height;
+  }
+  &.placeholder {
+    line-height: @height;
+  }
+}
+
+.placeholder-color(@color) {
+  &:-moz-placeholder            { color: @color; } // Firefox 4-18
+  &::-moz-placeholder           { color: @color; } // Firefox 19+
+  &:-ms-input-placeholder       { color: @color; } // Internet Explorer 10+
+  &::-webkit-input-placeholder  { color: @color; } // Safari and Chrome
+  &.jide-placeholding           { color: @color; } // Fallback
+}
+
+.background-size(@size) {
+  -webkit-background-size: @size;
+  -moz-background-size: @size;
+  -o-background-size: @size;
+  background-size: @size;
+}
+
+.transition(@properties) {
+  -webkit-transition: @properties;
+  -moz-transition: @properties;
+  -o-transition: @properties;
+  transition: @properties;
+  -webkit-backface-visibility: hidden;
+}
+
+.transform(@properties) {
+  -webkit-transform: @properties;
+  -moz-transform: @properties;
+  -ms-transform: @properties;
+  -o-transform: @properties;
+  transform: @properties;
+}
+
+.box-shadow(@value) {
+  -webkit-box-shadow: @value;
+  -moz-box-shadow: @value;
+  box-shadow: @value;
+}
+
+// jide.js specific mixins
+#padding {
+  .small() {
+    padding: @padding-small;
+  }
+
+  .medium() {
+    padding: @padding-small @padding-medium;
+  }
+
+  .large() {
+    padding: @padding-medium @padding-large;
+  }
+}
+
+.swap-button-color(@background, @hover, @active, @text: @button-text) {
+  background: @background;
+  color: @text;
+
+  &:hover, &:focus {
+    background: @hover;
+    color: fade(@text, 75%);
+  }
+
+  &:active, &.armed {
+    background: @active;
+  }
+}
+
+#background {
+  .primary() {
+    .swap-button-color(@firm, @button-primary-hover, @button-primary-active);
+  }
+  .info() {
+    .swap-button-color(@info, @button-info-hover, @button-info-active);
+  }
+  .danger() {
+    .swap-button-color(@danger, @button-danger-hover, @button-danger-active);
+  }
+  .success() {
+    .swap-button-color(@success, @button-success-hover, @button-success-active);
+  }
+  .warning() {
+    .swap-button-color(@warning, @button-warning-hover, @button-warning-active);
+  }
+  .inverse() {
+    .swap-button-color(@base, @button-inverse-hover, @button-inverse-active);
+  }
+  .default() {
+    .swap-button-color(@lightgray, @button-hover, @button-active, @text-color);
+  }
+  .transparent() {
+    .swap-button-color(@inverse, @lightgray, @button-hover, @text-color);
+  }
+
+  #solid {
+    .info() {
+      background: @info;
+    }
+    .danger() {
+      background:@danger;
+    }
+    .success() {
+      background: @success;
+    }
+    .warning() {
+      background: @warning;
+    }
+    .inverse() {
+      background: @base;
+    }
+    .default() {
+      background: @lightgray;
+    }
+  }
+}

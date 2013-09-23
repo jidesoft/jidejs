@@ -39,10 +39,26 @@ module.exports = function(grunt) {
 				files: {
 					"dist/jidejs/default.css": "style/default.less"
 				}
+			},
+			demos: {
+				files: {
+					"demo/apps/email/style.css": "demo/apps/email/style.less",
+					"demo/apps/contacts/style.css": "demo/apps/contacts/style.less",
+					"demo/apps/issues/style.css": "demo/apps/issues/style.less"
+				}
 			}
 		},
 
 		copy: {
+			debug: {
+				files: [
+					{src: ['components/**'], dest: 'website/build/'},
+					// copy demos
+					{src: ['demo/**'], dest: 'website/build/'},
+					// copy minified jidejs
+					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'jidejs', expand: true}
+				]
+			},
 			website: {
 				files: [
 					{src: ['components/**'], dest: 'website/build/'},
@@ -147,7 +163,7 @@ module.exports = function(grunt) {
 
 	// build dist (minified source + css/less files)
 	grunt.registerTask('build', [
-		'minify:source', 'less:controls', 'copy:themes'
+		'minify:source', 'less:controls', 'less:demos', 'copy:themes'
 	]);
 
 	// build the website
@@ -157,6 +173,10 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('website-no-doc', [
 		'build', 'compile:examples', 'wintersmith', 'copy:website', 'minify:requirejs'
+	]);
+
+	grunt.registerTask('website:debug', [
+		'build', 'compile:examples', 'wintersmith', 'copy:debug'
 	]);
 
 	// the default task is to build everything

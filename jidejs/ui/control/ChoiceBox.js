@@ -57,6 +57,7 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util
 			install: function() {
 				var choiceBox = this.component;
 				var listView = this.listView = new ListView({
+					classList: ['is-striped'],
 					selectionModel: choiceBox.selectionModel,
 					items: choiceBox.items,
 					cellFactory: choiceBox.cellFactory,

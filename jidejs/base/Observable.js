@@ -210,7 +210,7 @@ define('jidejs/base/Observable', [
 	 *
 	 * @memberof module:jidejs/base/Observable
 	 * @alias module:jidejs/base/Observable.computed
-	 * @param {Function} fn The function that calculates the value of the observable. Must return the new value.
+	 * @param {Function|Object} fn The function that calculates the value of the observable. Must return the new value.
 	 * @returns {module:jidejs/base/Observable}
 	 */
 	Observable.computed = function(fn) {

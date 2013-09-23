@@ -12,6 +12,7 @@ require([
 	'jidejs/base/Observable',
 	'jidejs/base/ObservableList',
 	'jidejs/base/Window',
+	'jidejs/base/has',
 	'jidejs/ui/Component',
 	'jidejs/ui/layout/BorderPane',
 	'jidejs/ui/layout/HBox',
@@ -29,19 +30,30 @@ require([
 	'jidejs/ui/control/MenuItem',
 	'jidejs/ui/control/ToolBar',
 	'jidejs/ui/control/Tooltip',
+	'jidejs/ui/control/Popup',
 
 	'Icon'
 ], function(
-	_, Observable, ObservableList, Window,
+	_, Observable, ObservableList, Window, has,
 	Component, BorderPane, HBox, VBox,
 	Label, Button, Hyperlink, PopupButton, ListView, Cell, HTMLView,
 	SingleSelectionModel, MultipleSelectionModel, ContextMenu, MenuItem, ToolBar, Tooltip,
-	Icon
+	Popup, Icon
 ) {
 	"use strict";
 
 	function notImplemented() {
-		alert('This feature has not been implemented for this demo.');
+		var popup = new Popup({
+			content: new HTMLView({
+				content: '<p>This feature has not been implemented for this demo. Click anywhere to dismiss this message</p>'
+			}),
+			on: {
+				click: function() {
+					popup.visible = false;
+				}
+			}
+		});
+		popup.show(listView, Window.width / 2, Window.height / 2);
 	}
 
 	var formatReadableDate = (function() {
@@ -77,7 +89,7 @@ require([
 
 	fetchMails(100);
 
-	var listView, details, editorToolBar, fetchMailsToolBar, lastUpdatedAt,
+	var listToolbar, listView, details, editorToolBar, fetchMailsToolBar, lastUpdatedAt,
 		showDetails = Observable(false), editing = Observable(false),
 		emptyMail = {
 			title: 'Please select an email',
@@ -124,7 +136,7 @@ require([
 				spacing: '0',
 				fillWidth: true,
 				children: [
-					new ToolBar({
+					listToolbar = new ToolBar({
 						'VBox.grow': 'never',
 						fillHeight: true,
 						classList: ['heading', 'inbox'],
@@ -158,7 +170,7 @@ require([
 					}),
 					listView = new ListView({
 						'VBox.grow': 'always',
-						classList: ['emails'],
+						classList: ['emails', 'has-border', 'is-striped'],
 						items: emails,
 						selectionModel: new SingleSelectionModel(emails, true),
 						converter: function(email) {
@@ -200,6 +212,7 @@ require([
 							new Button({
 								'HBox.grow': 'always',
 								text: 'Delete',
+								classList: ['danger'],
 								tooltip: new Tooltip({content: 'Delete selected mails'}),
 								on: {
 									action: function() {
@@ -229,7 +242,7 @@ require([
 						children: [
 							new Button({
 								'HBox.grow': 'never',
-								graphic: new Icon({name: 'refresh', classList: ['icon-large']}),
+								graphic: new Icon({name: 'refresh'}),
 								tooltip: new Tooltip({content: 'Refresh'}),
 								on: {
 									action: function() {
@@ -287,6 +300,7 @@ require([
 							}),
 							new Button({
 								graphic: new Icon({name: 'remove-sign', classList: ['icon-large']}),
+								classList: ['danger'],
 								tooltip: new Tooltip({content: 'Remove current mail'}),
 								onaction: function() {
 									emails.remove(listView.selectionModel.selectedItem);
@@ -402,4 +416,13 @@ require([
 			})
 		]
 	});
+
+	// this is necessary for IE since grid layout seems to ignore the height property set
+	// for the page.
+	if(has('grid')) {
+		Window.heightProperty.subscribe(function() {
+			listView.height = Window.height - listToolbar.measure().height - fetchMailsToolBar.measure().height;
+		});
+		listView.height = Window.height - listToolbar.measure().height - fetchMailsToolBar.measure().height;
+	}
 });

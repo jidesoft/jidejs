@@ -5,7 +5,7 @@ define([
 	"use strict";
 
 	var listView = new ListView({
-		classList: ['nav', 'nav-list', 'well', 'well-large'],
+		classList: ['nav', 'nav-list', 'well', 'well-large', 'is-striped'],
 		style: {
 			'margin-left': '10px'
 		},

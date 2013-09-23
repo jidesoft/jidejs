@@ -15,19 +15,19 @@
     var todo = new ObservableList([
         { title: 'Buy vegetables', priority: 'High', description: 'I really need to buy vegetables for tomorrow.' },
         { title: 'Clean house', priority: 'High', description: 'Cleaning the house never hurts, does it?' },
-        { title: 'Pay rent', priority: 'Medium', description: "Needs to be done by next week, don't forget it!" },
+        { title: 'Pay rent', priority: 'Med', description: "Needs to be done by next week, don't forget it!" },
         { title: 'Buy new computer', priority: 'Low', description: 'Mine is pretty good, but new is always better!' }
     ]);
 
     var priorityToClass = {
         'High': 'label-important',
-        'Medium': 'label-warning',
+        'Med': 'label-warning',
         'Low': 'label-info'
     };
 
     // create a ListView for the people
     var list = new ListView({
-        //classList: ['well', 'well-small'],
+        classList: ['inverse', 'is-striped'],
         items: todo,
         cellFactory: function() {
             return new Cell({

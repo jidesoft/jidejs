@@ -11,19 +11,28 @@ define([
 		var progress = document.createElement('div');
 		var bar = document.createElement('div');
 		bar.className = 'jide-progress-bar';
+		bar.innerHTML = '&nbsp;';
 		progress.appendChild(bar);
 		return progress;
 	}());
 	function ProgressBarSkin(progress, element) {
-		this.component = progress;
-		this.element = element || template.cloneNode(true);
+		Skin.call(this, progress, element || template.cloneNode(true));
 		this.bar = this.element.firstChild;
 	}
 	Class(ProgressBarSkin).extends(Skin).def({
-		install: function() {
-			Skin.prototype.install.call(this);
-			var THIS = this;
-			this.bindings = [
+		installBindings: function() {
+			var bar = this.bar;
+			this.animation = new Animation({
+				duration: 0,
+				step: function(time) {
+					var x = (time % 2000)/2000; // one loop takes 2 seconds
+					bar.style.backgroundPosition = (40 - x * 40)+'px 0px';
+				}
+			});
+			if(!Animation.isCSSAnimationSupported) this.animation.start();
+			if(this.component.progress) bar.style.width = (this.component.progress * 100)+'%';
+			if(this.component.indeterminate) this.component.classList.add('jide-progressbar-indeterminate');
+			return Skin.prototype.installBindings.call(this).concat([
 				this.component.progressProperty.subscribe(function(event) {
 					this.width = (event.value*100)+'%';
 				}).bind(this.bar.style),
@@ -34,25 +43,16 @@ define([
 						this.classList.remove('jide-progressbar-indeterminate');
 					}
 				})
-			];
-			var bar = this.bar;
-			this.animation = new Animation({
-				duration: 0,
-				step: function(time) {
-					var x = (time % 2000)/2000; // one loop takes 2 seconds
-					bar.style.backgroundPosition = (40 - x * 40)+'px 0px';
-				}
-			});
-			if(!Animation.isCSSAnimationSupported) this.animation.start();
+			]);
 		},
 
 		dispose: function() {
 			Skin.prototype.dispose.call(this);
-			var bindings = this.bindings;
-			for(var i = 0, len = bindings.length; i < len; i++) {
-				bindings[i].dispose();
-			}
-			this.bindings = [];
+//			var bindings = this.bindings;
+//			for(var i = 0, len = bindings.length; i < len; i++) {
+//				bindings[i].dispose();
+//			}
+//			this.bindings = [];
 			if(!this.animation.stopped) this.animation.stop();
 			delete this.animation;
 		}

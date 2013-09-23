@@ -99,11 +99,14 @@ define([
 		setLocation: function(owner, x, y, keepInWindow) {
 			this.owner = owner;
 			var style = this.element.style;
+			var doc = document.documentElement, body = document.body;
+			var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
+			var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
 			if(typeof y !== 'undefined') {
 				if(arguments.length === 3 || keepInWindow) {
 					var size = this.measure();
-					style.top = Math.min(y, Window.height - size.height) + "px";
-					style.left = Math.min(x, Window.width - size.width) + "px";
+					style.top = Math.min(y, (top+Window.height) - size.height) + "px";
+					style.left = Math.min(x, (left+Window.width) - size.width) + "px";
 				} else {
 					style.top = y + 'px';
 					style.left = x + 'px';
@@ -114,8 +117,8 @@ define([
 					case Pos.TOP:
 						var size = this.measure();
 						this.setLocation(owner,
-							bounds.left,
-							(bounds.top - size.height)
+							left+bounds.left,
+							top+(bounds.top - size.height)
 						);
 						break;
 					case Pos.BOTTOM:

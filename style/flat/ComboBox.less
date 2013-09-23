@@ -1,0 +1,27 @@
+.jide-choicebox, .jide-comboboxbase {
+  #padding > .medium();
+}
+
+.jide-comboboxbase {
+  padding: 0;
+  & > .jide-textfield {
+    #padding > .medium();
+    border: 0 none;
+    background: transparent;
+    .box-shadow(none);
+    outline: none;
+    color: @button-text;
+  }
+
+  & > .jide-button {
+    .border-radius(0 @border-radius-large @border-radius-large 0);
+  }
+}
+
+.jide-popup.jide-choicebox-popup, .jide-popup.jide-combobox-popup {
+  padding: 0;
+
+  & > .jide-listview {
+    .jide-listview.inverse();
+  }
+}
