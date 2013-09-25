@@ -1152,10 +1152,11 @@
   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
-.jide-separator.jide-separator-spacer {
+.jide-separator.is-spacer {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: transparent;
 }
 .jide-menubar,
 .jide-toolbar {
@@ -1504,6 +1505,11 @@
 .jide-popup.jide-choicebox-popup,
 .jide-popup.jide-combobox-popup {
   padding: 0;
+  background: #34495e;
+  border-color: #2c3e50;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell {
@@ -1521,12 +1527,12 @@
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell:active,
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell.armed,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell.armed {
-  background: #8e44ad;
+  background: #bdc3c7;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell.jide-state-selected,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell.jide-state-selected {
-  background: #8e44ad;
-  color: #ffffff;
+  background: #bdc3c7;
+  color: #34495e;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell {
@@ -1544,12 +1550,12 @@
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:active,
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.armed,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.armed {
-  background: #8e44ad;
+  background: #bdc3c7;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.jide-state-selected,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.jide-state-selected {
-  background: #8e44ad;
-  color: #ffffff;
+  background: #bdc3c7;
+  color: #34495e;
 }
 .jide-cell {
   padding: 10px 20px;
@@ -1791,11 +1797,11 @@
 }
 .jide-listview.inverse > li > .jide-cell:active,
 .jide-listview.inverse > li > .jide-cell.armed {
-  background: #8e44ad;
+  background: #bdc3c7;
 }
 .jide-listview.inverse > li > .jide-cell.jide-state-selected {
-  background: #8e44ad;
-  color: #ffffff;
+  background: #bdc3c7;
+  color: #34495e;
 }
 .jide-listview.inverse.is-striped > li:nth-child(odd) > .jide-cell {
   background: #2c3e50;
@@ -1808,11 +1814,11 @@
 }
 .jide-listview.inverse.is-striped > li:nth-child(odd) > .jide-cell:active,
 .jide-listview.inverse.is-striped > li:nth-child(odd) > .jide-cell.armed {
-  background: #8e44ad;
+  background: #bdc3c7;
 }
 .jide-listview.inverse.is-striped > li:nth-child(odd) > .jide-cell.jide-state-selected {
-  background: #8e44ad;
-  color: #ffffff;
+  background: #bdc3c7;
+  color: #34495e;
 }
 html,
 body {
@@ -1821,77 +1827,83 @@ body {
   width: 100%;
   height: 100%;
 }
-.emails {
-  width: 300px;
-  padding: 0;
+.folders {
+  width: 150px;
 }
-.jide-cell h4 {
+.inbox {
+  width: 400px;
+}
+.folders > header,
+.inbox > header,
+.details > header {
+  height: 60px;
+}
+.jide-button.transparent {
+  background: transparent;
+  color: #2c3e50;
+}
+.jide-button.transparent:hover,
+.jide-button.transparent:focus {
+  background: transparent;
+  color: rgba(44, 62, 80, 0.75);
+}
+.jide-button.transparent:active,
+.jide-button.transparent.armed {
+  background: transparent;
+}
+.jide-button.transparent:hover {
+  color: #8e44ad;
+}
+h1 {
+  font-size: 28px;
+  color: #34495e;
+  line-height: 50px;
+  margin: auto 0;
+}
+.inbox .jide-cell {
+  padding-left: 40px;
+}
+.inbox .jide-cell .email span {
+  float: right;
+}
+.inbox .jide-cell .email h3 {
+  width: 300px;
+}
+.inbox .jide-cell .email h4 {
+  width: 280px;
+  float: left;
+}
+.inbox .jide-cell .email h3,
+.inbox .jide-cell .email h4 {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  padding-right: 10px;
+  margin: 0;
   font-weight: normal;
-  font-size: 1.3em;
-  line-height: 1.4em;
-  margin: 5px 0;
 }
-.editor {
+.details > div {
+  padding: 0 20px;
+}
+#detail h2 {
+  color: #34495e;
+}
+#detail h3,
+#detail h4 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+#detail h3 {
   float: left;
-  margin-right: 10px;
-  display: none;
 }
-.editing .editor {
-  display: inline-block;
-}
-.message {
-  padding-bottom: 5px;
-}
-.row {
+#detail h4 {
   clear: both;
 }
-.row > span {
+#detail #time {
   float: right;
 }
-.row > h3 {
-  margin: 5px 10px 5px 0;
-  font-size: 1em;
-  display: inline-block;
-}
-.row > .message {
-  width: 290px;
-}
-.heading > .jide-label {
-  text-align: center;
-}
-.detail-row > .jide-component {
-  border-bottom: 1px solid lightgray;
-}
-.detail-row > .jide-component:last-child {
-  border-bottom: 0;
-}
-.detail-row > .jide-component.jide-hbox > .jide-label {
-  padding: 10px 20px;
-}
-.detail-row > .jide-component.jide-label {
-  border-bottom: 1px solid lightgray;
-  padding: 10px 20px;
-}
-.detail-row > .jide-component:not(.jide-labeled):not(.jide-hbox) {
-  padding: 10px 20px;
-}
-.detail-row:last-child {
-  border-bottom: 0;
-}
-.detail-row > pre {
-  font: 12px Lucida Sans Unicode, Lucida Grande, sans-serif;
-}
-.email {
-  font-weight: bold;
-}
-.jide-labeled .icon-large:before {
-  vertical-align: 0;
-}
-[class^="icon-"],
-[class*=" icon-"] {
-  line-height: 1.231 !important;
+#detail pre {
+  font-size: 14px;
+  line-height: 1.231;
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
 }
