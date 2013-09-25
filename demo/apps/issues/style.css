@@ -6352,10 +6352,16 @@ a.badge:focus {
   background: #2c3e50;
 }
 .jide-popup {
-  padding: 10px 20px;
-  background: #34495e;
-  border: 0 none;
+  padding: 5px;
+  background: #1abc9c;
   color: #ffffff;
+  border: 1px solid #2ecc71;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
   z-index: 10000;
 }
 .jide-menu {
@@ -6848,7 +6854,7 @@ a.badge:focus {
 }
 .jide-listview > li > .jide-cell.jide-state-selected {
   background: #3498db;
-  color: #34495e;
+  color: #ffffff;
 }
 .jide-listview.is-striped > li:nth-child(odd) > .jide-cell {
   background: #ecf0f1;
@@ -6865,7 +6871,7 @@ a.badge:focus {
 }
 .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.jide-state-selected {
   background: #3498db;
-  color: #34495e;
+  color: #ffffff;
 }
 .jide-listview.has-border > li > .jide-cell {
   border-bottom: 1px solid #bdc3c7;
