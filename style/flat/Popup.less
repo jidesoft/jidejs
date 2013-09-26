@@ -1,7 +1,16 @@
 .jide-popup {
-  #padding > .large();
-  background: @wet-asphalt;
-  border: 0 none;
-  color: @inverse;
+  #padding > .small();
   z-index: 10000;
+
+  background: @clouds;
+  color: @text-color;
+  border: 1px solid @asbestos;
+  .border-radius(@border-radius-large);
+  .box-shadow(5px 5px 15px 1px rgba(0, 0, 0, 0.4));
+}
+
+.jide-tooltip {
+  font-size: @font-size-small;
+  line-height: ceil(@font-size-base * 1.285);
+  text-align: center;
 }

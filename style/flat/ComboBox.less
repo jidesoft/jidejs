@@ -20,8 +20,11 @@
 
 .jide-popup.jide-choicebox-popup, .jide-popup.jide-combobox-popup {
   padding: 0;
+  background: @base;
+  border-color: @midnight-blue;
+  .border-radius(0);
 
   & > .jide-listview {
-    .jide-listview.inverse();
+    .list-cell(@base, @midnight-blue, @button-inverse-hover, @silver, @inverse, @base);
   }
 }

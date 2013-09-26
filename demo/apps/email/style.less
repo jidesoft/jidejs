@@ -7,103 +7,132 @@ html, body {
   height: 100%;
 }
 
-.emails {
-  width: 300px;
-  padding: 0;
-}
+.folders {
+  width: 150px;
 
-.jide-cell {
-  & h4 {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    padding-right: 10px;
-    font-weight: normal;
-    font-size: 1.3em;
-    line-height: 1.4em;
-    margin: @unit 0;
-  }
-}
-
-.editor {
-  float: left;
-  margin-right: (@unit * 2);
-  display: none;
-}
-
-.editing .editor {
-  display: inline-block;
-}
-
-.message {
-  padding-bottom: @unit;
-}
-
-.row {
-  clear: both;
-
-  & > span {
+  .count {
     float: right;
-//    color: @border-color;
-  }
-
-  & > h3 {
-    margin: @unit (@unit * 2) @unit 0;
-    font-size: 1em;
-    display: inline-block;
-  }
-
-  & > .message {
-    width: (300px - @unit * 2);
+    #background > #solid > .info();
+    .border-radius(@border-radius-base);
+    padding: 0 (@unit * 2);
   }
 }
 
-.heading {
-  & > .jide-label {
-    text-align: center;
+.inbox {
+  width: 400px;
+
+  header {
+    background: @clouds;
   }
 }
 
-.detail-row > .jide-component {
-  border-bottom: 1px solid lightgray;
-
-  &:last-child {
-    border-bottom: 0;
-  }
-
-  &.jide-hbox > .jide-label {
-    #padding > .large;
-  }
-
-  &.jide-label {
-    border-bottom: 1px solid lightgray;
-    #padding > .large;
-  }
-
-  &:not(.jide-labeled):not(.jide-hbox) {
-    #padding > .large;
+.folders, .inbox, .details {
+  & > header {
+    height: (@unit * 12); // 60px
   }
 }
 
-.detail-row:last-child {
-  border-bottom: 0;
-}
+.filter-editor {
+  .transition(opacity 1s);
+  opacity: 1;
 
-.detail-row {
-  & > pre {
-    font: 12px Lucida Sans Unicode, Lucida Grande, sans-serif;
+  &.hidden {
+    .transition(opacity 1s);
+    visibility: hidden;
+    opacity: 0;
   }
 }
 
-.email {
-  font-weight: bold;
+.jide-button.transparent, .jide-choicebox.transparent {
+  .swap-button-color(transparent, transparent, transparent, @midnight-blue);
+  &:hover {
+    color: @wisteria;
+  }
+
+  &.danger {
+    .swap-button-color(transparent, transparent, transparent, @midnight-blue);
+    &:hover {
+      color: @pomegranate;
+    }
+  }
 }
 
-// fix problem with font-awesome
-.jide-labeled .icon-large:before {
-  vertical-align: 0;
+.jide-choicebox.transparent {
+  font-size: 1.8em;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-  line-height: @line-height-base !important;
+h1 {
+  font-size: (@font-size-base * 2);
+//  color: @text-color;
+  line-height: (@unit * 10);
+  margin: auto 0;
+}
+
+.inbox {
+  .jide-cell {
+    padding-left: (@unit * 8);
+    .email {
+      span {
+        float: right;
+      }
+
+      h3 {
+        width: 300px;
+      }
+
+      h4 {
+        width: 280px;
+        float: left;
+      }
+
+      h3, h4 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        margin: 0;
+        font-weight: normal;
+      }
+    }
+
+    &.unread .email {
+      h3, h4 {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.details > div {
+  padding: 0 @padding-large;
+}
+
+#detail {
+  h2 {
+    color: @text-color;
+  }
+
+  h3, h4 {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+  }
+
+  h3 {
+    float: left;
+    font-size: 18px;
+  }
+
+  h4 {
+    clear: both;
+  }
+
+  #time {
+    float: right;
+  }
+
+  pre {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+    font-family: @font-family-base;
+  }
 }

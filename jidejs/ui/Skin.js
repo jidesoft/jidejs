@@ -6,11 +6,13 @@
  *
  * @module jidejs/ui/Skin
  */
-define('jidejs/ui/Skin', ['jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Window'], function(Class, _, Window) {
+define('jidejs/ui/Skin', [
+	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM'
+], function(Class, _, Window, DOM) {
 	var $bindings = 'jidejs/ui/Skin.bindings',
 		tooltipHandler = 'jidejs/ui/Skin.tooltipHandler',
 		contextMenuHandler = 'jidejs/ui/Skin.contextMenuHandler',
-		TOOLTIP_SPACE = 20,
+		TOOLTIP_SPACE = 10,
 		BINDINGS = '$jidejs/ui/Skin.create#bindings',
 		EVENT_BINDINGS = '$jidejs/ui/Skin.create#eventBindings';
 	/**
@@ -87,6 +89,22 @@ define('jidejs/ui/Skin', ['jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/
 			this[EVENT_BINDINGS] = null;
 		},
 
+		updateTooltipPosition: function(pageX, pageY) {
+			var tooltip = this.component.tooltip,
+				size = tooltip.measure(),
+				box = DOM.getBoundingBox(this.component.element);
+			var doc = document.documentElement, body = document.body;
+			var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
+			var top = (doc && doc.scrollTop || body && body.scrollTop || 0);
+
+			var canShowBelow = (box.bottom + size.height + TOOLTIP_SPACE) < ((top + Window.height));
+			tooltip.show(this.component,
+				left + pageX,
+				canShowBelow
+					? box.bottom + TOOLTIP_SPACE
+					: box.top - TOOLTIP_SPACE - size.height);
+		},
+
 		/**
 		 * Sets up the bindings, property listeners and any required DOM structure.
 		 * Must be invoked before the control is displayed.
@@ -96,44 +114,25 @@ define('jidejs/ui/Skin', ['jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/
 			var c = this.component;
 			var THIS = this;
 
+			var tooltipMouseOver = function(e) {
+				if(!c.automaticTooltipHandling) return;
+				THIS.updateTooltipPosition(e.pageX, e.pageY);
+			};
+			var tooltipMouseOut = function(e) {
+				console.log(e);
+				if(!c.automaticTooltipHandling || c.element.contains(e.relatedTarget)) return;
+				this.tooltip.visible = false;
+			};
+			var tooltipMouseMove = function(e) {
+				if(!c.automaticTooltipHandling) return;
+				THIS.updateTooltipPosition(e.pageX, e.pageY);
+			};
+
 			if(c.tooltip) {
 				THIS[tooltipHandler] = [
-					c.on('mouseover', function(e) {
-						if(!c.automaticTooltipHandling) return;
-						var tooltip = this.tooltip,
-							size = this.tooltip.measure();
-						var doc = document.documentElement, body = document.body;
-						var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
-						var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
-						tooltip.show(c, Math.min(
-							left+e.pageX+TOOLTIP_SPACE,
-							(left+Window.width) - size.width
-						), Math.min(
-							top+e.pageY+TOOLTIP_SPACE,
-							(top+Window.height) - size.height
-						));
-					}),
-					c.on('mouseout', function(e) {
-						if(!c.automaticTooltipHandling) return;
-						this.tooltip.visible = false;
-					}),
-					c.on('mousemove', function(e) {
-						if(!c.automaticTooltipHandling) return;
-						var tooltip = this.tooltip,
-							style = tooltip.element.style,
-							size = this.tooltip.measure();
-						var doc = document.documentElement, body = document.body;
-						var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
-						var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
-						style.left = Math.min(
-							e.pageX+TOOLTIP_SPACE,
-							(left+Window.width) - size.width
-						)+"px";
-						style.top = Math.min(
-							e.pageY+TOOLTIP_SPACE,
-							(top+Window.height) - size.height
-						)+"px";
-					})
+					c.on('mouseover', tooltipMouseOver),
+					c.on('mouseout', tooltipMouseOut),
+					c.on('mousemove', tooltipMouseMove)
 				];
 			}
 
@@ -142,42 +141,9 @@ define('jidejs/ui/Skin', ['jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/
 					if(event.value) {
 						if(!THIS[tooltipHandler]) {
 							THIS[tooltipHandler] = [
-								c.on('mouseover', function(e) {
-									if(!c.automaticTooltipHandling) return;
-									var tooltip = this.tooltip,
-										size = this.tooltip.measure();
-									var doc = document.documentElement, body = document.body;
-									var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
-									var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
-									tooltip.show(c, Math.min(
-										e.pageX+TOOLTIP_SPACE,
-										(left+Window.width) - size.width
-									), Math.min(
-										e.pageY+TOOLTIP_SPACE,
-										(Window.height+top) - size.height
-									));
-								}),
-								c.on('mouseout', function(e) {
-									if(!c.automaticTooltipHandling) return;
-									this.tooltip.visible = false;
-								}),
-								c.on('mousemove', function(e) {
-									if(!c.automaticTooltipHandling) return;
-									var tooltip = this.tooltip,
-										style = tooltip.element.style,
-										size = this.tooltip.measure();
-									var doc = document.documentElement, body = document.body;
-									var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
-									var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
-									style.left = Math.min(
-										e.pageX+TOOLTIP_SPACE,
-										(left+Window.width) - size.width
-									)+"px";
-									style.top = Math.min(
-										e.pageY+TOOLTIP_SPACE,
-										(top+Window.height) - size.height
-									)+"px";
-								})
+								c.on('mouseover', tooltipMouseOver),
+								c.on('mouseout', tooltipMouseOut),
+								c.on('mousemove', tooltipMouseMove)
 							];
 						}
 					} else if(THIS[tooltipHandler]) {

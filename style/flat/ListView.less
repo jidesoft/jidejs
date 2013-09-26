@@ -9,17 +9,12 @@
 .jide-listview {
   padding: 0;
 
-  .list-cell(@inverse, @clouds, @silver, @info, @text-color, @text-color);
+  & > li {
+    // fix IE issue when using a template
+    font-size: 0px;
+  }
 
-//  & > li {
-//    & > .jide-cell {
-//      .swap-button-color(@inverse, @silver, @silver, @text-color);
-//    }
-//  }
-//
-//  &.is-striped  > li:nth-child(odd) > .jide-cell {
-//    .swap-button-color(@clouds, @silver, @concrete, @text-color);
-//  }
+  .list-cell(@inverse, @clouds, @silver, @info, @text-color, @button-text);
 
   &.has-border {
     & > li {
@@ -48,7 +43,7 @@
     .list-cell(@warning, @orange, @button-warning-hover, @pomegranate, @text-color, @text-color);
   }
   &.inverse {
-    .list-cell(@base, @midnight-blue, @button-inverse-hover, @wisteria, @inverse, @inverse);
+    .list-cell(@base, @midnight-blue, @button-inverse-hover, @silver, @inverse, @base);
   }
 }
 
@@ -57,7 +52,7 @@
     .swap-button-color(@primary, @hover, @active, @font-color);
     &.jide-state-selected {
       background: @active;
-      color: @font-color;
+      color: @selected-font-color;
     }
   }
 

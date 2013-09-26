@@ -1005,6 +1005,8 @@ define('jidejs/base/Collection', [
 			throw new Error('FilteredCollection#length is read-only. Tried to set it to '+value);
 		},
 
+		updateFilter: updateFilter,
+
 		matchNone: function() {
 			var data = this._data,
 				publisher = this.updates;
@@ -1068,10 +1070,10 @@ define('jidejs/base/Collection', [
 			for(var i = 0, len = data.length; i < len; i++) {
 				var originalIndex = data[i],
 					item = source.get(originalIndex);
-				if(matcher(context, item, originalIndex, source)) {
+				if(matcher.call(context, item, originalIndex, source)) {
 					result[result.length] = originalIndex;
 				} else {
-					publisher.remove(i, item);
+					publisher.remove(result.length, item);
 				}
 			}
 			this._data = result;
