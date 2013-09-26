@@ -168,8 +168,8 @@ require([
 ## Combining multiple layout panes
 
 By combining multiple simple layout panes you can create even the most complex applications. The
-[/demo/apps/email/index.html](E-Mail demo) is build with only {@link jidejs/ui/layout/BorderPane},
-{@link jidejs/ui/layout/HBox} and {@link jidejs/ui/layout/VBox}.
+[E-Mail demo](/demo/apps/email/index.html) is build with only {@link jidejs/ui/layout/HBox}
+and {@link jidejs/ui/layout/VBox}.
 
 ```javascript
 require([

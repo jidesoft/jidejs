@@ -70,6 +70,13 @@ require([
 			var f = block.hash.format || "MMM DD, YYYY hh:mm:ss A";
 			if(f === 'fromNow') return moment(context).fromNow();
 			if(f === 'calendar') return moment(context).calendar();
+			if(f === 'dayOrTime') {
+				var date = moment(context);
+				if(moment().diff(date, 'days') === 0) {
+					return date.format('LT');
+				}
+				return date.format('ddd');
+			}
 			return moment(context).format(f); //had to remove Date(context)
 		}else{
 			return context;   //  moment plugin not available. return data as is.
@@ -98,15 +105,18 @@ require([
 
 	var emails = new ObservableList();
 
-	function fetchMails(count, read) {
+	function fetchMails(count, read, today) {
 		for(var i = 0; i < count; i++) {
+			var date = today
+				? new Date()
+				: new Date(+(moment().subtract('days', ((count - i)/10)|0)));
 			emails.insertAt(0, {
 				title: Faker.Lorem.sentence(),
 				author: Faker.Name.findName(),
 				from: Faker.Internet.email(),
 				to: 'demo@js.jidesoft.com',
 				message: Faker.Lorem.paragraphs(1+((Math.random()*5)|0)).replace(/^\t/gm, "\n"),
-				date: new Date(),
+				date: date,
 				read: Observable(read || false)
 			});
 		}
@@ -129,10 +139,10 @@ require([
 	//endregion
 
 	fetchMails(98, true);
-	fetchMails(2, false);
+	fetchMails(2, false, true);
 
 	setInterval(function() {
-		fetchMails(1+Faker.random.number(3), false);
+		fetchMails(1+Faker.random.number(3), false, true);
 	}, 60000);
 
 	var listView, folderView, readFilterChoice, filterEditor,
