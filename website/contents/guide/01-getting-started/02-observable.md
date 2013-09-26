@@ -85,7 +85,7 @@ require([
 There are numerous cases where you might need to calculate the value of an observable in a way that depends on other
 observable values. **jide.js** supports these use cases through the `computed` method on {@link jidejs/base/Observable}.
 
-In the example above, we used the {@link jidejs/base/Bindings.when} method to define which text to display depending on
+In the example above, we used the {@link jidejs/base/Bindings jidejs/base/Bindings.when} method to define which text to display depending on
 the state of the `showDetails` variable. An alternative would be to use {@link jidejs/base/Observable.computed} as follows:
 
 ```javascript

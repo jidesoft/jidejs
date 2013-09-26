@@ -6785,57 +6785,57 @@ a.badge:focus {
 .jide-popup.jide-choicebox-popup,
 .jide-popup.jide-combobox-popup {
   padding: 0;
-  background: #34495e;
-  border-color: #2c3e50;
+  background: #ecf0f1;
+  border-color: #3498db;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell {
-  background: #34495e;
-  color: #ffffff;
+  background: #ecf0f1;
+  color: #34495e;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell:hover,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell:hover,
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell:focus,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell:focus {
-  background: #415b76;
-  color: rgba(255, 255, 255, 0.75);
+  background: #cacfd2;
+  color: rgba(52, 73, 94, 0.75);
 }
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell:active,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell:active,
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell.armed,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell.armed {
-  background: #bdc3c7;
+  background: #3498db;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview > li > .jide-cell.jide-state-selected,
 .jide-popup.jide-combobox-popup > .jide-listview > li > .jide-cell.jide-state-selected {
-  background: #bdc3c7;
-  color: #34495e;
+  background: #3498db;
+  color: #ffffff;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell {
-  background: #2c3e50;
-  color: #ffffff;
+  background: #bdc3c7;
+  color: #34495e;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:hover,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:hover,
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:focus,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:focus {
-  background: #415b76;
-  color: rgba(255, 255, 255, 0.75);
+  background: #cacfd2;
+  color: rgba(52, 73, 94, 0.75);
 }
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:active,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell:active,
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.armed,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.armed {
-  background: #bdc3c7;
+  background: #3498db;
 }
 .jide-popup.jide-choicebox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.jide-state-selected,
 .jide-popup.jide-combobox-popup > .jide-listview.is-striped > li:nth-child(odd) > .jide-cell.jide-state-selected {
-  background: #bdc3c7;
-  color: #34495e;
+  background: #3498db;
+  color: #ffffff;
 }
 .jide-cell {
   padding: 10px 20px;
