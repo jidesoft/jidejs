@@ -5841,18 +5841,23 @@ a.badge:focus {
 }
 .jide-component.primary {
   background: #1abc9c;
+  color: #ffffff;
 }
 .jide-component.info {
   background: #3498db;
+  color: #ffffff;
 }
 .jide-component.danger {
   background: #e74c3c;
+  color: #ffffff;
 }
 .jide-component.success {
   background: #2ecc71;
+  color: #ffffff;
 }
 .jide-component.warning {
   background: #f1c40f;
+  color: #ffffff;
 }
 .jide-component.inverse {
   background: #34495e;
@@ -6353,16 +6358,21 @@ a.badge:focus {
 }
 .jide-popup {
   padding: 5px;
-  background: #1abc9c;
-  color: #ffffff;
-  border: 1px solid #2ecc71;
+  z-index: 10000;
+  background: #ecf0f1;
+  color: #34495e;
+  border: 1px solid #7f8c8d;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  -webkit-box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.4);
+}
+.jide-tooltip {
   font-size: 12px;
   line-height: 18px;
   text-align: center;
-  z-index: 10000;
 }
 .jide-menu {
   padding: 10px 20px;
@@ -6421,6 +6431,7 @@ a.badge:focus {
   -moz-box-shadow: none;
   box-shadow: none;
   background: transparent;
+  width: auto;
 }
 .jide-menubar,
 .jide-toolbar {
@@ -6844,6 +6855,9 @@ a.badge:focus {
 }
 .jide-listview {
   padding: 0;
+}
+.jide-listview > li {
+  font-size: 0px;
 }
 .jide-listview > li > .jide-cell {
   background: #ffffff;

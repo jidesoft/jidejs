@@ -56,7 +56,7 @@ define(['jidejs/base/Class', 'jidejs/ui/control/TextInputControl'], function(Cla
 		}
 
 		this.keyMap.on({key: 'Enter'}, function() {
-			this.dispatch('action');
+			this.emit('action');
 		});
 	}
 

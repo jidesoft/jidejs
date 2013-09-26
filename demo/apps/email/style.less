@@ -9,10 +9,21 @@ html, body {
 
 .folders {
   width: 150px;
+
+  .count {
+    float: right;
+    #background > #solid > .info();
+    .border-radius(@border-radius-base);
+    padding: 0 (@unit * 2);
+  }
 }
 
 .inbox {
   width: 400px;
+
+  header {
+    background: @clouds;
+  }
 }
 
 .folders, .inbox, .details {
@@ -21,16 +32,38 @@ html, body {
   }
 }
 
-.jide-button.transparent {
+.filter-editor {
+  .transition(opacity 1s);
+  opacity: 1;
+
+  &.hidden {
+    .transition(opacity 1s);
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.jide-button.transparent, .jide-choicebox.transparent {
   .swap-button-color(transparent, transparent, transparent, @midnight-blue);
   &:hover {
     color: @wisteria;
   }
+
+  &.danger {
+    .swap-button-color(transparent, transparent, transparent, @midnight-blue);
+    &:hover {
+      color: @pomegranate;
+    }
+  }
+}
+
+.jide-choicebox.transparent {
+  font-size: 1.8em;
 }
 
 h1 {
   font-size: (@font-size-base * 2);
-  color: @text-color;
+//  color: @text-color;
   line-height: (@unit * 10);
   margin: auto 0;
 }
@@ -60,6 +93,12 @@ h1 {
         font-weight: normal;
       }
     }
+
+    &.unread .email {
+      h3, h4 {
+        font-weight: bold;
+      }
+    }
   }
 }
 
@@ -80,6 +119,7 @@ h1 {
 
   h3 {
     float: left;
+    font-size: 18px;
   }
 
   h4 {

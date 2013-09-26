@@ -9,6 +9,11 @@
 .jide-listview {
   padding: 0;
 
+  & > li {
+    // fix IE issue when using a template
+    font-size: 0px;
+  }
+
   .list-cell(@inverse, @clouds, @silver, @info, @text-color, @button-text);
 
   &.has-border {

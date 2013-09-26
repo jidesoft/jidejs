@@ -303,6 +303,40 @@ define('jidejs/base/DOM', [
 		}
 	};
 
+	if('scrollIntoViewIfNeeded' in Element.prototype) {
+		DOM.scrollIntoViewIfNeeded = function(element, centerIfNeeded) {
+			element.scrollIntoViewIfNeeded(centerIfNeeded);
+		}
+	} else {
+		DOM.scrollIntoViewIfNeeded = function (element, centerIfNeeded) {
+			// implementation from
+			// https://gist.github.com/hsablonniere/2581101
+			centerIfNeeded = arguments.length === 0 ? true : !!centerIfNeeded;
+
+			var parent = element.parentNode,
+				parentComputedStyle = window.getComputedStyle(parent, null),
+				parentBorderTopWidth = parseInt(parentComputedStyle.getPropertyValue('border-top-width')),
+				parentBorderLeftWidth = parseInt(parentComputedStyle.getPropertyValue('border-left-width')),
+				overTop = element.offsetTop - parent.offsetTop < parent.scrollTop,
+				overBottom = (element.offsetTop - parent.offsetTop + element.clientHeight - parentBorderTopWidth) > (parent.scrollTop + parent.clientHeight),
+				overLeft = element.offsetLeft - parent.offsetLeft < parent.scrollLeft,
+				overRight = (element.offsetLeft - parent.offsetLeft + element.clientWidth - parentBorderLeftWidth) > (parent.scrollLeft + parent.clientWidth),
+				alignWithTop = overTop && !overBottom;
+
+			if ((overTop || overBottom) && centerIfNeeded) {
+				parent.scrollTop = element.offsetTop - parent.offsetTop - parent.clientHeight / 2 - parentBorderTopWidth + element.clientHeight / 2;
+			}
+
+			if ((overLeft || overRight) && centerIfNeeded) {
+				parent.scrollLeft = element.offsetLeft - parent.offsetLeft - parent.clientWidth / 2 - parentBorderLeftWidth + element.clientWidth / 2;
+			}
+
+			if ((overTop || overBottom || overLeft || overRight) && !centerIfNeeded) {
+				element.scrollIntoView(alignWithTop);
+			}
+		};
+	}
+
 	// use a weak hash map for the data link when possible to minimize the risk of memory leaks
 	var hasWeakMap = typeof WeakMap !== 'undefined';
 	if(hasWeakMap) {

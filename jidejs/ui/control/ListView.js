@@ -26,8 +26,10 @@
 define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/ui/Control',
 	'jidejs/ui/Skin', 'jidejs/ui/control/Cell', 'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/Component',
-	'jidejs/ui/Orientation', 'jidejs/base/Util'
-], function(Class, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _) {
+	'jidejs/ui/Orientation', 'jidejs/base/Util', 'jidejs/base/DOM'
+], function(
+	Class, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _, DOM
+) {
 	//region ListViewSkin
 	function ListViewSkin(listView, element) {
 		Skin.call(this, listView, element);
@@ -147,11 +149,14 @@ define([
 						Component.fromElement(childNodes[evt.oldValue].firstChild).selected = false;
 					}
 					if(evt.value !== null) {
-						var cell = Component.fromElement(childNodes[evt.value].firstChild);
+						var childNode = childNodes[evt.value];
+						if(!childNode) return;
+						var cell = Component.fromElement(childNode.firstChild);
 						if(cell) {
 							cell.selected = true;
-							if(cell.element.scrollIntoViewIfNeeded) cell.element.scrollIntoViewIfNeeded();
-							else cell.element.scrollIntoView();
+							DOM.scrollIntoViewIfNeeded(cell.element);
+//							if(cell.element.scrollIntoViewIfNeeded) cell.element.scrollIntoViewIfNeeded();
+//							else cell.element.scrollIntoView();
 						}
 					}
 				}));

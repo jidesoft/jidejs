@@ -577,18 +577,23 @@
 }
 .jide-component.primary {
   background: #1abc9c;
+  color: #ffffff;
 }
 .jide-component.info {
   background: #3498db;
+  color: #ffffff;
 }
 .jide-component.danger {
   background: #e74c3c;
+  color: #ffffff;
 }
 .jide-component.success {
   background: #2ecc71;
+  color: #ffffff;
 }
 .jide-component.warning {
   background: #f1c40f;
+  color: #ffffff;
 }
 .jide-component.inverse {
   background: #34495e;
@@ -1089,16 +1094,21 @@
 }
 .jide-popup {
   padding: 5px;
-  background: #1abc9c;
-  color: #ffffff;
-  border: 1px solid #2ecc71;
+  z-index: 10000;
+  background: #ecf0f1;
+  color: #34495e;
+  border: 1px solid #7f8c8d;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  -webkit-box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.4);
+}
+.jide-tooltip {
   font-size: 12px;
   line-height: 18px;
   text-align: center;
-  z-index: 10000;
 }
 .jide-menu {
   padding: 10px 20px;
@@ -1157,6 +1167,7 @@
   -moz-box-shadow: none;
   box-shadow: none;
   background: transparent;
+  width: auto;
 }
 .jide-menubar,
 .jide-toolbar {
@@ -1576,6 +1587,9 @@
 .jide-listview {
   padding: 0;
 }
+.jide-listview > li {
+  font-size: 0px;
+}
 .jide-listview > li > .jide-cell {
   background: #ffffff;
   color: #34495e;
@@ -1830,33 +1844,92 @@ body {
 .folders {
   width: 150px;
 }
+.folders .count {
+  float: right;
+  background: #3498db;
+  color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 0 10px;
+}
 .inbox {
   width: 400px;
+}
+.inbox header {
+  background: #ecf0f1;
 }
 .folders > header,
 .inbox > header,
 .details > header {
   height: 60px;
 }
-.jide-button.transparent {
+.filter-editor {
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s;
+  -webkit-backface-visibility: hidden;
+  opacity: 1;
+}
+.filter-editor.hidden {
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s;
+  -webkit-backface-visibility: hidden;
+  visibility: hidden;
+  opacity: 0;
+}
+.jide-button.transparent,
+.jide-choicebox.transparent {
   background: transparent;
   color: #2c3e50;
 }
 .jide-button.transparent:hover,
-.jide-button.transparent:focus {
+.jide-choicebox.transparent:hover,
+.jide-button.transparent:focus,
+.jide-choicebox.transparent:focus {
   background: transparent;
   color: rgba(44, 62, 80, 0.75);
 }
 .jide-button.transparent:active,
-.jide-button.transparent.armed {
+.jide-choicebox.transparent:active,
+.jide-button.transparent.armed,
+.jide-choicebox.transparent.armed {
   background: transparent;
 }
-.jide-button.transparent:hover {
+.jide-button.transparent:hover,
+.jide-choicebox.transparent:hover {
   color: #8e44ad;
+}
+.jide-button.transparent.danger,
+.jide-choicebox.transparent.danger {
+  background: transparent;
+  color: #2c3e50;
+}
+.jide-button.transparent.danger:hover,
+.jide-choicebox.transparent.danger:hover,
+.jide-button.transparent.danger:focus,
+.jide-choicebox.transparent.danger:focus {
+  background: transparent;
+  color: rgba(44, 62, 80, 0.75);
+}
+.jide-button.transparent.danger:active,
+.jide-choicebox.transparent.danger:active,
+.jide-button.transparent.danger.armed,
+.jide-choicebox.transparent.danger.armed {
+  background: transparent;
+}
+.jide-button.transparent.danger:hover,
+.jide-choicebox.transparent.danger:hover {
+  color: #c0392b;
+}
+.jide-choicebox.transparent {
+  font-size: 1.8em;
 }
 h1 {
   font-size: 28px;
-  color: #34495e;
   line-height: 50px;
   margin: auto 0;
 }
@@ -1881,6 +1954,10 @@ h1 {
   margin: 0;
   font-weight: normal;
 }
+.inbox .jide-cell.unread .email h3,
+.inbox .jide-cell.unread .email h4 {
+  font-weight: bold;
+}
 .details > div {
   padding: 0 20px;
 }
@@ -1895,6 +1972,7 @@ h1 {
 }
 #detail h3 {
   float: left;
+  font-size: 18px;
 }
 #detail h4 {
   clear: both;
