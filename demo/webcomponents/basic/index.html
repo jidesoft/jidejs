@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="/jidejs/default.css">
+    <!--<script src="WebComponents.js"></script>-->
+    <script src="../components/polymer/polymer.min.js"></script>
+    <script src="/components/requirejs/require.js" data-main="main.js" async="async"></script>
+    <style>
+        jide-prop {
+            display: none;
+        }
+
+        jide-prop, jide-button {
+            opacity: 0;
+        }
+
+        .resolved {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<jide-titledpane>
+    <jide-prop name="title">Hello</jide-prop>
+    <jide-button>
+        <jide-prop name="text">Hello World</jide-prop>
+    </jide-button>
+</jide-titledpane>
+</body>
+</html>

@@ -23,6 +23,15 @@ define([
 		return frag;
 	}());
 
+	function changeContent(contentElement, newContent) {
+		if(_.isString(newContent)) {
+			contentElement.innerHTML = newContent;
+		} else {
+			DOM.removeChildren(contentElement);
+			contentElement.appendChild(newContent.element || newContent);
+		}
+	}
+
 	function TitledPaneSkin(titledPane, el) {
 		if(typeof el === 'undefined') {
 			el = doc.createElement('div');
@@ -63,11 +72,13 @@ define([
 				if(!titledPane.content) {
 					titledPane.classList[expand ? 'add' : 'remove']('jide-expanded');
 					return;
+				} else {
+					changeContent(THIS.content, titledPane.content);
 				}
 				if(expand) {
 					titledPane.classList.add('jide-expanded');
 				}
-				var size = DOM.measure(titledPane.content.element, true);
+				var size = DOM.measure(THIS.content, true);
 				var fullHeight = size.height;
 				// in case the node isn't yet part of the DOM, so we will just delay that a little bit
 				if(fullHeight === 0 && expand) {
@@ -110,19 +121,20 @@ define([
 				this.title.textProperty.bindBidirectional(titledPane.titleProperty),
 				titledPane.contentProperty.subscribe(function(event) {
 					var value = event.value;
-					if(event.oldValue) {
-						var oldValue = event.oldValue;
-						oldValue.parent = null;
-						this.content.replaceChild(value.element, oldValue.element);
-					} else {
-						this.content.appendChild(value.element);
-					}
+//					if(event.oldValue) {
+//						var oldValue = event.oldValue;
+//						oldValue.parent = null;
+//						this.content.replaceChild(value.element, oldValue.element);
+//					} else {
+//						this.content.appendChild(value.element);
+//					}
+					changeContent(THIS.content, value);
 					value.parent = this.titledPane;
 					Dispatcher.requestAnimationFrame(function() {
 						if(titledPane.animated) {
 							titledPane.classList.remove('jide-titledpane-animated');
 						}
-						var size = DOM.measure(value.element);
+						var size = DOM.measure(THIS.content);
 						if(size.height) {
 							THIS.content.style.height = titledPane.expanded ? size.height+"px" : "0px";
 						}
@@ -143,9 +155,6 @@ define([
 					}
 				})
 			];
-			if(titledPane.content) {
-				this.content.appendChild(titledPane.content.element);
-			}
 			expandedChangedHandler({value: titledPane.expanded});
 			collapsibleChangedHandler({value: titledPane.collapsible});
 			if(titledPane.animated) titledPane.classList.add('jide-titledpane-animated');

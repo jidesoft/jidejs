@@ -33,6 +33,7 @@ local.properties
 #################
 
 .idea/
+projectFilesBackup/
 
 #################
 ## External dependencies
