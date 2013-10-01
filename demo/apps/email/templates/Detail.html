@@ -1,11 +1,12 @@
 <div id="detail">
     <header>
-        <h3>{{ author }} </h3>
-        <span id="time">{{ dateFormat date format="calendar" }}</span>
-        <h4>{{ to }}</h4>
+        <h2>{{ title }}</h2>
+        <div>
+            <h3>{{ author }} </h3> to <h4>{{ to }}</h4>
+            <span id="time">{{ dateFormat date format="calendar" }}</span>
+        </div>
     </header>
     <article>
-        <h2>{{ title }}</h2>
         <pre>{{ message }}</pre>
     </article>
 </div>

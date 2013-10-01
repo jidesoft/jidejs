@@ -103,6 +103,10 @@ require([
 		popup.show(listView, Window.width / 2, Window.height / 2);
 	}
 
+	function ucfirst(str) {
+		return str[0].toUpperCase() + str.substring(1);
+	}
+
 	var emails = new ObservableList();
 
 	function fetchMails(count, read, today) {
@@ -111,29 +115,26 @@ require([
 				? new Date()
 				: new Date(+(moment().subtract('days', ((count - i)/10)|0)));
 			emails.insertAt(0, {
-				title: Faker.Lorem.sentence(),
+				title: ucfirst(Faker.Lorem.words(3 + Faker.Helpers.randomNumber(2)).join(' ')),
 				author: Faker.Name.findName(),
 				from: Faker.Internet.email(),
 				to: 'demo@js.jidesoft.com',
 				message: Faker.Lorem.paragraphs(1+((Math.random()*5)|0)).replace(/^\t/gm, "\n"),
 				date: date,
-				read: Observable(read || false)
+				read: Observable(read || false),
+				tag: Faker.Helpers.randomize(['none', 'none', 'info', 'important'])
 			});
 		}
 	}
 
-	var filterUnread = function(mail) {
-		return !mail.read.get();
-	}, filterText = function(mail) {
+	var filterText = function(mail) {
 		return mail.title.indexOf(isFilterText) !== -1
 			|| mail.author.indexOf(isFilterText) !== -1
 			|| mail.from.indexOf(isFilterText) !== -1;
-	}, isFilterUnread = false, isFilterText = '';
+	}, isFilterText = '';
 	var filteredMails = emails.filter(function(mail) {
-		var isAccepted = true;
-		if(isFilterUnread) isAccepted = isAccepted && filterUnread(mail);
-		if(isFilterText) isAccepted = isAccepted && filterText(mail);
-		return isAccepted;
+		if(isFilterText) return filterText(mail);
+		return true;
 	});
 
 	//endregion
@@ -141,20 +142,23 @@ require([
 	fetchMails(98, true);
 	fetchMails(2, false, true);
 
-	setInterval(function() {
-		fetchMails(1+Faker.random.number(3), false, true);
-	}, 60000);
-
-	var listView, folderView, readFilterChoice, filterEditor,
+	var navigationView, listView, folderView, filterEditor, toolBar, listViewHeader,
 		mailTemplate = Handlebars.compile(rawMailTemplate),
 		itemTemplate = Handlebars.compile(rawItemTemplate),
-		folders = new ObservableList([
-			'Inbox',
-			'Sent',
-			'Trash',
-			'Deleted'
+		navigation = new ObservableList([
+			{name: 'Mail', icon: 'envelope'},
+			{name: 'Contact', icon: 'vcard'},
+			{name: 'Calendar', icon: 'calendar'},
+			{name: 'Documents', icon: 'file'},
+			{name: 'Task', icon: 'notes_2'},
+			{name: 'Settings', icon: 'cogwheel'}
 		]),
-		filterChoices = new ObservableList(['All', 'Unread']),
+		folders = new ObservableList([
+			{name:'Inbox', icon: 'inbox_in'},
+			{name:'Sent', icon: 'inbox_out'},
+			{name:'Drafts', icon: 'pencil'},
+			{name:'Trash', icon: 'bin'}
+		]),
 		emptyMail = {
 			title: 'Please select an email',
 			author: 'System',
@@ -162,73 +166,164 @@ require([
 			to: 'demo@js.jidesoft.com',
 			message: 'You should select an E-Mail.',
 			date: new Date(),
-			read: Observable(true)
+			read: Observable(true),
+			tag: 'none'
 		};
 
-		new HBox({
-			element: document.getElementById('approot'),
-			height: Window.heightProperty,
-			width: Window.widthProperty,
-			fillHeight: true,
-			spacing: 0,
-
-			children: [
-				new VBox({
-					element: document.createElement('section'),
-					classList: ['folders'],
-					spacing: 0,
-					fillWidth: true,
-					children: [
-						new Label({
-							element: document.createElement('header'),
-							classList: ['inverse'],
-							text: '<h1>jide.js</h1>'
+	new HBox({
+		element: document.getElementById('approot'),
+		height: Window.heightProperty,
+		width: Window.widthProperty,
+		fillHeight: true,
+		spacing: 0,
+		children: [
+			new VBox({
+				element: document.createElement('section'),
+				fillWidth: true,
+				spacing: '0px',
+				classList: ['navigation'],
+				children: [
+					new Button({
+						classList: ['glyphicons', 'refresh'],
+						text: '',
+						tooltip: new Tooltip({
+							content: new HTMLView({
+								content: 'Fetch new mails.'
+							})
 						}),
-						folderView = new ListView({
-							'VBox.grow': 'always',
-							classList: ['inverse'],
-							items: folders,
-							selectionModel: new SingleSelectionModel(folders, true),
-							converter: function(text) {
-								if(text === 'Inbox') {
-									var unreadCount = Observable.computed(function() {
-										var count = 0;
-										emails.forEach(function(mail) {
-											if(!mail.read.get()) count++;
-										});
-										return text+'<span class="count">'+count+'</span>';
-									});
-									emails.on('change', function() {
-										this.invalidate();
-									}).bind(unreadCount);
-									return unreadCount;
-								}
-								return text;
+						on: {
+							action: function() {
+								Dispatcher.invokeLater(function() {
+									fetchMails(1+Faker.random.number(3), false, true);
+								});
 							}
-						})
-					]
-				}),
-				new VBox({
-					fillWidth: true,
-					spacing: 0,
-					element: document.createElement('section'),
-					classList: ['inbox'],
-					children: [
-						new HBox({
-							element: document.createElement('header'),
-							spacing: 'auto 0',
-							children: [
-								readFilterChoice = new ChoiceBox({
-									items: filterChoices,
-									classList: ['transparent'],
-									selectionModel: new SingleSelectionModel(filterChoices, true)
+						}
+					}),
+					navigationView = new ListView({
+						'VBox.grow': 'always',
+						classList: ['inverse'],
+						items: navigation,
+						selectionModel: new SingleSelectionModel(navigation, true),
+						converter: function(item) {
+							return '<span class="glyphicons '+item.icon+'">'+item.name+'</span>';
+						}
+					})
+				]
+			}),
+			new VBox({
+				'HBox.grow': 'always',
+				spacing: 0,
+				fillWidth: true,
+				children: [
+					toolBar = new ToolBar({
+						classList: ['info'],
+						spacing: '0px',
+						children: [
+							new Button({
+								classList: ['glyphicons', 'pencil'],
+								text: 'Compose',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Compose a new mail and safe it as a draft.'
+									})
 								}),
-								new Separator({
-									'HBox.grow': 'always',
-									classList: ['is-spacer']
+								on: {
+									action: function() {
+										notImplemented();
+									}
+								}
+							}),
+							new Button({
+								classList: ['glyphicons', 'plus'],
+								text: 'New',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Send a new mail.'
+									})
 								}),
-								filterEditor = new TextField({
-									classList: ['hidden', 'filter-editor'],
+								on: {
+									action: function() {
+										notImplemented();
+									}
+								}
+							}),
+							new Button({
+								classList: ['glyphicons', 'unshare'],
+								text: 'Reply',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Reply to this mail.'
+									})
+								}),
+								on: {
+									action: function() {
+										notImplemented();
+									}
+								}
+							}),
+							new Button({
+								classList: ['glyphicons', 'message_forward'],
+								text: 'Reply all',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Reply to all recipients of this mail.'
+									})
+								}),
+								on: {
+									action: function() {
+										notImplemented();
+									}
+								}
+							}),
+							new Button({
+								classList: ['glyphicons', 'share'],
+								text: 'Forward',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Forward this mail.'
+									})
+								}),
+								on: {
+									action: function() {
+										notImplemented();
+									}
+								}
+							}),
+							new Button({
+								classList: ['glyphicons', 'bin'],
+								text: 'Delete',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Delete this mail.'
+									})
+								}),
+								on: {
+									action: function() {
+										emails.remove(listView.selectionModel.selectedItem);
+									}
+								}
+							}),
+							new Button({
+								classList: ['glyphicons', 'print'],
+								text: 'Print',
+								tooltip: new Tooltip({
+									content: new HTMLView({
+										content: 'Print this mail.'
+									})
+								}),
+								on: {
+									action: function() {
+										notImplemented();
+									}
+								}
+							}),
+							new Separator({
+								'HBox.grow': 'always',
+								classList: ['is-spacer']
+							}),
+							new Label({
+								classList: ['filter-editor'],
+								graphic: (filterEditor = new TextField({
 									text: '',
 									promptText: 'Search your emails',
 									on: {
@@ -236,15 +331,16 @@ require([
 											var filter = event.value;
 											isFilterText = filter;
 											var oldFilter = event.oldValue;
-											if(oldFilter.length < filter.length && filter.substring(0, oldFilter.length) === oldFilter) {
+											if(!oldFilter || oldFilter.length < filter.length && filter.substring(0, oldFilter.length) === oldFilter) {
 												Dispatcher.invokeLater(function() { filteredMails.constrainFilter(); });
-											} else if(filter.length < oldFilter.length && oldFilter.substring(0, filter.length) === filter) {
+											} else if(oldFilter && filter.length < oldFilter.length && oldFilter.substring(0, filter.length) === filter) {
 												Dispatcher.invokeLater(function() { filteredMails.relaxFilter(); });
-											} else if(!filter && !isFilterUnread) {
+											} else if(!filter) {
 												Dispatcher.invokeLater(function() { filteredMails.matchAll(); });
 											} else {
 												Dispatcher.invokeLater(function() { filteredMails.updateFilter(); });
 											}
+											event.stopPropagation();
 										},
 										'key': {
 											'Esc': function() {
@@ -253,152 +349,125 @@ require([
 											}
 										}
 									}
-								}),
-								new Button({
-									graphic: new Icon({name: 'search', classList: ['icon-2x']}),
-									classList: ['transparent'],
-									tooltip: new Tooltip({
-										content: new HTMLView({
-											content: 'Search your mails.'
-										})
-									}),
-									on: {
-										action: function() {
-											if(filterEditor.classList.contains('hidden')) {
-												filterEditor.classList.remove('hidden');
-											} else {
-												filterEditor.classList.add('hidden');
-											}
-											filterEditor.focus();
-										}
-									}
-								})
-							]
-						}),
-						listView = new ListView({
-							height: Observable.computed(function() {
-								return (Window.height - 60)+'px';
-							}),
-							'VBox.grow': 'always',
-							items: filteredMails,
-							classList: ['emails', 'has-border', 'is-striped'],
-							selectionModel: new SingleSelectionModel(filteredMails, true),
-							cellFactory: function(listView) {
-								var cell = new Cell();
-								cell.converterProperty.bind(this.converterProperty);
-								var updateItem = cell.updateItem;
-								cell.updateItem = function(item) {
-									updateItem.call(cell, item);
-									if(!item.read.get()) cell.classList.add('unread');
-									item.read.subscribe(function(event) {
-										cell.classList[event.value ? 'remove' : 'add']('unread');
-									});
-								};
-								return cell;
-							},
-							converter: function(email) {
-								return itemTemplate(email);
-							}
-						})
-					]
-				}),
-				new VBox({
-					'HBox.grow': 'always',
-					fillWidth: true,
-					spacing: 0,
-					element: document.createElement('section'),
-					classList: ['details'],
-					children: [
-						new HBox({
-							spacing: 'auto 0',
-							element: document.createElement('header'),
-							fillWidth: true,
-							classList: ['action-buttons'],
-							children: [
-								new Separator({
-									'HBox.grow': 'always',
-									classList: ['is-spacer']
-								}),
-								new Button({
-									classList: ['transparent'],
-									graphic: new Icon({ name: 'plus', classList: ['icon-2x'] }),
-									tooltip: new Tooltip({
-										content: new HTMLView({
-											content: 'Write a new mail.'
-										})
-									}),
-									on: {
-										action: function() {
-											notImplemented();
-										}
-									}
-								}),
-								new Button({
-									classList: ['transparent'],
-									graphic: new Icon({ name: 'reply', classList: ['icon-2x'] }),
-									tooltip: new Tooltip({
-										content: new HTMLView({
-											content: 'Reply to this mail.'
-										})
-									}),
-									on: {
-										action: function() {
-											notImplemented();
-										}
-									}
-								}),
-								new Button({
-									classList: ['transparent', 'danger'],
-									graphic: new Icon({ name: 'remove', classList: ['icon-2x'] }),
-									tooltip: new Tooltip({
-										classList: ['danger'],
-										content: new HTMLView({
-											content: 'Delete this mail.'
-										})
-									}),
-									on: {
-										action: function() {
-											emails.remove(listView.selectionModel.selectedItem);
-										}
-									}
-								})
-							]
-						}),
-						new HTMLView({
-							'VBox.grow': 'always',
-							height: Observable.computed(function() {
-								return (Window.height - 60)+'px';
-							}),
-							content: Observable.computed(function() {
-								return mailTemplate(listView.selectionModel.selectedItem || emptyMail);
+								}))
 							})
-						})
-					]
-				})
-			]
-		});
+						]
+					}),
+					new HBox({
+						'VBox.grow': 'always',
+						fillHeight: true,
+						spacing: '0px',
+						children: [
+							new VBox({
+								element: document.createElement('section'),
+								classList: ['folders'],
+								spacing: 0,
+								fillWidth: true,
+								children: [
+									new Label({
+										element: document.createElement('header'),
+										text: '<h1 class="glyphicons user">Patrick</h1>'
+									}),
+									folderView = new ListView({
+										'VBox.grow': 'always',
+										classList: ['has-border'],
+										items: folders,
+										selectionModel: new SingleSelectionModel(folders, true),
+										converter: function(folder) {
+											var text = folder.name, icon = folder.icon;
+											if(text === 'Inbox') {
+												var unreadCount = Observable.computed(function() {
+													var count = 0;
+													emails.forEach(function(mail) {
+														if(!mail.read.get()) count++;
+													});
+													return '<div class="glyphicons '+icon+'">'+text+'<span class="count">'+count+'</span></div>';
+												});
+												emails.on('change', function() {
+													this.invalidate();
+												}).bind(unreadCount);
+												return unreadCount;
+											}
+											return '<div class="glyphicons '+icon+'">'+text+'</div>';
+										}
+									})
+								]
+							}),
+							new VBox({
+								fillWidth: true,
+								spacing: 0,
+								element: document.createElement('section'),
+								classList: ['inbox'],
+								children: [
+									listViewHeader = new Label({
+										element: document.createElement('header'),
+										text: 'From',
+										classList: ['default']
+									}),
+									listView = new ListView({
+										height: Observable.computed(function() {
+											return (Window.height - 60)+'px';
+										}),
+										'VBox.grow': 'always',
+										items: filteredMails,
+										classList: ['emails', 'has-border'],
+										selectionModel: new SingleSelectionModel(filteredMails, true),
+										cellFactory: function(listView) {
+											var cell = new Cell();
+											cell.converterProperty.bind(this.converterProperty);
+											var updateItem = cell.updateItem;
+											cell.updateItem = function(item) {
+												updateItem.call(cell, item);
+												if(!item.read.get()) cell.classList.add('unread');
+												item.read.subscribe(function(event) {
+													cell.classList[event.value ? 'remove' : 'add']('unread');
+												});
+												cell.classList.add('tag-'+item.tag);
+											};
+											return cell;
+										},
+										converter: function(email) {
+											return itemTemplate(email);
+										}
+									})
+								]
+							}),
+							new VBox({
+								'HBox.grow': 'always',
+								fillWidth: true,
+								spacing: 0,
+								element: document.createElement('section'),
+								classList: ['details'],
+								children: [
+									new HTMLView({
+										'VBox.grow': 'always',
+										height: Observable.computed(function() {
+											return (Window.height - 60)+'px';
+										}),
+										content: Observable.computed(function() {
+											return mailTemplate(listView.selectionModel.selectedItem || emptyMail);
+										})
+									})
+								]
+							})
+						]
+					})
+				]
+			})
+		]
+	});
+	navigationView.selectionModel.selectFirst();
 	folderView.selectionModel.selectFirst();
-	readFilterChoice.selectionModel.selectFirst();
 
 	listView.selectionModel.selectedItemProperty.subscribe(function(event) {
 		Dispatcher.invokeLater(function() {
 			var mail = event.value;
-			if(isFilterUnread && event.oldValue && event.oldValue.read) filteredMails.constrainFilter();
 			if(mail && !mail.read.get()) Dispatcher.invokeLater(function() {
 				mail.read.set(true);
 			})
 		});
 	});
-	readFilterChoice.selectionModel.selectedItemProperty.subscribe(function(event) {
-		isFilterUnread = event.value === 'Unread';
-		if(event.value === 'Unread') {
-			filteredMails.constrainFilter();
-		} else {
-			if(!isFilterText) {
-				filteredMails.matchAll();
-			} else {
-				filteredMails.relaxFilter();
-			}
-		}
-	});
+	listView.heightProperty.bind(Observable.computed(function() {
+		return Window.height - toolBar.measure().height - listViewHeader.measure().height;
+	}))
 });

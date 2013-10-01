@@ -12,6 +12,7 @@ define('jidejs/ui/Component', [
 	//region Utilities
 	function setBackground(event) {
 		this.style.set('background', event.value).update();
+		event.stopPropagation();
 		return event.value;
 	}
 
@@ -22,6 +23,7 @@ define('jidejs/ui/Component', [
 			.set('width', bounds.width+'px')
 			.set('height', bounds.height+'px')
 			.update();
+		event.stopPropagation();
 		return bounds;
 	}
 
@@ -31,18 +33,21 @@ define('jidejs/ui/Component', [
 		if(value !== '0px 0px 0px 0px') {
 			this.style.set('margin', value).update();
 		}
+		event.stopPropagation();
 		return margin;
 	}
 
 	function setBorder(event) {
 		var border = event.value;
 		this.style.set('border', border);
+		event.stopPropagation();
 		return border;
 	}
 
 	function setId(event) {
 		var id = event.value;
 		this.element.id = id;
+		event.stopPropagation();
 		return id;
 	}
 
@@ -74,10 +79,12 @@ define('jidejs/ui/Component', [
 		this.widthProperty.subscribe(function(event) {
 			var width = event.value;
 			this.style.set('width', _.isNumber(width) ? width+'px' : width).update();
+			event.stopPropagation();
 		}, this);
 		this.heightProperty.subscribe(function(event) {
 			var height = event.value;
 			this.style.set('height', _.isNumber(height) ? height+'px' : height).update();
+			event.stopPropagation();
 		}, this);
 		this.idProperty.subscribe(setId.bind(this));
 		this.backgroundProperty.subscribe(setBackground.bind(this));
