@@ -21,6 +21,37 @@ define([
 		this.__selectedIndices = new ObservableList();
 		this.__selectedItems = new ObservableList();
 		SelectionModel.call(this, list);
+		var THIS = this;
+		this._listChangedHandler = list.on('change', function(event) {
+			var changes = event.enumerator(),
+				selectedIndex = THIS.selectedIndex,
+				// we really shouldn't have to use _data but ListView needs
+				// to be improved first.
+				selectedIndices = THIS.__selectedIndices._data;
+			while(changes.moveNext()) {
+				var change = changes.current;
+				if(change.isInsert && change.index <= selectedIndex) {
+					selectedIndex++;
+					for(var i = 0, len = selectedIndices.length; i < len; i++) {
+						if(change.index <= selectedIndices[i]) {
+							selectedIndices[i]++;
+						}
+					}
+				} else if(change.isDelete && change.index < selectedIndex) {
+					selectedIndex--;
+					for(var i = 0, len = selectedIndices.length; i < len; i++) {
+						if(change.index < selectedIndices[i]) {
+							selectedIndices[i]--;
+						}
+					}
+				}
+			}
+			if(THIS.selectedIndex !== selectedIndex) {
+				// The below line is a temporary fix that is required because of how
+				// the SelectionModel works with the ListView.
+				THIS.selectedIndexProperty._value = selectedIndex;
+			}
+		});
 	}
 	Class(MultipleSelectionModel).extends(SelectionModel).def({
 		/**

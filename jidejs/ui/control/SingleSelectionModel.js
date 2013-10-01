@@ -17,6 +17,24 @@ define(['jidejs/base/Class', 'jidejs/ui/control/SelectionModel', 'jidejs/base/Ut
 		if(requireSelectedItem && list.length > 0) {
 			this.select(0);
 		}
+		var THIS = this;
+		this._listChangedHandler = list.on('change', function(event) {
+			var changes = event.enumerator(),
+				selectedIndex = THIS.selectedIndex;
+			while(changes.moveNext()) {
+				var change = changes.current;
+				if(change.isInsert && change.index <= selectedIndex) {
+					selectedIndex++;
+				} else if(change.isDelete && change.index < selectedIndex) {
+					selectedIndex--;
+				}
+			}
+			if(THIS.selectedIndex !== selectedIndex) {
+				// The below line is a temporary fix that is required because of how
+				// the SelectionModel works with the ListView.
+				THIS.selectedIndexProperty._value = selectedIndex;
+			}
+		});
 	}
 	Class(SingleSelectionModel).extends(SelectionModel).def({
 		/**
