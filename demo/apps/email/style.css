@@ -4849,6 +4849,7 @@ body {
 .folders .jide-listview.has-border > li > .jide-cell .glyphicons:before {
   font-size: 16px;
   line-height: 20px;
+  padding-right: 5px;
 }
 .folders .jide-listview.has-border > li:last-child > .jide-cell {
   border-bottom-width: 1px;
