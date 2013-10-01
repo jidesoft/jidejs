@@ -197,4 +197,31 @@ module.exports = function(grunt) {
 		app.listen(3000).on('close', done);
 		console.log('Server started at port '+3000);
 	});
+
+	grunt.registerTask('run', [], function() {
+		var done = this.async();
+		var express = require('express')
+			, http = require('http')
+			, path = require('path')
+			, lessMiddleware = require('less-middleware');
+
+		var app = express();
+		app.use(express.favicon());
+		app.use(express.logger('dev'));
+		app.use(express.compress());
+		app.use('/demo', lessMiddleware({
+			src: __dirname + '/demo',
+			compress: false
+		}));
+		app.use('/jidejs', lessMiddleware({
+			src: __dirname + '/style',
+			compress: false
+		}));
+		app.use('/jidejs', express.static(__dirname+'/jidejs'));
+		app.use('/jidejs', express.static(__dirname+'/style'));
+		app.use('/demo', express.static(__dirname+'/demo'));
+		app.use('/components', express.static(__dirname+'/components'));
+		app.listen(3000).on('close', done);
+		console.log('Server started at port '+3000);
+	});
 };

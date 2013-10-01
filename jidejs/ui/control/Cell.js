@@ -236,11 +236,13 @@ define([
 				cell.classList.add('jide-state-selected');
 			}
 			return Labeled.Skin.prototype.installBindings.call(this).concat(
-				cell.converterProperty.subscribe(function() {
+				cell.converterProperty.subscribe(function(event) {
 					cell.item && cell.updateItem(cell.item);
+					event.stopPropagation();
 				}),
 				cell.itemProperty.subscribe(function(event) {
 					cell.updateItem(event.value);
+					event.stopPropagation();
 				}),
 				cell.selectedProperty.subscribe(function(event) {
 					if(event.value) {
@@ -248,6 +250,7 @@ define([
 					} else {
 						cell.classList.remove('jide-state-selected');
 					}
+					event.stopPropagation();
 				})
 			);
 		}

@@ -1,4 +1,18 @@
 @import "../../../style/default";
+@import "../less/glyphicons";
+@wet-asphalt: #2D3041;
+@peter-river: #4690D1;
+@wisteria: #3374AA;
+@clouds: #EDF2F8;
+@silver: #E1E5EE;
+@concrete: #A5A8AD;
+@inverse: #E8E9EC;
+
+@font-family-base: 'Source Sans Pro', Muli, 'Lato', Helvetica, Arial, sans-serif;
+
+.jide-component, html, body {
+  font-family: @font-family-base;
+}
 
 html, body {
   margin: 0;
@@ -7,13 +21,84 @@ html, body {
   height: 100%;
 }
 
+.glyphicons, .glyphicons:before {
+  color: inherit;
+  padding-left: 0;
+  position: initial;
+}
+
+.jide-button.glyphicons {
+  #padding > .large;
+}
+
+.navigation .jide-listview {
+  .list-cell(@wet-asphalt, @wet-asphalt,
+    mix(@wet-asphalt, white, 80%), mix(@wet-asphalt, black, 85%),
+    #7B7E8F, #E8E9EC);
+
+  li {
+    padding: @unit;
+  }
+
+  .jide-cell {
+    .border-radius(@border-radius-large);
+    padding: 10px;
+    .glyphicons, .glyphicons:before {
+      color: #7B7E8F;
+      display: block;
+      position: static;
+      padding-left: 0;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    &.jide-state-selected {
+      .glyphicons, .glyphicons:before {
+        color: #E8E9EC;
+      }
+    }
+  }
+}
+
 .folders {
   width: 150px;
+  background: @clouds;
+
+  header {
+    background: #FFF;
+  }
+
+  .jide-listview {
+    .list-cell(@clouds, @clouds,
+      mix(@clouds, white, 80%), mix(@clouds, black, 85%),
+      #7B7E8F, @wet-asphalt);
+
+    &.has-border > li {
+      & > .jide-cell {
+        border-bottom: 1px solid @concrete;
+        padding: @padding-medium;
+
+        .glyphicons {
+          display: block;
+        }
+
+        .glyphicons:before {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+
+      &:last-child > .jide-cell {
+        border-bottom-width: 1px;
+      }
+    }
+  }
 
   .count {
     float: right;
-    #background > #solid > .info();
-    .border-radius(@border-radius-base);
+    background: #93A4B4;
+    color: #FFF;
+    .border-radius(@border-radius-large);
     padding: 0 (@unit * 2);
   }
 }
@@ -28,31 +113,87 @@ html, body {
 
 .folders, .inbox, .details {
   & > header {
-    height: (@unit * 12); // 60px
+    color: @wet-asphalt;
+    font-weight: bold;
+    border-bottom: 1px solid @concrete;
   }
 }
 
-.filter-editor {
-  .transition(opacity 1s);
-  opacity: 1;
-
-  &.hidden {
-    .transition(opacity 1s);
-    visibility: hidden;
-    opacity: 0;
-  }
+.folders, .inbox {
+  border-right: 1px solid @concrete;
 }
 
-.jide-button.transparent, .jide-choicebox.transparent {
-  .swap-button-color(transparent, transparent, transparent, @midnight-blue);
-  &:hover {
-    color: @wisteria;
-  }
-
-  &.danger {
-    .swap-button-color(transparent, transparent, transparent, @midnight-blue);
+.navigation {
+  .jide-button {
+    .border-radius(0);
+    .swap-button-color(#3273A9, mix(#3273A9, white, 90%), mix(#3273A9, black, 85%), #C8D9E9);
     &:hover {
-      color: @pomegranate;
+      color: #FFF;
+    }
+  }
+}
+
+.navigation, .jide-toolbar {
+  .jide-button.glyphicons:before {
+    font-size: 16px;
+    line-height: 20px;
+    padding: 0 5px 2px 0;
+  }
+}
+
+.jide-toolbar {
+  padding: 0px;
+
+  .filter-editor {
+    margin: auto (@unit * 2);
+    height: 30px;
+    padding: 0;
+    color: @wet-asphalt;
+    background: #FFF;
+    border: 1px solid @lightgray;
+    .border-radius((@input-border-radius*4));
+    &:hover, &:focus {
+      outline: 0;
+      border-color: @wet-asphalt;
+    }
+
+    &:active, &.armed {
+      border-color: @wet-asphalt;
+    }
+
+    .jide-labeled-graphic {
+      vertical-align: initial;
+    }
+
+    .jide-textfield {
+      .placeholder-color(@concrete);
+      padding: @unit (@unit * 2);
+      background: transparent;
+      border: 0 none;
+      outline: none;
+      &.jide-state-disabled, [disabled] {
+        background: transparent;
+      }
+    }
+
+    &:after {
+      font: 16px/20px 'Glyphicons Regular';
+      font-style: normal;
+      font-weight: normal;
+      content: "\E028";
+      margin: auto (@unit * 2) auto 0;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .jide-button {
+    font-size: 16px;
+    .border-radius(0);
+    .swap-button-color(@info, mix(@info, white, 80%), mix(@info, black, 85%), #C7D8EA);
+    border-right: 1px solid #C7D8EA;
+    &:hover {
+      color: #FFF;
     }
   }
 }
@@ -62,26 +203,51 @@ html, body {
 }
 
 h1 {
-  font-size: (@font-size-base * 2);
-  line-height: (@unit * 10);
+  font-size: 24px;
   margin: auto 0;
+
+  &.glyphicons:before {
+    font-size: 48px;
+  }
 }
 
 .inbox {
+  .jide-listview {
+    .list-cell(#FFF, #FFF,
+      mix(@clouds, white, 80%), mix(@clouds, black, 85%),
+      @wet-asphalt, @wet-asphalt);
+
+    &.has-border > li {
+      & > .jide-cell {
+        border-bottom: 1px solid @concrete;
+      }
+    }
+  }
+
   .jide-cell {
-    padding-left: (@unit * 8);
+    border-left: @unit solid transparent;
+
+    &.tag-info {
+      border-left-color: #4790D4;
+    }
+
+    &.tag-important {
+      border-left-color: #F17B6F;
+    }
+
     .email {
+      opacity: 0.7;
       span {
         float: right;
       }
 
       h3 {
-        width: 300px;
+        width: 260px;
+        float: left;
       }
 
       h4 {
-        width: 260px;
-        float: left;
+        clear: both;
       }
 
       h3, h4 {
@@ -94,8 +260,9 @@ h1 {
     }
 
     &.unread .email {
+      opacity: 1;
       h3, h4 {
-        font-weight: bold;
+        color: @wet-asphalt;
       }
     }
   }
@@ -105,24 +272,35 @@ h1 {
   padding: 0 @padding-large;
 }
 
+h1, h2 {
+  color: #586578;
+  font-weight: 300;
+}
+
 #detail {
   h2 {
-    color: @text-color;
+    font-size: 36px;
+    margin: (@unit * 4) 0;
+  }
+
+  header > div {
+    clear: both;
+    color: @concrete;
   }
 
   h3, h4 {
     margin: 0;
     padding: 0;
     font-weight: normal;
+    display: inline-block;
+    font-size: @font-size-base;
+    color: @wet-asphalt;
   }
 
   h3 {
-    float: left;
-    font-size: 18px;
-  }
-
-  h4 {
-    clear: both;
+    #padding > .medium;
+    background: @silver;
+    .border-radius((@border-radius-large * 4));
   }
 
   #time {
@@ -131,7 +309,7 @@ h1 {
 
   pre {
     font-size: @font-size-base;
-    line-height: @line-height-base;
+    line-height: 18px;
     font-family: @font-family-base;
   }
 }
