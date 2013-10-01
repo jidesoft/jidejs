@@ -441,12 +441,17 @@ require([
 								children: [
 									new HTMLView({
 										'VBox.grow': 'always',
-										height: Observable.computed(function() {
-											return (Window.height - 60)+'px';
-										}),
 										content: Observable.computed(function() {
 											return mailTemplate(listView.selectionModel.selectedItem || emptyMail);
 										})
+									}),
+									new Hyperlink({
+										href: 'http://dribbble.com/shots/928321-Email-client',
+										text: 'Original Design by Jakub Antalik',
+										classList: ['default'],
+										style: {
+											'text-align': 'right'
+										}
 									})
 								]
 							})
