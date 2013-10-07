@@ -4849,6 +4849,7 @@ body {
 .folders .jide-listview.has-border > li > .jide-cell .glyphicons:before {
   font-size: 16px;
   line-height: 20px;
+  padding-right: 5px;
 }
 .folders .jide-listview.has-border > li:last-child > .jide-cell {
   border-bottom-width: 1px;
@@ -5068,6 +5069,7 @@ h1.glyphicons:before {
 .inbox .jide-cell.unread .email h3,
 .inbox .jide-cell.unread .email h4 {
   color: #2d3041;
+  font-weight: bold;
 }
 .details > div {
   padding: 0 20px;
