@@ -5069,6 +5069,7 @@ h1.glyphicons:before {
 .inbox .jide-cell.unread .email h3,
 .inbox .jide-cell.unread .email h4 {
   color: #2d3041;
+  font-weight: bold;
 }
 .details > div {
   padding: 0 20px;
