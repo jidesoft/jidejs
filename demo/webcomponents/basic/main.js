@@ -100,6 +100,9 @@ define('jidejs/register', ['jidejs/base/Dispatcher'], function(Dispatcher) {
 					if(child.tagName === 'JIDE-PROP') {
 						config[child.propertyName] = child.propertyValue;
 						this.removeChild(child);
+					} else if(child.hasAttribute('data-property')) {
+						config[child.getAttribute('data-property')] = child;
+						this.removeChild(child);
 					} else {
 						children[children.length] = child;
 					}
@@ -112,6 +115,9 @@ define('jidejs/register', ['jidejs/base/Dispatcher'], function(Dispatcher) {
 					if(child.tagName === 'JIDE-PROP') {
 						config[child.propertyName] = child.propertyValue;
 						this.removeChild(child);
+					} else if(child.hasAttribute('data-property')) {
+						config[child.getAttribute('data-property')] = child;
+						this.removeChild(child);
 					} else {
 						frag.appendChild(child);
 					}
@@ -122,6 +128,9 @@ define('jidejs/register', ['jidejs/base/Dispatcher'], function(Dispatcher) {
 					var child = this.children[i];
 					if(child.tagName === 'JIDE-PROP') {
 						config[child.propertyName] = child.propertyValue;
+					} else if(child.hasAttribute('data-property')) {
+						config[child.getAttribute('data-property')] = child;
+						this.removeChild(child);
 					}
 				}
 				this.innerHTML = '';
