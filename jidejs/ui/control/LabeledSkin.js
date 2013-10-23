@@ -21,13 +21,7 @@ define(['jidejs/base/Class', 'jidejs/ui/Skin'], function(Class, Skin) {
 
 
 	function LabeledSkin(label, el) {
-		var doc = document;
-		this.element = el || doc.createElement("span");
-		var node = template.cloneNode(true); // clone the template
-		this.graphic = node.childNodes[0];
-		this.text = node.childNodes[1];
-		this.element.appendChild(node);
-		Skin.call(this, label);
+		Skin.call(this, label, el);
 	}
 
 	function setContentDisplay(contentDisplay, style, value) {
@@ -41,6 +35,18 @@ define(['jidejs/base/Class', 'jidejs/ui/Skin'], function(Class, Skin) {
 	}
 
 	Class(LabeledSkin).extends(Skin).def({
+		graphic: null,
+		text: null,
+
+		defaultElement: 'span',
+
+		updateRootElement: function() {
+			var node = template.cloneNode(true); // clone the template
+			this.graphic = node.childNodes[0];
+			this.text = node.childNodes[1];
+			this.element.appendChild(node);
+		},
+
 		install: function() {
 			Skin.prototype.install.call(this);
 			var component = this.component;

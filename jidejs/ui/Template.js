@@ -2,70 +2,73 @@
 /// @internal
 /// This file is not intended as a public API and should not be used outside of jide.js yet.
 define('jidejs/ui/Template', [
-	'jidejs/base/Class',
-	'jidejs/ui/bind'
-], function(Class, bind) {
+	'jidejs/base/has',
+	'jidejs/base/Util'
+], function(has, _) {
 	"use strict";
 
-	function Template(frag) {
-		this.content = frag;
+	var cache = {};
+
+	function transformStringToElement(templateContent) {
+		var div = document.createElement('div');
+		div.innerHTML = templateContent;
+		var template = div.firstElementChild;
+		return template;
 	}
-	Class(Template).def({
-		clone: function() {
-			var element = this.content.cloneNode(true);
-			var result = {
-				element: element,
-				slots: {},
 
-				render: function(data, context) {
-					if(data) {
-						bind.to(this.element, data, context); // memory leak: no way to dispose memory
-					}
-					return this.element;
-				}
-			};
-			for(var slots = element.querySelectorAll('[data-slot]'), i = 0, len = slots.length; i < len; i++) {
-				var el = slots[i],
-					slotName = el.getAttribute('data-slot');
-				if(slotName) {
-					result.slots[slotName] = el;
-				}
+	function addPseudoClass(template) {
+		var pseudos = template.content.querySelectorAll('[pseudo]');
+		for(var i = 0, len = pseudos.length; i < len; i++) {
+			var pseudo = pseudos[i],
+				pseudoId = pseudo.getAttribute('pseudo');
+			if(has('classList')) {
+				pseudo.classList.add(pseudoId);
+			} else {
+				pseudo.className += ' '+pseudoId;
 			}
-
-			return result;
 		}
-	});
+	}
 
-	return {
-		fromString: function(content) {
-			var div = document.createElement('div');
-			div.innerHTML = content;
-			var frag = document.createDocumentFragment();
-			for(var current = div.firstElementChild; current; current = current.nextElementSibling) {
-				frag.appendChild(current);
-			}
-			return new Template(frag);
-		},
-
-		fromElement: function(element) {
-			if('content' in element) { // support HTML5 template tag
-				return new Template(element.content);
-			}
-			var frag = document.createDocumentFragment();
-			frag.appendChild(element);
-			return new Template(frag);
-		},
-
-		fromId: function(id) {
-			var element = document.getElementById(id);
-			if(element) return this.fromElement(element);
-			return null;
-		},
-
-		select: function(selector) {
-			var element = document.querySelector(selector);
-			if(element) return this.fromElement(element);
-			return null;
+	function removeContentFromDOM(e) {
+		var frag = document.createDocumentFragment();
+		while(e.hasChildNodes()) {
+			frag.appendChild(e.firstChild);
 		}
-	};
+		e.content = frag;
+	}
+
+	function rewriteTemplateElements(template) {
+		if(!template.content) removeContentFromDOM(template);
+		if(!has('shadowDOM')) addPseudoClass(template);
+		var templates = template.content.querySelectorAll('template');
+		for(var i = 0, len = templates.length; i < len; i++) {
+			var e = templates[i];
+			if(!e.content) removeContentFromDOM(e);
+			if(!has('shadowDOM')) {
+				addPseudoClass(e);
+			}
+		}
+		return template;
+	}
+
+	function template(template) {
+		if(_.isString(template)) {
+			if(cache[template]) {
+				return cache[template];
+			}
+			template = (cache[template] = transformStringToElement(template));
+		}
+		if(!has('templateElement') || !has('shadowDOM')) {
+			rewriteTemplateElements(template);
+		}
+//		if(!has('templateElement')) {
+//			rewriteTemplateElements(template);
+//		}
+//		if(!has('shadowDOM')) {
+//			addPseudoClass(template);
+//		}
+		return template;
+	}
+
+	return template;
 });

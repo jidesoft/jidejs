@@ -1,0 +1,13 @@
+<template>
+    <ul pseudo="x-tab-container" data-bind="foreach: component.children">
+        <template>
+            <li pseudo="x-tab" data-bind="
+                content: title,
+                css: { 'is-selected': $item === $parent.component.selectedItem },
+                on: { click: $parent.setSelectedItem }
+            "></li>
+        </template>
+    </ul>
+    <article pseudo="x-tab-content" data-bind="content: component.selectedItem.content">
+    </article>
+</template>

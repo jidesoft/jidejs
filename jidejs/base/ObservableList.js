@@ -28,7 +28,7 @@ define('jidejs/base/ObservableList', [
 		this._data = data || [];
 	}
 
-	Class(ObservableList).extends(Collection).mixin(Observable).def({
+	Class(ObservableList).extends(Collection).def({
 		/**
 		 * Releases all resources held by this instance and frees them for garbage collection.
 		 */
@@ -69,6 +69,10 @@ define('jidejs/base/ObservableList', [
 			data.splice.apply(data, arguments);
 
 			publisher.commitChange();
+		},
+
+		push: function(item) {
+			this.add.apply(this, arguments);
 		},
 
 		/**

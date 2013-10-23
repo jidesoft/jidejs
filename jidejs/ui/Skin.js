@@ -7,14 +7,32 @@
  * @module jidejs/ui/Skin
  */
 define('jidejs/ui/Skin', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM'
-], function(Class, _, Window, DOM) {
+	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM', 'jidejs/base/has',
+	'jidejs/ui/Template', 'jidejs/ui/bind'
+], function(Class, _, Window, DOM, has, Template, bind) {
 	var $bindings = 'jidejs/ui/Skin.bindings',
 		tooltipHandler = 'jidejs/ui/Skin.tooltipHandler',
 		contextMenuHandler = 'jidejs/ui/Skin.contextMenuHandler',
 		TOOLTIP_SPACE = 10,
 		BINDINGS = '$jidejs/ui/Skin.create#bindings',
-		EVENT_BINDINGS = '$jidejs/ui/Skin.create#eventBindings';
+		EVENT_BINDINGS = '$jidejs/ui/Skin.create#eventBindings',
+		refPseudos = function(skin, template) {
+			// parse template
+			// 1: Get all pseudos and create a link to the skin
+			var pseudos = template.querySelectorAll('[pseudo]');
+			for(var i = 0, len = pseudos.length; i < len; i++) {
+				var pseudo = pseudos[i],
+					pseudoId = pseudo.getAttribute('pseudo');
+				skin[pseudoId] = pseudo;
+//				if(pseudo.hasChildNodes()) {
+//					// does it have a template child?
+//					var pseudoTemplate = pseudo.querySelector('template');
+//					if(pseudoTemplate) {
+//						skin.templates[pseudoId] = pseudoTemplate;
+//					}
+//				}
+			}
+		};
 	/**
 	 * Creates a new Skin for the given {@link module:jidejs/ui/Control}.
 	 *
@@ -33,9 +51,24 @@ define('jidejs/ui/Skin', [
 	function Skin(component, element) {
 		this.component = component;
 		this.element = element || this.createDefaultRootElement();
-		this[$bindings] = null;
+		this[$bindings] = [];
 		this[BINDINGS] = null;
 		this[EVENT_BINDINGS] = null;
+	}
+
+	function createEventListenerDisposable(element, eventNames, handlers) {
+		return {
+			dispose: function() {
+				if(!element || !eventNames || !handlers) return;
+				for(var i = 0, len = eventNames.length; i < len; i++) {
+					var eventName = eventNames[i];
+					element.removeListener(eventName, handlers[eventName], false);
+				}
+				element = null;
+				eventNames = null;
+				handlers = null;
+			}
+		};
 	}
 
 	Class(Skin).def({
@@ -66,7 +99,44 @@ define('jidejs/ui/Skin', [
 		 *
 		 * @protected
 		 */
-		updateRootElement: function() {},
+		updateRootElement: function() {
+			if(this.template) {
+				var template = Template(this.component.template || this.template).content.cloneNode(true);
+				refPseudos(this, template);
+				this.managed(bind.to(template, this));
+				if(has('shadowDOM')) {
+					this.element.createShadowRoot().appendChild(template);
+				} else {
+					this.element.appendChild(template);
+				}
+			}
+		},
+
+		on: function(pseudoName, handlers) {
+			if(arguments.length === 1) {
+				this.managed(this.component.on(pseudoName));
+			} else {
+				if(this[pseudoName]) {
+					var eventNames = Object.getOwnPropertyNames(handlers),
+						element = this[pseudoName];
+					if(element.on) {
+						this.managed(element.on(handlers));
+						return;
+					}
+					for(var i = 0, len = eventNames.length; i < len; i++) {
+						var eventName = eventNames[i];
+						element.addEventListener(eventName, handlers[eventName], false);
+					}
+					this.managed(createEventListenerDisposable(element, eventNames, handlers));
+				}
+			}
+		},
+
+		managed: function(disposable) {
+			for(var i = 0, len = arguments.length; i < len; i++) {
+				this[$bindings].push(arguments[i]);
+			}
+		},
 
 		/**
 		 * Releases all resources hold by by this Skin. Must be invoked when the Skin is no longer used.
@@ -136,7 +206,7 @@ define('jidejs/ui/Skin', [
 				];
 			}
 
-			this[$bindings] = [
+			this.managed(
 				c.tooltipProperty.subscribe(function(event) {
 					if(event.value) {
 						if(!THIS[tooltipHandler]) {
@@ -169,7 +239,7 @@ define('jidejs/ui/Skin', [
 						delete THIS[contextMenuHandler];
 					}
 				})
-			];
+			);
 			this[BINDINGS] = this.installBindings();
 			this[EVENT_BINDINGS] = this.installListeners();
 		},

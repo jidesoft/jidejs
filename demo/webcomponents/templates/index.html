@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="/jidejs/default.css">
+    <style>
+        .jide-tabpane {
+            border: 1px solid #808080;
+        }
+
+        .jide-tabpane::x-tab-container, .jide-tabpane .x-tab-container {
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid #808080;
+        }
+
+        .jide-tabpane::x-tab, .jide-tabpane .x-tab {
+            display: inline-block;
+            background: lightgray;
+        }
+
+        .jide-tabpane::x-tab.is-selected, .jide-tabpane .x-tab.is-selected {
+            background: cadetblue;
+        }
+    </style>
+    <!--<script src="WebComponents.js"></script>-->
+    <!--<script src="../components/polymer/polymer.min.js"></script>-->
+    <script src="/components/requirejs/require.js" data-main="main.js" async="async"></script>
+    <div id="somebutton">
+        <span data-property="graphic">Funny button</span>
+        <span data-property="text">My very cool button</span>
+    </div>
+</head>
+<body>
+</body>
+</html>

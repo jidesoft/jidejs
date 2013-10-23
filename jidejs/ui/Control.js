@@ -25,6 +25,46 @@ define('jidejs/ui/Control', [
 		skin.install();
 	}
 
+	function parseChildren(component, element, config) {
+		for(var i = 0, attribs = element.attributes, len = attribs.length; i < len; i++) {
+			var attribute = attribs[i];
+			config[attribute.nodeName] = attribute.nodeValue;
+		}
+		// copy children to a save place
+		if(typeof component.children !== 'undefined') {
+			var children = [];
+			copyChildren(element, config, function(child) {
+				children[children.length] = child;
+			});
+			config.children = children;
+		} else if(typeof component.contentProperty !== 'undefined') {
+			var frag = document.createDocumentFragment();
+			copyChildren(element, config, function(child) {
+				frag.appendChild(child);
+			});
+			config.content = frag;
+		} else {
+			copyChildren(element, config, function(child) {
+				element.removeChild(child);
+			});
+		}
+	}
+
+	function copyChildren(element, config, fallbackHandler) {
+		while(element.firstElementChild) {
+			var child = element.firstElementChild;
+			if(child.tagName === 'JIDE-PROP') {
+				config[child.propertyName] = child.propertyValue;
+				element.removeChild(child);
+			} else if(child.hasAttribute('data-property')) {
+				config[child.getAttribute('data-property')] = child;
+				element.removeChild(child);
+			} else {
+				fallbackHandler(child);
+			}
+		}
+	}
+
 	/**
 	 * Creates a new Control and configures it with the provided `config` object.
 	 *
@@ -39,7 +79,8 @@ define('jidejs/ui/Control', [
 	 */
 	function Control(config) {
 		installer(this);
-		var skin = config.skin;
+		if(config.element) parseChildren(this, config.element, config);
+		var skin = config.skin || (new (this.constructor.Skin)(this, config.element));
 		delete config.skin;
 		this.element = skin.element;
 		Component.call(this, skin.element);
@@ -97,19 +138,34 @@ define('jidejs/ui/Control', [
 	var installer = Observable.install(Control, 'skin', 'tooltip', 'contextmenu');
 
 	Control.create = function(name, Parent, properties, def) {
+		var mixins;
+		if(arguments.length === 1) {
+			def = name;
+			name = def['@name'];
+			Parent = def['@extends'];
+			properties = def['@properties'];
+			mixins = def['@mixin'];
+			delete def['@extends'];
+			delete def['@properties'];
+			delete def['@name'];
+			delete def['@mixin'];
+		}
 		Parent || (Parent = Control);
 		properties || (properties = []);
 		def || (def = {});
+		var init = def['@init'];
+		delete def['@init'];
 		var constructor = (def.hasOwnProperty('constructor') && def.constructor) || function(config) {
 			installer(this);
 			config = config || {};
 			if(!config.skin) {
 				config.skin  = new (constructor.Skin)(this, config.element);
 			}
+			if(typeof init !== 'undefined') init.call(this, config);
 			Parent.call(this, config);
 		};
 		delete def.constructor;
-		// TODO: only add display name when not create a full build
+		// TODO: only add display name when not creating a full build
 		constructor.displayName = name;
 		constructor.name = name;
 

@@ -24,6 +24,7 @@ define('jidejs/ui/bind', [
 								controlsChildren = bind.handlers[name].init(element, context) || controlsChildren;
 							}
 							bind.handlers[name].update(element, value, oldValue, context);
+							oldValues[name] = value;
 						} else {
 							console.log('Trying to use undefined binding handler '+name+' on element', element);
 						}
@@ -62,43 +63,63 @@ define('jidejs/ui/bind', [
 	function getBindingProvider(element) {
 		if(hasBindingProvider(element)) {
 			var bindAttribute = preprocessLiteral(literalParse(element.getAttribute(bind.attributeName)));
-			var functionBody = 'with($context) { with($context.$data) { return { '+ bindAttribute+' }; } }';
+			var functionBody = 'with($context) { with($context.$item) { return { '+ bindAttribute+' }; } }';
 			return bindingCache[functionBody] || (bindingCache[functionBody] = Function('$context', '$element', functionBody));
 		}
 	}
 
-	bind.context = {
+	var createRandomShadowContentClass = (function() {
+		var counter = 0;
+		return function() {
+			return 'jide-shadow-content-'+(counter++);
+		};
+	}());
+
+	var defaultContext = {
 		$parent: null,
-		$data: {},
+		$item: {},
 		$root: null
 	};
-	bind.context.$root = bind.context;
+	defaultContext.$root = defaultContext;
 
 	function pushContext(parentContext, data) {
-		parentContext || (parentContext = bind.context);
-		var context = Object.create(parentContext);
+		parentContext || (parentContext = defaultContext);
+		var context = Object.create(data);
 		context.$parentContext = parentContext;
-		context.$parent = parentContext.$data;
-		context.$data = data;
+		context.$parent = parentContext.$item;
+		context.$item = data;
+		context.$root = parentContext.$root;
 		return context;
 	}
 
-	bind.to = function(element, data, parentContext) {
-		var context;
-
-		if(hasBindingProvider(element)) {
-			context = pushContext(parentContext, data);
-			var provider = getBindingProvider(element);
-			var result = bind(element, provider(context, data), context); // memory leak: no way to dispose memory
-			if(result.controlsChildren) return;
-		}
-		// traverse tree
-		for(var children = element.childNodes, i = 0, len = children.length; i < len; i++) {
-			var child = children[i];
-			if(child.nodeType === 1) {
-				bind.to(child, data, context || parentContext);
+	function createDisposable(disposables) {
+		return {
+			dispose: function() {
+				for(var i = 0, len = disposables.length; i < len; i++) {
+					var disposable = disposables[i];
+					if(disposable) disposable.dispose();
+				}
 			}
+		};
+	}
+
+	bind.context = function(element) {
+		while(element && !DOM.hasData(element)) element = element.parentNode;
+		return DOM.getData(element).$bindContext;
+	};
+
+	bind.to = function(element, data, parentContext) {
+		var context = pushContext(parentContext, data),
+			boundElements = element.querySelectorAll('[data-bind]'),
+			disposables = [];
+		DOM.getData(element).$bindContext = context;
+
+		for(var i = 0, len = boundElements.length; i < len; i++) {
+			var boundElement = boundElements[i],
+				provider = getBindingProvider(boundElement);
+			disposables[disposables.length] = bind(boundElement, provider(context, boundElement), context);
 		}
+		return createDisposable(disposables);
 	};
 
 	bind.handlers = {
@@ -152,7 +173,80 @@ define('jidejs/ui/bind', [
 		},
 
 		content: {
+			init: function(element, context) {
+				if(element.createShadowRoot) {
+					var contentClass = getBindData(element).contentClass = createRandomShadowContentClass();
+					// add content element at insertion point
+					var content = document.createElement('content');
+					content.select = '.'+contentClass;
+					element.appendChild(content);
+				}
+			},
+
 			update: function(element, value, oldValue, context) {
+				if(!value && !oldValue) return;
+				if(element.createShadowRoot) {
+					var bindData = getBindData(element),
+						contentClass = bindData.contentClass,
+						oldElement = bindData.element,
+						rootElement = context.element;
+					if(!oldElement) {
+						if(_.isString(value)) {
+							element = document.createElement('div');
+							element.innerHTML = value;
+						} else if(_.isElement(value)) {
+							element = value;
+						} else if(_.isElement(value.element)) {
+							element = value.element;
+						}
+						if(element.classList) element.classList.add(contentClass);
+						else element.className += ' '+contentClass;
+						bindData.element = element;
+						DOM.getData(element).$bindContext = context;
+						rootElement.appendChild(element);
+					} else {
+						if(value != oldValue) {
+							// need to update the content
+							if(!value) {
+								// remove old value
+								DOM.getData(oldElement).$bindContext = null;
+								rootElement.removeChild(oldElement);
+								bindData.element = null;
+							} else if(_.isString(value)) {
+								// this is the only instance where we need to check the old values type
+								if(_.isString(oldValue)) {
+									// easy, just replace the old content with the new one
+									oldElement.innerHTML = value;
+								} else {
+									// need to create a new container element
+									element = document.createElement('div');
+									element.innerHTML = value;
+									if(element.classList) element.classList.add(contentClass);
+									else element.className += ' '+contentClass;
+									bindData.element = element;
+									DOM.getData(element).$bindContext = context;
+									DOM.getData(oldElement).$bindContext = null;
+									rootElement.replaceChild(element, oldElement);
+								}
+							} else if(_.isElement(value)) {
+								if(value.classList) value.classList.add(contentClass);
+								else value.className += ' '+contentClass;
+								bindData.element = value;
+								DOM.getData(value).$bindContext = context;
+								DOM.getData(oldElement).$bindContext = null;
+								rootElement.replaceChild(value, oldElement);
+							} else if(_.isElement(value.element)) {
+								if(value.element.classList) value.element.classList.add(contentClass);
+								else value.element.className += ' '+contentClass;
+								bindData.element = value.element;
+								DOM.getData(value.element).$bindContext = context;
+								DOM.getData(oldElement).$bindContext = null;
+								rootElement.replaceChild(value.element, oldElement);
+							}
+						}
+					}
+					return;
+				}
 				if(_.isString(value)) {
 					// use text
 					DOM.setTextContent(element, value);
@@ -192,39 +286,94 @@ define('jidejs/ui/bind', [
 			}
 		},
 
-		template: {
+		foreach: {
 			init: function(element, context) {
-				var bindData = getBindData(element);
-				var Template = require('jidejs/ui/Template');
-				if(!Template) {
-					throw new Error('Expected jidejs/ui/Template to be ready before jidejs/ui/bind for "template" binding.');
-				}
-				var frag = document.createDocumentFragment();
-				for(var children = element.childNodes; children.length > 0; frag.appendChild(children[0]));
+				var template = element.firstElementChild;
+				if(!template || !template.content) throw new Error(
+					'Expected the only child element of foreach to be a template tag');
 
 				// at this point, the element doesn't have any children left
-				bindData.template = Template.fromElement({ content: frag }); // "fake" a template element
+				getBindData(element).template = template;
+				element.removeChild(template);
 
 				return true; // controls children
 			},
 
 			update: function(element, value, oldValue, context) {
-				// a simple implementation for now, expect "value" to be an object with a "data" key
-				if(!_.isObject(value)) throw new Error('Expected value of template binding to be an object');
-				if(oldValue && value.data === oldValue.data) return; // nothing to update
+				var bindData = getBindData(element),
+					template = bindData.template,
+					disposables = bindData.disposables || (bindData.disposables = []);
+				var frag = document.createDocumentFragment();
+				if(Array.isArray(value)) {
+					for(var i = 0, len = value.length; i < len; i++) {
+						var item = value[i],
+							cloned = template.content.cloneNode(true);
+						disposables[i] = bind.to(cloned, item, context.$item);
+						frag.appendChild(cloned);
+					}
+				} else if(value.on) {
+					for(var i = 0, len = value.length; i < len; i++) {
+						var item = value.get(i),
+							cloned = template.content.cloneNode(true);
+						disposables[i] = bind.to(cloned, item, context.$item);
+						frag.appendChild(cloned);
+					}
+					value.on('change', function(event) {
+						var changes = event.enumerator;
+						while(changes.moveNext()) {
+							var change = changes.current;
+							if(change.isDelete) {
+								element.removeChild(element.childNodes[change.index]);
+								disposables.splice(change.index, 1).forEach(function(disposable) {
+									if(disposable) disposable.dispose();
+								});
+							} else if(change.isInsert) {
+								var cloned = template.content.cloneNode(true);
+								disposables.splice(change.index, 0, [bind.to(cloned, change.newValue, context)]);
+								DOM.insertElementAt(element, cloned, change.index);
+							} else if(change.isUpdate) {
+								var cloned = template.content.cloneNode(true);
+								disposables[change.index].dispose();
+								disposables[change.index] = bind.to(cloned, change.newValue, context);
+								element.replaceChild(cloned, element.childNodes[change.index]);
+							}
+						}
+					});
+				}
+				element.appendChild(frag);
+			}
+		},
 
-				var data = value.data,
-					template = getBindData(element).template.clone();
-				DOM.removeChildren(element);
-				if(value.as) {
-					var newContext = pushContext(context, context.$data);
-					newContext[value.as] = data;
-					element.appendChild(template.render(context.$data, newContext));
-				} else {
-					element.appendChild(template.render(data, context));
+		on: {
+			update: function(element, value, oldValue, context) {
+				var bindData = getBindData(element),
+					handlers = bindData.handlers || (bindData.handlers = []);
+				for(var eventNames = Object.getOwnPropertyNames(value), i = 0, len = eventNames.length; i < len; i++) {
+					var eventName = eventNames[i],
+						handler = createEventHandler(element, eventName, value[eventName], context);
+					element.addEventListener(eventName, handler, false);
+					var oldHandler = handlers[i];
+					if(oldHandler) {
+						oldHandler.dispose();
+					}
+					handlers[i] = handler;
 				}
 			}
 		}
+	};
+
+	function createEventHandler(element, eventName, handler, context) {
+		var fn = function(event) {
+			handler.call(context, context.$item, event);
+		};
+		fn.dispose = function() {
+			if(element) element.removeEventListener(eventName, fn, false);
+			element = null;
+			eventName = null;
+			handler = null;
+			context = null;
+		};
+		return fn;
 	};
 
 	function getBindData(element) {

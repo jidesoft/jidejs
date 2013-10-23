@@ -64,6 +64,22 @@ define('jidejs/base/has', function() {
 		// is WeakMap supported?
 		WeakMap: function() {
 			return typeof WeakMap !== 'undefined';
+		},
+
+		'customElements': function() {
+			return document.register !== undefined;
+		},
+
+		'shadowDOM': function() {
+			return testElement.createShadowRoot !== undefined;
+		},
+
+		'templateElement': function() {
+			return document.createElement('template').content !== undefined;
+		},
+
+		'classList': function() {
+			return testElement.classList !== undefined;
 		}
 	};
 
