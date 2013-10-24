@@ -19,8 +19,8 @@
  */
 define([
 		'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/ui/Component', 'jidejs/ui/Skin',
-		'jidejs/ui/control/Labeled'
-], function(Class, Observable, _, Component, Skin, Labeled) {
+		'jidejs/ui/control/Labeled', 'jidejs/ui/register'
+], function(Class, Observable, _, Component, Skin, Labeled, register) {
 		var commandBinding = '$jide/ui/control/ButtonBase.command$';
 
 		function delegateToCommand() {
@@ -172,5 +172,6 @@ define([
 			}
 		});
 		var installer = Observable.install(ButtonBase, 'command', 'enabled');
+		register('jide-buttonbase', ButtonBase, Labeled, ['enabled', 'command'], []);
 		return ButtonBase;
 });

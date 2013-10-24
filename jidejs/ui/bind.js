@@ -47,7 +47,7 @@ define('jidejs/ui/bind', [
 		};
 	}
 
-	bind.attributeName = 'data-bind';
+	bind.attributeName = 'bind';
 	var bindingCache = {};
 
 	function hasBindingProvider(element) {
@@ -108,9 +108,18 @@ define('jidejs/ui/bind', [
 		return DOM.getData(element).$bindContext;
 	};
 
-	bind.to = function(element, data, parentContext) {
-		var context = pushContext(parentContext, data),
-			boundElements = element.querySelectorAll('[data-bind]'),
+	function createContext(element, parent, data) {
+		var context = Object.create(data);
+		context.$parent = parent;
+		context.$item = data;
+		context.$element = element;
+		context.$rootElement = parent.$rootElement || parent.element;
+		return context;
+	}
+
+	bind.to = function(element, component, data) {
+		var context = createContext(element, component, data),
+			boundElements = element.querySelectorAll('['+bind.attributeName+']'),
 			disposables = [];
 		DOM.getData(element).$bindContext = context;
 
@@ -189,7 +198,7 @@ define('jidejs/ui/bind', [
 					var bindData = getBindData(element),
 						contentClass = bindData.contentClass,
 						oldElement = bindData.element,
-						rootElement = context.element;
+						rootElement = context.$rootElement;
 					if(!oldElement) {
 						if(_.isString(value)) {
 							element = document.createElement('div');
@@ -308,14 +317,14 @@ define('jidejs/ui/bind', [
 					for(var i = 0, len = value.length; i < len; i++) {
 						var item = value[i],
 							cloned = template.content.cloneNode(true);
-						disposables[i] = bind.to(cloned, item, context.$item);
+						disposables[i] = bind.to(cloned, context.$item, item);
 						frag.appendChild(cloned);
 					}
 				} else if(value.on) {
 					for(var i = 0, len = value.length; i < len; i++) {
 						var item = value.get(i),
 							cloned = template.content.cloneNode(true);
-						disposables[i] = bind.to(cloned, item, context.$item);
+						disposables[i] = bind.to(cloned, context.$item, item);
 						frag.appendChild(cloned);
 					}
 					value.on('change', function(event) {
@@ -329,12 +338,12 @@ define('jidejs/ui/bind', [
 								});
 							} else if(change.isInsert) {
 								var cloned = template.content.cloneNode(true);
-								disposables.splice(change.index, 0, [bind.to(cloned, change.newValue, context)]);
+								disposables.splice(change.index, 0, [bind.to(cloned, context.$item, change.newValue)]);
 								DOM.insertElementAt(element, cloned, change.index);
 							} else if(change.isUpdate) {
 								var cloned = template.content.cloneNode(true);
 								disposables[change.index].dispose();
-								disposables[change.index] = bind.to(cloned, change.newValue, context);
+								disposables[change.index] = bind.to(cloned, context.$item, change.newValue);
 								element.replaceChild(cloned, element.childNodes[change.index]);
 							}
 						}

@@ -26,11 +26,22 @@
     <!--<script src="WebComponents.js"></script>-->
     <!--<script src="../components/polymer/polymer.min.js"></script>-->
     <script src="/components/requirejs/require.js" data-main="main.js" async="async"></script>
-    <div id="somebutton">
-        <span data-property="graphic">Funny button</span>
-        <span data-property="text">My very cool button</span>
-    </div>
 </head>
 <body>
+<div id="somebutton">
+    <template>
+        <div bind="content: component.graphic"></div>
+        <hr>
+        <div bind="content: component.text"></div>
+    </template>
+    <span data-property="graphic">Funny button</span>
+    <span data-property="text">My very cool button</span>
+</div>
+<jide-button text="Click for action">
+    <template>
+        <span style="float: left;" bind="content: component.text"></span>
+        <jide-labeled text="!" style="float: right; font-weight: bold;"></jide-labeled>
+    </template>
+</jide-button>
 </body>
 </html>

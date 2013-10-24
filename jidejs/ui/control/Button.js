@@ -8,9 +8,10 @@
  * @module jidejs/ui/control/Button
  * @extends module:jidejs/ui/control/ButtonBase
  */
-define(
-	['jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/ui/control/ButtonBase'],
-	function(Class, Component, Skin, ButtonBase) {
+define([
+	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/ui/control/ButtonBase',
+	'jidejs/ui/register'
+], function(Class, Component, Skin, ButtonBase, register) {
 		/**
 		 * Creates a new Button.
 		 *
@@ -37,5 +38,6 @@ define(
 		}
 		Class(Button).extends(ButtonBase);
 		Button.Skin = Skin.create(ButtonBase.Skin);
+		register('jide-button', Button, ButtonBase);
 		return Button;
 });

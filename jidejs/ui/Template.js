@@ -58,15 +58,17 @@ define('jidejs/ui/Template', [
 			}
 			template = (cache[template] = transformStringToElement(template));
 		}
+		if(template.hasAttribute('ref')) {
+			// support template references
+			var ref = template.getAttribute('ref');
+			var refTemplate = document.querySelector(ref);
+			if(refTemplate) {
+				template = refTemplate;
+			}
+		}
 		if(!has('templateElement') || !has('shadowDOM')) {
 			rewriteTemplateElements(template);
 		}
-//		if(!has('templateElement')) {
-//			rewriteTemplateElements(template);
-//		}
-//		if(!has('shadowDOM')) {
-//			addPseudoClass(template);
-//		}
 		return template;
 	}
 

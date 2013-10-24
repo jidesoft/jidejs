@@ -7,8 +7,8 @@
 define('jidejs/ui/Component', [
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/EventEmitter', 'jidejs/ui/util/ClassList',
 	'jidejs/ui/geom/Insets', 'jidejs/base/DOM', 'jidejs/base/Util', 'jidejs/ui/input/KeyMap', 'jidejs/base/has',
-	'jidejs/ui/Style', 'jidejs/base/ObservableMap', 'jidejs/base/Observable'
-], function(Class, Observable, EventEmitter, ClassList, Insets, DOM, _, KeyMap, has, Style, ObservableMap, Var) {
+	'jidejs/ui/Style', 'jidejs/base/ObservableMap', 'jidejs/base/Observable', 'jidejs/ui/register'
+], function(Class, Observable, EventEmitter, ClassList, Insets, DOM, _, KeyMap, has, Style, ObservableMap, Var, register) {
 	//region Utilities
 	function setBackground(event) {
 		this.style.set('background', event.value).update();
@@ -451,6 +451,8 @@ define('jidejs/ui/Component', [
 			}
 		});
 	};
+
+	register('jide-component', Component, null, [], ['on', 'emit', 'measure', 'dispose']);
 
 	return Component;
 });

@@ -32,6 +32,12 @@ define('jidejs/ui/Skin', [
 //					}
 //				}
 			}
+		},
+		copyAttributes = function(source, target) {
+			for(var i = 0, len = source.attributes.length; i < len; i++) {
+				var attr = source.attributes[i];
+				target.setAttribute(attr.nodeName, attr.nodeValue);
+			}
 		};
 	/**
 	 * Creates a new Skin for the given {@link module:jidejs/ui/Control}.
@@ -101,9 +107,11 @@ define('jidejs/ui/Skin', [
 		 */
 		updateRootElement: function() {
 			if(this.template) {
-				var template = Template(this.component.template || this.template).content.cloneNode(true);
+				var templateElement = Template(this.component.template || this.template),
+					template = templateElement.content.cloneNode(true);
+				copyAttributes(templateElement, this.element);
 				refPseudos(this, template);
-				this.managed(bind.to(template, this));
+				this.managed(bind.to(template, this.component, this));
 				if(has('shadowDOM')) {
 					this.element.createShadowRoot().appendChild(template);
 				} else {

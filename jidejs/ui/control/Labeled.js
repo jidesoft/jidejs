@@ -8,24 +8,13 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin',
-	'jidejs/base/DOM', 'jidejs/ui/bind', 'jidejs/ui/Template'
-], function(Class, _, Observable, Control, Skin, DOM, bind, Template) {
+	'jidejs/base/DOM', 'jidejs/ui/bind', 'jidejs/ui/Template', 'jidejs/ui/register'
+], function(Class, _, Observable, Control, Skin, DOM, bind, Template, register) {
 	// create the DOM structure that is used internally
-//	var template = (function() {
-//		var doc = document;
-//		var frag = doc.createDocumentFragment();
-//		var text = doc.createElement('span');
-//		var graphic = doc.createElement('span');
-//		text.className = 'jide-labeled-text';
-//		graphic.className = 'jide-labeled-graphic';
-//		frag.appendChild(graphic);
-//		frag.appendChild(text);
-//		return frag;
-//	}());
 	var template = Template(
 		'<template>'+
-		'<span pseudo="x-graphic" class="jide-labeled-graphic" data-bind="content: component.graphic"></span>'+
-		'<span pseudo="x-text" class="jide-labeled-text" data-bind="content: component.text"></span>'+
+		'<span pseudo="x-graphic" class="jide-labeled-graphic" bind="content: component.graphic"></span>'+
+		'<span pseudo="x-text" class="jide-labeled-text" bind="content: component.text"></span>'+
 		'</template>'
 	);
 
@@ -50,30 +39,11 @@ define([
 		template: template,
 		defaultElement: 'span',
 
-//		updateRootElement: function() {
-//			var node = template.cloneNode(true); // clone the template
-//			this.graphic = node.childNodes[0];
-//			this.text = node.childNodes[1];
-//			this.element.appendChild(node);
-//		},
-
 		install: function() {
 			Skin.prototype.install.call(this);
 			var component = this.component;
 			var graphic = this['x-graphic'];
 			this.bindings = [
-//				component.textProperty.subscribe(function(event) {
-//					this.text.innerHTML = event.value;
-//				}).bind(this),
-//				component.graphicProperty.subscribe(function(event) {
-//					if(event.oldValue) {
-//						event.oldValue.parent = null;
-//						graphic.replaceChild(event.value.element, event.oldValue.element);
-//					} else {
-//						graphic.appendChild(event.value.element);
-//					}
-//					event.value.parent = component;
-//				}),
 				component.contentDisplayProperty.subscribe(function(event) {
 					if(event.oldValue) {
 						component.classList.remove("jide-labeled-content-display-"+event.oldValue);
@@ -85,11 +55,6 @@ define([
 					setContentDisplay(component.contentDisplay, this['x-text'].style, event.value);
 				}).bind(this)
 			];
-//			if(component.text) this.text.innerHTML = component.text;
-//			if(component.graphic) {
-//				graphic.appendChild(component.graphic.element);
-//				component.graphic.parent = component;
-//			}
 			if(component.contentDisplay) {
 				component.classList.add('jide-labeled-content-display-'+component.contentDisplay);
 			}
@@ -185,6 +150,8 @@ define([
 	});
 	Labeled.Skin = LabeledSkin;
 	var installer = Observable.install(Labeled, 'text', 'contentDisplay', 'graphic', 'graphicTextGap');
+
+	register('jide-labeled', Labeled, Control, ['graphic', 'text', 'graphicTextGap'], []);
 
 	return Labeled;
 });

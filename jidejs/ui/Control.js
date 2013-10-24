@@ -5,8 +5,9 @@
  * @module jidejs/ui/Control
  */
 define('jidejs/ui/Control', [
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/base/DOM'
-], function(Class, Observable, Component, Skin, DOM) {
+	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/base/DOM',
+	'jidejs/ui/register'
+], function(Class, Observable, Component, Skin, DOM, register) {
 	function setSkin(event) {
 		if(event.oldValue) event.oldValue.dispose();
 		if(!event.value) return; // exit early if there is no new skin
@@ -58,6 +59,9 @@ define('jidejs/ui/Control', [
 				element.removeChild(child);
 			} else if(child.hasAttribute('data-property')) {
 				config[child.getAttribute('data-property')] = child;
+				element.removeChild(child);
+			} else if(child.tagName === 'TEMPLATE') {
+				config.template = child;
 				element.removeChild(child);
 			} else {
 				fallbackHandler(child);
@@ -189,6 +193,8 @@ define('jidejs/ui/Control', [
 		}
 		return constructor;
 	};
+
+	register('jide-control', Control, Component, ['skin', 'tooltip', 'contextmenu'], []);
 
 	return Control;
 });
