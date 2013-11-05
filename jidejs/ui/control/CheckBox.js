@@ -15,59 +15,10 @@
  * @module jidejs/ui/control/CheckBox
  * @extends module:jidejs/ui/control/ButtonBase
  */
-define(
-	['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Skin', 'jidejs/ui/control/ButtonBase', 'jidejs/ui/control/Toggle',
-		'jidejs/ui/control/SVGView', 'jidejs/base/Util'],
-	function(Class, Observable, Skin, ButtonBase, Toggle, SVGView, _) {
-		var svgView = (function() {
-			var svgView = document.createDocumentFragment();
-			var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-			path.setAttribute('d', 'M 10 45 L 40 80 L 90 0');
-			path.setAttribute('class', 'jide-checkbox-check');
-			svgView.appendChild(path);
-			path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-			path.setAttribute('d', 'M 10 50 L 90 50');
-			path.setAttribute('class', 'jide-checkbox-indeterminate');
-			svgView.appendChild(path);
-			return svgView;
-		}());
-
-		var selectedPropertyChanged = function(event) {
-			if(event.value) {
-				this.classList.add('jide-state-selected');
-			} else {
-				this.classList.remove('jide-state-selected');
-			}
-		};
-
-		var indeterminatePropertyChanged = function(event) {
-			if(event.value) {
-				this.classList.add('jide-state-indeterminate');
-			} else {
-				this.classList.remove('jide-state-indeterminate');
-			}
-		};
-
-		var clickHandler = function() {
-			if(this.allowIndeterminate) {
-				// !s & i => !s & !i => s & !i
-				var isSelected = this.selected;
-				var isIndeterminate = this.indeterminate;
-				if(!isSelected) {
-					if(isIndeterminate) {
-						this.indeterminate = false;
-					} else {
-						this.selected = true;
-					}
-				} else {
-					this.selected = false;
-					this.indeterminate = true;
-				}
-			} else {
-				this.selected = !this.selected;
-			}
-		};
-
+define([
+    'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Skin', 'jidejs/ui/control/ButtonBase', 'jidejs/ui/control/Toggle',
+	'jidejs/base/Util', 'jidejs/ui/control/Templates'
+], function(Class, Observable, Skin, ButtonBase, Toggle, _, Templates) {
 		/**
 		 * Creates a new CheckBox.
 		 *
@@ -84,14 +35,6 @@ define(
 			ButtonBase.call(this, config);
 			Toggle.call(this);
 
-			if(!this.graphic) {
-				this.graphic = new SVGView({
-//					width: '1em',
-//					height: '1em',
-					viewBox: { width: 100, height: 100 },
-					content: svgView.cloneNode(true)
-				});
-			}
 			this.classList.add('jide-checkbox');
 		}
 
@@ -149,18 +92,27 @@ define(
 		});
 		var installer = Observable.install(CheckBox, 'indeterminate');
 		CheckBox.Skin = Skin.create(ButtonBase.Skin, {
-			installBindings: function() {
-				var checkBox = this.component;
-				if(checkBox.selected) selectedPropertyChanged.call(checkBox, {value: true});
-				if(checkBox.indeterminate) indeterminatePropertyChanged.call(checkBox, {value: true});
-				return ButtonBase.Skin.prototype.installBindings.call(this).concat(
-					checkBox.selectedProperty.subscribe(selectedPropertyChanged),
-					checkBox.indeterminateProperty.subscribe(indeterminatePropertyChanged)
-				);
-			},
-			installListeners: function() {
-				return ButtonBase.Skin.prototype.installListeners.call(this).concat(this.component.on('action', clickHandler));
-			}
+            template: Templates.CheckBox,
+            handleAction: function() {
+                var checkBox = this.component;
+                if(checkBox.allowIndeterminate) {
+                    // !s & i => !s & !i => s & !i
+                    var isSelected = checkBox.selected;
+                    var isIndeterminate = checkBox.indeterminate;
+                    if(!isSelected) {
+                        if(isIndeterminate) {
+                            checkBox.indeterminate = false;
+                        } else {
+                            checkBox.selected = true;
+                        }
+                    } else {
+                        checkBox.selected = false;
+                        checkBox.indeterminate = true;
+                    }
+                } else {
+                    checkBox.selected = !checkBox.selected;
+                }
+            }
 		});
 
 		return CheckBox;

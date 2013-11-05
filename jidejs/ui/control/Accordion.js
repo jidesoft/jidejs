@@ -11,33 +11,9 @@
  * @extends module:jidejs/ui/Container
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/layout/VBox',
-	'jidejs/base/has'
-], function(Class, Observable, Control, Skin, VBox, has) {
-	function processChange(THIS, handler, change) {
-		var child;
-		if(change.isDelete || change.isUpdate) {
-			child = change.oldValue;
-			child['jide/ui/control/Accordion.expandedHandler'].dispose();
-			delete child['jide/ui/control/Accordion.expandedHandler'];
-		}
-		if(change.isInsert || change.isUpdate) {
-			child = change.newValue;
-			child.animated = false;
-			if(child.expanded) {
-				if(THIS.expandedPane == null) {
-					THIS.expandedPane = child;
-				} else {
-					child.expanded = false;
-				}
-			}
-			if(has('flexbox') || has('flexbox/legacy')) {
-				child.animated = true;
-			}
-			child['jide/ui/control/Accordion.expandedHandler'] = child.expandedProperty.subscribe(handler);
-		}
-	}
-
+	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/ui/Control',
+    'jidejs/ui/Skin', 'jidejs/ui/layout/VBox', 'jidejs/base/has', 'jidejs/ui/control/Templates'
+], function(Class, Observable, ObservableList, Control, Skin, VBox, has, Templates) {
 	/**
 	 * Creates a new Accordion.
 	 *
@@ -51,16 +27,9 @@ define([
 	function Accordion(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new Accordion.Skin(this, config.element);
-		}
-
-		this.content = new VBox({
-			element: config.skin.element,
-			fillWidth: true,
-			spacing: 0,
-			parent: this
-		});
+        if(config.children) this.children = ObservableList(config.children);
+        else this.children = new ObservableList();
+        delete config.children;
 		Control.call(this, config);
 		this.classList.add('jide-accordion');
 	}
@@ -85,9 +54,7 @@ define([
 		 * @readonly
 		 * @type {module:jidejs/base/ObservableList}
 		 */
-		get children() {
-			return this.content.children;
-		},
+        children: null,
 
 		dispose: function() {
 			Control.prototype.dispose.call(this);
@@ -96,32 +63,39 @@ define([
 	});
 	var installer = Observable.install(Accordion, 'expandedPane');
 	Accordion.Skin = Skin.create(Skin, {
-		installBindings: function() {
-			var accordion = this.component,
-				handler = function(event) {
-					if(event.value) {
-						accordion.expandedPane = this;
-					} else {
-						if(accordion.expandedPane == this) {
-							accordion.expandedPane = null;
-						}
-					}
-				};
-			return Skin.prototype.installBindings.call(this).concat(
-				accordion.expandedPaneProperty.subscribe(function(event) {
-					if(event.oldValue && event.value != event.oldValue) {
-						event.oldValue.expanded = false;
-					}
-				}),
-				accordion.children.on('change', function(event) {
-					var changes = event.enumerator();
-					while(changes.moveNext()) {
-						var change = changes.current;
-						processChange(accordion, handler, change);
-					}
-				})
-			);
-		},
+        template: Templates.Accordion,
+        install: function() {
+            // collapse all children except the first expanded one.
+            var accordion = this.component,
+                foundExpanded = false;
+            for(var i = 0, children = accordion.children, len = children.length; i < len; i++) {
+                var titledPane = children.get(i);
+                if(titledPane.expanded) {
+                    if(foundExpanded) {
+                        titledPane.expanded = false;
+                    } else {
+                        foundExpanded = true;
+                        accordion.expandedPane = titledPane;
+                    }
+                }
+            }
+            Skin.prototype.install.call(this);
+        },
+
+        handleExpandedChanged: function(self, event) {
+            var accordion = this.component,
+                expandedPane = event.source;
+            if(accordion.children.contains(expandedPane) &&  event.value) {
+                // if some TitledPane was expanded, collapse the previously expanded pane
+                var previouslyExpandedPane = accordion.expandedPane;
+                expandedPane.collapsible = false;
+                accordion.expandedPane = expandedPane;
+                if(previouslyExpandedPane !== expandedPane) {
+                    previouslyExpandedPane.expanded = false;
+                    previouslyExpandedPane.collapsible = true;
+                }
+            }
+        }
 	});
 	return Accordion;
 });

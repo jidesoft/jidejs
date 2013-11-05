@@ -7,10 +7,11 @@ define([
 	'jidejs/base/Class', 'jidejs/ui/Skin', 'jidejs/ui/control/TextInputControl', 'jidejs/base/ObservableProperty'
 ], function(Class, Skin, TextInputControl, Observable) {
 	function TextAreaSkin(input, el) {
-		this.component = input;
-		this.element = el || document.createElement('textarea');
+        Skin.call(this, input, el);
 	}
-	Class(TextAreaSkin).extends(Skin);
+	Class(TextAreaSkin).extends(Skin).def({
+        defaultElement: 'textarea'
+    });
 
 	var supportsPlaceholder = ('placeholder' in document.createElement('textarea'));
 

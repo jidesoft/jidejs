@@ -3,7 +3,10 @@ require.config({
 	"packages": [{
 		name: 'jidejs',
 		location: '../../../jidejs'
-	}]
+	}],
+    paths: {
+        text: '../../../components/requirejs-text/text'
+    }
 });
 
 var control = 'jidejs/ui/control/',

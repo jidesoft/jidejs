@@ -5,27 +5,26 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/Orientation'
-], function(Class, Observable, Control, Skin, Orientation) {
+	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control',
+	'jidejs/ui/Skin', 'jidejs/ui/Orientation', 'jidejs/ui/register'
+], function(Class, Observable, Control, Skin, Orientation, register) {
 	function SeparatorSkin(separator, el) {
-		this.component = separator;
-		this.element = el || document.createElement('div');
+		Skin.call(this, separator, el);
 	}
 	Class(SeparatorSkin).extends(Skin).def({
+		defaultElement: 'div',
 		install: function() {
 			Skin.prototype.install.call(this);
 			var separator = this.component;
-			this.bindings = [
-				separator.orientationProperty.subscribe(function(event) {
-					if(event.value === Orientation.VERTICAL) {
-						separator.classList.remove('jide-orientation-horizontal');
-						separator.classList.add('jide-orientation-vertical');
-					} else {
-						separator.classList.add('jide-orientation-horizontal');
-						separator.classList.remove('jide-orientation-vertical');
-					}
-				})
-			];
+			this.managed(separator.orientationProperty.subscribe(function(event) {
+				if(event.value === Orientation.VERTICAL) {
+					separator.classList.remove('jide-orientation-horizontal');
+					separator.classList.add('jide-orientation-vertical');
+				} else {
+					separator.classList.add('jide-orientation-horizontal');
+					separator.classList.remove('jide-orientation-vertical');
+				}
+			}));
 			separator.classList.add(separator.orientation === Orientation.VERTICAL
 				? 'jide-orientation-vertical'
 				: 'jide-orientation-horizontal');
@@ -74,6 +73,8 @@ define([
 		 */
 		orientationProperty: null
 	});
+	Separator.Skin = SeparatorSkin;
 	var installer = Observable.install(Separator, 'orientation');
+	register('jide-separator', Separator, Control, ['orientation']);
 	return Separator;
 });

@@ -1,0 +1,104 @@
+<div>
+    <template id="Labeled">
+        <span pseudo="x-graphic" class="jide-labeled-graphic" bind="content: component.graphic"></span>
+        <span pseudo="x-text" class="jide-labeled-text" bind="
+            content: component.text,
+            css: {
+                'jide-labeled-content-display-top': component.contentDisplay === 'top',
+                'jide-labeled-content-display-right': component.contentDisplay === 'right',
+                'jide-labeled-content-display-bottom': component.contentDisplay === 'bottom',
+                'jide-labeled-content-display-left': component.contentDisplay === 'left'
+            },
+            style: {
+                'margin-left': (component.contentDisplay === 'left' ? component.graphicTextGap : 0)+'px',
+                'margin-top': (component.contentDisplay === 'top' ? component.graphicTextGap : 0)+'px',
+                'margin-bottom': (component.contentDisplay === 'bottom' ? component.graphicTextGap : 0)+'px',
+                'margin-right': (component.contentDisplay === 'right' ? component.graphicTextGap : 0)+'px'
+            }
+        "></span>
+    </template>
+
+    <template id="ButtonBase" bind="
+        attr: {
+            'disabled': !component.enabled
+        },
+        css: {
+            'jide-is-disabled': !component.enabled,
+            'jide-state-disabled': !component.enabled
+        }
+    ">
+        <span pseudo="x-graphic" class="jide-labeled-graphic" bind="content: component.graphic"></span>
+        <span pseudo="x-text" class="jide-labeled-text" bind="
+            content: component.text,
+            css: {
+                'jide-labeled-content-display-top': component.contentDisplay === 'top',
+                'jide-labeled-content-display-right': component.contentDisplay === 'right',
+                'jide-labeled-content-display-bottom': component.contentDisplay === 'bottom',
+                'jide-labeled-content-display-left': component.contentDisplay === 'left'
+            },
+            style: {
+                'margin-left': (component.contentDisplay === 'left' ? component.graphicTextGap : 0)+'px',
+                'margin-top': (component.contentDisplay === 'top' ? component.graphicTextGap : 0)+'px',
+                'margin-bottom': (component.contentDisplay === 'bottom' ? component.graphicTextGap : 0)+'px',
+                'margin-right': (component.contentDisplay === 'right' ? component.graphicTextGap : 0)+'px'
+            }
+        "></span>
+    </template>
+
+    <template id="CheckBox" bind="
+        on: {
+            'action': handleAction.bind($item)
+        },
+        css: {
+            'jide-state-selected': component.selected,
+            'jide-state-indeterminate': component.indeterminate
+        }
+    ">
+        <svg pseudo="x-mark" viewBox="0 0 100 100">
+            <path pseudo="x-mark-check" d="M 10 45 L 40 80 L 90 0" class="jide-checkbox-check"/>
+            <path pseudo="x-mark-indeterminate" d="M 10 50 L 90 50" class="jide-checkbox-indeterminate"/>
+        </svg>
+        <span pseudo="x-graphic" class="jide-labeled-graphic" bind="content: component.graphic"></span>
+        <span pseudo="x-text" class="jide-labeled-text" bind="content: component.text"></span>
+    </template>
+
+    <template id="ChoiceBox">
+        <span pseudo="x-label" class="jide-choicebox-label" bind="
+            content: component.converter(component.selectedItem)
+        "></span>
+        <span pseudo="x-dropdown" class="jide-choicebox-button">&#x25bc;</span>
+    </template>
+
+    <template id="ComboBoxBase">
+        <input pseudo="x-textfield" type="text">
+        <div pseudo="x-dropdown"></div>
+    </template>
+
+    <template id="TitledPane" bind="
+        css: {
+            'jide-titledpane-animated': component.animated,
+            'is-expanded': expanded,
+            'is-collapsible': component.collapsible
+        }
+    ">
+        <header pseudo="x-header" class="jide-titledpane-title" bind="
+            content: component.title,
+            on: {
+                click: toggleExpanded
+            }
+        "></header>
+        <section pseudo="x-content" class="jide-titledpane-content" bind="
+            content: component.content,
+            style: {
+                height: height
+            }
+        "></section>
+    </template>
+
+    <template id="Accordion" bind="
+        foreach: component.children,
+        on: {
+            'change:expanded': handleExpandedChanged
+        }
+    "></template>
+</div>

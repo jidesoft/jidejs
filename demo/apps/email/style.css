@@ -397,11 +397,7 @@
   cursor: pointer;
 }
 .jide-titledpane > .jide-titledpane-content {
-  display: none;
   overflow: hidden;
-}
-.jide-titledpane.jide-expanded > .jide-titledpane-content {
-  display: block;
 }
 .jide-titledpane.jide-titledpane-animated > .jide-titledpane-content {
   -webkit-transition: height 0.5s linear;

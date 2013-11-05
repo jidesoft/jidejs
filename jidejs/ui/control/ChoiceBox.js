@@ -17,21 +17,10 @@
 define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util',
 		'jidejs/base/DOM', 'jidejs/base/ObservableList', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/Pos',
 		'jidejs/ui/control/SingleSelectionModel', 'jidejs/ui/control/Popup', 'jidejs/ui/control/ListView',
-		'jidejs/ui/control/Cell'
-], function(Class, Observable, _, DOM, ObservableList, Control, Skin, Pos, SingleSelectionModel, Popup, ListView, Cell) {
+		'jidejs/ui/control/Cell', 'jidejs/ui/control/Templates', 'jidejs/ui/mixin/Selection'
+], function(Class, Observable, _, DOM, ObservableList, Control, Skin, Pos, SingleSelectionModel, Popup, ListView, Cell,
+            Templates, SelectionMixin) {
 		"use strict";
-
-		var template = (function() {
-			var base = document.createElement('div');
-			var label = document.createElement('span');
-			label.className = 'jide-choicebox-label';
-			var button = document.createElement('span');
-			button.className = 'jide-choicebox-button';
-			button.innerHTML = '&#x25bc;';
-			base.appendChild(label);
-			base.appendChild(button);
-			return base;
-		}());
 
 		/**
 		 * Creates a new Skin for a given ChoiceBox.
@@ -44,8 +33,7 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util
 		 * @namespace
 		 */
 		function ChoiceBoxSkin(choiceBox, element) {
-			Skin.call(this, choiceBox);
-			this.element = element || template.cloneNode(true);
+			Skin.call(this, choiceBox, element);
 			this.autoHideHandler = function(e) {
 				if(!DOM.isInElement(this.element, { x:e.pageX, y:e.pageY})
 						&& !DOM.isInElement(this.popup.element, {x: e.pageX, y: e.pageY})) {
@@ -54,6 +42,7 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util
 			}.bind(this);
 		}
 		Class(ChoiceBoxSkin).extends(Skin).def({
+            template: Templates.ChoiceBox,
 			install: function() {
 				var choiceBox = this.component;
 				var listView = this.listView = new ListView({
@@ -74,7 +63,7 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util
 				var label = element.firstChild;
 				var button = element.lastChild;
 
-				this.bindings = [
+				this.managed(
 					listView.cellFactoryProperty.bind(choiceBox.cellFactoryProperty),
 					listView.converterProperty.bind(choiceBox.converterProperty),
 					choiceBox.on({
@@ -97,17 +86,12 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util
 						}
 					}, this),
 					listView.selectionModel.selectedItemProperty.subscribe(function(event) {
-						label.innerHTML = choiceBox.converter(event.value);
 						choiceBox.showing = false;
 					})
-				];
-				label.innerHTML = choiceBox.converter(listView.selectionModel.selectedItem);
+                );
 			},
 			dispose: function() {
-				this.bindings.forEach(function(binding) {
-					if(binding) binding.dispose();
-				});
-				delete this.bindings;
+                Skin.prototype.dispose.call(this);
 				this.popup.dispose();
 				this.listView.dispose();
 				delete this.popup;
@@ -138,14 +122,14 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util
 			else this.items = config.items; // assume config.items is an ObservableList
 			delete config.items;
 
-			if(config.selectionModel) this.selectionModel = config.selectionModel;
-			else this.selectionModel = new SingleSelectionModel(this.items);
-			delete config.selectionModel;
+            SelectionMixin.call(this, config, this.items);
+            this.selectionModel = config.selectionModel;
+            delete config.selectionModel;
 
 			Control.call(this, config);
 			this.classList.add('jide-choicebox');
 		}
-		Class(ChoiceBox).extends(Control).def({
+		Class(ChoiceBox).extends(Control).mixin(SelectionMixin).def({
 			dispose: function() {
 				Control.prototype.dispose.call(this);
 				installer.dispose(this);

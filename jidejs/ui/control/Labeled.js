@@ -8,69 +8,8 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin',
-	'jidejs/base/DOM', 'jidejs/ui/bind', 'jidejs/ui/Template', 'jidejs/ui/register'
-], function(Class, _, Observable, Control, Skin, DOM, bind, Template, register) {
-	// create the DOM structure that is used internally
-	var template = Template(
-		'<template>'+
-		'<span pseudo="x-graphic" class="jide-labeled-graphic" bind="content: component.graphic"></span>'+
-		'<span pseudo="x-text" class="jide-labeled-text" bind="content: component.text"></span>'+
-		'</template>'
-	);
-
-
-	function LabeledSkin(label, el) {
-		Skin.call(this, label, el);
-	}
-
-	function setContentDisplay(contentDisplay, style, value) {
-		if(contentDisplay === 'left') {
-			style.marginLeft = value + "px";
-			style.marginTop = "0px";
-		} else if(contentDisplay === 'top') {
-			style.marginTop = value + "px";
-			style.marginLeft = '0px';
-		}
-	}
-
-	Class(LabeledSkin).extends(Skin).def({
-		graphic: null,
-		text: null,
-		template: template,
-		defaultElement: 'span',
-
-		install: function() {
-			Skin.prototype.install.call(this);
-			var component = this.component;
-			var graphic = this['x-graphic'];
-			this.bindings = [
-				component.contentDisplayProperty.subscribe(function(event) {
-					if(event.oldValue) {
-						component.classList.remove("jide-labeled-content-display-"+event.oldValue);
-					}
-					component.classList.add("jide-labeled-content-display-"+event.value);
-					setContentDisplay(component.contentDisplay, this['x-text'].style, component.graphicTextGap);
-				}).bind(this),
-				component.graphicTextGapProperty.subscribe(function(event) {
-					setContentDisplay(component.contentDisplay, this['x-text'].style, event.value);
-				}).bind(this)
-			];
-			if(component.contentDisplay) {
-				component.classList.add('jide-labeled-content-display-'+component.contentDisplay);
-			}
-			if(component.contentDisplay || component.graphicTextGap) {
-				setContentDisplay(component.contentDisplay || 'left', this['x-text'].style, component.graphicTextGap || '0px');
-			}
-		},
-
-		dispose: function() {
-			Skin.prototype.dispose.call(this);
-			this.bindings.forEach(function(binding) {
-				binding.dispose();
-			});
-		}
-	});
-
+	'jidejs/base/DOM', 'jidejs/ui/bind', 'jidejs/ui/control/Templates', 'jidejs/ui/register'
+], function(Class, _, Observable, Control, Skin, DOM, bind, Templates, register) {
 	/**
 	 * Used by subclasses to initialize the Labeled control.
 	 * @memberof module:jidejs/ui/control/Labeled
@@ -148,7 +87,12 @@ define([
 			installer.dispose(this);
 		}
 	});
-	Labeled.Skin = LabeledSkin;
+	Labeled.Skin = Skin.create(Skin, {
+        graphic: null,
+        text: null,
+        template: Templates.Labeled,
+        defaultElement: 'span',
+    });
 	var installer = Observable.install(Labeled, 'text', 'contentDisplay', 'graphic', 'graphicTextGap');
 
 	register('jide-labeled', Labeled, Control, ['graphic', 'text', 'graphicTextGap'], []);

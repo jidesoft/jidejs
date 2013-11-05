@@ -68,6 +68,12 @@ define('jidejs/ui/bind', [
 		}
 	}
 
+    function asBindingProvider(literal) {
+        var bindAttribute = preprocessLiteral(literalParse(literal));
+        var functionBody = 'with($context) { with($context.$item) { return { '+ bindAttribute+' }; } }';
+        return bindingCache[functionBody] || (bindingCache[functionBody] = Function('$context', '$element', functionBody));
+    }
+
 	var createRandomShadowContentClass = (function() {
 		var counter = 0;
 		return function() {
@@ -130,6 +136,21 @@ define('jidejs/ui/bind', [
 		}
 		return createDisposable(disposables);
 	};
+
+    bind.elementTo = function(element, component, data) {
+        var context = createContext(element, component, data);
+        DOM.getData(element).$bindContext = context;
+
+        var provider = getBindingProvider(element);
+        return bind(element, provider(context, element), context);
+    };
+
+    bind.elementToDescriptor = function(element, component, data, descriptor) {
+        var context = createContext(element, component, data),
+            provider = asBindingProvider(descriptor);
+        DOM.getData(element).$bindContext = context;
+        return bind(element, provider(context, element), context);
+    };
 
 	bind.handlers = {
 		text: {
@@ -258,7 +279,7 @@ define('jidejs/ui/bind', [
 				}
 				if(_.isString(value)) {
 					// use text
-					DOM.setTextContent(element, value);
+                    element.innerHTML = value;
 				} else if(!value) {
 					DOM.removeChildren(element);
 				} else if(_.isElement(value)) {
@@ -298,12 +319,12 @@ define('jidejs/ui/bind', [
 		foreach: {
 			init: function(element, context) {
 				var template = element.firstElementChild;
-				if(!template || !template.content) throw new Error(
-					'Expected the only child element of foreach to be a template tag');
+//				if(!template || !template.content) throw new Error(
+//					'Expected the only child element of foreach to be a template tag');
 
 				// at this point, the element doesn't have any children left
 				getBindData(element).template = template;
-				element.removeChild(template);
+				if(template) element.removeChild(template);
 
 				return true; // controls children
 			},
@@ -311,20 +332,25 @@ define('jidejs/ui/bind', [
 			update: function(element, value, oldValue, context) {
 				var bindData = getBindData(element),
 					template = bindData.template,
-					disposables = bindData.disposables || (bindData.disposables = []);
+					disposables = bindData.disposables || (bindData.disposables = []),
+                    useTemplate = template && template.content;
 				var frag = document.createDocumentFragment();
 				if(Array.isArray(value)) {
 					for(var i = 0, len = value.length; i < len; i++) {
 						var item = value[i],
-							cloned = template.content.cloneNode(true);
-						disposables[i] = bind.to(cloned, context.$item, item);
+							cloned = useTemplate
+                                ? template.content.cloneNode(true)
+                                : (item.element || item);
+						if(useTemplate) disposables[i] = bind.to(cloned, context.$item, item);
 						frag.appendChild(cloned);
 					}
 				} else if(value.on) {
 					for(var i = 0, len = value.length; i < len; i++) {
 						var item = value.get(i),
-							cloned = template.content.cloneNode(true);
-						disposables[i] = bind.to(cloned, context.$item, item);
+							cloned = useTemplate
+                                ? template.content.cloneNode(true)
+                                : (item.element || item);
+                        if(useTemplate) disposables[i] = bind.to(cloned, context.$item, item);
 						frag.appendChild(cloned);
 					}
 					value.on('change', function(event) {
@@ -337,13 +363,19 @@ define('jidejs/ui/bind', [
 									if(disposable) disposable.dispose();
 								});
 							} else if(change.isInsert) {
-								var cloned = template.content.cloneNode(true);
-								disposables.splice(change.index, 0, [bind.to(cloned, context.$item, change.newValue)]);
+								var cloned = useTemplate
+                                    ? template.content.cloneNode(true)
+                                    : (change.newValue.element || change.newValue);
+								if(useTemplate) disposables.splice(change.index, 0, [bind.to(cloned, context.$item, change.newValue)]);
 								DOM.insertElementAt(element, cloned, change.index);
 							} else if(change.isUpdate) {
-								var cloned = template.content.cloneNode(true);
-								disposables[change.index].dispose();
-								disposables[change.index] = bind.to(cloned, context.$item, change.newValue);
+                                var cloned = useTemplate
+                                    ? template.content.cloneNode(true)
+                                    : (change.newValue.element || change.newValue);
+                                if(useTemplate) {
+                                    disposables[change.index].dispose();
+                                    disposables[change.index] = bind.to(cloned, context.$item, change.newValue);
+                                }
 								element.replaceChild(cloned, element.childNodes[change.index]);
 							}
 						}

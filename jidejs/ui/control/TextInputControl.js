@@ -11,13 +11,14 @@
 define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/ui/Control', 'jidejs/ui/Skin'
 ], function(Class, Observable, _, Control, Skin) {
+	function createInputElement() {
+		var i = document.createElement('input');
+		i.type = 'text';
+		return i;
+	}
+
 	function TextInputControlSkin(input, el) {
-		this.component = input;
-		this.element = el || (function() {
-			var i = document.createElement('input');
-			i.type = 'text';
-			return i;
-		}());
+		Skin.call(this, input, el || createInputElement());
 	}
 	Class(TextInputControlSkin).extends(Skin);
 

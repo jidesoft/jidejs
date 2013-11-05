@@ -4,9 +4,9 @@ require.config({
 		name: 'jidejs',
 		location: '../../../jidejs'
 	}],
-	paths: {
-		text: '../../lib/text'
-	}
+    paths: {
+        text: '../../../components/requirejs-text/text'
+    }
 });
 //endregion
 

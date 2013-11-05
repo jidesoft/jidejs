@@ -141,58 +141,117 @@ define('jidejs/ui/Control', [
 	});
 	var installer = Observable.install(Control, 'skin', 'tooltip', 'contextmenu');
 
-	Control.create = function(name, Parent, properties, def) {
-		var mixins;
-		if(arguments.length === 1) {
-			def = name;
-			name = def['@name'];
-			Parent = def['@extends'];
-			properties = def['@properties'];
-			mixins = def['@mixin'];
-			delete def['@extends'];
-			delete def['@properties'];
-			delete def['@name'];
-			delete def['@mixin'];
-		}
-		Parent || (Parent = Control);
-		properties || (properties = []);
-		def || (def = {});
-		var init = def['@init'];
-		delete def['@init'];
-		var constructor = (def.hasOwnProperty('constructor') && def.constructor) || function(config) {
-			installer(this);
-			config = config || {};
-			if(!config.skin) {
-				config.skin  = new (constructor.Skin)(this, config.element);
-			}
-			if(typeof init !== 'undefined') init.call(this, config);
-			Parent.call(this, config);
-		};
-		delete def.constructor;
-		// TODO: only add display name when not creating a full build
-		constructor.displayName = name;
-		constructor.name = name;
+    function endsWith(string, searchString, position) {
+        position = position || string.length;
+        position = position - searchString.length;
+        var lastIndex = string.lastIndexOf(searchString);
+        return lastIndex !== -1 && lastIndex === position;
+    }
 
-		if(def.Skin) {
-			constructor.Skin = def.Skin;
-			delete def.Skin;
-		}
+    Control.create = function(name, def) {
+        // prepare def and used variables
+        var init = def.constructor,
+            parent = def.$extends || Control,
+            mixins = def.$with || [],
+            proto = Object.create(parent.prototype),
+            properties = [],
+            installer;
+        delete def.constructor;
+        delete def.$extends;
+        delete def.$with;
 
-		var dispose = def.dispose;
-		def.dispose = function() {
-			if(installer) installer.dispose(this);
-			if(dispose) dispose.call(this);
-			Parent.prototype.dispose.call(this);
-		};
-		Class(constructor).extends(Parent).def(def);
+        // create constructor for new component
+        function CustomControl(config) {
+            if(installer) installer(this);
+            if(init) init.apply(this, arguments);
+            // initialize mixins
+            for(var i = 0, len = mixins.length; i < len; i++) {
+                mixins[i].call(this, config);
+            }
+            parent.call(this, config);
+        }
 
-		// install properties
-		if(properties.length > 0) {
-			properties.unshift(constructor);
-			var installer = Observable.install.apply(Observable, properties);
-		}
-		return constructor;
-	};
+        // merge in mixins
+        for(var i = 0, len = mixins.length; i < len; i++) {
+            var mixin = mixins[i];
+            Object.getOwnPropertyNames(mixin).forEach(function(propertyName) {
+                var descriptor = Object.getOwnPropertyDescriptor(mixin, propertyName);
+                Object.defineProperty(proto, propertyName, descriptor);
+            });
+        }
+
+        // copy properties from the definition to the prototype, add special recognition for ObservableProperty fields
+        Object.getOwnPropertyNames(def).forEach(function(propertyName) {
+            if(endsWith(propertyName, 'Property')) {
+                properties[properties.length] = propertyName.substring(0, propertyName.length-8);
+                proto[propertyName] = null;
+            } else {
+                var descriptor = Object.getOwnPropertyDescriptor(def, propertyName);
+                Object.defineProperty(proto, propertyName, descriptor);
+            }
+        });
+        // setup prototype chain
+        proto.constructor = CustomControl;
+        CustomControl.prototype = proto;
+
+        // and create installer
+        var installer = properties.length === 0 ? null : Observable.install.apply(Observable, properties);
+
+        return CustomControl;
+    };
+
+//	Control.create = function(name, Parent, properties, def) {
+//		var mixins;
+//		if(arguments.length === 1) {
+//			def = name;
+//			name = def['@name'];
+//			Parent = def['@extends'];
+//			properties = def['@properties'];
+//			mixins = def['@mixin'];
+//			delete def['@extends'];
+//			delete def['@properties'];
+//			delete def['@name'];
+//			delete def['@mixin'];
+//		}
+//		Parent || (Parent = Control);
+//		properties || (properties = []);
+//		def || (def = {});
+//		var init = def['@init'];
+//		delete def['@init'];
+//		var constructor = (def.hasOwnProperty('constructor') && def.constructor) || function(config) {
+//			installer(this);
+//			config = config || {};
+//			if(!config.skin) {
+//				config.skin  = new (constructor.Skin)(this, config.element);
+//			}
+//			if(typeof init !== 'undefined') init.call(this, config);
+//			Parent.call(this, config);
+//		};
+//		delete def.constructor;
+//		// TODO: only add display name when not creating a full build
+//		constructor.displayName = name;
+//		constructor.name = name;
+//
+//		if(def.Skin) {
+//			constructor.Skin = def.Skin;
+//			delete def.Skin;
+//		}
+//
+//		var dispose = def.dispose;
+//		def.dispose = function() {
+//			if(installer) installer.dispose(this);
+//			if(dispose) dispose.call(this);
+//			Parent.prototype.dispose.call(this);
+//		};
+//		Class(constructor).extends(Parent).def(def);
+//
+//		// install properties
+//		if(properties.length > 0) {
+//			properties.unshift(constructor);
+//			var installer = Observable.install.apply(Observable, properties);
+//		}
+//		return constructor;
+//	};
 
 	register('jide-control', Control, Component, ['skin', 'tooltip', 'contextmenu'], []);
 

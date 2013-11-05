@@ -106,19 +106,28 @@ define('jidejs/ui/Skin', [
 		 * @protected
 		 */
 		updateRootElement: function() {
-			if(this.template) {
+			if(this.template || this.component.template) {
 				var templateElement = Template(this.component.template || this.template),
 					template = templateElement.content.cloneNode(true);
 				copyAttributes(templateElement, this.element);
 				refPseudos(this, template);
+                if(this.element.hasAttribute(bind.attributeName)) {
+                    this.managed(bind.elementTo(this.element, this.component, this));
+                }
 				this.managed(bind.to(template, this.component, this));
 				if(has('shadowDOM')) {
-					this.element.createShadowRoot().appendChild(template);
+                    var shadowRoot = this.element.createShadowRoot();
+                    shadowRoot.applyAuthorStyles = true;
+					shadowRoot.appendChild(template);
 				} else {
 					this.element.appendChild(template);
 				}
 			}
 		},
+
+        bind: function(descriptor) {
+            this.managed(bind.elementToDescriptor(element, this.component, this, descriptor));
+        },
 
 		on: function(pseudoName, handlers) {
 			if(arguments.length === 1) {

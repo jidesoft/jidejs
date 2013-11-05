@@ -9,165 +9,10 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/base/Util', 'jidejs/base/Animation', 'jidejs/base/ObservableProperty', 'jidejs/base/Dispatcher',
-	'jidejs/ui/Component', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/control/Label'
-], function(Class, DOM, _, Animation, Observable, Dispatcher, Component, Control, Skin, Label) {
-	var doc = document;
-	var template = (function() {
-		var frag = doc.createDocumentFragment();
-		var title = doc.createElement('header');
-		frag.appendChild(title);
-		var content = doc.createElement('div');
-		content.className = 'jide-titledpane-content';
-		frag.appendChild(content);
-		return frag;
-	}());
-
-	function changeContent(contentElement, newContent) {
-		if(_.isString(newContent)) {
-			contentElement.innerHTML = newContent;
-		} else {
-			DOM.removeChildren(contentElement);
-			contentElement.appendChild(newContent.element || newContent);
-		}
-	}
-
-	function TitledPaneSkin(titledPane, el) {
-		if(typeof el === 'undefined') {
-			el = doc.createElement('div');
-		}
-		this.titledPane = titledPane;
-		this.element = el;
-		Skin.call(this, titledPane, el);
-
-		el.appendChild(template.cloneNode(true));
-		this.title = new Label({element:el.children[0]});
-		this.title.classList.add('jide-titledpane-title');
-		this.content = el.children[1];
-		this.collapseHandlerRegistered = false;
-
-		this.collapseHandler = function() {
-			this.expanded = !this.expanded;
-		}.bind(titledPane);
-	}
-
-	Class(TitledPaneSkin).extends(Skin).def({
-		install: function() {
-			Skin.prototype.install.call(this);
-			var titledPane = this.titledPane;
-			var THIS = this;
-
-			var collapsibleChangedHandler = function(event) {
-				if(event.value && !THIS.collapseHandlerRegistered) {
-					THIS.title.on('click', THIS.collapseHandler);
-					THIS.collapseHandlerRegistered = true;
-				} else if(!event.value && THIS.collapseHandlerRegistered) {
-					THIS.title.off('click', THIS.collapseHandler);
-					THIS.collapseHandlerRegistered = false;
-				}
-			};
-
-			function expandedChangedHandler(event) {
-				var expand = event.value;
-				if(!titledPane.content) {
-					titledPane.classList[expand ? 'add' : 'remove']('jide-expanded');
-					return;
-				} else {
-					changeContent(THIS.content, titledPane.content);
-				}
-				if(expand) {
-					titledPane.classList.add('jide-expanded');
-				}
-				var size = DOM.measure(THIS.content, true);
-				var fullHeight = size.height;
-				// in case the node isn't yet part of the DOM, so we will just delay that a little bit
-				if(fullHeight === 0 && expand) {
-					Dispatcher.nextTick(function() {
-						THIS.content.style.height = DOM.measure(titledPane.content.element).height;
-					});
-					return;
-				}
-				var requestLayout = titledPane.parent && titledPane.parent.requestLayout
-					? function() { titledPane.parent.requestLayout(); titledPane.parent.layout(); }
-					: function() {};
-				var content = THIS.content;
-				if(titledPane.animated && size.height === fullHeight) {
-					Animation.cssTransition({
-						element: content,
-						property: 'height',
-						start:  expand ? 0          : fullHeight,
-						target: expand ? fullHeight : 0,
-						unit: 'px',
-						method: Animation.linear,
-						duration: 500
-					}).then(function() {
-						if(!expand) {
-							titledPane.classList.remove('jide-expanded');
-						}
-						requestLayout();
-					});
-				} else {
-					if(!expand) {
-						titledPane.classList.remove('jide-expanded');
-						content.style.height = "0px";
-					} else {
-						content.style.height = fullHeight+"px";
-					}
-					requestLayout();
-				}
-			}
-
-			this.bindings = [
-				this.title.textProperty.bindBidirectional(titledPane.titleProperty),
-				titledPane.contentProperty.subscribe(function(event) {
-					var value = event.value;
-//					if(event.oldValue) {
-//						var oldValue = event.oldValue;
-//						oldValue.parent = null;
-//						this.content.replaceChild(value.element, oldValue.element);
-//					} else {
-//						this.content.appendChild(value.element);
-//					}
-					changeContent(THIS.content, value);
-					value.parent = this.titledPane;
-					Dispatcher.requestAnimationFrame(function() {
-						if(titledPane.animated) {
-							titledPane.classList.remove('jide-titledpane-animated');
-						}
-						var size = DOM.measure(THIS.content);
-						if(size.height) {
-							THIS.content.style.height = titledPane.expanded ? size.height+"px" : "0px";
-						}
-						if(titledPane.animated) {
-							Dispatcher.requestAnimationFrame(function() {
-								titledPane.classList.add('jide-titledpane-animated');
-							});
-						}
-					});
-				}.bind(this)),
-				titledPane.expandedProperty.subscribe(expandedChangedHandler),
-				titledPane.collapsibleProperty.subscribe(collapsibleChangedHandler),
-				titledPane.animatedProperty.subscribe(function(event) {
-					if(event.value) {
-						titledPane.classList.add('jide-titledpane-animated');
-					} else {
-						titledPane.classList.remove('jide-titledpane-animated');
-					}
-				})
-			];
-			expandedChangedHandler({value: titledPane.expanded});
-			collapsibleChangedHandler({value: titledPane.collapsible});
-			if(titledPane.animated) titledPane.classList.add('jide-titledpane-animated');
-		},
-
-		dispose: function() {
-			this.bindings.forEach(function(binding) {
-				binding.dispose();
-			});
-			this.bindings = [];
-		}
-	});
-
+	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/base/Util', 'jidejs/base/Animation', 'jidejs/base/ObservableProperty',
+    'jidejs/ui/Component', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/register',
+    'jidejs/ui/control/Templates'
+], function(Class, DOM, _, Animation, Observable, Component, Control, Skin, register, Templates) {
 	/**
 	 * Creates a new TitledPane.
 	 * @memberof module:jidejs/ui/control/TitledPane
@@ -178,9 +23,6 @@ define([
 	function TitledPane(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new TitledPaneSkin(this, config.element);
-		}
 		_.defaults(config, { expanded: true, collapsible: true, animated: true });
 		Control.call(this, config);
 		this.classList.add('jide-titledpane');
@@ -250,6 +92,30 @@ define([
 		animatedProperty: null
 	});
 	var installer = Observable.install(TitledPane, 'title', 'content', 'collapsible', 'expanded', 'animated');
+    TitledPane.Skin = Skin.create(Skin, {
+        defaultElement: 'div',
+        template: Templates.TitledPane,
+
+        get expanded() {
+            var titledPane = this.component;
+            return !titledPane.collapsible || titledPane.expanded;
+        },
+
+        get height() {
+            var titledPane = this.component;
+            var content = this['x-content'];
+            content.style.height = 'auto';
+            var height = titledPane.expanded ? (DOM.measure(content).height+'px') : '0px';
+            return height;
+        },
+
+        toggleExpanded: function() {
+            var titledPane = this.component;
+            if(!titledPane.collapsible) return;
+            titledPane.expanded = !titledPane.expanded;
+        }
+    });
+    register('jide-titledpane', TitledPane, Control, ['title', 'content', 'collapsible', 'expanded', 'animated'], []);
 
 	return TitledPane;
 });

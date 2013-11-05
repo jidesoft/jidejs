@@ -37,7 +37,8 @@ module.exports = function(grunt) {
 					yuicompress: true
 				},
 				files: {
-					"dist/jidejs/default.css": "style/default.less"
+					"dist/jidejs/default.css": "style/default.less",
+                    "style/default.css": "style/default.less"
 				}
 			},
 			demos: {

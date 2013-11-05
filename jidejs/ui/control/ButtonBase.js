@@ -19,8 +19,8 @@
  */
 define([
 		'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/ui/Component', 'jidejs/ui/Skin',
-		'jidejs/ui/control/Labeled', 'jidejs/ui/register'
-], function(Class, Observable, _, Component, Skin, Labeled, register) {
+		'jidejs/ui/control/Labeled', 'jidejs/ui/register', 'jidejs/ui/control/Templates'
+], function(Class, Observable, _, Component, Skin, Labeled, register, Templates) {
 		var commandBinding = '$jide/ui/control/ButtonBase.command$';
 
 		function delegateToCommand() {
@@ -78,28 +78,16 @@ define([
 			}
 		});
 		ButtonBase.Skin = Skin.create(Labeled.Skin, {
+            template: Templates.ButtonBase,
 			/**
 			 * Registers all necessary property bindings and returns them as an array.
 			 * @returns {{ dispose: function() {}}[]}
 			 */
-			installBindings: function() {
+			install: function() {
+                Labeled.Skin.prototype.install.call(this);
 				var button = this.component,
 					commandBinding = null;
-				if(!button.enabled) {
-					button.element.setAttribute('disabled', 'disabled');
-					button.classList.add('jide-state-disabled');
-				}
-				var bindings = Labeled.Skin.prototype.installBindings.call(this).concat(
-					button.enabledProperty.subscribe(function(event) {
-						if(event.value) {
-							this.element.removeAttribute('disabled');
-							this.classList.remove('jide-state-disabled');
-						} else {
-							this.element.setAttribute('disabled', 'disabled');
-							this.classList.add('jide-state-disabled');
-						}
-					}),
-					button.commandProperty.subscribe(function(event) {
+				this.managed(button.commandProperty.subscribe(function(event) {
 						if(event.oldValue) {
 							commandBinding.dispose();
 						}
@@ -111,13 +99,12 @@ define([
 						} else if(!event.oldValue && event.value) {
 							button.on('action', delegateToCommand).bind(this);
 						}
-					}, this)
+					})
 				);
 				if(button.command) {
 					commandBinding = button.enabledProperty.bind(button.command.enabledProperty);
-					bindings.push(button.on('action', delegateToCommand).bind(button));
+					this.managed(button.on('action', delegateToCommand).bind(button));
 				}
-				return bindings;
 			},
 
 			/**
@@ -125,6 +112,7 @@ define([
 			 * @returns {module:jidejs/base/Subscription[]}
 			 */
 			installListeners: function() {
+                Labeled.Skin.prototype.installListeners.call(this);
 				var button = this.component, mouseOver = false, mouseDown = false, armed = false;
 				var updateArmedState = function() {
 					if(armed) {
@@ -138,7 +126,7 @@ define([
 						button.emit('action');
 					}
 				};
-				return Labeled.Skin.prototype.installListeners.call(this).concat(button.on({
+				this.managed(button.on({
 					mouseover: function() {
 						mouseOver = true;
 						armed = mouseOver && mouseDown;
@@ -161,7 +149,7 @@ define([
 					},
 					click: function(e) {
 						if(e.button !== 2 && button.enabled) {
-							button.emit('action');
+							button.emit('action', e);
 						}
 					},
 					key: {

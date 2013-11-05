@@ -1,4 +1,4 @@
-.jide-accordion > .jide-vbox > div > .jide-titledpane {
+.jide-accordion > .jide-titledpane {
   display: block;
 }
 
@@ -6,16 +6,14 @@
   & > .jide-titledpane-title {
     display: block;
     .user-select(none);
+  }
+
+  &.is-collapsible > .jide-titledpane-title {
     cursor: pointer;
   }
 
   & > .jide-titledpane-content {
-    display: none;
     overflow: hidden;
-  }
-
-  &.jide-expanded > .jide-titledpane-content {
-    display: block;
   }
 
   &.jide-titledpane-animated > .jide-titledpane-content {
