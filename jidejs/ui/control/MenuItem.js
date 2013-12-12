@@ -6,8 +6,8 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/control/ButtonBase'
-], function(Class, Component, ButtonBase) {
+	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/control/ButtonBase', 'jidejs/ui/register'
+], function(Class, Component, ButtonBase, register) {
 	/**
 	 * Creates a new MenuItem.
 	 *
@@ -21,5 +21,6 @@ define([
 		this.classList.add('jide-menuitem');
 	}
 	Class(MenuItem).extends(ButtonBase);
+    register('jide-menuitem', MenuItem, ButtonBase, [], []);
 	return MenuItem;
 });

@@ -5,8 +5,8 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/base/Util'
-], function(Class, Observable, Control, Skin, _) {
+	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/base/Util', 'jidejs/ui/register'
+], function(Class, Observable, Control, Skin, _, register) {
 	function HTMLViewSkin(htmlView, el) {
 		this.element = el || document.createElement("div");
 		Skin.call(this, htmlView, this.element);
@@ -85,5 +85,6 @@ define([
 	});
 	var installer = Observable.install(HTMLView, 'content');
 	HTMLView.Skin = HTMLViewSkin;
+    register('jide-htmlview', HTMLView, Control, ['content'], []);
 	return HTMLView;
 });

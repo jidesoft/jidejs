@@ -12,8 +12,8 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/ui/Control',
-    'jidejs/ui/Skin', 'jidejs/ui/layout/VBox', 'jidejs/base/has', 'jidejs/ui/control/Templates'
-], function(Class, Observable, ObservableList, Control, Skin, VBox, has, Templates) {
+    'jidejs/ui/Skin', 'jidejs/ui/layout/VBox', 'jidejs/base/has', 'jidejs/ui/control/Templates', 'jidejs/ui/register'
+], function(Class, Observable, ObservableList, Control, Skin, VBox, has, Templates, register) {
 	/**
 	 * Creates a new Accordion.
 	 *
@@ -97,5 +97,6 @@ define([
             }
         }
 	});
+    register('jide-accordion', Accordion, Control, ['expandedPane'], []);
 	return Accordion;
 });

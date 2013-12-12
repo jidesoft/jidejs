@@ -1,0 +1,27 @@
+<template>
+    <h1>todos</h1>
+    <div class="todo-view">
+        <header>
+            <input type="text" pseudo="x-editor">
+        </header>
+        <ul bind="
+            foreach: tasks
+        ">
+            <template>
+                <li><input type="checkbox" bind="
+                    attr: {
+                        checked: $item.done ? 'checked' : null
+                    },
+                    on: {
+                        change: $parent.updateCheckedState.bind($parent)
+                    }
+                "><span bind="text: $item.title"></span></li>
+            </template>
+        </ul>
+        <footer>
+            <span bind="text: component.openTasks + ' items left'"></span>
+            <div pseudo="x-filter-options"></div>
+            <span pseudo="x-clear-completed"></span>
+        </footer>
+    </div>
+</template>

@@ -12,10 +12,10 @@ define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util',
 	'jidejs/base/DOM', 'jidejs/base/ObservableList', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/Pos',
 	'jidejs/ui/control/SingleSelectionModel', 'jidejs/ui/control/Popup', 'jidejs/ui/control/ListView',
-	'jidejs/ui/control/TextField', 'jidejs/ui/control/Button'
+	'jidejs/ui/control/TextField', 'jidejs/ui/control/Button', 'jidejs/ui/register'
 ], function(
 	Class, Observable, _, DOM, ObservableList, Control, Skin, Pos, SingleSelectionModel, Popup, ListView,
-	TextField, Button
+	TextField, Button, register
 ) {
 	"use strict";
 
@@ -208,5 +208,6 @@ define([
 	 * @type {module:jidejs/ui/control/ComboBoxBase.Skin}
 	 */
 	ComboBoxBase.Skin = ComboBoxBaseSkin;
+    register('jide-comboboxbase', ComboBoxBase, Control, ['items', 'value', 'converter', 'showing', 'editable'], []);
 	return ComboBoxBase;
 });

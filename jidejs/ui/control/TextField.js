@@ -5,7 +5,9 @@
  * @module jidejs/ui/control/TextField
  * @extends module:jidejs/ui/control/TextInputControl
  */
-define(['jidejs/base/Class', 'jidejs/ui/control/TextInputControl'], function(Class, TextInputControl) {
+define([
+    'jidejs/base/Class', 'jidejs/ui/Skin', 'jidejs/ui/control/TextInputControl', 'jidejs/ui/register'
+], function(Class, Skin, TextInputControl, register) {
 	var supportsPlaceholder = ('placeholder' in document.createElement('input'));
 
 	/**
@@ -30,37 +32,46 @@ define(['jidejs/base/Class', 'jidejs/ui/control/TextInputControl'], function(Cla
 	function TextField(config) {
 		TextInputControl.call(this, config);
 		this.classList.add('jide-textfield');
-		if(supportsPlaceholder) {
-			this.promptTextProperty.subscribe(function(event) {
-				this.element.placeholder = event.value;
-			}, this);
-			this.element.placeholder = this.promptText || ' ';
-		} else {
-			this.on('focus', function() {
-				var element = this.element;
-				if(element.value == this.promptText && this.classList.contains('jide-placeholding')) {
-					element.value = '';
-					this.classList.remove('jide-placeholding');
-				}
-			});
-			this.on('blur', function() {
-				if(this.element.value == '') {
-					this.element.value = this.promptText;
-					this.classList.add('jide-placeholding');
-				}
-			});
-			if(this.text == '') {
-				this.element.value = this.promptText;
-				this.classList.add('jide-placeholding');
-			}
-		}
-
-		this.keyMap.on({key: 'Enter'}, function() {
-			this.emit('action');
-		});
 	}
 
 	Class(TextField).extends(TextInputControl);
+    TextField.Skin = Skin.create(TextInputControl.Skin, {
+        install: function() {
+            TextInputControl.Skin.prototype.install.call(this);
+            if(supportsPlaceholder) {
+                this.component.promptTextProperty.subscribe(function(event) {
+                    this.element.placeholder = event.value;
+                }, this);
+                this.element.placeholder = this.component.promptText || ' ';
+            } else {
+                this.managed(
+                    this.component.on('focus', function() {
+                        var element = this.element;
+                        if(element.value == this.promptText && this.classList.contains('jide-placeholding')) {
+                            element.value = '';
+                            this.classList.remove('jide-placeholding');
+                        }
+                    }),
+                    this.component.on('blur', function() {
+                        if(this.element.value == '') {
+                            this.element.value = this.promptText;
+                            this.classList.add('jide-placeholding');
+                        }
+                    })
+                );
+                if(this.component.text == '') {
+                    this.element.value = this.component.promptText;
+                    this.component.classList.add('jide-placeholding');
+                }
+            }
+
+            this.managed(this.component.keyMap.on({key: 'Enter'}, function() {
+                this.emit('action');
+            }));
+        }
+    });
+
+    register('jide-textfield', TextField, TextInputControl, [], []);
 
 	return TextField;
 });

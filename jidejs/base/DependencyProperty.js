@@ -77,7 +77,9 @@ define('jidejs/base/DependencyProperty', [
 					this._bindings.push(deps[i].subscribe(invalidate));
 				}
 				this.invalid = false;
-			}
+			} else {
+                DependencyTracker.read(this);
+            }
 			return this._value;
 		},
 

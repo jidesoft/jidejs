@@ -4,26 +4,73 @@
  * @extends module:jidejs/ui/control/TextInputControl
  */
 define([
-	'jidejs/base/Class', 'jidejs/ui/Skin', 'jidejs/ui/control/TextInputControl', 'jidejs/base/ObservableProperty'
-], function(Class, Skin, TextInputControl, Observable) {
+	'jidejs/base/Class', 'jidejs/ui/Skin', 'jidejs/ui/control/TextInputControl', 'jidejs/base/ObservableProperty',
+    'jidejs/ui/register'
+], function(Class, Skin, TextInputControl, Observable, register) {
 	function TextAreaSkin(input, el) {
-        Skin.call(this, input, el);
+        TextInputControl.Skin.call(this, input, el);
 	}
-	Class(TextAreaSkin).extends(Skin).def({
-        defaultElement: 'textarea'
+	Class(TextAreaSkin).extends(TextInputControl.Skin).def({
+        defaultElement: 'textarea',
+        createDefaultRootElement: function() {
+            return document.createElement('textarea');
+        },
+
+        updateRootElement: function() {
+            if(this.element.nodeName !== 'textarea') {
+                var newRoot = this.createDefaultRootElement();
+                if(this.element.parentNode) this.element.parentNode.replaceChild(newRoot, this.element);
+                this.element = newRoot;
+            }
+            Skin.prototype.updateRootElement.call(this);
+        },
+
+        install: function() {
+            TextInputControl.Skin.prototype.install.call(this);
+            this.managed(
+                this.component.prefRowCountProperty.subscribe(this.updatePrefRowCount, this),
+                this.component.prefColumnCountProperty.subscribe(this.updatePrefColumnCount, this)
+            );
+            if(this.component.prefRowCount) this.updatePrefRowCount({ value: this.component.prefRowCount });
+            if(this.component.prefColumnCount) this.updatePrefColumnCount({ value: this.component.prefColumnCount });
+            if(supportsPlaceholder) {
+                this.managed(this.component.promptTextProperty.subscribe(function(event) {
+                    this.element.placeholder = event.value || '';
+                }, this));
+                this.element.placeholder = this.component.promptText || '';
+            } else {
+                this.managed(
+                    this.component.on('focus', function() {
+                        var element = this.element;
+                        if(element.value == this.promptText && this.classList.contains('jide-placeholding')) {
+                            element.value = '';
+                            this.classList.remove('jide-placeholding');
+                        }
+                    }),
+                    this.component.on('blur', function() {
+                        if(this.element.value == '') {
+                            this.element.value = this.promptText;
+                            this.classList.add('jide-placeholding');
+                        }
+                    })
+                );
+                if(this.component.text == '') {
+                    this.element.value = this.component.promptText;
+                    this.component.classList.add('jide-placeholding');
+                }
+            }
+        },
+
+        updatePrefRowCount: function(event) {
+            this.element.rows = event.value;
+        },
+
+        updatePrefColumnCount: function(event) {
+            this.element.cols = event.value;
+        }
     });
 
 	var supportsPlaceholder = ('placeholder' in document.createElement('textarea'));
-
-	function setPrefRowCount(event) {
-		this.element.rows = event.value;
-		return event.value;
-	}
-
-	function setPrefColumnCount(event) {
-		this.element.cols = event.value;
-		return event.value;
-	}
 
 	/**
 	 * Creates a new TextArea.
@@ -35,37 +82,9 @@ define([
 	function TextArea(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) config.skin = new TextAreaSkin(this, config.element);
 		TextInputControl.call(this, config);
-		this.prefRowCountProperty.subscribe(setPrefRowCount).bind(this);
-		this.prefColumnCountProperty.subscribe(setPrefColumnCount).bind(this);
-		if(this.prefRowCount) setPrefRowCount.call(this, { value: this.prefRowCount });
-		if(this.prefColumnCount) setPrefColumnCount.call(this, { value: this.prefColumnCount });
 		this.classList.add('jide-textarea');
-		if(supportsPlaceholder) {
-			this.promptTextProperty.subscribe(function(event) {
-				this.element.placeholder = event.value || '';
-			}, this);
-			this.element.placeholder = this.promptText || '';
-		} else {
-			this.on('focus', function() {
-				var element = this.element;
-				if(element.value == this.promptText && this.classList.contains('jide-placeholding')) {
-					element.value = '';
-					this.classList.remove('jide-placeholding');
-				}
-			});
-			this.on('blur', function() {
-				if(this.element.value == '') {
-					this.element.value = this.promptText;
-					this.classList.add('jide-placeholding');
-				}
-			});
-			if(this.text == '') {
-				this.element.value = this.promptText;
-				this.classList.add('jide-placeholding');
-			}
-		}
+
 	}
 	Class(TextArea).extends(TextInputControl).def({
 		dispose: function() {
@@ -95,5 +114,7 @@ define([
 		prefColumnCountProperty: null
 	});
 	var installer = Observable.install(TextArea, 'prefRowCount', 'prefColumnCount');
+    TextArea.Skin = TextAreaSkin;
+    register('jide-textarea', TextArea, TextInputControl, ['prefRowCount', 'prefColumnCount'], []);
 	return TextArea;
 });

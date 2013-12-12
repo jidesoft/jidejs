@@ -45,7 +45,8 @@ module.exports = function(grunt) {
 				files: {
 					"demo/apps/email/style.css": "demo/apps/email/style.less",
 					"demo/apps/contacts/style.css": "demo/apps/contacts/style.less",
-					"demo/apps/issues/style.css": "demo/apps/issues/style.less"
+					"demo/apps/issues/style.css": "demo/apps/issues/style.less",
+                    "demo/styling/osx/style/jide.css": "demo/styling/osx/style/jide.less"
 				}
 			}
 		},

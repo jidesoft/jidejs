@@ -9,8 +9,9 @@
  * @abstract
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/ui/Control', 'jidejs/ui/Skin'
-], function(Class, Observable, _, Control, Skin) {
+	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util',
+    'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/register'
+], function(Class, Observable, _, Control, Skin, register) {
 	function createInputElement() {
 		var i = document.createElement('input');
 		i.type = 'text';
@@ -18,9 +19,42 @@ define([
 	}
 
 	function TextInputControlSkin(input, el) {
-		Skin.call(this, input, el || createInputElement());
+		Skin.call(this, input, el);
 	}
-	Class(TextInputControlSkin).extends(Skin);
+	Class(TextInputControlSkin).extends(Skin).def({
+        createDefaultRootElement: function() {
+            var i = document.createElement('input');
+            i.type = 'text';
+            return i;
+        },
+
+        updateRootElement: function() {
+            if(this.element.nodeName !== 'INPUT') {
+                var newRoot = this.createDefaultRootElement();
+                if(this.element.parentNode) this.element.parentNode.replaceChild(newRoot, this.element);
+                this.element = newRoot;
+            }
+            Skin.prototype.updateRootElement.call(this);
+        },
+
+        install: function() {
+            Skin.prototype.install.call(this);
+
+            this.managed(
+                this.component.textProperty.subscribe(function(event) {
+                    this.element.value = event.value;
+                }, this),
+                this.component.editableProperty.subscribe(function(event) {
+                    this.element.readOnly = !event.value;
+                }, this),
+                this.component.on('keyup', _.debounce(function() {
+                    this.text = this.element.value;
+                }, 50))
+            );
+            if(this.component.text) this.element.value = this.component.text;
+            if(!this.component.editable) this.element.readOnly = true;
+        }
+    });
 
 	/**
 	 * Called by subclasses to initialize the TextInputControl.
@@ -32,22 +66,8 @@ define([
 	function TextInputControl(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new TextInputControlSkin(this, config.element);
-		}
 		Control.call(this, _.defaults(config, {tabIndex: 0}));
-		this.textProperty.subscribe(function(event) {
-			this.element.value = event.value;
-		}, this);
-		if(this.text) this.element.value = this.text;
-		this.editableProperty.subscribe(function(event) {
-			this.element.readOnly = !event.value;
-		}, this);
-		if(!this.editable) this.element.readOnly = true;
 		this.classList.add('jide-textinput');
-		this.on('keyup', _.debounce(function() {
-			this.text = this.element.value;
-		}, 50));
 	}
 
 	Class(TextInputControl).extends(Control).def({
@@ -93,6 +113,8 @@ define([
 		 */
 		promptTextProperty: null
 	});
+    TextInputControl.Skin = TextInputControlSkin;
 	var installer = Observable.install(TextInputControl, 'text', 'editable', 'promptText');
+    register('jide-textinput', TextInputControl, Control, ['text', 'editable', 'promptText'], []);
 	return TextInputControl;
 });

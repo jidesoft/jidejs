@@ -19,7 +19,7 @@ define('jidejs/base/Util', function() {
 	});
 
 	Util.isObject = function(obj) {
-		return obj === Object(obj);
+		return obj === Object(obj) && toString.call(obj) === '[object Object]';
 	};
 
 	Util.isElement = function(obj) {

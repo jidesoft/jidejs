@@ -111,6 +111,7 @@ define('jidejs/ui/Skin', [
 					template = templateElement.content.cloneNode(true);
 				copyAttributes(templateElement, this.element);
 				refPseudos(this, template);
+                this.upgradePseudos();
                 if(this.element.hasAttribute(bind.attributeName)) {
                     this.managed(bind.elementTo(this.element, this.component, this));
                 }
@@ -124,6 +125,8 @@ define('jidejs/ui/Skin', [
 				}
 			}
 		},
+
+        upgradePseudos: function() {},
 
         bind: function(descriptor) {
             this.managed(bind.elementToDescriptor(element, this.component, this, descriptor));
@@ -206,7 +209,6 @@ define('jidejs/ui/Skin', [
 				THIS.updateTooltipPosition(e.pageX, e.pageY);
 			};
 			var tooltipMouseOut = function(e) {
-				console.log(e);
 				if(!c.automaticTooltipHandling || c.element.contains(e.relatedTarget)) return;
 				this.tooltip.visible = false;
 			};

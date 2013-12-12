@@ -5,8 +5,9 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/base/ObservableProperty'
-], function(Class, _, Control, Skin, Observable) {
+	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/base/ObservableProperty',
+    'jidejs/ui/register'
+], function(Class, _, Control, Skin, Observable, register) {
 	function ImageViewSkin(imageView, el) {
 		this.element = el || document.createElement("img");
 		Skin.call(this, imageView);
@@ -67,6 +68,7 @@ define([
 		srcProperty: null
 	});
 	var installer = Observable.install(ImageView, 'src');
+    register('jide-imageview', ImageView, Control, ['src'], []);
 
 	return ImageView;
 });

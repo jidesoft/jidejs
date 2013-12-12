@@ -9,8 +9,8 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/control/PopupSkin',
-	'jidejs/base/DOM', 'jidejs/ui/Pos', 'jidejs/base/Util', 'jidejs/base/Window'
-], function(Class, Observable, Control, PopupSkin, DOM, Pos, _, Window) {
+	'jidejs/base/DOM', 'jidejs/ui/Pos', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/ui/register'
+], function(Class, Observable, Control, PopupSkin, DOM, Pos, _, Window, register) {
 	/**
 	 * Creates a new Popup.
 	 * @memberof module:jidejs/ui/control/Popup
@@ -21,9 +21,6 @@ define([
 	function Popup(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new PopupSkin(this, config.element);
-		}
 		Control.call(this, _.defaults(config, {tabIndex: 0}));
 		this.classList.add('jide-popup');
 	}
@@ -167,5 +164,7 @@ define([
 		}
 	});
 	var installer = Observable.install(Popup, 'content', 'autoHide', 'visible', 'consumeAutoHidingEvents');
+    Popup.Skin = PopupSkin;
+    register('jide-popup', Popup, Control, ['content', 'autoHide', 'visible', 'consumeAutoHidingEvents'], ['show', 'setLocation']);
 	return Popup;
 });

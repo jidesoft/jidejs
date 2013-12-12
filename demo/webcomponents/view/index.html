@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Changing the view of a control</title>
+    <link rel="stylesheet" href="/jidejs/default.css">
+    <script src="/components/requirejs/require.js" data-main="main.js" async="async"></script>
+    <style>
+        #custom_button {
+            padding: 0;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+<div id="custom_button" text="Hello World">
+    <template>
+        <svg width="200" height="28">
+            <defs>
+                <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#a0caf6" offset="0"/>
+                    <stop stop-color="#1579df" offset="0.5" />
+                    <stop stop-color="#1675d6" offset="0.5"/>
+                    <stop stop-color="#115ca9" offset="1"/>
+                </linearGradient>
+            </defs>
+            <g cursor="pointer" width="200">
+                <rect x="0" y="0" rx="8" ry="8" width="200" height="28"
+                      style="fill:url(#gradient);"/>
+                <text fill="white" font-size="14pt" text-anchor="middle" x="100" y="20" bind="text: component.text"></text>
+            </g>
+        </svg>
+    </template>
+</div>
+</body>
+</html>

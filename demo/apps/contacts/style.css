@@ -371,7 +371,7 @@
 .jide-radiobutton > .jide-labeled-graphic {
   margin-right: 5px;
 }
-.jide-accordion > .jide-vbox > div > .jide-titledpane {
+.jide-accordion > .jide-titledpane {
   display: block;
 }
 .jide-titledpane > .jide-titledpane-title {
@@ -380,6 +380,8 @@
   -khtml-user-select: none;
   -moz-user-select: none;
   user-select: none;
+}
+.jide-titledpane.is-collapsible > .jide-titledpane-title {
   cursor: pointer;
 }
 .jide-titledpane > .jide-titledpane-content {

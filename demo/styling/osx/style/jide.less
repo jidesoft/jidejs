@@ -1,26 +1,46 @@
-@import "../../../../style/mixins.less";
+//@import "../../../../style/mixins.less";
+@import "../../../../style/flat/variables";
+@import "../../../../style/flat/mixins";
 
 html, body {
   margin: 0;
   padding: 0;
   border: 0 none;
-  height: calc(100% - 120px);
+  height: ~"calc(100% - 60px)";
   font: 12px Lucida Sans Unicode, Lucida Grande, sans-serif;
 }
+
+html {
+  padding: 30px 60px !important;
+}
+
+//@import "../../../../style/basic/basic.less";
+//@import "../../../../style/default/ColorScheme";
+//@import "../../../../style/default/Component.less";
+//@import "../../../../style/default/TextInput.less";
+//@import "../../../../style/default/TitledPane";
+//@import "../../../../style/default/Popup";
+//@import "../../../../style/default/Menu.less";
+
+@import "../../../../style/basic/basic";
+@import "../../../../style/flat/Component";
+@import "../../../../style/flat/Button";
+@import "../../../../style/flat/TitledPane";
+@import "../../../../style/flat/Popup";
+@import "../../../../style/flat/Menu";
+@import "../../../../style/flat/Separator";
+@import "../../../../style/flat/ToolBar";
+@import "../../../../style/flat/TextInput";
+@import "../../../../style/flat/ProgressBar";
+@import "../../../../style/flat/ComboBox";
+@import "../../../../style/flat/ListView";
 
 .jide-component {
   .box-sizing(border-box);
   display: inline-block;
-  font-size: 12px;
+  font: 12px Lucida Sans Unicode, Lucida Grande, sans-serif;
+  line-height: 1.4;
 }
-
-@import "../../../../style/basic/basic.less";
-@import "../../../../style/default/ColorScheme";
-@import "../../../../style/default/Component.less";
-@import "../../../../style/default/TextInput.less";
-@import "../../../../style/default/TitledPane";
-@import "../../../../style/default/Popup";
-@import "../../../../style/default/Menu.less";
 
 [draggable] {
   .user-select(none);
@@ -30,6 +50,45 @@ html, body {
   background: #DDD !important;
   color: #555 !important;
   cursor: default !important;
+}
+
+.jide-toolbar {
+  background: transparent;
+
+  & .jide-button {
+    /* the following classes are "imported" directly from the lion-ui-kit.css file */
+    /* "Round Textured" button style */
+    &.textured {
+      color: rgba(0,0,0,.78);
+      text-shadow: 0px 1px 0px rgba(255,255,255,.75);
+      background:
+        -webkit-linear-gradient(top, hsla(0, 0%, 100%, .8), hsla(0, 0%, 100%, 0));
+      background:
+        linear-gradient(top, hsla(0, 0%, 100%, .8), hsla(0, 0%, 100%, 0));
+      background-clip: padding-box;
+      box-shadow:
+        inset 0px 1px 1px 0px rgba(255,255,255,.15),
+        0px 1px 0px 0px rgba(255,255,255,.3);
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, .41);
+      border-collapse: rgba(0, 0, 0, .4) rgba(0, 0, 0, .41) rgba(0, 0, 0, .41) rgba(0, 0, 0, .41);
+      display: block;
+      /* TODO: maybe use background-clip: content-box so the border won't overlap the background, so it can be that nice black overlay on top of the content behind the button, instead of on top of the button. */
+    }
+    &.textured:active, &.textured:hover {
+      color: rgba(0,0,0,.92);
+      text-shadow: 0px 1px 0px rgba(255,255,255,.93);
+      background:
+        -webkit-linear-gradient(bottom, rgba(255, 255, 255,.3), rgba(255,255,255,.05) 75%, rgba(50,50,50,.1));
+      background:
+        linear-gradient(bottom, rgba(255, 255, 255,.3), rgba(255,255,255,.05) 75%, rgba(50,50,50,.1));
+      background-clip: padding-box;
+      box-shadow:
+        inset 0px 2px 2px 0px rgba(0,0,0,.1),
+        0px 1px 0px 0px rgba(255,255,255,.3);
+      border-color: rgba(0,0,0,.55) rgba(0,0,0,.41) rgba(0,0,0,.28) rgba(0,0,0,.41);
+    }
+  }
 }
 
 .sourcelist .jide-titledpane-title {
@@ -44,6 +103,11 @@ html, body {
   color: hsl(212, 10%, 50%);
   text-shadow: 0px 1px 0px rgba(255,255,255,.8);
   text-transform: uppercase;
+
+  &:hover {
+    background: transparent;
+    color: hsl(212, 10%, 50%);
+  }
 }
 .sourcelist .jide-titledpane-title:hover:after {
   text-transform: none;
@@ -55,6 +119,11 @@ html, body {
 }
 .sourcelist .jide-titledpane-title:active:after {
   color: hsla(215, 60%, 63%, 1);
+}
+
+.sourcelist .jide-titledpane > .jide-titledpane-content {
+  background: transparent;
+  color: inherit;
 }
 
 .sourcelist .jide-titledpane.jide-expanded > .jide-titledpane-content {

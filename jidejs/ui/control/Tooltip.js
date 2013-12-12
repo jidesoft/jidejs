@@ -29,6 +29,7 @@ define(['jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/control/Popup'], fun
 		this.classList.add('jide-tooltip');
 	}
 	Class(Tooltip).extends(Popup);
+    Tooltip.Skin = Popup.Skin;
 
 	return Tooltip;
 });

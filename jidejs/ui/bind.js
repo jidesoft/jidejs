@@ -132,7 +132,10 @@ define('jidejs/ui/bind', [
 		for(var i = 0, len = boundElements.length; i < len; i++) {
 			var boundElement = boundElements[i],
 				provider = getBindingProvider(boundElement);
-			disposables[disposables.length] = bind(boundElement, provider(context, boundElement), context);
+            if(!DOM.hasData(boundElement) || !DOM.getData(boundElement).$bindContext) {
+                DOM.getData(boundElement).$bindContext = context;
+			    disposables[disposables.length] = bind(boundElement, provider(context, boundElement), context);
+            }
 		}
 		return createDisposable(disposables);
 	};
@@ -279,7 +282,11 @@ define('jidejs/ui/bind', [
 				}
 				if(_.isString(value)) {
 					// use text
-                    element.innerHTML = value;
+                    if('innerHTML' in element) {
+                        element.innerHTML = value;
+                    } else {
+                        DOM.setTextContent(element, value);
+                    }
 				} else if(!value) {
 					DOM.removeChildren(element);
 				} else if(_.isElement(value)) {
@@ -354,11 +361,11 @@ define('jidejs/ui/bind', [
 						frag.appendChild(cloned);
 					}
 					value.on('change', function(event) {
-						var changes = event.enumerator;
+						var changes = event.enumerator();
 						while(changes.moveNext()) {
 							var change = changes.current;
 							if(change.isDelete) {
-								element.removeChild(element.childNodes[change.index]);
+								element.removeChild(element.children[change.index]);
 								disposables.splice(change.index, 1).forEach(function(disposable) {
 									if(disposable) disposable.dispose();
 								});

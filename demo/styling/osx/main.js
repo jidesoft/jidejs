@@ -25,6 +25,8 @@ require([
 	var pEmail, pTitle, pContent;
 	function row(label, content) {
 		return new HBox({
+            spacing: '0',
+            fillHeight: true,
 			children: [
 				new Label({text: label, width: '100px'}), content
 			]
@@ -32,6 +34,8 @@ require([
 	}
 	var preview = new Popup({
 		content: new VBox({
+            spacing: '0',
+            fillWidth: true,
 			children: [
 				row('Recipient:', pEmail = new Label()),
 				row('Title:', pTitle = new Label()),
@@ -72,7 +76,7 @@ require([
 					})
 				]
 			}),
-			HBox.grow(new HBox({
+			VBox.grow(new HBox({
 				width: '100%',
 				fillHeight: true,
 				spacing: '0',
@@ -88,13 +92,13 @@ require([
 								expanded: true,
 								title: 'jide.js OSX styling demo',
 								content: new HTMLView({content: document.getElementById('aboutText')}),
-								width: '250px'
+								width: '340px'
 							}),
 							new TitledPane({
 								expanded: true,
 								title: 'Things to try',
 								content: new HTMLView({content: document.getElementById('thingsToTry')}),
-								width: '250px'
+								width: '340px'
 							}),
 						]
 					}), 'never'),
@@ -108,22 +112,24 @@ require([
 							BorderPane.region(new VBox({
 								fillWidth: true,
 								width: '100%',
-								spacing: '5px',
+								spacing: '5px 0',
 								'BorderPane.margin': '0',
 								children:[
 									new HBox({
 										width: '100%',
 										spacing: '0',
+                                        fillHeight: true,
 										children: [
-											new Label({text: 'Recipient', width: '60px'}),
+											new Label({text: 'Recipient', width: '100px'}),
 											email = new TextField({width: '100%'})
 										]
 									}),
 									new HBox({
 										width: '100%',
+                                        fillHeight: true,
 										spacing: '0',
 										children: [
-											new Label({text: 'Title', width: '60px'}),
+											new Label({text: 'Title', width: '100px'}),
 											title = new TextField({width: '100%'})
 										]
 									}),

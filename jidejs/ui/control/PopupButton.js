@@ -5,8 +5,9 @@
  * @extends module:jidejs/ui/control/Button
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/DOM', 'jidejs/ui/control/Button', 'jidejs/ui/Pos'
-], function(Class, Observable, DOM, Button, Pos) {
+	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/DOM', 'jidejs/ui/control/Button', 'jidejs/ui/Pos',
+    'jidejs/ui/Skin', 'jidejs/ui/register'
+], function(Class, Observable, DOM, Button, Pos, Skin, register) {
 	/**
 	 * Creates a new PopupButton.
 	 * @memberof module:jidejs/ui/control/PopupButton
@@ -16,63 +17,7 @@ define([
 	 */
 	function PopupButton(config) {
 		installer(this);
-
-		var autoHideHandler = function(e) {
-			if(this.popup && !DOM.isInElement(this.element, { x:e.pageX, y:e.pageY})
-				&& !DOM.isInElement(this.popup.element, {x: e.pageX, y: e.pageY})) {
-				this.showing = false;
-			}
-		}.bind(this);
-
-		var popupBinding;
-		Button.call(this, config);
-		this.popupProperty.subscribe(function(event) {
-			if(popupBinding) {
-				popupBinding.dispose();
-				popupBinding = null;
-			}
-			if(event.popup) {
-				var popup = event.popup;
-				popupBinding = popup.visibleProperty.bind(this.showingProperty);
-				popup.autoHide = false;
-			}
-		}, this);
-		if(this.popup) {
-			popupBinding = this.popup.visibleProperty.bind(this.showingProperty);
-			this.popup.autoHide = false;
-		}
-
-		this.showingProperty.subscribe(function(event) {
-			var popup = this.popup, showing = event.value;
-			if(showing && popup) {
-				var box = DOM.getBoundingBox(this.element);
-				var width = (box.right - box.left)+"px";
-				if(popup.element.style.minWidth != width) {
-					popup.element.style.minWidth = width;
-				}
-				popup.setLocation(this, Pos.BOTTOM);
-			}
-			if(showing) {
-				document.body.addEventListener('click', autoHideHandler, true);
-			} else {
-				document.body.removeEventListener('click', autoHideHandler, true);
-			}
-		}, this);
-		if(this.showing) {
-			var popup = this.popup;
-			if(popup) {
-				var box = DOM.getBoundingBox(this.element);
-				var width = (box.right - box.left)+"px";
-				if(popup.element.style.minWidth != width) {
-					popup.element.style.minWidth = width;
-				}
-				popup.setLocation(this, Pos.BOTTOM);
-			}
-			document.body.addEventListener('click', autoHideHandler, true);
-		}
-		this.on('action', function() {
-			this.showing = !this.showing;
-		});
+        Button.call(this, config);
 		this.classList.add('jide-popupbutton');
 	}
 	Class(PopupButton).extends(Button).def({
@@ -103,5 +48,56 @@ define([
 		showingProperty: null
 	});
 	var installer = Observable.install(PopupButton, 'popup', 'showing');
+    PopupButton.Skin = Skin.create(Button.Skin, {
+        maybeHidePopup: function(e) {
+            if(this.component.popup && !DOM.isInElement(this.element, { x:e.pageX, y:e.pageY})
+                && !DOM.isInElement(this.component.popup.element, {x: e.pageX, y: e.pageY})) {
+                this.component.showing = false;
+            }
+        },
+
+        togglePopupVisibility: function(event) {
+            var popup = this.component.popup, showing = event.value;
+            popup.autoHide = false;
+            if(showing && popup) {
+                var box = DOM.getBoundingBox(this.element);
+                var width = (box.right - box.left)+"px";
+                if(popup.element.style.minWidth != width) {
+                    popup.element.style.minWidth = width;
+                }
+                popup.setLocation(this.component, Pos.BOTTOM);
+            }
+            if(showing) {
+                document.body.addEventListener('click', this.autoHideHandler, true);
+            } else {
+                document.body.removeEventListener('click', this.autoHideHandler, true);
+            }
+        },
+
+        install: function() {
+            this.autoHideHandler = this.maybeHidePopup.bind(this);
+            Button.Skin.prototype.install.call(this);
+
+            this.managed(this.component.showingProperty.subscribe(this.togglePopupVisibility, this));
+            if(this.showing) {
+                var popup = this.popup;
+                if(popup) {
+                    var box = DOM.getBoundingBox(this.element);
+                    var width = (box.right - box.left)+"px";
+                    if(popup.element.style.minWidth != width) {
+                        popup.element.style.minWidth = width;
+                    }
+                    popup.setLocation(this, Pos.BOTTOM);
+                }
+                document.body.addEventListener('click', this.autoHideHandler, true);
+            }
+            this.managed(this.on('action', this.toggleShowing).bind(this));
+        },
+
+        toggleShowing: function() {
+            this.showing = !this.showing;
+        }
+    });
+    register('jide-popupbutton', PopupButton, Button, ['popup', 'showing'], []);
 	return PopupButton;
 });

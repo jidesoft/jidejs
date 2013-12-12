@@ -16,3 +16,7 @@ You'll learn how to use *observable values*, *UI controls* and *layout panes*.
 ## Overview
 
 These documents provide a high level overview of the **jide.js** *base* and *ui* packages.
+
+## Custom Controls
+
+Learn how to create your own **jide.js** controls using templates and clean separation of concerns.

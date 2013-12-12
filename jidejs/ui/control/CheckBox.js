@@ -17,8 +17,8 @@
  */
 define([
     'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Skin', 'jidejs/ui/control/ButtonBase', 'jidejs/ui/control/Toggle',
-	'jidejs/base/Util', 'jidejs/ui/control/Templates'
-], function(Class, Observable, Skin, ButtonBase, Toggle, _, Templates) {
+	'jidejs/base/Util', 'jidejs/ui/control/Templates', 'jidejs/ui/register'
+], function(Class, Observable, Skin, ButtonBase, Toggle, _, Templates, register) {
 		/**
 		 * Creates a new CheckBox.
 		 *
@@ -114,6 +114,8 @@ define([
                 }
             }
 		});
+
+        register('jide-checkbox', CheckBox, ButtonBase, ['indeterminate', 'allowIndeterminate'], []);
 
 		return CheckBox;
 });

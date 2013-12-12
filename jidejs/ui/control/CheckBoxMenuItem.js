@@ -4,7 +4,9 @@
  * @module jidejs/ui/control/CheckBoxMenuItem
  * @extends module:jidejs/ui/control/CheckBox
  */
-define(['jidejs/base/Class', 'jidejs/ui/control/CheckBox', 'jidejs/ui/Skin'], function(Class, CheckBox, Skin) {
+define([
+    'jidejs/base/Class', 'jidejs/ui/control/CheckBox', 'jidejs/ui/Skin', 'jidejs/ui/register'
+], function(Class, CheckBox, Skin, register) {
 	/**
 	 * Creates a new CheckBoxMenuItem.
 	 *
@@ -21,5 +23,7 @@ define(['jidejs/base/Class', 'jidejs/ui/control/CheckBox', 'jidejs/ui/Skin'], fu
 	}
 	Class(CheckBoxMenuItem).extends(CheckBox);
 	CheckBoxMenuItem.Skin = Skin.create(CheckBox.Skin);
+
+    register('jide-checkboxmenuitem', CheckBoxMenuItem, CheckBox, [], []);
 	return CheckBoxMenuItem;
 });

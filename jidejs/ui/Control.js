@@ -36,6 +36,7 @@ define('jidejs/ui/Control', [
 			var children = [];
 			copyChildren(element, config, function(child) {
 				children[children.length] = child;
+                element.removeChild(child);
 			});
 			config.children = children;
 		} else if(typeof component.contentProperty !== 'undefined') {
@@ -52,12 +53,12 @@ define('jidejs/ui/Control', [
 	}
 
 	function copyChildren(element, config, fallbackHandler) {
-		while(element.firstElementChild) {
-			var child = element.firstElementChild;
+		while(element.firstChild) {
+			var child = element.firstChild;
 			if(child.tagName === 'JIDE-PROP') {
 				config[child.propertyName] = child.propertyValue;
 				element.removeChild(child);
-			} else if(child.hasAttribute('data-property')) {
+			} else if(child.hasAtrribute && child.hasAttribute('data-property')) {
 				config[child.getAttribute('data-property')] = child;
 				element.removeChild(child);
 			} else if(child.tagName === 'TEMPLATE') {
@@ -155,10 +156,12 @@ define('jidejs/ui/Control', [
             mixins = def.$with || [],
             proto = Object.create(parent.prototype),
             properties = [],
+            skin = def.Skin || parent.Skin || Skin,
             installer;
         delete def.constructor;
         delete def.$extends;
         delete def.$with;
+        delete def.Skin;
 
         // create constructor for new component
         function CustomControl(config) {
@@ -180,6 +183,8 @@ define('jidejs/ui/Control', [
             });
         }
 
+        properties[0] = CustomControl;
+
         // copy properties from the definition to the prototype, add special recognition for ObservableProperty fields
         Object.getOwnPropertyNames(def).forEach(function(propertyName) {
             if(endsWith(propertyName, 'Property')) {
@@ -193,6 +198,7 @@ define('jidejs/ui/Control', [
         // setup prototype chain
         proto.constructor = CustomControl;
         CustomControl.prototype = proto;
+        CustomControl.Skin = skin;
 
         // and create installer
         var installer = properties.length === 0 ? null : Observable.install.apply(Observable, properties);

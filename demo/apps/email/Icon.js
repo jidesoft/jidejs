@@ -3,11 +3,16 @@
  */
 define([
 	'jidejs/base/Class',
+    'jidejs/base/ObservableProperty',
 	'jidejs/ui/Control',
 	'jidejs/ui/Skin'
-], function(Class, Control, Skin) {
+], function(Class, ObservableProperty, Control, Skin) {
 	"use strict";
-	return Control.create('Icon', Control, ['name'], {
+	return Control.create('Icon', {
+        $extends: Control,
+
+        nameProperty: '',
+
 		Skin: Skin.create(Skin, {
 			defaultElement: 'i',
 

@@ -7,8 +7,8 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/base/DOM', 'jidejs/ui/control/Popup',
-	'jidejs/ui/Container', 'jidejs/base/Util', 'jidejs/ui/control/Separator'
-], function(Class, Observable, ObservableList, DOM, Popup, Container, _, Separator) {
+	'jidejs/ui/Container', 'jidejs/base/Util', 'jidejs/ui/control/Separator', 'jidejs/ui/register'
+], function(Class, Observable, ObservableList, DOM, Popup, Container, _, Separator, register) {
 	var isFocused = function(child) {
 		return child.focused;
 	};
@@ -134,5 +134,6 @@ define([
 			}
 		}
 	});
+    register('jide-contextmenu', ContextMenu, Popup, [], []);
 	return ContextMenu;
 });

@@ -26,9 +26,9 @@
 define([
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/ui/Control',
 	'jidejs/ui/Skin', 'jidejs/ui/control/Cell', 'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/Component',
-	'jidejs/ui/Orientation', 'jidejs/base/Util', 'jidejs/base/DOM'
+	'jidejs/ui/Orientation', 'jidejs/base/Util', 'jidejs/base/DOM', 'jidejs/ui/register'
 ], function(
-	Class, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _, DOM
+	Class, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _, DOM, register
 ) {
 	//region ListViewSkin
 	function ListViewSkin(listView, element) {
@@ -287,5 +287,6 @@ define([
 		orientationProperty: null
 	});
 	var installer = Observable.install(ListView, 'orientation', 'converter', 'cellFactory');
+    register('jide-listview', ListView, Control, ['orientation', 'converter', 'cellFactory', 'selectionModel', 'items'], []);
 	return ListView;
 });

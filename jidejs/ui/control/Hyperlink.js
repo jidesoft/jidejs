@@ -7,9 +7,9 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/control/ButtonBase',
-	'jidejs/base/ObservableProperty'
+	'jidejs/base/ObservableProperty', 'jidejs/ui/register'
 ],
-	function(Class, Component, ButtonBase, Observable) {
+	function(Class, Component, ButtonBase, Observable, register) {
 		function HyperlinkSkin(link, el) {
 			ButtonBase.Skin.call(this, link, el || document.createElement("a"));
 		}
@@ -67,5 +67,6 @@ define([
 		});
 		var installer = Observable.install(Hyperlink, 'href');
 		Hyperlink.Skin = HyperlinkSkin;
+        register('jide-hyperlink', Hyperlink, ButtonBase, ['href'], []);
 		return Hyperlink;
 });

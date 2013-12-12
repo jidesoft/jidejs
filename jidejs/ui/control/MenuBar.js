@@ -10,8 +10,8 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/ui/Pos', 'jidejs/ui/layout/HBox', 'jidejs/ui/Control',
-	'jidejs/ui/Skin', 'jidejs/ui/control/Separator'
-], function(Class, DOM, Pos, HBox, Control, Skin, Separator) {
+	'jidejs/ui/Skin', 'jidejs/ui/control/Separator', 'jidejs/ui/register'
+], function(Class, DOM, Pos, HBox, Control, Skin, Separator, register) {
 	var isFocused = function(child) {
 		return child.focused;
 	};
@@ -136,6 +136,8 @@ define([
 			return this.content.children;
 		}
 	});
+
+    register('jide-menubar', MenuBar, Control, [], []);
 
 	return MenuBar;
 });

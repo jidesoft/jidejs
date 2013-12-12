@@ -105,7 +105,10 @@ define([
             var titledPane = this.component;
             var content = this['x-content'];
             content.style.height = 'auto';
+            var originalWidth = content.style.width;
+            if(this.element.style.width) content.style.width = this.element.style.width;
             var height = titledPane.expanded ? (DOM.measure(content).height+'px') : '0px';
+            content.style.width = originalWidth;
             return height;
         },
 

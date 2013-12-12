@@ -5,31 +5,28 @@ define([
 	"use strict";
 
 	function TemplateViewSkin(view, element) {
-		this.element = element || document.createElement('div');
-		Skin.call(this, view);
+		Skin.call(this, view, element);
 	}
 	Class(TemplateViewSkin).extends(Skin).def({
-		install: function() {
-			Skin.prototype.install.call(this);
-			var view = this.component,
-				el = this.element,
-				template = Observable.computed(function() {
-					return Handlebars.compile(document.getElementById(view.template).innerHTML);
-				}),
-				renderer = Observable.computed(function() {
-					return template.get()(view.item || {});
-				});
-
-			this._bindings = [
-				view.itemProperty.subscribe(function() {
-					el.innerHTML = renderer.get();
-				}),
-				renderer.subscribe(function() {
-					el.innerHTML = renderer.get();
-				}),
-				view.classList.bind('jide-state-selected', view.selectedProperty)
-			];
-		},
+        updateRootElement: function() {
+            var view = this.component,
+                el = this.element,
+                template = Observable.computed(function() {
+                    return Handlebars.compile(document.getElementById(view.template).innerHTML);
+                }),
+                renderer = Observable.computed(function() {
+                    return template.get()(view.item || {});
+                });
+            this.managed(
+                view.itemProperty.subscribe(function() {
+                    el.innerHTML = renderer.get();
+                }),
+                renderer.subscribe(function() {
+                    el.innerHTML = renderer.get();
+                }),
+                view.classList.bind('jide-state-selected', view.selectedProperty)
+            );
+        },
 
 		dispose: function() {
 			Skin.prototype.dispose.call(this);

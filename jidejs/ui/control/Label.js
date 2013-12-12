@@ -5,8 +5,8 @@
  * @extends module:jidejs/ui/control/Labeled
  */
 define([
-	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/control/Labeled', 'jidejs/ui/Skin'
-], function(Class, Component, Labeled, Skin) {
+	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/control/Labeled', 'jidejs/ui/Skin', 'jidejs/ui/register'
+], function(Class, Component, Labeled, Skin, register) {
 	/**
 	 * Creates a new Label control.
 	 * @memberof module:jidejs/ui/control/Label
@@ -28,6 +28,8 @@ define([
 	Label.Skin = Skin.create(Labeled.Skin, {
 		defaultElement: 'label'
 	});
+
+    register('jide-label', Label, Labeled, [], []);
 
 	return Label;
 });

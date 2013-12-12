@@ -6,16 +6,19 @@
  * @module jidejs/ui/control/PasswordField
  * @extends module:jidejs/ui/control/TextField
  */
-define(['jidejs/base/Class', 'jidejs/ui/control/TextField', 'jidejs/ui/Skin'], function(Class, TextField, Skin) {
+define([
+    'jidejs/base/Class', 'jidejs/ui/control/TextField', 'jidejs/ui/Skin', 'jidejs/ui/register'
+], function(Class, TextField, Skin, register) {
 	function PasswordFieldSkin(input, el) {
-		this.component = input;
-		this.element = el || (function() {
-			var i = document.createElement('input');
-			i.type = 'password';
-			return i;
-		}());
+		TextField.Skin.call(this, input, el);
 	}
-	Class(PasswordFieldSkin).extends(Skin);
+	Class(PasswordFieldSkin).extends(TextField.Skin).def({
+        createDefaultRootElement: function() {
+            var i = document.createElement('input');
+            i.type = 'password';
+            return i;
+        }
+    });
 
 	/**
 	 * Creates a new PasswordField.
@@ -26,11 +29,10 @@ define(['jidejs/base/Class', 'jidejs/ui/control/TextField', 'jidejs/ui/Skin'], f
 	 */
 	function PasswordField(config) {
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new PasswordFieldSkin(this, config.element);
-		}
 		TextField.call(this, config);
 	}
 	Class(PasswordField).extends(TextField);
+    PasswordField.Skin = PasswordFieldSkin;
+    register('jide-passwordfield', PasswordField, TextField, [], []);
 	return PasswordField;
 });

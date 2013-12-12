@@ -8,8 +8,8 @@
  */
 define([
 	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/base/ObservableProperty', 'jidejs/ui/control/Labeled',
-	'jidejs/ui/control/ContextMenu', 'jidejs/ui/Pos', 'jidejs/base/Util'
-], function(Class, DOM, Observable, Labeled, ContextMenu, Pos, _) {
+	'jidejs/ui/control/ContextMenu', 'jidejs/ui/Pos', 'jidejs/base/Util', register
+], function(Class, DOM, Observable, Labeled, ContextMenu, Pos, _, register) {
 	/**
 	 * Creates a new Menu.
 	 *
@@ -82,6 +82,7 @@ define([
 		}
 	});
 	var installer = Observable.install(Menu, 'showing');
+    register('jide-menu', Menu, Labeled, ['showing'], ['show']);
 
 	return Menu;
 });
