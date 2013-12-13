@@ -22,6 +22,7 @@
     "jsdoc": "3.2.0-dev",
     "markdown": "*",
     "hogan.js": "*",
-    "nunjucks": "~0.1.10"
+    "nunjucks": "~0.1.10",
+    "less-middleware": "*"
   }
 }

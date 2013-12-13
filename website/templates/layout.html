@@ -10,10 +10,13 @@
             "packages": [{
                 name: 'jidejs',
                 location: '/jidejs'
-            }]
+            }],
+            paths: {
+                text: '/bower_components/requirejs-text/text'
+            }
         };
     </script>
-    <script src="/components/requirejs/require.js"></script>
+    <script src="/bower_components/requirejs/require.js"></script>
     {% endblock %}
 
     <!-- load jide.js docs styling -->
@@ -120,7 +123,7 @@
 </footer>
 {% block footimport %}
 <!-- load jQuery and bootstrop -->
-<script src="/components/jquery/jquery.min.js"></script>
+<script src="/bower_components/jquery/jquery.min.js"></script>
 {% endblock %}
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -23,9 +23,9 @@ module.exports = function(grunt) {
 						"* Available via the MIT or new BSD license.\n" +
 						"* see: http://github.com/jrburke/requirejs for details\n" +
 						'*/',
-					pattern: 'website/build/components/requirejs/*.js',
-					cwd: 'website/build/components/requirejs',
-					out: 'website/build/components/requirejs/'
+					pattern: 'website/build/bower_components/requirejs/*.js',
+					cwd: 'website/build/bower_components/requirejs',
+					out: 'website/build/bower_components/requirejs/'
 				}
 			}
 		},
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 		copy: {
 			debug: {
 				files: [
-					{src: ['components/**'], dest: 'website/build/'},
+					{src: ['bower_components/**'], dest: 'website/build/'},
 					// copy demos
 					{src: ['demo/**'], dest: 'website/build/'},
 					// copy minified jidejs
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
 			},
 			website: {
 				files: [
-					{src: ['components/**'], dest: 'website/build/'},
+					{src: ['bower_components/**'], dest: 'website/build/'},
 					// copy demos
 					{src: ['demo/**'], dest: 'website/build/'},
 					// copy minified jidejs
@@ -213,7 +213,7 @@ module.exports = function(grunt) {
 		app.use('/jidejs', express.static(__dirname+'/jidejs'));
 		app.use('/jidejs', express.static(__dirname+'/style'));
 		app.use('/demo', express.static(__dirname+'/demo'));
-		app.use('/components', express.static(__dirname+'/components'));
+		app.use('/bower_components', express.static(__dirname+'/bower_components'));
 		app.listen(3000).on('close', done);
 		console.log('Server started at port '+3000);
 	});

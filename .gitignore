@@ -40,7 +40,7 @@ projectFilesBackup/
 #################
 
 node_modules/
-components/
+bower_components/
 
 #################
 ## Visual Studio

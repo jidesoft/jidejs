@@ -5,7 +5,7 @@ require.config({
 		location: '../../../jidejs'
 	}],
     paths: {
-        text: '../../../components/requirejs-text/text'
+        text: '../../../bower_components/requirejs-text/text'
     }
 });
 //endregion
