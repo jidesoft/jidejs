@@ -14,7 +14,7 @@ Our Todo application needs two separate data models. Naturally, we need a data m
 call it Task. We need nothing fancy here, a title and a done state will be sufficient for the purpose of this example.
 Thus, our first lines of code will define the Task model:
 
-```js
+```javascript
 define([
     'jidejs/base/Class',
     'jidejs/base/ObservableProperty'
@@ -33,7 +33,7 @@ define([
 In addition to this simple Task model, we also need a model that represents our TodoApp. In jide.js, such a model is
 a control.
 
-```js
+```javascript
 define([
     'jidejs/base/Class',
     'jidejs/base/DependencyProperty',
@@ -143,7 +143,7 @@ The last missing part for the TodoApp is its Skin, the ViewModel. As we've notic
 a few HTML elements that would benefit from being upgraded to a real Control and we need a filtered list of tasks that
 must depend on the users selection for the employed filter.
 
-```js
+```javascript
 define([
     'jidejs/base/Observable',
     'jidejs/ui/control/ListView',
@@ -295,7 +295,7 @@ creation of the control by specifying the `template` option in its `config` para
 The only thing missing now is the creation of the application itself. Remember that during creation you can specify
 a different `template` or `skin` should you need to.
 
-```js
+```javascript
 require([
     'model/Task',
     'model/TodoApp'

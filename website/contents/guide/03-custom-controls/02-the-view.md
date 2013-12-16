@@ -71,7 +71,7 @@ Sometimes it'd not be practical to place your View template directly within the 
 offers a utility function that will transform a _String_ to a _template_ element. Since we're already using _require.js_
 we can rely on its _text_ plugin to load the template file for us.
 
-```js
+```javascript
 require([
     'jidejs/ui/Template',
     'jidejs/ui/control/Button',
