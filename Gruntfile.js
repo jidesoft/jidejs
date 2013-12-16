@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 		, UglifyJS = require("uglify-js2");
 
 	// Project configuration.
-	var banner = '/*! <%=pkg.name%> <%=pkg.version%> - <%= grunt.template.today("yyyy-mm-dd") %>\n <%= pkg.license %>\n Author: <%=pkg.author%> */\n';
+	var banner = '/*! <%=pkg.name%> <%=pkg.version%> - <%= grunt.template.today("yyyy-mm-dd") %>\n <%= pkg.licenseString %>\n Author: <%=pkg.author%> */\n';
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 

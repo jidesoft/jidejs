@@ -1,8 +1,31 @@
 {
-  "name": "jidejs",
+  "name": "jide",
   "version": "0.9.0",
   "author": "Patrick Gotthardt, <patrick@jidesoft.com>",
-  "license": "@license JIDESOFT, INC; MIT licensed",
+  "description": "jide.js is a free UI toolkit for modern web applications based on data binding and separation of concerns.",
+  "keywords": [
+    "ui",
+    "flat",
+    "control",
+    "component",
+    "client",
+    "model",
+    "view",
+    "controller",
+    "viewmodel",
+    "browser",
+    "library",
+    "amd"
+  ],
+  "license": "MIT",
+  "licenseString": "@license JIDESOFT, INC; MIT licensed",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/jidesoft/jidejs.git"
+  },
+  "bugs": {
+      "url": "https://github.com/jidesoft/jidejs/issues"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-requirejs": "~0.4.0",

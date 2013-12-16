@@ -1,6 +1,28 @@
 {
 	"name": "jide.js",
 	"version": "0.9.0",
+    "description": "jide.js is a free UI toolkit for modern web applications based on data binding and separation of concerns.",
+    "authors": ["Patrick Gotthardt <patrick@jidesoft.com> (http://www.pagosoft.com)"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jidesoft/jidejs.git"
+    },
+    "location": "https://github.com/jidesoft/jidejs.git",
+    "homepage": "http://js.jidesoft.com",
+    "keywords": [
+        "ui",
+        "flat",
+        "control",
+        "component",
+        "client",
+        "model",
+        "view",
+        "controller",
+        "viewmodel",
+        "browser",
+        "library",
+        "amd"
+    ],
 	"dependencies": {
 		"requirejs": "~2.1.6",
 		"requirejs-text": "~2.0.6"
@@ -17,6 +39,8 @@
         "jsdoc/**",
         "node_modules/**",
         "website/**",
+        "release/**",
+        "build/**",
         ".idea/**",
         ".git/**",
         ".gitignore",
