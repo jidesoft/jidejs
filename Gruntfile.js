@@ -67,7 +67,8 @@ module.exports = function(grunt) {
 					// copy demos
 					{src: ['demo/**'], dest: 'website/build/'},
 					// copy minified jidejs
-					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'dist/jidejs', expand: true}
+					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'dist/jidejs', expand: true},
+                    {src: ['**/*.html'], dest: 'website/build/jidejs/', cwd: 'jidejs', expand: true}
 				]
 			},
 			themes: {
