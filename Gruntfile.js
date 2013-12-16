@@ -52,6 +52,12 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
+            dist: {
+                files: [
+                    {src: ['**/*.html'], dest: 'dist/jidejs/', cwd: 'jidejs', expand: true},
+                    {src: ['README.md', 'LICENSE'], dest: 'dist/'}
+                ]
+            },
 			debug: {
 				files: [
 					{src: ['bower_components/**'], dest: 'website/build/'},
@@ -79,12 +85,12 @@ module.exports = function(grunt) {
 		},
 
 		compress: {
-			free: {
+			zip: {
 				options: {
-					archive: 'jidejs-<%=pkg.version%>.zip'
+					archive: 'release/jidejs-<%=pkg.version%>.zip'
 				},
 				files: [
-					{src: ['**/*'], dest: '', cwd: 'dist', expand: true}
+					{src: ['**/*'], dest: '/', cwd: 'dist', expand: true}
 				]
 			}
 		},
@@ -166,8 +172,12 @@ module.exports = function(grunt) {
 
 	// build dist (minified source + css/less files)
 	grunt.registerTask('build', [
-		'minify:source', 'less:controls', 'less:demos', 'copy:themes'
+		'minify:source', 'copy:dist', 'less:controls', 'less:demos', 'copy:themes'
 	]);
+
+    grunt.registerTask('release', [
+        'build', 'compress:zip'
+    ]);
 
 	// build the website
 	grunt.registerTask('website', [
@@ -183,7 +193,7 @@ module.exports = function(grunt) {
 	]);
 
 	// the default task is to build everything
-	grunt.registerTask('default', ['website']);
+	grunt.registerTask('default', ['build']);
 
 	// start a web server to preview the website
 	grunt.registerTask('website-preview', ['website', 'wintersmith'], function() {

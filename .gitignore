@@ -41,6 +41,7 @@ projectFilesBackup/
 
 node_modules/
 bower_components/
+release/
 
 #################
 ## Visual Studio
