@@ -84,8 +84,11 @@
         }, {
             name: 'examples',
             location: '/examples'
-        }]
+        }],
+        paths: {
+            text: '/bower_components/requirejs-text/text'
+        }
     };
 </script>
-<script src="/examples/docs.js"></script>
+<script src="/bower_components/requirejs/require.js" data-main="/examples/docs.js"></script>
 {% endblock %}
