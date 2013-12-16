@@ -100,7 +100,7 @@ function updateExamplePage(template, exampleId, example, callback) {
 var urlmapping;
 function loadExamples(root, callback) {
 	var examples = {};
-	urlmapping = require('./dist/docs/api/urlmapping');
+	urlmapping = require('./website/build/api/urlmapping');
 	fs.readdir(root, function(err, files) {
 		if(err) return callback(err);
 		var categoryCounter = files.length;
