@@ -99,6 +99,7 @@ define([
 						} else if(!event.oldValue && event.value) {
 							button.on('action', delegateToCommand).bind(this);
 						}
+                        event.stopPropagation();
 					})
 				);
 				if(button.command) {
@@ -121,35 +122,41 @@ define([
 						button.classList.remove('armed');
 					}
 				};
-				var dispatcher = function() {
+				var dispatcher = function(event) {
 					if(button.enabled) {
-						button.emit('action');
+						button.emit('action', event);
+						if(event) event.stopPropagation();
 					}
 				};
 				this.managed(button.on({
-					mouseover: function() {
+					mouseover: function(event) {
 						mouseOver = true;
 						armed = mouseOver && mouseDown;
 						updateArmedState();
+						event.stopPropagation();
 					},
-					mouseout: function() {
+					mouseout: function(event) {
 						mouseOver = false;
 						armed = false;
 						updateArmedState();
+						event.stopPropagation();
 					},
-					mousedown: function() {
+					mousedown: function(event) {
 						mouseDown = true;
 						armed = mouseOver && mouseDown;
 						updateArmedState();
+						event.stopPropagation();
 					},
-					mouseup: function() {
+					mouseup: function(event) {
 						mouseDown = false;
 						armed = false;
 						updateArmedState();
+						event.stopPropagation();
 					},
 					click: function(e) {
 						if(e.button !== 2 && button.enabled) {
 							button.emit('action', e);
+							e.stopPropagation();
 						}
 					},
 					key: {

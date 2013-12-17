@@ -24,6 +24,7 @@ define('jidejs/ui/Control', [
 			DOM.getData(this.element).component = this;
 		}
 		skin.install();
+		event.stopPropagation();
 	}
 
 	function parseChildren(component, element, config) {

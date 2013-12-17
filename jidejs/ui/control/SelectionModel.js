@@ -24,6 +24,7 @@ define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Even
 		dispose: function() {
 			EventEmitter.prototype.dispose.call(this);
 			installer.dispose(this);
+			if(this._listChangedHandler) this._listChangedHandler.dispose();
 		},
 
 		/**
