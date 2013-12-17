@@ -97,7 +97,7 @@ module.exports = function(grunt) {
 
 		jsdoc : {
 			dist : {
-				jsdoc: 'jsdoc-master',
+				jsdoc: 'node-modules/jsdoc/',
 				options: {
 					destination: 'website/build/api',
 					configure: 'jsdoc/conf.json'

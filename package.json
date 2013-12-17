@@ -35,17 +35,17 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-zipstream": "~0.2.2",
     "grunt-contrib-compress": "~0.4.9",
-    "grunt-jsdoc": "~0.3.2",
-    "grunt-wintersmith": "*",
-    "wintersmith-less": "*",
-    "wintersmith-nunjucks": "*",
-    "uglify-js2": "*",
-    "cheerio": "*",
-    "express": "*",
-    "jsdoc": "3.2.0-dev",
-    "markdown": "*",
-    "hogan.js": "*",
+    "grunt-jsdoc": "~0.4.2",
+    "grunt-wintersmith": "~0.0.2",
+    "wintersmith-less": "~0.2.1",
+    "wintersmith-nunjucks": "~0.2.1",
+    "uglify-js2": "~2.1.11",
+    "cheerio": "~0.12",
+    "express": "~3.4",
+    "jsdoc": "~3.2.2",
+    "markdown": "~0.5.0",
+    "hogan.js": "~2.0.0",
     "nunjucks": "~0.1.10",
-    "less-middleware": "*"
+    "less-middleware": "~0.1.14"
   }
 }
