@@ -5252,6 +5252,24 @@ a.badge:focus {
 .hero-unit li {
   line-height: 30px;
 }
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+.invisible {
+  visibility: hidden;
+}
+.affix {
+  position: fixed;
+}
 /**
  * The Default style is a simple yet good looking default design
  * for jide.js components. It includes nice backgrounds, paddings and more for

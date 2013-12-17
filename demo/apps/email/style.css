@@ -384,7 +384,7 @@
 .jide-radiobutton > .jide-labeled-graphic {
   margin-right: 5px;
 }
-.jide-accordion > .jide-vbox > div > .jide-titledpane {
+.jide-accordion > .jide-titledpane {
   display: block;
 }
 .jide-titledpane > .jide-titledpane-title {
@@ -394,14 +394,12 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.jide-titledpane.is-collapsible > .jide-titledpane-title {
   cursor: pointer;
 }
 .jide-titledpane > .jide-titledpane-content {
-  display: none;
   overflow: hidden;
-}
-.jide-titledpane.jide-expanded > .jide-titledpane-content {
-  display: block;
 }
 .jide-titledpane.jide-titledpane-animated > .jide-titledpane-content {
   -webkit-transition: height 0.5s linear;
@@ -974,18 +972,29 @@
   -moz-border-radius: 0;
   border-radius: 0;
 }
+.jide-accordion > div > .jide-titledpane > .jide-titledpane-title,
+.jide-accordion > .jide-titledpane > .jide-titledpane-title {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
 .jide-accordion > div > .jide-titledpane:last-child,
 .jide-accordion > .jide-titledpane:last-child {
   border-bottom-width: 0;
 }
 .jide-titledpane {
-  -webkit-border-radius: 6px 6px 0 0;
-  -moz-border-radius: 6px 6px 0 0;
-  border-radius: 6px 6px 0 0;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  border: 1px solid #e1e5ee;
 }
 .jide-titledpane > .jide-titledpane-title {
   background: #e1e5ee;
   color: #2d3041;
+  -webkit-background-clip: border-box;
+  -moz-background-clip: border-box;
+  background-clip: border-box;
+  padding: 5px 10px;
   -webkit-transition: 0.25s linear;
   -moz-transition: 0.25s linear;
   -o-transition: 0.25s linear;
@@ -1010,9 +1019,22 @@
 .jide-titledpane > .jide-titledpane-title.armed {
   background: #bfc3ca;
 }
+.jide-titledpane.jide-expanded > .jide-titledpane-content {
+  padding: 5px 10px;
+}
 .jide-titledpane > .jide-titledpane-content {
   background: #e8e9ec;
+  -webkit-background-clip: border-box;
+  -moz-background-clip: border-box;
+  background-clip: border-box;
   color: #2d3041;
+  padding: 0 10px;
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+}
+.jide-titledpane.primary {
+  border-color: #1abc9c;
 }
 .jide-titledpane.primary > .jide-titledpane-title {
   background: #1abc9c;
@@ -1027,6 +1049,9 @@
 .jide-titledpane.primary > .jide-titledpane-title.armed {
   background: #16a085;
 }
+.jide-titledpane.info {
+  border-color: #4690d1;
+}
 .jide-titledpane.info > .jide-titledpane-title {
   background: #4690d1;
   color: #e8e9ec;
@@ -1039,6 +1064,9 @@
 .jide-titledpane.info > .jide-titledpane-title:active,
 .jide-titledpane.info > .jide-titledpane-title.armed {
   background: #3c7ab2;
+}
+.jide-titledpane.danger {
+  border-color: #e74c3c;
 }
 .jide-titledpane.danger > .jide-titledpane-title {
   background: #e74c3c;
@@ -1053,6 +1081,9 @@
 .jide-titledpane.danger > .jide-titledpane-title.armed {
   background: #c44133;
 }
+.jide-titledpane.success {
+  border-color: #2ecc71;
+}
 .jide-titledpane.success > .jide-titledpane-title {
   background: #2ecc71;
   color: #e8e9ec;
@@ -1066,6 +1097,9 @@
 .jide-titledpane.success > .jide-titledpane-title.armed {
   background: #27ad60;
 }
+.jide-titledpane.warning {
+  border-color: #f1c40f;
+}
 .jide-titledpane.warning > .jide-titledpane-title {
   background: #f1c40f;
   color: #e8e9ec;
@@ -1078,6 +1112,9 @@
 .jide-titledpane.warning > .jide-titledpane-title:active,
 .jide-titledpane.warning > .jide-titledpane-title.armed {
   background: #cda70d;
+}
+.jide-titledpane.inverse {
+  border-color: #2d3041;
 }
 .jide-titledpane.inverse > .jide-titledpane-title {
   background: #2d3041;
@@ -1385,24 +1422,25 @@
   padding: 10px 20px;
   background: #e8e9ec;
   border: 1px solid #e1e5ee;
+  color: #2d3041;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
 }
 .jide-textinput:-moz-placeholder {
-  color: rgba(232, 233, 236, 0.75);
+  color: rgba(45, 48, 65, 0.75);
 }
 .jide-textinput::-moz-placeholder {
-  color: rgba(232, 233, 236, 0.75);
+  color: rgba(45, 48, 65, 0.75);
 }
 .jide-textinput:-ms-input-placeholder {
-  color: rgba(232, 233, 236, 0.75);
+  color: rgba(45, 48, 65, 0.75);
 }
 .jide-textinput::-webkit-input-placeholder {
-  color: rgba(232, 233, 236, 0.75);
+  color: rgba(45, 48, 65, 0.75);
 }
 .jide-textinput.jide-placeholding {
-  color: rgba(232, 233, 236, 0.75);
+  color: rgba(45, 48, 65, 0.75);
 }
 .jide-textinput:hover,
 .jide-textinput:focus {
