@@ -84,6 +84,15 @@ module.exports = function(grunt) {
 			}
 		},
 
+    wintersmith: {
+      build: {
+        options: {
+          action: 'build',
+          config: './website/config.json'
+        }
+      }
+    },
+
 		compress: {
 			zip: {
 				options: {
@@ -114,30 +123,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-jsdoc');
-
-	// This task starts the wintersmith command to build the website.
-	grunt.registerTask('wintersmith', function() {
-		var spawn = require('child_process').exec,
-			done = this.async();
-		var child = spawn('wintersmith build', {
-			cwd: 'website'
-		}, function(error, stdout, stderr) {
-			grunt.verbose.writeln(stdout.toString());
-			grunt.verbose.writeln(stderr.toString());
-			if(error) {
-				grunt.log.error(error);
-				done(false);
-				return;
-			}
-		});
-		child.on('exit', function(code) {
-			if(code === 0) done(true);
-			else {
-				grunt.log.error('wintersmith not run successfully');
-				done(false);
-			}
-		})
-	});
+  grunt.loadNpmTasks('grunt-wintersmith');
 
 	grunt.registerTask('compile:examples', function() {
 		var done = this.async();
@@ -181,22 +167,22 @@ module.exports = function(grunt) {
 
 	// build the website
 	grunt.registerTask('website', [
-		'build', 'jsdoc', 'compile:examples', 'wintersmith', 'copy:website', 'minify:requirejs'
+		'build', 'jsdoc', 'compile:examples', 'wintersmith:build', 'copy:website', 'wintersmith:build', 'minify:requirejs'
 	]);
 
 	grunt.registerTask('website-no-doc', [
-		'build', 'compile:examples', 'wintersmith', 'copy:website', 'minify:requirejs'
+		'build', 'compile:examples', 'wintersmith:build', 'copy:website', 'minify:requirejs'
 	]);
 
 	grunt.registerTask('website:debug', [
-		'build', 'compile:examples', 'wintersmith', 'copy:debug'
+		'build', 'compile:examples', 'wintersmith:build', 'copy:debug'
 	]);
 
 	// the default task is to build everything
 	grunt.registerTask('default', ['build']);
 
 	// start a web server to preview the website
-	grunt.registerTask('website-preview', ['website', 'wintersmith'], function() {
+	grunt.registerTask('website-preview', ['website', 'wintersmith:build'], function() {
 		var done = this.async();
 		var express = require('express')
 			, http = require('http')
