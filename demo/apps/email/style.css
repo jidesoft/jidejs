@@ -4777,6 +4777,9 @@ body {
   padding-left: 0;
   position: initial;
 }
+.glyphicons.user:before {
+  margin-right: 10px;
+}
 .jide-button.glyphicons {
   padding: 10px 20px;
 }
@@ -4832,6 +4835,9 @@ body {
   text-align: center;
   margin: 0 auto;
 }
+.navigation .jide-listview .jide-cell .glyphicons:before {
+  margin-bottom: 5px;
+}
 .navigation .jide-listview .jide-cell.jide-state-selected .glyphicons,
 .navigation .jide-listview .jide-cell.jide-state-selected .glyphicons:before {
   color: #E8E9EC;
@@ -4886,8 +4892,8 @@ body {
 }
 .folders .jide-listview.has-border > li > .jide-cell .glyphicons:before {
   font-size: 16px;
-  line-height: 20px;
   padding-right: 5px;
+  padding-bottom: 2px;
 }
 .folders .jide-listview.has-border > li:last-child > .jide-cell {
   border-bottom-width: 1px;

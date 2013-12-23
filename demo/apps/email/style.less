@@ -27,6 +27,10 @@ html, body {
   position: initial;
 }
 
+.glyphicons.user:before {
+  margin-right: (@unit*2);
+}
+
 .jide-button.glyphicons {
   #padding > .large;
 }
@@ -50,6 +54,10 @@ html, body {
       padding-left: 0;
       text-align: center;
       margin: 0 auto;
+    }
+
+    .glyphicons:before {
+      margin-bottom: 5px;
     }
 
     &.jide-state-selected {
@@ -84,8 +92,9 @@ html, body {
 
         .glyphicons:before {
           font-size: 16px;
-          line-height: 20px;
+//          line-height: 20px;
           padding-right: @unit;
+          padding-bottom: 2px;
         }
       }
 
