@@ -10,10 +10,41 @@ define('jidejs/ui/bind', [
 		var oldValues = {};
 		var state = 0; // 0 -> init, 1 -> update
 		var controlsChildren = false;
+        if(descriptor.is) {
+            var controlId = descriptor.is(),
+                controlInstance = null,
+                disposable = {
+                    controlsChildren: true,
+                    dispose: function() {
+                        controlInstance.dispose();
+                        controlInstance = null;
+                        element = null;
+                        descriptor = null;
+                        context = null;
+                    }
+                };
+            delete descriptor.is;
+            require([controlId], function(Control) {
+                var names = Object.getOwnPropertyNames(descriptor) || [],
+                    config = {};
+                for(var i = 0, len = names.length; i < len; i++) {
+                    var name = names[i],
+                        value = name === 'on' ? descriptor[name]() : Observable.computed(descriptor[name]);
+                    config[name] = value;
+                }
+                config['element'] = element;
+                controlInstance = new Control(config);
+                controlInstance.emit('ComponentReady', {
+                    source: element,
+                    component: controlInstance
+                });
+            });
+            return disposable;
+        }
 		var binding = Observable.computed({
 			lazy: false,
 			read: function() {
-				var names = Object.getOwnPropertyNames(descriptor) || {};
+				var names = Object.getOwnPropertyNames(descriptor) || [];
 				for(var i = 0, len = names.length; i < len; i++) {
 					var name = names[i],
 						value = Observable.unwrap(descriptor[name]()),
@@ -326,12 +357,11 @@ define('jidejs/ui/bind', [
 		foreach: {
 			init: function(element, context) {
 				var template = element.firstElementChild;
-//				if(!template || !template.content) throw new Error(
-//					'Expected the only child element of foreach to be a template tag');
 
 				// at this point, the element doesn't have any children left
 				getBindData(element).template = template;
-				if(template) element.removeChild(template);
+//				if(template) element.removeChild(template);
+                element.innerHTML = '';
 
 				return true; // controls children
 			},
@@ -365,16 +395,20 @@ define('jidejs/ui/bind', [
 						while(changes.moveNext()) {
 							var change = changes.current;
 							if(change.isDelete) {
-								element.removeChild(element.children[change.index]);
+                                var templateSize = useTemplate ? template.content.childNodes.length : 1;
+                                for(var len = templateSize; 0 < len; len--) {
+                                    element.removeChild(element.childNodes[change.index * templateSize]);
+                                }
 								disposables.splice(change.index, 1).forEach(function(disposable) {
 									if(disposable) disposable.dispose();
 								});
 							} else if(change.isInsert) {
 								var cloned = useTemplate
-                                    ? template.content.cloneNode(true)
-                                    : (change.newValue.element || change.newValue);
-								if(useTemplate) disposables.splice(change.index, 0, [bind.to(cloned, context.$item, change.newValue)]);
-								DOM.insertElementAt(element, cloned, change.index);
+                                        ? template.content.cloneNode(true)
+                                        : (change.newValue.element || change.newValue),
+                                    templateSize = useTemplate ? template.content.childNodes.length : 1;
+								if(useTemplate) disposables.splice(change.index, 0, bind.to(cloned, context.$item, change.newValue));
+								DOM.insertElementAt(element, cloned, change.index * templateSize);
 							} else if(change.isUpdate) {
                                 var cloned = useTemplate
                                     ? template.content.cloneNode(true)
@@ -383,7 +417,11 @@ define('jidejs/ui/bind', [
                                     disposables[change.index].dispose();
                                     disposables[change.index] = bind.to(cloned, context.$item, change.newValue);
                                 }
-								element.replaceChild(cloned, element.childNodes[change.index]);
+                                var templateSize = useTemplate ? template.content.childNodes.length - 1 : 0;
+                                for(var len = templateSize; 0 < len; len--) {
+                                    element.removeChild(element.childNodes[change.index * templateSize]);
+                                }
+								element.replaceChild(cloned, element.childNodes[change.index * templateSize]);
 							}
 						}
 					});

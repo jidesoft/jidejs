@@ -141,7 +141,9 @@ define('jidejs/ui/Control', [
 			installer.dispose(this);
 		}
 	});
-	var installer = Observable.install(Control, 'skin', 'tooltip', 'contextmenu');
+	var installer = Observable.install(Control,
+        'skin:no-bubbling:no-cancel', 'tooltip:no-bubbling:no-cancel', 'contextmenu:no-bubbling:no-cancel'
+    );
 
     function endsWith(string, searchString, position) {
         position = position || string.length;
@@ -206,59 +208,6 @@ define('jidejs/ui/Control', [
 
         return CustomControl;
     };
-
-//	Control.create = function(name, Parent, properties, def) {
-//		var mixins;
-//		if(arguments.length === 1) {
-//			def = name;
-//			name = def['@name'];
-//			Parent = def['@extends'];
-//			properties = def['@properties'];
-//			mixins = def['@mixin'];
-//			delete def['@extends'];
-//			delete def['@properties'];
-//			delete def['@name'];
-//			delete def['@mixin'];
-//		}
-//		Parent || (Parent = Control);
-//		properties || (properties = []);
-//		def || (def = {});
-//		var init = def['@init'];
-//		delete def['@init'];
-//		var constructor = (def.hasOwnProperty('constructor') && def.constructor) || function(config) {
-//			installer(this);
-//			config = config || {};
-//			if(!config.skin) {
-//				config.skin  = new (constructor.Skin)(this, config.element);
-//			}
-//			if(typeof init !== 'undefined') init.call(this, config);
-//			Parent.call(this, config);
-//		};
-//		delete def.constructor;
-//		// TODO: only add display name when not creating a full build
-//		constructor.displayName = name;
-//		constructor.name = name;
-//
-//		if(def.Skin) {
-//			constructor.Skin = def.Skin;
-//			delete def.Skin;
-//		}
-//
-//		var dispose = def.dispose;
-//		def.dispose = function() {
-//			if(installer) installer.dispose(this);
-//			if(dispose) dispose.call(this);
-//			Parent.prototype.dispose.call(this);
-//		};
-//		Class(constructor).extends(Parent).def(def);
-//
-//		// install properties
-//		if(properties.length > 0) {
-//			properties.unshift(constructor);
-//			var installer = Observable.install.apply(Observable, properties);
-//		}
-//		return constructor;
-//	};
 
 	register('jide-control', Control, Component, ['skin', 'tooltip', 'contextmenu'], []);
 

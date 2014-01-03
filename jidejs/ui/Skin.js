@@ -8,8 +8,8 @@
  */
 define('jidejs/ui/Skin', [
 	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM', 'jidejs/base/has',
-	'jidejs/ui/Template', 'jidejs/ui/bind'
-], function(Class, _, Window, DOM, has, Template, bind) {
+	'jidejs/ui/Template', 'jidejs/ui/bind', 'jidejs/ui/Component', 'jidejs/base/Deferred'
+], function(Class, _, Window, DOM, has, Template, bind, Component, Deferred) {
 	var $bindings = 'jidejs/ui/Skin.bindings',
 		tooltipHandler = 'jidejs/ui/Skin.tooltipHandler',
 		contextMenuHandler = 'jidejs/ui/Skin.contextMenuHandler',
@@ -24,13 +24,6 @@ define('jidejs/ui/Skin', [
 				var pseudo = pseudos[i],
 					pseudoId = pseudo.getAttribute('pseudo');
 				skin[pseudoId] = pseudo;
-//				if(pseudo.hasChildNodes()) {
-//					// does it have a template child?
-//					var pseudoTemplate = pseudo.querySelector('template');
-//					if(pseudoTemplate) {
-//						skin.templates[pseudoId] = pseudoTemplate;
-//					}
-//				}
 			}
 		},
 		copyAttributes = function(source, target) {
@@ -200,6 +193,7 @@ define('jidejs/ui/Skin', [
 		 * Must be invoked before the control is displayed.
 		 */
 		install: function() {
+            this.on('ComponentReady', this.handleComponentUpgraded.bind(this));
 			this.updateRootElement();
 			var c = this.component;
 			var THIS = this;
@@ -262,6 +256,38 @@ define('jidejs/ui/Skin', [
 			this[BINDINGS] = this.installBindings();
 			this[EVENT_BINDINGS] = this.installListeners();
 		},
+
+        handleComponentUpgraded: function(event) {
+            if(this.element !== event.source) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        },
+
+        queryComponent: function(selector) {
+            var deferred = new Deferred(),
+                element = this[selector],
+                handler;
+            if(!element) {
+                element = this.element.querySelector(selector);
+                if(!element) {
+                    deferred.reject();
+                }
+            }
+            // check if the component has already been initialized
+            var component = Component.fromElement(element);
+            if(component) {
+                deferred.fulfill(component);
+            } else {
+                element.addEventListener('ComponentReady', handler = function(event) {
+                    if(element === event.element) {
+                        element.removeEventListener('ComponentReady', handler, false);
+                        deferred.fulfill(event.component);
+                    }
+                }, false);
+            }
+            return deferred.promise;
+        },
 
 		/**
 		 * Registers all necessary property bindings and returns them as an array.

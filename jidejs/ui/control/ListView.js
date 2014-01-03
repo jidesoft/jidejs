@@ -24,11 +24,11 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/ui/Control',
+	'jidejs/base/Class', 'jidejs/base/Observable', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/ui/Control',
 	'jidejs/ui/Skin', 'jidejs/ui/control/Cell', 'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/Component',
 	'jidejs/ui/Orientation', 'jidejs/base/Util', 'jidejs/base/DOM', 'jidejs/ui/register'
 ], function(
-	Class, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _, DOM, register
+	Class, Var, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _, DOM, register
 ) {
 	//region ListViewSkin
 	function ListViewSkin(listView, element) {
@@ -202,11 +202,11 @@ define([
 		if(!config.skin) config.skin = new ListViewSkin(this, config.element);
 
 		if(!config.items) this.items = new ObservableList();
-		else if(Array.isArray(config.items)) this.items = new ObservableList(config.items);
-		else this.items = config.items; // assume config.items is an ObservableList
+		else if(Array.isArray(config.items)) this.items = new ObservableList(Var.unwrap(config.items));
+		else this.items = Var.unwrap(config.items); // assume config.items is an ObservableList
 		delete config.items;
 
-		if(config.selectionModel) this.selectionModel = config.selectionModel;
+		if(config.selectionModel) this.selectionModel = Var.unwrap(config.selectionModel);
 		else this.selectionModel = new MultipleSelectionModel(this.items);
 		delete config.selectionModel;
 

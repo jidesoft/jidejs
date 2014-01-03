@@ -8,11 +8,11 @@ define('jidejs/ui/Orientation', function() {
 		 * The object should be oriented vertically.
 		 * @memberof module:jidejs/ui/Orientation
 		 */
-		VERTICAL: 0,
+		VERTICAL: 'vertical',
 		/**
 		 * The object should be oriented horizontally.
 		 * @memberof module:jidejs/ui/Orientation
 		 */
-		HORIZONTAL: 1
+		HORIZONTAL: 'horizontal'
 	};
 });

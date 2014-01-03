@@ -2,7 +2,12 @@
     <h1>todos</h1>
     <div class="todo-view">
         <header>
-            <input type="text" pseudo="x-editor">
+            <input type="text" pseudo="x-editor" bind="
+                is: 'jidejs/ui/control/TextField',
+                on: {
+                    action: insertNewTask.bind($item)
+                }
+            ">
         </header>
         <ul bind="
             foreach: tasks
@@ -20,8 +25,19 @@
         </ul>
         <footer>
             <span bind="text: component.openTasks + ' items left'"></span>
-            <div pseudo="x-filter-options"></div>
-            <span pseudo="x-clear-completed"></span>
+            <div pseudo="x-filter-options" bind="
+                is: 'jidejs/ui/control/ListView',
+                items: availableFilters,
+                selectionModel: filterOptionsSelectionModel,
+                orientation: 'horizontal'
+            "></div>
+            <span pseudo="x-clear-completed" bind="
+                is: 'jidejs/ui/control/Button',
+                text: 'Clear completed ('+(component.tasks.length - component.openTasks)+')',
+                on: {
+                    action: clearCompleted.bind($item)
+                }
+            "></span>
         </footer>
     </div>
 </template>

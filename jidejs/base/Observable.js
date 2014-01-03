@@ -166,6 +166,7 @@ define('jidejs/base/Observable', [
 		},
 
 		get: function() {
+            if(!this._bindings) return;
 			if(this.invalid) {
 				DependencyTracker.begin(this);
 				this._value = this.computeValue();
@@ -183,9 +184,17 @@ define('jidejs/base/Observable', [
 			return this._value;
 		},
 
+        dispose: function() {
+            if(!this._bindings) return;
+            this._bindings.forEach(function(binding) { binding.dispose(); });
+            this._bindings = null;
+            EventEmitter.prototype.dispose.call(this);
+        },
+
 		invalid: true,
 
 		invalidate: function() {
+            if(!this._bindings) return;
 			this.invalid = true;
 			if(!this.lazy) {
 				var oldValue = this._value;

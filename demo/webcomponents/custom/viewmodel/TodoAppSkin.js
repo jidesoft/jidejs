@@ -1,17 +1,19 @@
 define([
     'jidejs/base/Observable',
+    'jidejs/base/Collection',
     'jidejs/ui/control/ListView',
     'jidejs/ui/control/TextField',
     'jidejs/ui/control/Button',
+    'jidejs/ui/control/SingleSelectionModel',
     'jidejs/ui/Skin',
     'jidejs/ui/Template',
     'jidejs/ui/Orientation',
     'text!view/AppTemplate.html',
     'model/Task'
 ], function(
-    Observable,
-    ListView, TextField, Button,
-    Skin, Template, AppTemplate,
+    Observable, Collection,
+    ListView, TextField, Button, SingleSelectionModel,
+    Skin, Template, Orientation, AppTemplate,
     Task
 ) {
     // Utility functions
@@ -20,11 +22,11 @@ define([
     }
 
     function matchActive(task) {
-        return task.done;
+        return !task.done;
     }
 
     function matchCompleted(task) {
-        return !task.done;
+        return task.done;
     }
 
     // Now create the Skin
@@ -64,41 +66,15 @@ define([
          */
         newTaskEditor: null,
 
-        /**
-         * Called during the instantiation of the Skin.
-         *
-         * Upgrades some pseudo elements to actual jide.js controls.
-         */
-        upgradePseudos: function() {
-            var component = this.component;
-            new Button({
-                element: this['x-clear-completed'],
-                text: Observable.computed(function() {
-                    return 'Clear completed ('+(component.tasks.length - component.openTasks)+')';
-                }),
-                on: {
-                    action: this.clearCompleted.bind(this)
-                }
-            });
-            this.filterOptions = new ListView({
-                element: this['x-filter-options'],
-                items: ['All', 'Active', 'Completed'],
-                orientation: Orientation.HORIZONTAL
-            });
-            this.newTaskEditor = new TextField({
-                element: this['x-editor'],
-                on: {
-                    action: this.insertNewTask.bind(this)
-                }
-            });
-        },
+        availableFilters: Collection.fromArray(['All', 'Active', 'Completed']),
 
         /**
          * Overridden to instantiate the filter and tasks properties of the Skin.
          */
         install: function() {
+            this.filterOptionsSelectionModel = new SingleSelectionModel(this.availableFilters, true);
             this.filter = Observable.computed(function() {
-                var selectedFilter = this.filterOptions && this.filterOptions.selectionModel.selectedItem || 'All';
+                var selectedFilter = this.filterOptionsSelectionModel.selectedItem || 'All';
                 switch(selectedFilter) {
                     case 'All': return matchAll;
                     case 'Active': return matchActive;
@@ -125,7 +101,7 @@ define([
          */
         clearCompleted: function() {
             var tasks = this.component.tasks;
-            var completedTasks = tasks.toArray().filter(matchActive);
+            var completedTasks = tasks.toArray().filter(matchCompleted);
             for(var i = 0, len = completedTasks.length; i < len; i++) {
                 tasks.remove(completedTasks[i]);
             }
@@ -135,9 +111,11 @@ define([
          * Creates a new task and inserts it at the beginning of the task list.
          */
         insertNewTask: function() {
-            var task = new Task(this.newTaskEditor.text, false);
-            this.component.tasks.insertAt(0, task);
-            this.newTaskEditor.text = '';
+            this.queryComponent('x-editor').then(function(taskEditor) {
+                var task = new Task(taskEditor.text, false);
+                this.component.tasks.insertAt(0, task);
+                taskEditor.text = '';
+            }.bind(this));
         }
     });
 });

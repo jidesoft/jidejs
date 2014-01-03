@@ -452,7 +452,7 @@ define('jidejs/ui/Component', [
 					} else if(Var.is(source[name]) && (name+'Property') in target) {
 						target[name+'Property'].bind(source[name]);
 					} else {
-						target[name] = source[name];
+						target[name] = Var.unwrap(source[name]);
 					}
 				}
 			}

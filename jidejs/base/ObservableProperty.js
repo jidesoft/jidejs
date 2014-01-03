@@ -22,13 +22,15 @@ define('jidejs/base/ObservableProperty', [
 	 * @constructor
 	 * @alias module:jidejs/base/ObservableProperty
 	 */
-	function ObservableProperty(context, name, initialValue, converter) {
+	function ObservableProperty(context, name, initialValue, converter, bubbles, cancelable) {
 		if(!(this instanceof ObservableProperty)) {
 			return new ObservableProperty(context, name, initialValue, converter);
 		}
 		Property.call(this, context, name);
 		this._value = initialValue;
 		this.converter = converter;
+        this._bubbles = bubbles !== undefined ? bubbles : true;
+        this._cancelable = cancelable !== undefined ? cancelable : true;
 	}
 	Class(ObservableProperty).extends(Property).def({
 		/**
@@ -58,7 +60,13 @@ define('jidejs/base/ObservableProperty', [
 			}
 			if(oldValue !== value) { // only fire an event if the new value isn't the same as the old value
 				this._value = value;
-				this.notify({value: value, oldValue: oldValue, source: this._context});
+				this.notify({
+                    value: value,
+                    oldValue: oldValue,
+                    source: this._context,
+                    bubbles: this._bubbles,
+                    cancelable: this._cancelable
+                });
 			}
 		},
 
@@ -101,8 +109,8 @@ define('jidejs/base/ObservableProperty', [
 	 * @param {function} converter Modifies the property value before it is stored in the property.
 	 * @returns {ObservableProperty}
 	 */
-	ObservableProperty.define = function(self, name, initialValue, converter) {
-		var property = new ObservableProperty(self, name, initialValue, converter);
+	ObservableProperty.define = function(self, name, initialValue, converter, bubbles, cancelable) {
+		var property = new ObservableProperty(self, name, initialValue, converter, bubbles, cancelable);
 		Object.defineProperty(self, name, {
 			get: function() {
 				return property.get();
@@ -128,11 +136,24 @@ define('jidejs/base/ObservableProperty', [
 		};
 	}
 
-	function createObservablePropertyDescriptor(instance, name, defaultValue) {
+	function createObservablePropertyDescriptor(instance, name, defaultValue, bubbles, cancelable) {
 		return {
-			value: new ObservableProperty(instance, name, defaultValue)
+			value: new ObservableProperty(instance, name, defaultValue, undefined, bubbles, cancelable)
 		};
 	}
+
+    function parsePropertyName(name) {
+        var parts = name.split(':'),
+            nameObj = {
+                name: parts[0],
+                'no-bubbling': false,
+                'no-cancel': false
+            };
+        for(var i = 1, len = parts.length; i < len; i++) {
+            nameObj[parts[i]] = true;
+        }
+        return nameObj;
+    }
 
 	ObservableProperty.install = function(proto) {
 		if(_.isFunction(proto)) {
@@ -144,8 +165,9 @@ define('jidejs/base/ObservableProperty', [
 		var descriptors = {}, values = {};
 		var names = [];
 		for(var i = 1, len = arguments.length; i < len; i++) {
-			var name = arguments[i];
+			var name = parsePropertyName(arguments[i]);
 			names[names.length] = name;
+            name = name.name;
 			var desc = _.getPropertyDescriptor(proto, name);
 			if(desc !== null) {
 				if(desc.value) {
@@ -160,8 +182,12 @@ define('jidejs/base/ObservableProperty', [
 		var installer = function(instance) {
 			var descriptor = {};
 			for(var i = 0, len = names.length; i < len; ++i) {
-				var name = names[i];
-				descriptor[name+'Property'] = createObservablePropertyDescriptor(instance, name, values[name]);
+				var nameObj = names[i],
+                    name = nameObj.name;
+				descriptor[name+'Property'] = createObservablePropertyDescriptor(
+                    instance, name, values[name],
+                    !nameObj['no-bubbling'], !nameObj['no-cancel']
+                );
 			}
 			Object.defineProperties(instance, descriptor);
 		};
