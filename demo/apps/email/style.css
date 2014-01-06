@@ -4827,7 +4827,8 @@ body {
   padding: 10px;
 }
 .navigation .jide-listview .jide-cell .glyphicons,
-.navigation .jide-listview .jide-cell .glyphicons:before {
+.navigation .jide-listview .jide-cell .glyphicons:before,
+.navigation .jide-listview .jide-cell .glyphicons-icon {
   color: #7B7E8F;
   display: block;
   position: static;
@@ -4835,12 +4836,19 @@ body {
   text-align: center;
   margin: 0 auto;
 }
+.navigation .jide-listview .jide-cell .glyphicons-icon {
+  background-image: url(../images/glyphicons-blueish.svg);
+  width: 36px;
+}
 .navigation .jide-listview .jide-cell .glyphicons:before {
   margin-bottom: 5px;
 }
 .navigation .jide-listview .jide-cell.jide-state-selected .glyphicons,
 .navigation .jide-listview .jide-cell.jide-state-selected .glyphicons:before {
   color: #E8E9EC;
+}
+.navigation .jide-listview .jide-cell.jide-state-selected .glyphicons-icon {
+  background-image: url(../images/glyphicons-almost-white.svg);
 }
 .folders {
   width: 150px;

@@ -47,13 +47,18 @@ html, body {
   .jide-cell {
     .border-radius(@border-radius-large);
     padding: 10px;
-    .glyphicons, .glyphicons:before {
+    .glyphicons, .glyphicons:before, .glyphicons-icon {
       color: #7B7E8F;
       display: block;
       position: static;
       padding-left: 0;
       text-align: center;
       margin: 0 auto;
+    }
+
+    .glyphicons-icon {
+      background-image: url(../images/glyphicons-blueish.svg);
+      width: 36px;
     }
 
     .glyphicons:before {
@@ -63,6 +68,10 @@ html, body {
     &.jide-state-selected {
       .glyphicons, .glyphicons:before {
         color: #E8E9EC;
+      }
+
+      .glyphicons-icon {
+        background-image: url(../images/glyphicons-almost-white.svg);
       }
     }
   }
