@@ -3,16 +3,16 @@
 /// This API is not yet considered public. There might be substantial changes before it becomes public API.
 define('jidejs/ui/bind', [
 	'jidejs/base/Observable', 'jidejs/base/DOM', 'jidejs/base/Util',
-	'jidejs/ui/util/ClassList', 'jidejs/ui/util/js-object-literal-parse'
-], function(Observable, DOM, _, ClassList, literalParse) {
+	'jidejs/ui/util/ClassList', 'jidejs/ui/util/js-object-literal-parse', 'jidejs/ui/Component'
+], function(Observable, DOM, _, ClassList, literalParse, Component) {
 	"use strict";
-	function bind(element, descriptor, context) {
+	function bind(element, descriptor, context, component) {
 		var oldValues = {};
 		var state = 0; // 0 -> init, 1 -> update
 		var controlsChildren = false;
         if(descriptor.is) {
             var controlId = descriptor.is(),
-                controlInstance = null,
+                controlInstance = component || null,
                 disposable = {
                     controlsChildren: true,
                     dispose: function() {
@@ -32,8 +32,12 @@ define('jidejs/ui/bind', [
                         value = name === 'on' ? descriptor[name]() : Observable.computed(descriptor[name]);
                     config[name] = value;
                 }
-                config['element'] = element;
-                controlInstance = new Control(config);
+                if(!controlInstance) {
+                    config['element'] = element;
+                    controlInstance = new Control(config);
+                } else {
+                    Component.applyConfiguration(config);
+                }
                 controlInstance.emit('ComponentReady', {
                     source: element,
                     component: controlInstance
@@ -176,7 +180,7 @@ define('jidejs/ui/bind', [
         DOM.getData(element).$bindContext = context;
 
         var provider = getBindingProvider(element);
-        return bind(element, provider(context, element), context);
+        return bind(element, provider(context, element), context, component);
     };
 
     bind.elementToDescriptor = function(element, component, data, descriptor) {
@@ -189,7 +193,9 @@ define('jidejs/ui/bind', [
 	bind.handlers = {
 		text: {
 			update: function(element, value, oldValue, context) {
-				DOM.setTextContent(element, value);
+                if(value !== oldValue) {
+				    DOM.setTextContent(element, value || '');
+                }
 			}
 		},
 
