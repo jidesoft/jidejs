@@ -8,6 +8,12 @@ template: chapter.html
 This guide helps you to get a deeper knowledge of some aspects of **jide.js**. During time, we'll expand this
 section to cover all important parts of **jide.js**.
 
+## Installation
+
+These guides explain how to install **jide.js** in a number of ways, ranging from a manual installation to using
+advanced tools like Bower and Yeoman to automate installation and even project creation for you. The recommended way to
+explore **jide.js** is to install with Yeoman.
+
 ## Getting started
 
 The Getting started guide introduces you to the core concepts of **jide.js** with practical examples.

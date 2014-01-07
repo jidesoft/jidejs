@@ -133,3 +133,6 @@ The **bind** attribute supports a limited set of instructions that are useful wh
 - **on**
   The value of this binidng is expected to be an object where each key-value pair describes an event name and its handler
   function of event listeners that should be added to the element.
+- **is**
+  When an `is` binding exists, its value will be used as the name of the control that should be instantiated. All other
+  bindings will then be forwarded to the control as its config argument.

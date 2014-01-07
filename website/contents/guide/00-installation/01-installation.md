@@ -1,9 +1,13 @@
 ---
-title: Installation
+title: Manual Installation
 template: chapter.html
 ---
 
 # Installing jide.js
+
+This guide will explain a general installation procedure for **jide.js**. If you prefer to use dependency management tools,
+we recommend that you take a look at the [Bower installation](/guide/00-installation/02-with-bower.html) or, even better,
+at the [Yeoman Quickstart](/guide/00-installation/03-with-yeoman.html).
 
 Since **jide.js** uses the AMD format, you must start by including an AMD loader in your HTML file. There
 are a lot of options for AMD loaders but we will focus on the quasi standard: [require.js](http://www.requirejs.org).
