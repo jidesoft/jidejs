@@ -48,7 +48,12 @@ module.exports = function(grunt) {
 					"demo/apps/issues/style.css": "demo/apps/issues/style.less",
                     "demo/styling/osx/style/jide.css": "demo/styling/osx/style/jide.less"
 				}
-			}
+			},
+            website: {
+                files: {
+                    "website/build/style/docs.css": "website/contents/style/docs.less"
+                }
+            }
 		},
 
 		copy: {
@@ -167,22 +172,23 @@ module.exports = function(grunt) {
 
 	// build the website
 	grunt.registerTask('website', [
-		'build', 'jsdoc', 'compile:examples', 'wintersmith:build', 'copy:website', 'wintersmith:build', 'minify:requirejs'
+		'build', 'jsdoc', 'compile:examples', 'wintersmith:build', 'copy:website', 'wintersmith:build', 'minify:requirejs',
+        'less:website'
 	]);
 
 	grunt.registerTask('website-no-doc', [
-		'build', 'compile:examples', 'wintersmith:build', 'copy:website', 'minify:requirejs'
+		'build', 'compile:examples', 'wintersmith:build', 'copy:website', 'minify:requirejs', 'less:website'
 	]);
 
 	grunt.registerTask('website:debug', [
-		'build', 'compile:examples', 'wintersmith:build', 'copy:debug'
+		'build', 'compile:examples', 'wintersmith:build', 'copy:debug', 'less:website'
 	]);
 
 	// the default task is to build everything
 	grunt.registerTask('default', ['build']);
 
 	// start a web server to preview the website
-	grunt.registerTask('website-preview', ['website', 'wintersmith:build'], function() {
+	grunt.registerTask('website-preview', ['website', 'wintersmith:build', 'less:website'], function() {
 		var done = this.async();
 		var express = require('express')
 			, http = require('http')
