@@ -39,6 +39,11 @@ define([
 		bindings: null,
 		install: function() {
 			var listView = this.component;
+            if(listView.orientation === Orientation.HORIZONTAL) {
+                listView.classList.add('jide-orientation-horizontal');
+            } else {
+                listView.classList.remove('jide-orientation-horizontal');
+            }
 			this.bindings = [
 				listView.items.on('change', function(event) {
 					var changes = event.enumerator(),
