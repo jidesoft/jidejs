@@ -1,6 +1,6 @@
 {
   "name": "jide",
-  "version": "0.9.0",
+  "version": "1.0.0-beta2",
   "author": "Patrick Gotthardt, <patrick@jidesoft.com>",
   "description": "jide.js is a free UI toolkit for modern web applications based on data binding and separation of concerns.",
   "keywords": [

@@ -71,6 +71,12 @@ define('jidejs/ui/Skin', [
 	}
 
 	Class(Skin).def({
+        /**
+         * The template that should be used to create the internal DOM representation of the control.
+         * @type {string|Element}
+         */
+        template: null,
+
 		/**
 		 * The element name of the default root element if none is provided.
 		 * @protected
@@ -119,12 +125,25 @@ define('jidejs/ui/Skin', [
 			}
 		},
 
+        /**
+         * A callback that is invoked once all pseudos within the template have been resolved and stored as members of
+         * the Skin instance.
+         */
         upgradePseudos: function() {},
 
         bind: function(descriptor) {
             this.managed(bind.elementToDescriptor(element, this.component, this, descriptor));
         },
 
+        /**
+         * Adds event listeners to the control and manages them so that they're disposed when the control is disposed.
+         *
+         * You can either pass in an object where the key defines the event name and the value is the event handler or
+         * you can supply the name of a pseudo element as the first argument where the event handlers should be added too.
+         *
+         * @param {string|object} pseudoName Either the name of a pseudo child element or object of event names to event handlers
+         * @param {object?} handlers An object of event names to event handlers
+         */
 		on: function(pseudoName, handlers) {
 			if(arguments.length === 1) {
 				this.managed(this.component.on(pseudoName));
@@ -145,6 +164,10 @@ define('jidejs/ui/Skin', [
 			}
 		},
 
+        /**
+         * Adds an disposable to the skin instance so that it can be automatically disposed when the skin is disposed.
+         * @param {{dispose:function(){}}} disposable
+         */
 		managed: function(disposable) {
 			for(var i = 0, len = arguments.length; i < len; i++) {
 				this[$bindings].push(arguments[i]);
@@ -264,6 +287,14 @@ define('jidejs/ui/Skin', [
             }
         },
 
+        /**
+         * This method can be used to retrieve a component that has been upgraded from an element using an `is` binding.
+         * The return value is a {@link module:jidejs/base/Deferred.Promise} that is fulfilled with the component once
+         * the element has been upgraded.
+         *
+         * @param {string} selector A CSS selector or the name of a pseudo element.
+         * @returns {module:jidejs/base/Deferred.Promise}
+         */
         queryComponent: function(selector) {
             var deferred = new Deferred(),
                 element = this[selector],
