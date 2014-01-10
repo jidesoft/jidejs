@@ -79,10 +79,6 @@ define([
 		});
 		ButtonBase.Skin = Skin.create(Labeled.Skin, {
             template: Templates.ButtonBase,
-			/**
-			 * Registers all necessary property bindings and returns them as an array.
-			 * @returns {{ dispose: function() {}}[]}
-			 */
 			install: function() {
                 Labeled.Skin.prototype.install.call(this);
 				var button = this.component,
@@ -108,10 +104,6 @@ define([
 				}
 			},
 
-			/**
-			 * Registers all necessary event handlers and returns their {@link module:jidejs/base/Subscription}s as an array.
-			 * @returns {module:jidejs/base/Subscription[]}
-			 */
 			installListeners: function() {
                 Labeled.Skin.prototype.installListeners.call(this);
 				var button = this.component, mouseOver = false, mouseDown = false, armed = false;

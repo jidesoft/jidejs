@@ -147,7 +147,7 @@ define('jidejs/base/Deferred', [
 	Class(Deferred).def({
 		/**
 		 * Fulfills the promise with the given value.
-		 * @value {*} value The value of the promise.
+		 * @param {*} value The value of the promise.
 		 */
 		fulfill: function(value) {
 			fulfill(this.promise, value);
@@ -155,7 +155,7 @@ define('jidejs/base/Deferred', [
 
 		/**
 		 * Rejects the promise with the given reason.
-		 * @value {*} reason The reason why the promise was rejected.
+		 * @param {*} reason The reason why the promise was rejected.
 		 */
 		reject: function(reason) {
 			reject(this.promise, reason);
@@ -164,7 +164,8 @@ define('jidejs/base/Deferred', [
 		/**
 		 * The Promise that belongs to this Deferred.
 		 *
-		 * @property {{then:function(onFulfilled, onRejected)}} promise
+         * @memberof module:jidejs/base/Deferred.prototype
+		 * @property {module:jidejs/base/Deferred.Promise} promise
 		 */
 	});
 

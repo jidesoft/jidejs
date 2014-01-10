@@ -1,0 +1,1 @@
+./node_modules/jsdoc/jsdoc -c ./jsdoc/conf.json %*

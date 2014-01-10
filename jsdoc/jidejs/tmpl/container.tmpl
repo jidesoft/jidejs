@@ -1,6 +1,23 @@
 <?js
     var self = this;
+    function addAncestors(doc, memberOf) {
+        if(doc.augments && doc.augments.length) {
+            doc.augments.forEach(function(ancestor) {
+                memberOf.push(ancestor);
+                var aDoc = self.find({longname: ancestor});
+                if(aDoc && aDoc.length) {
+                    aDoc.forEach(function(doc) {
+                        addAncestors(doc, memberOf);
+                    });
+                }
+            });
+        }
+    }
+
     docs.forEach(function(doc, i) {
+        var memberOf = [doc.longname], cache;
+        addAncestors(doc, memberOf);
+
 ?>
 
 <?js if (doc.kind === 'mainpage' || (doc.kind === 'package')) { ?>
@@ -27,17 +44,19 @@
 <article>
     <div class="container-overview">
     <?js if (doc.kind === 'module' && doc.module) { ?>
-        <?js= self.partial('method.tmpl', doc.module) ?>
+        <?js if (doc.description) { ?>
+            <div class="description"><?js= doc.description ?></div>
+        <?js } ?>
     <?js } ?>
     
     <?js if (doc.kind === 'class') { ?>
         <?js= self.partial('method.tmpl', doc) ?>
     <?js } else { ?>
-        <?js if (doc.description) { ?>
+        <?js= self.partial('details.tmpl', doc) ?>
+
+        <?js if (doc.kind !== 'module' && doc.description) { ?>
             <div class="description"><?js= doc.description ?></div>
         <?js } ?>
-        
-        <?js= self.partial('details.tmpl', doc) ?>
         
         <?js if (doc.examples && doc.examples.length) { ?>
             <h3>Example<?js= doc.examples.length > 1? 's':'' ?></h3>
@@ -45,29 +64,34 @@
         <?js } ?>
     <?js } ?>
     </div>
-    
+
     <?js if (doc.augments && doc.augments.length) { ?>
         <h3 class="subsection-title">Extends</h3>
-        
+
         <ul><?js doc.augments.forEach(function(a) { ?>
             <li><?js= self.linkto(a, a) ?></li>
         <?js }); ?></ul>
     <?js } ?>
-    
+
     <?js if (doc.mixes && doc.mixes.length) { ?>
         <h3 class="subsection-title">Mixes In</h3>
-        
+
         <ul><?js doc.mixes.forEach(function(a) { ?>
             <li><?js= self.linkto(a, a) ?></li>
         <?js }); ?></ul>
     <?js } ?>
-    
+
     <?js if (doc.requires && doc.requires.length) { ?>
         <h3 class="subsection-title">Requires</h3>
-        
+
         <ul><?js doc.requires.forEach(function(r) { ?>
             <li><?js= self.linkto(r, r) ?></li>
         <?js }); ?></ul>
+    <?js } ?>
+
+    <?js if (doc.kind === 'module' && doc.module) { ?>
+        <h3 class="subsection-title">Constructor</h3>
+        <dl><?js= self.partial('method.tmpl', doc.module) ?></dl>
     <?js } ?>
     
     <?js
@@ -83,39 +107,53 @@
     <?js } ?>
     
     <?js
-        var members = self.find({kind: 'member', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
+        cache = {};
+        var members = self.find({kind: 'member', memberof: title === 'Global' ? {isUndefined: true} : memberOf});
         if (members && members.length && members.forEach) { 
     ?>
     <section class="members">
         <h3 class="subsection-title">Members</h3>
         
-        <dl><?js members.forEach(function(p) { ?>
+        <dl><?js members.forEach(function(p) {
+            if(cache[p.id]) return;
+            cache[p.id] = true;
+        ?>
             <?js= self.partial('members.tmpl', p) ?>
         <?js }); ?></dl>
     </section>
     <?js } ?>
 
     <?js
-        var events = self.find({kind: 'event', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
+        cache = {};
+        var events = self.find({kind: 'event', memberof: title === 'Global' ? {isUndefined: true} : memberOf});
         if (events && events.length && events.forEach) {
     ?>
     <section class="events">
     <h3 class="subsection-title">Events</h3>
 
     <dl><?js events.forEach(function(e) { ?>
+        <?js
+        if(cache[e.id]) return;
+        cache[e.id] = true;
+        ?>
         <?js= self.partial('method.tmpl', e) ?>
         <?js }); ?></dl>
     </section>
     <?js } ?>
     
     <?js
-        var methods = self.find({kind: 'function', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
+        cache = {};
+        var methods = self.find({kind: 'function', memberof: title === 'Global' ? {isUndefined: true} : memberOf});
         if (methods && methods.length && methods.forEach) { 
     ?>
     <section class="methods">
         <h3 class="subsection-title">Methods</h3>
         
-        <dl><?js methods.forEach(function(m) { if(m.scope === 'static') return;?>
+        <dl><?js methods.forEach(function(m) {
+            if(m.scope === 'static') return;
+            if(cache[m.id]) return;
+            cache[m.id] = true;
+            ?>
             <?js= self.partial('method.tmpl', m) ?>
         <?js }); ?></dl>
     </section>

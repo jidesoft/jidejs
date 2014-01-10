@@ -89,14 +89,14 @@ module.exports = function(grunt) {
 			}
 		},
 
-    wintersmith: {
-      build: {
-        options: {
-          action: 'build',
-          config: './website/config.json'
-        }
-      }
-    },
+        wintersmith: {
+            build: {
+                options: {
+                    action: 'build',
+                    config: './website/config.json'
+                }
+            }
+        },
 
 		compress: {
 			zip: {
@@ -109,26 +109,22 @@ module.exports = function(grunt) {
 			}
 		},
 
-		jsdoc : {
-			dist : {
-				jsdoc: 'node-modules/jsdoc/',
-				options: {
-					destination: 'website/build/api',
-					configure: 'jsdoc/conf.json'
-				},
-				files: [
-					{src: ['jidejs/**/*.js']}
-				]
-			}
-		}
+        shell: {
+            jsdoc: {
+                command: 'jsdoc.cmd',
+                options: {
+                    stdout: true
+                }
+            }
+        }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-jsdoc');
-  grunt.loadNpmTasks('grunt-wintersmith');
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-wintersmith');
 
 	grunt.registerTask('compile:examples', function() {
 		var done = this.async();
@@ -172,7 +168,7 @@ module.exports = function(grunt) {
 
 	// build the website
 	grunt.registerTask('website', [
-		'build', 'jsdoc', 'compile:examples', 'wintersmith:build', 'copy:website', 'wintersmith:build', 'minify:requirejs',
+		'build', 'shell:jsdoc', 'compile:examples', 'wintersmith:build', 'copy:website', 'wintersmith:build', 'minify:requirejs',
         'less:website'
 	]);
 

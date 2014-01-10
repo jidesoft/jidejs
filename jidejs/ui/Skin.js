@@ -166,7 +166,7 @@ define('jidejs/ui/Skin', [
 
         /**
          * Adds an disposable to the skin instance so that it can be automatically disposed when the skin is disposed.
-         * @param {{dispose:function(){}}} disposable
+         * @param {{dispose:function}} disposable
          */
 		managed: function(disposable) {
 			for(var i = 0, len = arguments.length; i < len; i++) {
@@ -321,14 +321,12 @@ define('jidejs/ui/Skin', [
         },
 
 		/**
-		 * Registers all necessary property bindings and returns them as an array.
-		 * @returns {{ dispose: function() {}}[]}
+		 * Registers all necessary property bindings.
 		 */
 		installBindings: function() { return []; },
 
 		/**
-		 * Registers all necessary event handlers and returns their {@link module:jidejs/base/Subscription}s as an array.
-		 * @returns {module:jidejs/base/Subscription[]}
+		 * Registers all necessary event handlers.
 		 */
 		installListeners: function() { return []; },
 

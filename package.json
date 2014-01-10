@@ -35,7 +35,7 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-zipstream": "~0.2.2",
     "grunt-contrib-compress": "~0.4.9",
-    "grunt-jsdoc": "~0.4.2",
+    "grunt-shell": "~0.6.1",
     "grunt-wintersmith": "~0.0.2",
     "wintersmith-less": "~0.2.1",
     "wintersmith-nunjucks": "~0.2.1",

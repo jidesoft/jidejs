@@ -3,6 +3,7 @@
  * and has a {@link module:jidejs/ui/Skin}.
  *
  * @module jidejs/ui/Control
+ * @extends module:jidejs/ui/Component
  */
 define('jidejs/ui/Control', [
 	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/base/DOM',
