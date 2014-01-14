@@ -23,7 +23,7 @@ define('jidejs/base/Util', function() {
 	};
 
 	Util.isElement = function(obj) {
-		return obj && 'nodeType' in obj;
+		return obj && !Util.isNumber(obj) && !Util.isBoolean(obj) && 'nodeType' in obj;
 	};
 
 	Util.copy = function(obj, fn, context) {
