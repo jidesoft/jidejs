@@ -248,5 +248,27 @@ define('jidejs/base/Observable', [
 		return Observable.is(obj) ? obj.get() : obj;
 	};
 
+    /**
+     * Returns a new (read-only) Observable whose value is modified when the given promise is resolved.
+     *
+     * @param {{then: Function}} promise The promise
+     * @param {*?} initialValue The initial value of the Observable, defaults to `null`
+     * @returns {module:jidejs/base/Observable}
+     */
+    Observable.fromPromise = function(promise, initialValue) {
+        var value = arguments.length === 2 ? initialValue : null,
+            observable = Observable.computed(function() {
+                return value;
+            });
+        promise.then(function(result) {
+            value = result;
+            observable.invalidate();
+        }, function(error) {
+            value = error;
+            observable.invalidate();
+        });
+        return observable;
+    }
+
 	return Observable;
 });
