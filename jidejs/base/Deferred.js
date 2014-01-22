@@ -73,6 +73,7 @@ define('jidejs/base/Deferred', [
 		}
 		promise._value = value;
 		promise._state = State.Fulfilled;
+        Dispatcher.nextTick(notify.bind(promise));
 	}
 
 	function reject(promise, value) {
@@ -81,6 +82,7 @@ define('jidejs/base/Deferred', [
 		}
 		promise._value = value;
 		promise._state = State.Rejected;
+        Dispatcher.nextTick(notify.bind(promise));
 	}
 	//endregion
 
