@@ -311,7 +311,7 @@ define('jidejs/ui/Skin', [
                 deferred.fulfill(component);
             } else {
                 element.addEventListener('ComponentReady', handler = function(event) {
-                    if(element === event.element) {
+                    if(element === event.source) {
                         element.removeEventListener('ComponentReady', handler, false);
                         deferred.fulfill(event.component);
                     }
