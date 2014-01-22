@@ -257,8 +257,11 @@ define('jidejs/base/Observable', [
      */
     Observable.fromPromise = function(promise, initialValue) {
         var value = arguments.length === 2 ? initialValue : null,
-            observable = Observable.computed(function() {
-                return value;
+            observable = Observable.computed({
+                lazy: false,
+                read: function() {
+                    return value;
+                }
             });
         promise.then(function(result) {
             value = result;
