@@ -193,7 +193,8 @@ define('jidejs/base/ObservableProperty', [
 		};
 		installer.dispose = function(instance) {
 			for(var i = 0, len = names.length; i < len; ++i) {
-				var name = names[i];
+                var nameObj = names[i],
+                    name = nameObj.name;
 				instance[name+'Property'].dispose();
 			}
 		};
