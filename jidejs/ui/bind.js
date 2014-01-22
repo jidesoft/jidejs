@@ -150,7 +150,7 @@ define('jidejs/ui/bind', [
 	};
 
 	function createContext(element, parent, data) {
-		var context = Object.create(data);
+		var context = _.isObject(data) ? Object.create(data) : {};
 		context.$parent = parent;
 		context.$item = data;
 		context.$element = element;
