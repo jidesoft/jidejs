@@ -49,8 +49,8 @@ define('jidejs/base/Deferred', [
 			}
 			if(isPromise(result)) {
 				result.then(
-					fulfill.bind(this.promise),
-					reject.bind(this.promise));
+					fulfill.bind(undefined, this.promise),
+					reject.bind(undefined, this.promise));
 			} else {
 				fn(this.promise, result);
 			}
