@@ -784,7 +784,7 @@ html {
 .jide-comboboxbase.warning .jide-buttonbase:focus,
 .jide-comboboxbase.warning .jide-choicebox:focus,
 .jide-comboboxbase.warning .jide-comboboxbase:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(255, 255, 255, 0.75);
 }
 .jide-buttonbase.warning:active,
@@ -1109,7 +1109,7 @@ html {
 }
 .jide-titledpane.warning > .jide-titledpane-title:hover,
 .jide-titledpane.warning > .jide-titledpane-title:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(255, 255, 255, 0.75);
 }
 .jide-titledpane.warning > .jide-titledpane-title:active,
@@ -1379,7 +1379,7 @@ html {
 .jide-toolbar .jide-button.warning:focus,
 .jide-menubar .jide-togglebutton.warning:focus,
 .jide-toolbar .jide-togglebutton.warning:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(255, 255, 255, 0.75);
 }
 .jide-menubar .jide-button.warning:active,
@@ -1813,7 +1813,7 @@ html {
 }
 .jide-listview.warning > li > .jide-cell:hover,
 .jide-listview.warning > li > .jide-cell:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(52, 73, 94, 0.75);
 }
 .jide-listview.warning > li > .jide-cell:active,
@@ -1830,7 +1830,7 @@ html {
 }
 .jide-listview.warning.is-striped > li:nth-child(odd) > .jide-cell:hover,
 .jide-listview.warning.is-striped > li:nth-child(odd) > .jide-cell:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(52, 73, 94, 0.75);
 }
 .jide-listview.warning.is-striped > li:nth-child(odd) > .jide-cell:active,
@@ -1900,9 +1900,7 @@ html {
 }
 .jide-toolbar .jide-button {
   /* the following classes are "imported" directly from the lion-ui-kit.css file */
-
   /* "Round Textured" button style */
-
 }
 .jide-toolbar .jide-button.textured {
   color: rgba(0, 0, 0, 0.78);
@@ -1916,7 +1914,6 @@ html {
   border-collapse: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0.41) rgba(0, 0, 0, 0.41) rgba(0, 0, 0, 0.41);
   display: block;
   /* TODO: maybe use background-clip: content-box so the border won't overlap the background, so it can be that nice black overlay on top of the content behind the button, instead of on top of the button. */
-
 }
 .jide-toolbar .jide-button.textured:active,
 .jide-toolbar .jide-button.textured:hover {

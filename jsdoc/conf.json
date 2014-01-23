@@ -3,7 +3,7 @@
         "allowUnknownTags": true
     },
     "source": {
-				"include": ["./jidejs", "./jsdoc/README.md"],
+		"include": ["./base", "./ui", "./jsdoc/README.md"],
         "includePattern": ".+\\.js(doc)?$",
         "excludePattern": "(^|\\/|\\\\)_|Tree(Cell|Model|View)\\.js$"
     },

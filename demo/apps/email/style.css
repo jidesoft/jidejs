@@ -781,7 +781,7 @@
 .jide-comboboxbase.warning .jide-buttonbase:focus,
 .jide-comboboxbase.warning .jide-choicebox:focus,
 .jide-comboboxbase.warning .jide-comboboxbase:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(232, 233, 236, 0.75);
 }
 .jide-buttonbase.warning:active,
@@ -1106,7 +1106,7 @@
 }
 .jide-titledpane.warning > .jide-titledpane-title:hover,
 .jide-titledpane.warning > .jide-titledpane-title:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(232, 233, 236, 0.75);
 }
 .jide-titledpane.warning > .jide-titledpane-title:active,
@@ -1376,7 +1376,7 @@
 .jide-toolbar .jide-button.warning:focus,
 .jide-menubar .jide-togglebutton.warning:focus,
 .jide-toolbar .jide-togglebutton.warning:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(232, 233, 236, 0.75);
 }
 .jide-menubar .jide-button.warning:active,
@@ -1810,7 +1810,7 @@
 }
 .jide-listview.warning > li > .jide-cell:hover,
 .jide-listview.warning > li > .jide-cell:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(45, 48, 65, 0.75);
 }
 .jide-listview.warning > li > .jide-cell:active,
@@ -1827,7 +1827,7 @@
 }
 .jide-listview.warning.is-striped > li:nth-child(odd) > .jide-cell:hover,
 .jide-listview.warning.is-striped > li:nth-child(odd) > .jide-cell:focus {
-  background: #f5d313;
+  background: #f4d313;
   color: rgba(45, 48, 65, 0.75);
 }
 .jide-listview.warning.is-striped > li:nth-child(odd) > .jide-cell:active,

@@ -9,14 +9,22 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		minify: {
-			source: {
+			base: {
 				options: {
 					banner: banner,
-					pattern: 'jidejs/**/*.js',
-					cwd: 'jidejs',
-					out: 'dist/jidejs/'
+					pattern: '**/*.js',
+					cwd: 'base',
+					out: 'dist/jidejs/base/'
 				}
 			},
+            ui: {
+                options: {
+                    banner: banner,
+                    pattern: '**/*.js',
+                    cwd: './ui',
+                    out: 'dist/jidejs/ui/'
+                }
+            },
 			requirejs: {
 				options: {
 					banner: "/** vim: et:ts=4:sw=4:sts=4\n" +
@@ -60,7 +68,7 @@ module.exports = function(grunt) {
 		copy: {
             dist: {
                 files: [
-                    {src: ['**/*.html'], dest: 'dist/jidejs/', cwd: 'jidejs', expand: true},
+                    //{src: ['**/*.html'], dest: 'dist/jidejs/', cwd: 'ui', expand: true},
                     {src: ['README.md', 'LICENSE'], dest: 'dist/'}
                 ]
             },
@@ -70,7 +78,8 @@ module.exports = function(grunt) {
 					// copy demos
 					{src: ['demo/**'], dest: 'website/build/'},
 					// copy minified jidejs
-					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'jidejs', expand: true}
+					{src: ['**/*'], dest: 'website/build/jidejs/ui/', cwd: 'ui', expand: true},
+                    {src: ['**/*'], dest: 'website/build/jidejs/base/', cwd: 'base', expand: true}
 				]
 			},
 			website: {
@@ -79,8 +88,8 @@ module.exports = function(grunt) {
 					// copy demos
 					{src: ['demo/**'], dest: 'website/build/'},
 					// copy minified jidejs
-					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'dist/jidejs', expand: true},
-                    {src: ['**/*.html'], dest: 'website/build/jidejs/', cwd: 'jidejs', expand: true}
+					{src: ['**/*'], dest: 'website/build/jidejs/', cwd: 'dist/jidejs', expand: true}
+//                    {src: ['**/*.html'], dest: 'website/build/jidejs/', cwd: 'jidejs', expand: true}
 				]
 			},
 			themes: {
@@ -133,10 +142,10 @@ module.exports = function(grunt) {
 	});
 
     grunt.registerTask('compile:template', function() {
-        var template = String(fs.readFileSync('./jidejs/ui/control/templates.html'));
+        var template = String(fs.readFileSync('./ui/control/templates.html'));
         var content = template.replace(/\n/g, '\\n');
         content = content.replace(/'/g, "\\'");
-        fs.writeFileSync('./jidejs/ui/control/TemplateBundle.js', "define(function() { return '"+content+"'; });");
+        fs.writeFileSync('./ui/control/TemplateBundle.js', "define(function() { return '"+content+"'; });");
     });
 
 	function copyFiles(pattern, cwd, outdir, process) {
@@ -167,7 +176,7 @@ module.exports = function(grunt) {
 
 	// build dist (minified source + css/less files)
 	grunt.registerTask('build', [
-		'minify:source', 'copy:dist', 'less:controls', 'less:demos', 'copy:themes'
+		'compile:template', 'minify:base', 'minify:ui', 'copy:dist', 'less:controls', 'less:demos', 'copy:themes'
 	]);
 
     grunt.registerTask('release', [
@@ -226,7 +235,8 @@ module.exports = function(grunt) {
 			src: __dirname + '/style',
 			compress: false
 		}));
-		app.use('/jidejs', express.static(__dirname+'/jidejs'));
+        app.use('/jidejs/base', express.static(__dirname+'/base'));
+		app.use('/jidejs/ui', express.static(__dirname+'/ui'));
 		app.use('/jidejs', express.static(__dirname+'/style'));
 		app.use('/demo', express.static(__dirname+'/demo'));
         app.use('/bower_components', express.static(__dirname+'/bower_components'));
