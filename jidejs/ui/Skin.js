@@ -6,13 +6,13 @@
  *
  * @module jidejs/ui/Skin
  */
-define('jidejs/ui/Skin', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM', 'jidejs/base/has',
-	'jidejs/ui/Template', 'jidejs/ui/bind', 'jidejs/ui/Component', 'jidejs/base/Deferred'
+define([
+	'./../base/Class', './../base/Util', './../base/Window', './../base/DOM', './../base/has',
+	'./Template', './bind', './Component', './../base/Deferred'
 ], function(Class, _, Window, DOM, has, Template, bind, Component, Deferred) {
-	var $bindings = 'jidejs/ui/Skin.bindings',
-		tooltipHandler = 'jidejs/ui/Skin.tooltipHandler',
-		contextMenuHandler = 'jidejs/ui/Skin.contextMenuHandler',
+	var $bindings = './Skin.bindings',
+		tooltipHandler = './Skin.tooltipHandler',
+		contextMenuHandler = './Skin.contextMenuHandler',
 		TOOLTIP_SPACE = 10,
 		BINDINGS = '$jidejs/ui/Skin.create#bindings',
 		EVENT_BINDINGS = '$jidejs/ui/Skin.create#eventBindings',

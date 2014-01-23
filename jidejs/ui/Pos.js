@@ -3,7 +3,7 @@
  *
  * @module jidejs/ui/Pos
  */
-define('jidejs/ui/Pos', function() {
+define(function() {
 	/**
 	 * @memberof module:jidejs/ui/Pos
 	 * @enum

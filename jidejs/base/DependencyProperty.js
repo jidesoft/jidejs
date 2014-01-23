@@ -5,9 +5,9 @@
  * @extends module:jidejs/base/Property
  * @module jidejs/base/DependencyProperty
  */
-define('jidejs/base/DependencyProperty', [
-	'jidejs/base/Class', 'jidejs/base/PropertyListener', 'jidejs/base/Binding',
-	'jidejs/base/Property', 'jidejs/base/Util', 'jidejs/base/DependencyTracker'
+define([
+	'./Class', './PropertyListener', './Binding',
+	'./Property', './Util', './DependencyTracker'
 ], function(Class, PropertyListener, Binding, Property, _, DependencyTracker) {
 	/**
 	 * A DependencyProperty is a read-only property whose value is generated from a list of

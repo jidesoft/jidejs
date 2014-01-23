@@ -5,9 +5,9 @@
  * @module jidejs/ui/Control
  * @extends module:jidejs/ui/Component
  */
-define('jidejs/ui/Control', [
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/base/DOM',
-	'jidejs/ui/register'
+define([
+	'./../base/Class', './../base/ObservableProperty', './Component', './Skin', './../base/DOM',
+	'./register'
 ], function(Class, Observable, Component, Skin, DOM, register) {
 	function setSkin(event) {
 		if(event.oldValue) event.oldValue.dispose();

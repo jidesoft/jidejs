@@ -7,8 +7,8 @@
  * @module jidejs/base/Bindings
  * @requires module:jidejs/base/DependencyProperty
  */
-define('jidejs/base/Bindings', [
-	'jidejs/base/Util'
+define([
+	'./Util'
 ], function(_) {
 	function unpack(value) {
 		return isObservable(value)
@@ -21,12 +21,12 @@ define('jidejs/base/Bindings', [
 	}
 
 	function opProperty(op1, op2, fn) {
-		var ob = require('jidejs/base/Observable');
+		var ob = require('./Observable');
 		return ob.computed(fn);
 	}
 
 	function reducedProperty(args, fn) {
-		var ob = require('jidejs/base/Observable');
+		var ob = require('./Observable');
 		var prop = ob.computed(function() {
 			return args.map(unpack).reduce(fn);
 		});
@@ -53,7 +53,7 @@ define('jidejs/base/Bindings', [
 		 * be extracted (using its _get_ method) and used as the value of the conditional property.
 		 *
 		 * @example
-		 * var motorControlLightColorProperty = require('jidejs/base/Bindings')
+		 * var motorControlLightColorProperty = require('./Bindings')
 		 * 		.when(car.isMotorRunningProperty)
 		 * 			.then('red')
 		 * 			.otherwise('blue');
@@ -77,7 +77,7 @@ define('jidejs/base/Bindings', [
 						 * @returns {Observable} The generated conditional property.
 						 */
 						otherwise: function(otherwise) {
-							var ob = require('jidejs/base/Observable');
+							var ob = require('./Observable');
 							return ob.computed(function() {
 								return !!condition.get()
 									? unpack(then)
@@ -173,12 +173,12 @@ define('jidejs/base/Bindings', [
 		 * @returns {jidejs/base/Property}
 		 */
 		valueAt: function(listOrMap, index) {
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			var prop = ob.computed(function() {
 				return listOrMap.get(index);
 			});
 			var handler;
-			if(listOrMap instanceof require('jidejs/base/Collection')) {
+			if(listOrMap instanceof require('./Collection')) {
 				handler = listOrMap.on('change', function(evt) {
 					var changes = evt.enumerator();
 					while(changes.moveNext()) {
@@ -211,7 +211,7 @@ define('jidejs/base/Bindings', [
 		concat: function() {
 			var args = _.asArray(arguments);
 			if(isObservable(this)) args.unshift(this);
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			return ob.computed(function() {
 				return args.map(unpack).join('');
 			});
@@ -228,7 +228,7 @@ define('jidejs/base/Bindings', [
 				fn = property;
 				property = this;
 			}
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			return ob.computed(function() {
 				return fn(unpack(property));
 			});
@@ -236,7 +236,7 @@ define('jidejs/base/Bindings', [
 
 		tag: function(tag, property) {
 			property || (property = this);
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			return ob.computed(function() {
 				return "<"+tag+">"+unpack(property)+"</"+tag+">";
 			});
@@ -288,7 +288,7 @@ define('jidejs/base/Bindings', [
 		 * @returns {module:jidejs/base/Observable} The generated property.
 		 */
 		not: function(prop) {
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			if(isObservable(this)) { prop = this; }
 			return ob.computed(function() {
 				return !prop.get();
@@ -301,7 +301,7 @@ define('jidejs/base/Bindings', [
 		 * @returns {module:jidejs/base/Observable} The generated property.
 		 */
 		negate: function(prop) {
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			if(isObservable(this)) { prop = this; }
 			return ob.computed(function() {
 				return ~prop.get();
@@ -309,7 +309,7 @@ define('jidejs/base/Bindings', [
 		},
 
 		convert: function(prop, converter) {
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			if(isObservable(this)) { prop = this; }
 			if(isObservable(converter)) {
 				return ob.computed(function() {
@@ -421,7 +421,7 @@ define('jidejs/base/Bindings', [
 			} else {
 				path = _.asArray(arguments).slice(1);
 			}
-			var ob = require('jidejs/base/Observable');
+			var ob = require('./Observable');
 			return ob.computed({
 				read: function() {
 					var value = context.get();

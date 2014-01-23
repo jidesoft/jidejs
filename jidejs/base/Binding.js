@@ -9,7 +9,7 @@
  *
  * @module jidejs/base/Binding
  */
-define('jidejs/base/Binding', ['jidejs/base/Class'], function(Class) {
+define(['./Class'], function(Class) {
 	/**
 	 * Updates the target whenever the source changes.
 	 * @memberof module:jidejs/base/Binding

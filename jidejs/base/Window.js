@@ -7,9 +7,9 @@
  *
  * @module jidejs/base/Window
  */
-define('jidejs/base/Window', [
-	'jidejs/base/Observable',
-	'jidejs/base/Util'
+define([
+	'./Observable',
+	'./Util'
 ], function(Observable, _) {
 	"use strict";
 

@@ -1,8 +1,8 @@
 /**
  * @module jidejs/base/ObservableList
  */
-define('jidejs/base/ObservableList', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Observable', 'jidejs/base/Collection'
+define([
+	'./Class', './Util', './Observable', './Collection'
 ], function(Class, _, Observable, Collection) {
 	/**
 	 * Creates a new observable list.

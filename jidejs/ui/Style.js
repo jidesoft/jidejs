@@ -8,8 +8,8 @@
  *
  * @module jidejs/ui/Style
  */
-define('jidejs/ui/Style', [
-	'jidejs/base/Class', 'jidejs/base/has'
+define([
+	'./../base/Class', './../base/has'
 ], function(
 	Class, has
 ) {

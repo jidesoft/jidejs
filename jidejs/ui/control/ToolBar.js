@@ -8,8 +8,8 @@
  * @extends module:jidejs/ui/Container
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/ui/Pos', 'jidejs/ui/layout/HBox', 'jidejs/ui/Control',
-	'jidejs/ui/Skin'
+	'./../../base/Class', './../../base/DOM', './../Pos', './../layout/HBox', './../Control',
+	'./../Skin'
 ], function(Class, DOM, Pos, HBox, Control, Skin) {
 	function ToolBarSkin(toolBar, el) {
 		Skin.call(this, toolBar);

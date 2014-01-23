@@ -1,7 +1,7 @@
 /// @internal
 /// @private
 /// This class is intended for internal use only and should not be considered to be part of the public API.
-define('jidejs/base/DependencyTracker', function() {
+define(function() {
 	"use strict";
 	var stack = [];
 	return {

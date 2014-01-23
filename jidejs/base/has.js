@@ -3,7 +3,7 @@
 /// This file is not considered to be part of the public API.
 
 // This module helps with feature testing.
-define('jidejs/base/has', function() {
+define(function() {
 	var cssPrefixes = ['Webkit', 'Moz', 'O', 'ms', 'Khtml'];
 	var currentPrefix = '';
 	var testElement = document.createElement('div');

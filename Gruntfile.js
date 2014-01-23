@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 	var examples = require('./compileExamples')
-		, UglifyJS = require("uglify-js2");
+		, UglifyJS = require("uglify-js2")
+        , fs = require('fs');
 
 	// Project configuration.
 	var banner = '/*! <%=pkg.name%> <%=pkg.version%> - <%= grunt.template.today("yyyy-mm-dd") %>\n <%= pkg.licenseString %>\n Author: <%=pkg.author%> */\n';
@@ -130,6 +131,13 @@ module.exports = function(grunt) {
 		var done = this.async();
 		examples.compile('docs/examples', 'website/contents/examples/examples.js', done);
 	});
+
+    grunt.registerTask('compile:template', function() {
+        var template = String(fs.readFileSync('./jidejs/ui/control/templates.html'));
+        var content = template.replace(/\n/g, '\\n');
+        content = content.replace(/'/g, "\\'");
+        fs.writeFileSync('./jidejs/ui/control/TemplateBundle.js', "define(function() { return '"+content+"'; });");
+    });
 
 	function copyFiles(pattern, cwd, outdir, process) {
 		var files = grunt.file.expand(pattern);

@@ -9,8 +9,8 @@
  * @extends module:jidejs/ui/Container
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/ui/Pos', 'jidejs/ui/layout/HBox', 'jidejs/ui/Control',
-	'jidejs/ui/Skin', 'jidejs/ui/control/Separator', 'jidejs/ui/register'
+	'./../../base/Class', './../../base/DOM', './../Pos', './../layout/HBox', './../Control',
+	'./../Skin', './Separator', './../register'
 ], function(Class, DOM, Pos, HBox, Control, Skin, Separator, register) {
 	var isFocused = function(child) {
 		return child.focused;
@@ -88,7 +88,7 @@ define([
 				if(change.isInsert || change.isUpdate) {
 					child = change.newValue;
 					if(child.showingProperty) {
-						child['jidejs/ui/control/MenuBar.handlers'] = child.on({
+						child['./MenuBar.handlers'] = child.on({
 							showing: showingHandler,
 							click: clickHandler,
 							mouseover: mouseOverHandler
@@ -97,8 +97,8 @@ define([
 				}
 				if(change.isDelete || change.isUpdate) {
 					child = change.oldValue;
-					child['jidejs/ui/control/MenuBar.handlers'].dispose();
-					delete child['jidejs/ui/control/MenuBar.handlers'];
+					child['./MenuBar.handlers'].dispose();
+					delete child['./MenuBar.handlers'];
 				}
 			}
 		});

@@ -4,10 +4,10 @@
  *
  * @module jidejs/ui/Component
  */
-define('jidejs/ui/Component', [
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/EventEmitter', 'jidejs/ui/util/ClassList',
-	'jidejs/ui/geom/Insets', 'jidejs/base/DOM', 'jidejs/base/Util', 'jidejs/ui/input/KeyMap', 'jidejs/base/has',
-	'jidejs/ui/Style', 'jidejs/base/ObservableMap', 'jidejs/base/Observable', 'jidejs/ui/register'
+define([
+	'./../base/Class', './../base/ObservableProperty', './../base/EventEmitter', './util/ClassList',
+	'./geom/Insets', './../base/DOM', './../base/Util', './input/KeyMap', './../base/has',
+	'./Style', './../base/ObservableMap', './../base/Observable', './register'
 ], function(Class, Observable, EventEmitter, ClassList, Insets, DOM, _, KeyMap, has, Style, ObservableMap, Var, register) {
 	//region Utilities
 	function setBackground(event) {
@@ -442,7 +442,7 @@ define('jidejs/ui/Component', [
 				style.update();
 			} else if(name !== 'element') {
 				if(name.match(/^(?:(?:Border|Anchor|Grid|Stack|Tile)Pane|[HV]Box)\./)) {
-					target.attributes.set('jidejs/ui/layout/'+name, source[name]);
+					target.attributes.set('./layout/'+name, source[name]);
 				} else if(name.match(/^on/)) {
 					target.on(name.substr(2), source[name]);
 				} else {

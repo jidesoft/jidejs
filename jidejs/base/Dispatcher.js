@@ -10,7 +10,7 @@
  *
  * @module jidejs/base/Dispatcher
  */
-define('jidejs/base/Dispatcher', ['jidejs/base/DOM'], function(DOM) {
+define(['./DOM'], function(DOM) {
 	// simple "setTimeout" backing store
 	var store = [], ticking = false;
 

@@ -5,9 +5,9 @@
  * @extends module:jidejs/ui/layout/Pane
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/ObservableProperty',
-	'jidejs/ui/layout/Pane', 'jidejs/base/DOM', 'jidejs/base/has',
-	'jidejs/ui/Spacing', 'jidejs/ui/AttachedProperty'
+	'./../../base/Class', './../../base/Util', './../../base/ObservableProperty',
+	'./Pane', './../../base/DOM', './../../base/has',
+	'./../Spacing', './../AttachedProperty'
 ], function(Class, _, Observable, Pane, DOM, has, Spacing, AttachedProperty) {
 	function requestLayout() {
 		this.requestLayout();
@@ -192,7 +192,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the grow priority of the component.
 	 */
-	HBox.grow = AttachedProperty('jidejs/ui/layout/HBox.grow', function(priority, evt) {
+	HBox.grow = AttachedProperty('./HBox.grow', function(priority, evt) {
 		var child = evt.owner;
 		if(priority === 'always') {
 			child.classList.add('jide-hbox-grow');

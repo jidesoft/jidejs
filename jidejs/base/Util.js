@@ -5,7 +5,7 @@
  * Time: 08:15
  * To change this template use File | Settings | File Templates.
  */
-define('jidejs/base/Util', function() {
+define(function() {
 	function Util() {}
 
 	var toString = Object.prototype.toString,

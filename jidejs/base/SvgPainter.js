@@ -3,12 +3,12 @@
  * @private
  * @internal
  */
-define('jidejs/base/SvgPainter', [
-	'jidejs/base/Class',
-	'jidejs/base/Util',
-	'jidejs/base/DOM',
-	'jidejs/base/Disposer',
-	'jidejs/base/Observable'
+define([
+	'./Class',
+	'./Util',
+	'./DOM',
+	'./Disposer',
+	'./Observable'
 ], function(Class, _, DOM, Disposer, Var) {
 	"use strict";
 

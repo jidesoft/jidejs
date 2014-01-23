@@ -9,9 +9,9 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/base/Util', 'jidejs/base/Animation', 'jidejs/base/ObservableProperty',
-    'jidejs/ui/Component', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/register',
-    'jidejs/ui/control/Templates'
+	'./../../base/Class', './../../base/DOM', './../../base/Util', './../../base/Animation', './../../base/ObservableProperty',
+    './../Component', './../Control', './../Skin', './../register',
+    './Templates'
 ], function(Class, DOM, _, Animation, Observable, Component, Control, Skin, register, Templates) {
 	/**
 	 * Creates a new TitledPane.

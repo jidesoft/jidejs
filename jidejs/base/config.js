@@ -1,4 +1,4 @@
-define('jidejs/base/config', [], function() {
+define([], function() {
 	var exports = {};
 
 	exports.is = function(key) {

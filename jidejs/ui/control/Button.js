@@ -9,8 +9,8 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-	'jidejs/base/Class', 'jidejs/ui/Component', 'jidejs/ui/Skin', 'jidejs/ui/control/ButtonBase',
-	'jidejs/ui/register'
+	'./../../base/Class', './../Component', './../Skin', './ButtonBase',
+	'./../register'
 ], function(Class, Component, Skin, ButtonBase, register) {
 		/**
 		 * Creates a new Button.

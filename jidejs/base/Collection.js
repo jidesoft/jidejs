@@ -3,14 +3,14 @@
  *
  * @module jidejs/base/Collection
  */
-define('jidejs/base/Collection', [
-	'jidejs/base/Class',
-	'jidejs/base/EventEmitter',
-	'jidejs/base/Property',
-	'jidejs/base/ObservableProperty',
-	'jidejs/base/Observable',
-	'jidejs/base/Util',
-	'jidejs/base/Enumerator'
+define([
+	'./Class',
+	'./EventEmitter',
+	'./Property',
+	'./ObservableProperty',
+	'./Observable',
+	'./Util',
+	'./Enumerator'
 ], function(Class, EventEmitter, Property, ObservableProperty, Observable, _, Enumerator) {
 	"use strict";
 	//region ChangeEvent

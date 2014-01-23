@@ -5,10 +5,10 @@
  * @extends module:jidejs/base/Property
  * @module jidejs/base/ObservableProperty
  */
-define('jidejs/base/ObservableProperty', [
-	'jidejs/base/Class', 'jidejs/base/Binding', 'jidejs/base/Util',
-	'jidejs/base/PropertyListener', 'jidejs/base/Property', 'jidejs/base/EventEmitter',
-	'jidejs/base/DependencyTracker'
+define([
+	'./Class', './Binding', './Util',
+	'./PropertyListener', './Property', './EventEmitter',
+	'./DependencyTracker'
 ], function(Class, Binding, _, PropertyListener, Property, EventEmitter, DependencyTracker) {
 	"use strict";
 	/**

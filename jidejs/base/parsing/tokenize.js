@@ -3,7 +3,7 @@
 /// @author Patrick Gotthardt
 /// This class is intended for internal use by jide.js only, it is not supported in any way and is not meant to be used
 /// as public API.
-define('jidejs/base/parsing/tokenize', function() {
+define(function() {
 	function tokenize(macros, tokens, input) {
 		var tokenList = toTokenList(tokens, macros);
 		var regex = new RegExp('('+tokenList.map(function(token) {

@@ -14,10 +14,10 @@
  * @module jidejs/ui/control/ChoiceBox
  * @extends module:jidejs/ui/Control
  */
-define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util',
-		'jidejs/base/DOM', 'jidejs/base/ObservableList', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/Pos',
-		'jidejs/ui/control/SingleSelectionModel', 'jidejs/ui/control/Popup', 'jidejs/ui/control/ListView',
-		'jidejs/ui/control/Cell', 'jidejs/ui/control/Templates', 'jidejs/ui/mixin/Selection', 'jidejs/ui/register'
+define(['./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
+		'./../../base/DOM', './../../base/ObservableList', './../Control', './../Skin', './../Pos',
+		'./SingleSelectionModel', './Popup', './ListView',
+		'./Cell', './Templates', './../mixin/Selection', './../register'
 ], function(Class, Observable, _, DOM, ObservableList, Control, Skin, Pos, SingleSelectionModel, Popup, ListView, Cell,
             Templates, SelectionMixin, register) {
 		"use strict";

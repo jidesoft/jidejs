@@ -1,14 +1,14 @@
-define('jidejs/ui/register', ['jidejs/base/config', 'jidejs/base/has'], function(config, has) {
-	var exports;
+define(['./../base/config', './../base/has'], function(config, has) {
+	var exportedTags;
 	if(!config.is('customElementsEnabled') || !has('customElements')) {
 		var registry = [];
-		exports = function(tagName, Component, Parent, exportedProperties, forwardedMethods) {
+		exportedTags = function(tagName, Component, Parent, exportedProperties, forwardedMethods) {
 			registry[registry.length] = [tagName, Component];
 		};
-//		exports._replaceCustomElements = function(element) {
+//		exportedTags._replaceCustomElements = function(element) {
 //			var children = element.querySelectorAll
 //		};
-		return exports;
+//		return exportedTags;
 	}
 	function exportProperty(proto, propName) {
 		Object.defineProperty(proto, propName, {
@@ -65,9 +65,13 @@ define('jidejs/ui/register', ['jidejs/base/config', 'jidejs/base/has'], function
 			}
 		}
 	});
-	document.register('jide-prop', { prototype: jidePropertyElementPrototype });
+    if(!exportedTags) {
+	    document.register('jide-prop', { prototype: jidePropertyElementPrototype });
+    }
 
 	return function(tagName, Component, Parent, exportedProperties, forwardedMethods) {
+        if(exportedTags) return exportedTags(tagName, Component, Parent, exportedProperties, forwardedMethods);
+
 		var proto = Object.create(Parent && Parent.customElementPrototype || HTMLElement.prototype);
 		Object.defineProperty(proto, 'element', {
 			get: function() {

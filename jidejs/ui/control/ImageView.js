@@ -5,8 +5,8 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/base/ObservableProperty',
-    'jidejs/ui/register'
+	'./../../base/Class', './../../base/Util', './../Control', './../Skin', './../../base/ObservableProperty',
+    './../register'
 ], function(Class, _, Control, Skin, Observable, register) {
 	function ImageViewSkin(imageView, el) {
 		this.element = el || document.createElement("img");

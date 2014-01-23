@@ -19,9 +19,9 @@
  *
  * @module jidejs/base/Property
  */
-define('jidejs/base/Property', [
-	'jidejs/base/Class', 'jidejs/base/Binding', 'jidejs/base/Bindings',
-	'jidejs/base/Util'
+define([
+	'./Class', './Binding', './Bindings',
+	'./Util'
 ], function(Class, Binding, Bindings, _) {
 	"use strict";
 	function args(self, args) {
@@ -157,7 +157,7 @@ define('jidejs/base/Property', [
 		 * be extracted (using its _get_ method) and used as the value of the conditional property.
 		 *
 		 * @example
-		 * var motorControlLightColorProperty = require('jidejs/base/Bindings')
+		 * var motorControlLightColorProperty = require('./Bindings')
 		 * 	.when(car.isMotorRunningProperty)
 		 * 		.then('red')
 		 * 		.otherwise('blue');

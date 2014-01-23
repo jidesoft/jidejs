@@ -9,8 +9,8 @@
  * @abstract
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/Component', 'jidejs/base/Dispatcher', 'jidejs/base/DOM',
-	'jidejs/ui/Container'
+	'./../../base/Class', './../../base/Util', './../Component', './../../base/Dispatcher', './../../base/DOM',
+	'./../Container'
 ], function(Class, _, Component, Dispatcher, DOM, Container) {
 	/**
 	 * Invoked by subclasses to initialize them as a Pane.

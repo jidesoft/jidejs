@@ -19,9 +19,9 @@
  *
  * @module jidejs/base/Observable
  */
-define('jidejs/base/Observable', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/EventEmitter', 'jidejs/base/Binding',
-	'jidejs/base/DependencyTracker', 'jidejs/base/Bindings'
+define([
+	'./Class', './Util', './EventEmitter', './Binding',
+	'./DependencyTracker', './Bindings'
 ], function(Class, _, EventEmitter, Binding, DependencyTracker, Bindings) {
 	"use strict";
 	/**

@@ -1,8 +1,8 @@
 /**
  * @module jidejs/base/ObservableMap
  */
-define('jidejs/base/ObservableMap', [
-	'jidejs/base/Class', 'jidejs/base/EventEmitter'
+define([
+	'./Class', './EventEmitter'
 ], function(Class, EventEmitter) {
 	/**
 	 * A map or dictionary type that can be observed for changes.

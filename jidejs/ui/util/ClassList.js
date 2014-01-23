@@ -6,7 +6,7 @@
  *
  * @module jidejs/ui/util/ClassList
  */
-define(['jidejs/base/Class', 'jidejs/base/ObservableProperty'], function(Class, Observable) {
+define(['./../../base/Class', './../../base/ObservableProperty'], function(Class, Observable) {
 	var hasClassList = ('classList' in document.createElement('span'));
 	var classListShim = {
 		add: function(name) {

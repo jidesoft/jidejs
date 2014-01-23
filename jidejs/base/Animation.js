@@ -9,8 +9,8 @@
  *
  * @module jidejs/base/Animation
  */
-define('jidejs/base/Animation', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Deferred', 'jidejs/base/DOM', 'jidejs/base/Dispatcher'
+define([
+	'./Class', './Util', './Deferred', './DOM', './Dispatcher'
 ], function(Class, _, Deferred, DOM, Dispatcher) {
 	// polyfill for performance.now
 	var performance = window.performance;

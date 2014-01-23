@@ -4,7 +4,7 @@
  *
  * @module jidejs/ui/AttachedProperty
  */
-define('jidejs/ui/AttachedProperty', function() {
+define(function() {
 	/**
 	 * Creates a new function that can be used to set and get the value of the property from the
 	 * {@link module:jidejs/ui/Component}.

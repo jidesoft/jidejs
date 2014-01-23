@@ -6,8 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/layout/Pane', 'jidejs/ui/Pos',
-	'jidejs/ui/AttachedProperty'
+	'./../../base/Class', './../../base/Util', './Pane', './../Pos',
+	'./../AttachedProperty'
 ], function(Class, _, Pane, Pos, AttachedProperty) {
 	function StackPane(configOrElement) {
 		var el = null, config = null;
@@ -54,7 +54,7 @@ define([
 			StackPane.alignment.unregister(child);
 		}
 	});
-	StackPane.alignment = AttachedProperty('jidejs/ui/layout/StackPane.alignment', function(pos, evt) {
+	StackPane.alignment = AttachedProperty('./StackPane.alignment', function(pos, evt) {
 		var component = evt.owner;
 		var style = component.style;
 		switch(pos) {

@@ -12,8 +12,8 @@
  *
  * @module jidejs/base/EventEmitter
  */
-define('jidejs/base/EventEmitter', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Disposer', 'jidejs/base/Subscription'
+define([
+	'./Class', './Util', './Disposer', './Subscription'
 ], function(Class, _, Disposer, Subscription) {
 	"use strict";
 

@@ -1,8 +1,8 @@
 /// @internal
 /// @private
 /// This class is currently not considered to be part of the public API.
-define('jidejs/base/DOM', [
-	'jidejs/base/Util', 'jidejs/base/Observable', 'jidejs/base/Disposer'
+define([
+	'./Util', './Observable', './Disposer'
 ], function(_, Observable, Disposer) {
 	"use strict";
 	var dataStore = {}, guidCounter = 0, expando = "data-jide-data";

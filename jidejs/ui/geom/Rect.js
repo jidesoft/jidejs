@@ -5,7 +5,7 @@
  * Time: 11:28
  * To change this template use File | Settings | File Templates.
  */
-define(['jidejs/base/Class', 'jidejs/ui/geom/Point', 'jidejs/ui/geom/Size'], function(Class, Point, Size) {
+define(['./../../base/Class', './Point', './Size'], function(Class, Point, Size) {
 	function Rect(x, y, width, height) {
 		this.x = x;
 		this.y = y;

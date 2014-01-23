@@ -1,9 +1,9 @@
 /// @internal
 /// @private
 /// This API is not yet considered public. There might be substantial changes before it becomes public API.
-define('jidejs/ui/bind', [
-	'jidejs/base/Observable', 'jidejs/base/DOM', 'jidejs/base/Util',
-	'jidejs/ui/util/ClassList', 'jidejs/ui/util/js-object-literal-parse', 'jidejs/ui/Component'
+define([
+	'./../base/Observable', './../base/DOM', './../base/Util',
+	'./util/ClassList', './util/js-object-literal-parse', './Component'
 ], function(Observable, DOM, _, ClassList, literalParse, Component) {
 	"use strict";
 	function bind(element, descriptor, context, component) {

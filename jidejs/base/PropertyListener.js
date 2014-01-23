@@ -5,7 +5,7 @@
  * Time: 10:03
  * To change this template use File | Settings | File Templates.
  */
-define('jidejs/base/PropertyListener', function() {
+define(function() {
 	function PropertyListener(property, handler, context) {
 		if(!property || !handler) throw new Error('Expected at least a property and the handler as arguments.');
 		this.property = property;

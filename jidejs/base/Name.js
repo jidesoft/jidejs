@@ -6,7 +6,7 @@
  *
  * @module jidejs/base/Name
  */
-define('jidejs/base/Name', function() {
+define(function() {
 	var id = +new Date();
 	/**
 	 * @function

@@ -9,7 +9,7 @@
  *
  * @module jidejs/base/Subscription
  */
-define('jidejs/base/Subscription', ['jidejs/base/Class'], function(Class) {
+define(['./Class'], function(Class) {
 	"use strict";
 	/**
 	 * Creates a new Subscription.

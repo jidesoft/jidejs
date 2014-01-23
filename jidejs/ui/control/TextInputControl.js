@@ -9,8 +9,8 @@
  * @abstract
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/Util',
-    'jidejs/ui/Control', 'jidejs/ui/Skin', 'jidejs/ui/register'
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
+    './../Control', './../Skin', './../register'
 ], function(Class, Observable, _, Control, Skin, register) {
 	function createInputElement() {
 		var i = document.createElement('input');

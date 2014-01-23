@@ -4,7 +4,7 @@
  * @module jidejs/ui/control/RadioButtonMenuItem
  * @extends module:jidejs/ui/control/RadioButton
  */
-define(['jidejs/base/Class', 'jidejs/ui/control/RadioButton'], function(Class, RadioButton) {
+define(['./../../base/Class', './RadioButton'], function(Class, RadioButton) {
 	/**
 	 * Creates a new RadioButtonMenuItem.
 	 *

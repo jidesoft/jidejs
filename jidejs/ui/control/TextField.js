@@ -6,7 +6,7 @@
  * @extends module:jidejs/ui/control/TextInputControl
  */
 define([
-    'jidejs/base/Class', 'jidejs/ui/Skin', 'jidejs/ui/control/TextInputControl', 'jidejs/ui/register'
+    './../../base/Class', './../Skin', './TextInputControl', './../register'
 ], function(Class, Skin, TextInputControl, register) {
 	var supportsPlaceholder = ('placeholder' in document.createElement('input'));
 

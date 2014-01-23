@@ -11,8 +11,8 @@
  * @extends jidejs/ui/layout/Pane
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/DOM', 'jidejs/base/Util',
-	'jidejs/ui/layout/Pane', 'jidejs/ui/Orientation'
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/DOM', './../../base/Util',
+	'./Pane', './../Orientation'
 ], function(Class, Observable, DOM, _, Pane, Orientation) {
 	/**
 	 * Creates a new TilePane.

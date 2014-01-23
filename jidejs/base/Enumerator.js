@@ -4,8 +4,8 @@
  *
  * @module jidejs/base/Enumerator
  */
-define('jidejs/base/Enumerator', [
-	'jidejs/base/Class'
+define([
+	'./Class'
 ], function(Class) {
 	"use strict";
 	/**

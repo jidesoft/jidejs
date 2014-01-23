@@ -13,8 +13,8 @@
  *
  * @module jidejs/ui/Container
  */
-define('jidejs/ui/Container', [
-	'jidejs/base/Class', 'jidejs/base/ObservableList', 'jidejs/base/DOM'
+define([
+	'./../base/Class', './../base/ObservableList', './../base/DOM'
 ], function(Class, ObservableList, DOM) {
 	"use strict";
 	function handleChildrenChangedInsertAt(event) {

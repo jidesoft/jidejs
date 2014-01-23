@@ -6,7 +6,7 @@
  * @see module:jidejs/ui/control/SingleSelectionModel
  * @see module:jidejs/ui/control/MultipleSelectionModel
  */
-define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/EventEmitter'], function(Class, Observable, EventEmitter) {
+define(['./../../base/Class', './../../base/ObservableProperty', './../../base/EventEmitter'], function(Class, Observable, EventEmitter) {
 	/**
 	 * Creates a new SelectionModel.
 	 *

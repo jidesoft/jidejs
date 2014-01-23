@@ -7,8 +7,8 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/ObservableProperty', 'jidejs/ui/Control', 'jidejs/ui/Skin',
-	'jidejs/base/DOM', 'jidejs/ui/bind', 'jidejs/ui/control/Templates', 'jidejs/ui/register'
+	'./../../base/Class', './../../base/Util', './../../base/ObservableProperty', './../Control', './../Skin',
+	'./../../base/DOM', './../bind', './Templates', './../register'
 ], function(Class, _, Observable, Control, Skin, DOM, bind, Templates, register) {
 	/**
 	 * Used by subclasses to initialize the Labeled control.

@@ -7,7 +7,7 @@
  * @extends module:jidejs/ui/control/TextField
  */
 define([
-    'jidejs/base/Class', 'jidejs/ui/control/TextField', 'jidejs/ui/Skin', 'jidejs/ui/register'
+    './../../base/Class', './TextField', './../Skin', './../register'
 ], function(Class, TextField, Skin, register) {
 	function PasswordFieldSkin(input, el) {
 		TextField.Skin.call(this, input, el);

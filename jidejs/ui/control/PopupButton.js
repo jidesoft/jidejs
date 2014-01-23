@@ -5,8 +5,8 @@
  * @extends module:jidejs/ui/control/Button
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/DOM', 'jidejs/ui/control/Button', 'jidejs/ui/Pos',
-    'jidejs/ui/Skin', 'jidejs/ui/register'
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/DOM', './Button', './../Pos',
+    './../Skin', './../register'
 ], function(Class, Observable, DOM, Button, Pos, Skin, register) {
 	/**
 	 * Creates a new PopupButton.

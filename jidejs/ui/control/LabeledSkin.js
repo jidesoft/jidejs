@@ -5,7 +5,7 @@
  * Time: 11:16
  * To change this template use File | Settings | File Templates.
  */
-define(['jidejs/base/Class', 'jidejs/ui/Skin'], function(Class, Skin) {
+define(['./../../base/Class', './../Skin'], function(Class, Skin) {
 	// create the DOM structure that is used internally
 	var template = (function() {
 		var doc = document;

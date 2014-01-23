@@ -1,5 +1,5 @@
-define('jidejs/ui/control/Templates', [
-    'jidejs/ui/Template', 'text!./templates.html'
+define([
+    './../Template', './TemplateBundle'
 ], function(Template, templates) {
     var div = document.createElement('div');
     div.innerHTML = templates;

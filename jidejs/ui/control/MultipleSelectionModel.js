@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/control/SelectionModel
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableList', 'jidejs/ui/control/SelectionModel', 'jidejs/base/Util'
+	'./../../base/Class', './../../base/ObservableList', './SelectionModel', './../../base/Util'
 ], function(Class, ObservableList, SelectionModel, _) {
 
 	/**

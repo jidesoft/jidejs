@@ -20,7 +20,7 @@
  * @extends jidejs/ui/layout/Pane
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/layout/Pane', 'jidejs/ui/AttachedProperty'
+	'./../../base/Class', './../../base/Util', './Pane', './../AttachedProperty'
 ], function(Class, _, Pane, AttachedProperty) {
 	/**
 	 * Creates a new AnchorPane.
@@ -90,7 +90,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.topAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.topAnchor', function(value, evt) {
+	AnchorPane.topAnchor = AttachedProperty('./AnchorPane.topAnchor', function(value, evt) {
 		evt.owner.style.set('top', value).update();
 	});
 	/**
@@ -104,7 +104,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.leftAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.leftAnchor', function(value, evt) {
+	AnchorPane.leftAnchor = AttachedProperty('./AnchorPane.leftAnchor', function(value, evt) {
 		evt.owner.style.set('left', value).update();
 	});
 	/**
@@ -118,7 +118,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.bottomAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.bottomAnchor', function(value, evt) {
+	AnchorPane.bottomAnchor = AttachedProperty('./AnchorPane.bottomAnchor', function(value, evt) {
 		evt.owner.style.set('bottom', value).update();
 	});
 	/**
@@ -132,7 +132,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.rightAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.rightAnchor', function(value, evt) {
+	AnchorPane.rightAnchor = AttachedProperty('./AnchorPane.rightAnchor', function(value, evt) {
 		evt.owner.style.set('right', value).update();
 	});
 	return AnchorPane;

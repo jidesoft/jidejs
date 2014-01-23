@@ -10,8 +10,8 @@
  *
  * @module jidejs/base/Deferred
  */
-define('jidejs/base/Deferred', [
-	'jidejs/base/Class', 'jidejs/base/Util', 'jidejs/base/Dispatcher'
+define([
+	'./Class', './Util', './Dispatcher'
 ], function(Class, _, Dispatcher) {
 	"use strict";
 

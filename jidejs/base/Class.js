@@ -22,7 +22,7 @@
  * for easier usage.
  *
  * @example
- * define(['jidejs/base/Class'], function(Class) {
+ * define(['./Class'], function(Class) {
  *    // define the constructor function as usual
  *    function Person(name, age) {
  *        this.name = name;
@@ -50,7 +50,7 @@
  * @returns {{mixin: Function, def: Function, extends: Function}}
  * @summary Creates a new {@link ClassType} that can be used to configure the prototype of the given <code>constructor</code>.
  */
-define('jidejs/base/Class', ['jidejs/base/Util'], function(_) {
+define(['./Util'], function(_) {
 	/**
 	 * @alias module:jidejs/base/Class
 	 * @constructor

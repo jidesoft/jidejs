@@ -11,7 +11,7 @@
  * @extends module:jidejs/ui/control/Popup
  * @see module:jidejs/ui/Component~tooltip
  */
-define(['jidejs/base/Class', 'jidejs/base/Util', 'jidejs/ui/control/Popup'], function(Class, _, Popup) {
+define(['./../../base/Class', './../../base/Util', './Popup'], function(Class, _, Popup) {
 	/**
 	 * Creates a new Tooltip.
 	 *

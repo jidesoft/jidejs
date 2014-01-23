@@ -7,8 +7,8 @@
  * @extends module:jidejs/ui/Container
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/base/ObservableProperty', 'jidejs/ui/control/Labeled',
-	'jidejs/ui/control/ContextMenu', 'jidejs/ui/Pos', 'jidejs/base/Util', register
+	'./../../base/Class', './../../base/DOM', './../../base/ObservableProperty', './Labeled',
+	'./ContextMenu', './../Pos', './../../base/Util', register
 ], function(Class, DOM, Observable, Labeled, ContextMenu, Pos, _, register) {
 	/**
 	 * Creates a new Menu.

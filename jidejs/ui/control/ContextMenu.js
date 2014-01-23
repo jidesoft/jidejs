@@ -6,8 +6,8 @@
  * @extends jidejs/ui/Container
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList', 'jidejs/base/DOM', 'jidejs/ui/control/Popup',
-	'jidejs/ui/Container', 'jidejs/base/Util', 'jidejs/ui/control/Separator', 'jidejs/ui/register'
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList', './../../base/DOM', './Popup',
+	'./../Container', './../../base/Util', './Separator', './../register'
 ], function(Class, Observable, ObservableList, DOM, Popup, Container, _, Separator, register) {
 	var isFocused = function(child) {
 		return child.focused;
@@ -44,7 +44,7 @@ define([
 				this.visible = false;
 			},
 			mousemove: function(e) {
-				var activeMenu = this['jidejs/ui/control/ContextMenu.activeMenu'] || null;
+				var activeMenu = this['./ContextMenu.activeMenu'] || null;
 				var children = this.children.toArray();
 				var point = {x:e.pageX, y:e.pageY};
 				for(var i = 0, len = children.length; i < len; i++) {
@@ -56,7 +56,7 @@ define([
 						} else if(isInElement) {
 							child.showing = true;
 							activeMenu = child;
-							this['jidejs/ui/control/ContextMenu.activeMenu'] = child;
+							this['./ContextMenu.activeMenu'] = child;
 						}
 					}
 				}
@@ -112,13 +112,13 @@ define([
 			div.appendChild(child.element);
 			var THIS = this;
 			if(child.showingProperty) {
-				child['jidejs/ui/control/ContextMenu.showingHandler'] = child.showingProperty.subscribe(function(event) {
+				child['./ContextMenu.showingHandler'] = child.showingProperty.subscribe(function(event) {
 					if(event.value) {
-						THIS['jidejs/ui/control/ContextMenu.activeMenu'] = this;
+						THIS['./ContextMenu.activeMenu'] = this;
 					}
 				});
-				child['jidejs/ui/control/ContextMenu.focusHandler'] = child.focusedProperty.subscribe(function(event) {
-					if(event.value) THIS['jidejs/ui/control/ContextMenu.activeMenu'] = this;
+				child['./ContextMenu.focusHandler'] = child.focusedProperty.subscribe(function(event) {
+					if(event.value) THIS['./ContextMenu.activeMenu'] = this;
 				});
 			}
 			DOM.insertElementAt(this.element, div, index);
@@ -127,10 +127,10 @@ define([
 		_removeChild: function(child) {
 			this.element.removeChild(child.element.parentNode);
 			if(child.showingProperty) {
-				child['jidejs/ui/control/ContextMenu.showingHandler'].dispose();
-				delete child['jidejs/ui/control/ContextMenu.showingHandler'];
-				child['jidejs/ui/control/ContextMenu.focusHandler'].dispose();
-				delete child['jidejs/ui/control/ContextMenu.focusHandler'];
+				child['./ContextMenu.showingHandler'].dispose();
+				delete child['./ContextMenu.showingHandler'];
+				child['./ContextMenu.focusHandler'].dispose();
+				delete child['./ContextMenu.focusHandler'];
 			}
 		}
 	});

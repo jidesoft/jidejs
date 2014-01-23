@@ -3,8 +3,8 @@
  *
  * @module jidejs/base/Disposer
  */
-define('jidejs/base/Disposer', [
-	'jidejs/base/Class'
+define([
+	'./Class'
 ], function(Class) {
 	"use strict";
 

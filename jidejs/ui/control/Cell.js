@@ -20,8 +20,8 @@
  * @extends module:jidejs/ui/control/Labeled
  */
 define([
-	'jidejs/base/Class', 'jidejs/base/Observable', 'jidejs/base/ObservableProperty', 'jidejs/base/Property', 'jidejs/ui/Skin',
-	'jidejs/ui/control/Labeled', 'jidejs/ui/control/TextField'
+	'./../../base/Class', './../../base/Observable', './../../base/ObservableProperty', './../../base/Property', './../Skin',
+	'./Labeled', './TextField'
 ], function(Class, Observable, ObservableProperty, Property, Skin, Labeled, TextField) {
 	/**
 	 * Creates a new instance of the default Cell editor which displays a TextField to allow the user

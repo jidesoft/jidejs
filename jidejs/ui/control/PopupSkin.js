@@ -5,7 +5,7 @@
  * Time: 09:13
  * To change this template use File | Settings | File Templates.
  */
-define(['jidejs/base/Class', 'jidejs/base/DOM', 'jidejs/base/Util', 'jidejs/ui/Skin', 'jidejs/base/Dispatcher'], function(Class, DOM, _, Skin, Dispatcher) {
+define(['./../../base/Class', './../../base/DOM', './../../base/Util', './../Skin', './../../base/Dispatcher'], function(Class, DOM, _, Skin, Dispatcher) {
 	function autoHideHandler(e) {
 		var point = { x: e.pageX, y: e.pageY },
 			consumeAutoHidingEvents = false,

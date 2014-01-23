@@ -4,7 +4,7 @@
  *
  * @module jidejs/ui/control/ToggleGroup
  */
-define(['jidejs/base/Class', 'jidejs/base/ObservableProperty', 'jidejs/base/ObservableList'], function(Class, Observable, ObservableList) {
+define(['./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList'], function(Class, Observable, ObservableList) {
 	/**
 	 * Creates a new ToggleGroup.
 	 * @memberof module:jidejs/ui/control/ToggleGroup
