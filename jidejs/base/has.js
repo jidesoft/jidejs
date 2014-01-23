@@ -71,7 +71,7 @@ define('jidejs/base/has', function() {
 		},
 
 		'shadowDOM': function() {
-			return testElement.createShadowRoot !== undefined;
+			return false;
 		},
 
 		'templateElement': function() {
