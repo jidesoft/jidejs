@@ -7,7 +7,7 @@
  * @extends module:jidejs/ui/control/Toggle
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './ButtonBase', './Toggle',
+	'./../../base/Class', './../../base/ObservableProperty', './ButtonBase', './Toggle',
 	'./SVGView'
 ], function(Class, Observable, ButtonBase, Toggle, SVGView) {
 	var idCounter = 0;

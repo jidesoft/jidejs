@@ -9,7 +9,7 @@
  * @extends module:jidejs/ui/Container
  */
 define([
-	'./../.././Class', './../.././DOM', './../Pos', './../layout/HBox', './../Control',
+	'./../../base/Class', './../../base/DOM', './../Pos', './../layout/HBox', './../Control',
 	'./../Skin', './Separator', './../register'
 ], function(Class, DOM, Pos, HBox, Control, Skin, Separator, register) {
 	var isFocused = function(child) {

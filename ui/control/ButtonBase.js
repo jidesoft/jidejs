@@ -18,7 +18,7 @@
  * @abstract
  */
 define([
-		'./../.././Class', './../.././ObservableProperty', './../.././Util', './../Component', './../Skin',
+		'./../../base/Class', './../../base/ObservableProperty', './../../base/Util', './../Component', './../Skin',
 		'./Labeled', './../register', './Templates'
 ], function(Class, Observable, _, Component, Skin, Labeled, register, Templates) {
 		var commandBinding = '$jide/ui/control/ButtonBase.command$';

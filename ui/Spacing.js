@@ -5,7 +5,7 @@
  * Time: 15:40
  * To change this template use File | Settings | File Templates.
  */
-define(['./.././Util'], function(_) {
+define(['./../base/Util'], function(_) {
 	var toString = function() {
 		return this.row + " " + this.column;
 	};

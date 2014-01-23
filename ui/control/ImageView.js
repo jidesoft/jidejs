@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'./../.././Class', './../.././Util', './../Control', './../Skin', './../.././ObservableProperty',
+	'./../../base/Class', './../../base/Util', './../Control', './../Skin', './../../base/ObservableProperty',
     './../register'
 ], function(Class, _, Control, Skin, Observable, register) {
 	function ImageViewSkin(imageView, el) {

@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../Control',
+	'./../../base/Class', './../../base/ObservableProperty', './../Control',
 	'./../Skin', './../Orientation', './../register'
 ], function(Class, Observable, Control, Skin, Orientation, register) {
 	function SeparatorSkin(separator, el) {

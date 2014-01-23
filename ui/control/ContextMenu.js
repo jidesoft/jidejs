@@ -6,8 +6,8 @@
  * @extends jidejs/ui/Container
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../.././ObservableList', './../.././DOM', './Popup',
-	'./../Container', './../.././Util', './Separator', './../register'
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList', './../../base/DOM', './Popup',
+	'./../Container', './../../base/Util', './Separator', './../register'
 ], function(Class, Observable, ObservableList, DOM, Popup, Container, _, Separator, register) {
 	var isFocused = function(child) {
 		return child.focused;

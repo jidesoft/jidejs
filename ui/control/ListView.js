@@ -24,9 +24,9 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'./../.././Class', './../.././Observable', './../.././ObservableProperty', './../.././ObservableList', './../Control',
+	'./../../base/Class', './../../base/Observable', './../../base/ObservableProperty', './../../base/ObservableList', './../Control',
 	'./../Skin', './Cell', './MultipleSelectionModel', './../Component',
-	'./../Orientation', './../.././Util', './../.././DOM', './../register'
+	'./../Orientation', './../../base/Util', './../../base/DOM', './../register'
 ], function(
 	Class, Var, Observable, ObservableList, Control, Skin, Cell, MultipleSelectionModel, Component, Orientation, _, DOM, register
 ) {

@@ -6,7 +6,7 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-	'./../.././Class', './../Component', './ButtonBase', './../register'
+	'./../../base/Class', './../Component', './ButtonBase', './../register'
 ], function(Class, Component, ButtonBase, register) {
 	/**
 	 * Creates a new MenuItem.

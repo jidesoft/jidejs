@@ -9,7 +9,7 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-	'./../.././Class', './../Component', './../Skin', './ButtonBase',
+	'./../../base/Class', './../Component', './../Skin', './ButtonBase',
 	'./../register'
 ], function(Class, Component, Skin, ButtonBase, register) {
 		/**

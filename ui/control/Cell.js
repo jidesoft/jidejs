@@ -20,7 +20,7 @@
  * @extends module:jidejs/ui/control/Labeled
  */
 define([
-	'./../.././Class', './../.././Observable', './../.././ObservableProperty', './../.././Property', './../Skin',
+	'./../../base/Class', './../../base/Observable', './../../base/ObservableProperty', './../../base/Property', './../Skin',
 	'./Labeled', './TextField'
 ], function(Class, Observable, ObservableProperty, Property, Skin, Labeled, TextField) {
 	/**

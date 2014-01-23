@@ -3,7 +3,7 @@
  *
  * @module jidejs/ui/control/SingleSelectionModel
  */
-define(['./../.././Class', './SelectionModel', './../.././Util'], function(Class, SelectionModel, _) {
+define(['./../../base/Class', './SelectionModel', './../../base/Util'], function(Class, SelectionModel, _) {
 	/**
 	 * Creates a new SingleSelectionModel.
 	 * @memberof module:jidejs/ui/control/SingleSelectionModel

@@ -4,7 +4,7 @@
  * It will update the {@link module:jidejs/ui/control/ToggleGroup} when its `selected` property is set to `true`.
  * @module jidejs/ui/control/Toggle
  */
-define(['./../.././Class', './../.././ObservableProperty'], function(Class, Observable) {
+define(['./../../base/Class', './../../base/ObservableProperty'], function(Class, Observable) {
 	/**
 	 * Adds the properties `selected` and `toggleGroup` to the object.
 	 * Must be invoked using the `call` syntax with the toggleable control as the context during the construction

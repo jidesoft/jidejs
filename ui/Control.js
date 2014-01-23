@@ -6,7 +6,7 @@
  * @extends module:jidejs/ui/Component
  */
 define([
-	'./.././Class', './.././ObservableProperty', './Component', './Skin', './.././DOM',
+	'./../base/Class', './../base/ObservableProperty', './Component', './Skin', './../base/DOM',
 	'./register'
 ], function(Class, Observable, Component, Skin, DOM, register) {
 	function setSkin(event) {

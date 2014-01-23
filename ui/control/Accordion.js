@@ -11,8 +11,8 @@
  * @extends module:jidejs/ui/Container
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../.././ObservableList', './../Control',
-    './../Skin', './../layout/VBox', './../.././has', './Templates', './../register'
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList', './../Control',
+    './../Skin', './../layout/VBox', './../../base/has', './Templates', './../register'
 ], function(Class, Observable, ObservableList, Control, Skin, VBox, has, Templates, register) {
 	/**
 	 * Creates a new Accordion.

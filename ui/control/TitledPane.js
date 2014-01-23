@@ -9,7 +9,7 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'./../.././Class', './../.././DOM', './../.././Util', './../.././Animation', './../.././ObservableProperty',
+	'./../../base/Class', './../../base/DOM', './../../base/Util', './../../base/Animation', './../../base/ObservableProperty',
     './../Component', './../Control', './../Skin', './../register',
     './Templates'
 ], function(Class, DOM, _, Animation, Observable, Component, Control, Skin, register, Templates) {

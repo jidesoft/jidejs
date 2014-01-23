@@ -6,8 +6,8 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-	'./../.././Class', './../Component', './ButtonBase',
-	'./../.././ObservableProperty', './../register'
+	'./../../base/Class', './../Component', './ButtonBase',
+	'./../../base/ObservableProperty', './../register'
 ],
 	function(Class, Component, ButtonBase, Observable, register) {
 		function HyperlinkSkin(link, el) {

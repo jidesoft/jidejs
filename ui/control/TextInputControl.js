@@ -9,7 +9,7 @@
  * @abstract
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../.././Util',
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
     './../Control', './../Skin', './../register'
 ], function(Class, Observable, _, Control, Skin, register) {
 	function createInputElement() {

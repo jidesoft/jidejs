@@ -4,7 +4,7 @@
  * @module jidejs/ui/control/SVGView
  * @extends module:jidejs/ui/Control
  */
-define(['./../.././Class', './../.././ObservableProperty', './../Control', './../Skin'], function(Class, Observable, Control, Skin) {
+define(['./../../base/Class', './../../base/ObservableProperty', './../Control', './../Skin'], function(Class, Observable, Control, Skin) {
 	function SVGViewSkin(svgView, el) {
 		this.element = el || document.createElementNS('http://www.w3.org/2000/svg', "svg");
 		Skin.call(this, svgView, this.element);

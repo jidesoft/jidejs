@@ -5,9 +5,9 @@
  * @module jidejs/ui/Component
  */
 define([
-	'./.././Class', './.././ObservableProperty', './.././EventEmitter', './util/ClassList',
-	'./geom/Insets', './.././DOM', './.././Util', './input/KeyMap', './.././has',
-	'./Style', './.././ObservableMap', './.././Observable', './register'
+	'./../base/Class', './../base/ObservableProperty', './../base/EventEmitter', './util/ClassList',
+	'./geom/Insets', './../base/DOM', './../base/Util', './input/KeyMap', './../base/has',
+	'./Style', './../base/ObservableMap', './../base/Observable', './register'
 ], function(Class, Observable, EventEmitter, ClassList, Insets, DOM, _, KeyMap, has, Style, ObservableMap, Var, register) {
 	//region Utilities
 	function setBackground(event) {

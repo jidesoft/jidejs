@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/control/Labeled
  */
 define([
-	'./../.././Class', './../Component', './Labeled', './../Skin', './../register'
+	'./../../base/Class', './../Component', './Labeled', './../Skin', './../register'
 ], function(Class, Component, Labeled, Skin, register) {
 	/**
 	 * Creates a new Label control.

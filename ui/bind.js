@@ -2,7 +2,7 @@
 /// @private
 /// This API is not yet considered public. There might be substantial changes before it becomes public API.
 define([
-	'./.././Observable', './.././DOM', './.././Util',
+	'./../base/Observable', './../base/DOM', './../base/Util',
 	'./util/ClassList', './util/js-object-literal-parse', './Component'
 ], function(Observable, DOM, _, ClassList, literalParse, Component) {
 	"use strict";

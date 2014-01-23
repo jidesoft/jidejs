@@ -14,8 +14,8 @@
  * @module jidejs/ui/control/ChoiceBox
  * @extends module:jidejs/ui/Control
  */
-define(['./../.././Class', './../.././ObservableProperty', './../.././Util',
-		'./../.././DOM', './../.././ObservableList', './../Control', './../Skin', './../Pos',
+define(['./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
+		'./../../base/DOM', './../../base/ObservableList', './../Control', './../Skin', './../Pos',
 		'./SingleSelectionModel', './Popup', './ListView',
 		'./Cell', './Templates', './../mixin/Selection', './../register'
 ], function(Class, Observable, _, DOM, ObservableList, Control, Skin, Pos, SingleSelectionModel, Popup, ListView, Cell,

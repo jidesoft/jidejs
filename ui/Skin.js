@@ -7,8 +7,8 @@
  * @module jidejs/ui/Skin
  */
 define([
-	'./.././Class', './.././Util', './.././Window', './.././DOM', './.././has',
-	'./Template', './bind', './Component', './.././Deferred'
+	'./../base/Class', './../base/Util', './../base/Window', './../base/DOM', './../base/has',
+	'./Template', './bind', './Component', './../base/Deferred'
 ], function(Class, _, Window, DOM, has, Template, bind, Component, Deferred) {
 	var $bindings = './Skin.bindings',
 		tooltipHandler = './Skin.tooltipHandler',

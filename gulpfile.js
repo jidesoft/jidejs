@@ -33,7 +33,7 @@ gulp.task('less', function() {
         .pipe(less({
             paths: [ path.join(__dirname, 'style') ]
         }))
-        .pipe(gulp.dest(',/style/default.css'));
+        .pipe(gulp.dest('./style'));
     return gulp.src('demo/**/*.less')
         .pipe(less())
         .pipe(gulp.dest('demo'));
@@ -62,15 +62,58 @@ gulp.task('compile:template', function() {
 });
 
 gulp.task('jsdoc', function(next) {
-    exec('./jsdoc.cmd', next);
+    exec('jsdoc.cmd', next);
 });
 
 gulp.task('wintersmith', function(next) {
-    exec('./wintersmith.cmd', next);
+    var wintersmith = require('wintersmith');
+    var env = wintersmith({
+        "locals": {
+            "title": "jide.js Developer Guide"
+        },
+
+        contents: './website/contents',
+        templates: './website/templates',
+        output: './website/build',
+
+        "plugins": [
+            "wintersmith-less",
+            "wintersmith-nunjucks",
+            "./website/plugins/toc.js",
+            "./website/plugins/apilink.js",
+            "./website/plugins/utils.js"
+        ]
+    });
+    env.build(next);
+});
+
+gulp.task('copy:website', function() {
+    gulp.src('bower_components/**')
+        .pipe(gulp.dest('website/build/bower_components'));
+    gulp.src('demo/**')
+        .pipe(gulp.dest('website/build/demo'));
+    gulp.src('dist/jidejs/**')
+        .pipe(gulp.dest('website/build/bower_components/jidejs'));
+    gulp.src('dist/style/default.css')
+        .pipe(gulp.dest('website/build/bower_components/jidejs'));
 });
 
 gulp.task('build', ['compile:template', 'less', 'minify', 'copy'], function() {});
 gulp.task('release', ['build', 'compress'], function() {});
+
+gulp.task('website-preview', function(next) {
+    var express = require('express')
+        , http = require('http')
+        , path = require('path');
+
+    var app = express();
+    app.use(express.favicon());
+    app.use(express.logger('dev'));
+    app.use(express.compress());
+    app.use(express.static(__dirname+'/website/build'));
+    app.listen(3000).on('close', next);
+    console.log('Server started at port '+3000);
+});
 
 function exec(cmd, next) {
     var exec = require('child_process').exec;

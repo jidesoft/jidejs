@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/control/Button
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../.././DOM', './Button', './../Pos',
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/DOM', './Button', './../Pos',
     './../Skin', './../register'
 ], function(Class, Observable, DOM, Button, Pos, Skin, register) {
 	/**

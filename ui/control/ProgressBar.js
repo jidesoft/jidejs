@@ -4,8 +4,8 @@
  * @module jidejs/ui/control/ProgressBar
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../Control', './../Skin', './../.././Dispatcher',
-	'./../.././Animation'
+	'./../../base/Class', './../../base/ObservableProperty', './../Control', './../Skin', './../../base/Dispatcher',
+	'./../../base/Animation'
 ], function(Class, Observable, Control, Skin, Dispatcher, Animation) {
 	var template = (function() {
 		var progress = document.createElement('div');

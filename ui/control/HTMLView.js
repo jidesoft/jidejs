@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../Control', './../Skin', './../.././Util', './../register'
+	'./../../base/Class', './../../base/ObservableProperty', './../Control', './../Skin', './../../base/Util', './../register'
 ], function(Class, Observable, Control, Skin, _, register) {
 	function HTMLViewSkin(htmlView, el) {
 		this.element = el || document.createElement("div");

@@ -9,8 +9,8 @@
  * @extends module:jidejs/ui/control/ComboBoxBase
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../.././Util',
-	'./../.././DOM', './../.././ObservableList', './../Control', './../Pos',
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
+	'./../../base/DOM', './../../base/ObservableList', './../Control', './../Pos',
 	'./SingleSelectionModel', './Popup', './ListView',
 	'./ComboBoxBase', './Cell', './../register'
 ], function(

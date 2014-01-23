@@ -8,8 +8,8 @@
  * @extends module:jidejs/ui/Control
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../Control', './PopupSkin',
-	'./../.././DOM', './../Pos', './../.././Util', './../.././Window', './../register'
+	'./../../base/Class', './../../base/ObservableProperty', './../Control', './PopupSkin',
+	'./../../base/DOM', './../Pos', './../../base/Util', './../../base/Window', './../register'
 ], function(Class, Observable, Control, PopupSkin, DOM, Pos, _, Window, register) {
 	/**
 	 * Creates a new Popup.

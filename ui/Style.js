@@ -9,7 +9,7 @@
  * @module jidejs/ui/Style
  */
 define([
-	'./.././Class', './.././has'
+	'./../base/Class', './../base/has'
 ], function(
 	Class, has
 ) {

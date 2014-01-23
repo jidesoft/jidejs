@@ -5,7 +5,7 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './ButtonBase', './Toggle'
+	'./../../base/Class', './../../base/ObservableProperty', './ButtonBase', './Toggle'
 ], function(Class, Observable, ButtonBase, Toggle) {
 	/**
 	 * Creates a new ToggleButton.

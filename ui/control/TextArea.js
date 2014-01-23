@@ -4,7 +4,7 @@
  * @extends module:jidejs/ui/control/TextInputControl
  */
 define([
-	'./../.././Class', './../Skin', './TextInputControl', './../.././ObservableProperty',
+	'./../../base/Class', './../Skin', './TextInputControl', './../../base/ObservableProperty',
     './../register'
 ], function(Class, Skin, TextInputControl, Observable, register) {
 	function TextAreaSkin(input, el) {

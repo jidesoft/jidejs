@@ -2,8 +2,8 @@
 /// @internal
 /// This file is not intended as a public API and should not be used outside of jide.js yet.
 define([
-	'./.././has',
-	'./.././Util'
+	'./../base/has',
+	'./../base/Util'
 ], function(has, _) {
 	"use strict";
 

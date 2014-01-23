@@ -16,8 +16,8 @@
  * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
-    './../.././Class', './../.././ObservableProperty', './../Skin', './ButtonBase', './Toggle',
-	'./../.././Util', './Templates', './../register'
+    './../../base/Class', './../../base/ObservableProperty', './../Skin', './ButtonBase', './Toggle',
+	'./../../base/Util', './Templates', './../register'
 ], function(Class, Observable, Skin, ButtonBase, Toggle, _, Templates, register) {
 		/**
 		 * Creates a new CheckBox.
