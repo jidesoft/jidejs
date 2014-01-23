@@ -1,4 +1,4 @@
-define(['./.././config', './.././has'], function(config, has) {
+define(['./../base/config', './../base/has'], function(config, has) {
 	var exportedTags;
 	if(!config.is('customElementsEnabled') || !has('customElements')) {
 		var registry = [];

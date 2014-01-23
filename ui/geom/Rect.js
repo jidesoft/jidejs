@@ -5,7 +5,7 @@
  * Time: 11:28
  * To change this template use File | Settings | File Templates.
  */
-define(['./../.././Class', './Point', './Size'], function(Class, Point, Size) {
+define(['./../../base/Class', './Point', './Size'], function(Class, Point, Size) {
 	function Rect(x, y, width, height) {
 		this.x = x;
 		this.y = y;

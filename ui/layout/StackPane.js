@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-	'./../.././Class', './../.././Util', './Pane', './../Pos',
+	'./../../base/Class', './../../base/Util', './Pane', './../Pos',
 	'./../AttachedProperty'
 ], function(Class, _, Pane, Pos, AttachedProperty) {
 	function StackPane(configOrElement) {

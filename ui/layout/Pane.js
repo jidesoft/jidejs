@@ -9,7 +9,7 @@
  * @abstract
  */
 define([
-	'./../.././Class', './../.././Util', './../Component', './../.././Dispatcher', './../.././DOM',
+	'./../../base/Class', './../../base/Util', './../Component', './../../base/Dispatcher', './../../base/DOM',
 	'./../Container'
 ], function(Class, _, Component, Dispatcher, DOM, Container) {
 	/**

@@ -5,7 +5,7 @@
  * Time: 07:08
  * To change this template use File | Settings | File Templates.
  */
-define(['./../.././Class', './../.././Util'], function(Class, _) {
+define(['./../../base/Class', './../../base/Util'], function(Class, _) {
 	function parseConfig(s) {
 		// example: alt char:a
 		var parts = s.split(' ');

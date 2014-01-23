@@ -5,7 +5,7 @@
  * Time: 11:30
  * To change this template use File | Settings | File Templates.
  */
-define(['./../.././Class'], function(Class) {
+define(['./../../base/Class'], function(Class) {
 	function Size(width, height) {
 		this.width = width;
 		this.height = height;

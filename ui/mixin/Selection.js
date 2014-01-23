@@ -1,5 +1,5 @@
 define([
-    './../.././Class', './../control/SingleSelectionModel'
+    './../../base/Class', './../control/SingleSelectionModel'
 ], function(Class, SingleSelectionModel) {
     function Selection(config, selectables, requireSelectedItem) {
         if(!config.selectionModel) config.selectionModel = new SingleSelectionModel(selectables, requireSelectedItem);

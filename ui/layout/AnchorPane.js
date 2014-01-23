@@ -20,7 +20,7 @@
  * @extends jidejs/ui/layout/Pane
  */
 define([
-	'./../.././Class', './../.././Util', './Pane', './../AttachedProperty'
+	'./../../base/Class', './../../base/Util', './Pane', './../AttachedProperty'
 ], function(Class, _, Pane, AttachedProperty) {
 	/**
 	 * Creates a new AnchorPane.

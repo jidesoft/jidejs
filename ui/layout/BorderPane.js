@@ -22,8 +22,8 @@
  * @extends jidejs/ui/layout/Pane
  */
 define([
-	'./../.././Class', './../geom/Insets', './Pane', './../.././Util',
-	'./../.././has', './../AttachedProperty'
+	'./../../base/Class', './../geom/Insets', './Pane', './../../base/Util',
+	'./../../base/has', './../AttachedProperty'
 ], function(Class, Insets, Pane, _, has, AttachedProperty) {
 	var template = (function() {
 		var doc = document;

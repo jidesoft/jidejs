@@ -70,14 +70,14 @@
  * 	@extends module:jidejs/ui/layout/Pane
  */
 define([
-	'./../.././Class',
-	'./../.././ObservableProperty',
+	'./../../base/Class',
+	'./../../base/ObservableProperty',
 	'./Pane',
-	'./../.././DOM',
-	'./../.././has',
+	'./../../base/DOM',
+	'./../../base/has',
 	'./../AttachedProperty',
-	'./../.././parsing/tokenize',
-	'./../.././parsing/Parser',
+	'./../../base/parsing/tokenize',
+	'./../../base/parsing/Parser',
 	'./../Spacing',
 	'./../Component'
 ], function(

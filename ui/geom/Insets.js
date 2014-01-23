@@ -5,7 +5,7 @@
  * Time: 11:43
  * To change this template use File | Settings | File Templates.
  */
-define(['./../.././Class'], function(Class) {
+define(['./../../base/Class'], function(Class) {
 	function Insets(top, right, bottom, left) {
 		switch(arguments.length) {
 			case 0: this.top = this.left = this.bottom = this.right = 0; break;

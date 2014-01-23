@@ -2,10 +2,10 @@
 require.config({
 	"packages": [{
 		name: 'jidejs',
-		location: '../../../jidejs'
+		location: '/bower_components/jidejs'
 	}],
     paths: {
-        text: '../../../bower_components/requirejs-text/text'
+        text: '/bower_components/requirejs-text/text'
     }
 });
 

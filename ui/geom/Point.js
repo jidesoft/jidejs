@@ -5,7 +5,7 @@
  * Time: 11:26
  * To change this template use File | Settings | File Templates.
  */
-define(['./../.././Class'], function(Class) {
+define(['./../../base/Class'], function(Class) {
 	function Point(x, y) {
 		this.x = x;
 		this.y = y;

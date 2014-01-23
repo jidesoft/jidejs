@@ -5,8 +5,8 @@
  * @extends module:jidejs/ui/layout/Pane
  */
 define([
-	'./../.././Class', './../.././Util', './../.././ObservableProperty',
-	'./Pane', './../.././DOM', './../.././has',
+	'./../../base/Class', './../../base/Util', './../../base/ObservableProperty',
+	'./Pane', './../../base/DOM', './../../base/has',
 	'./../Spacing', './../AttachedProperty'
 ], function(Class, _, Observable, Pane, DOM, has, Spacing, AttachedProperty) {
 	function requestLayout() {

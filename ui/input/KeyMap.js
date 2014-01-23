@@ -6,7 +6,7 @@
  *
  * @module jidejs/ui/input/KeyMap
  */
-define(['./../.././Class', './KeyCombination'], function(Class, KeyCombination) {
+define(['./../../base/Class', './KeyCombination'], function(Class, KeyCombination) {
 	"use strict";
 	var table = {
 		32: 'Spacebar',

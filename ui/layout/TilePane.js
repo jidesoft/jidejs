@@ -11,7 +11,7 @@
  * @extends jidejs/ui/layout/Pane
  */
 define([
-	'./../.././Class', './../.././ObservableProperty', './../.././DOM', './../.././Util',
+	'./../../base/Class', './../../base/ObservableProperty', './../../base/DOM', './../../base/Util',
 	'./Pane', './../Orientation'
 ], function(Class, Observable, DOM, _, Pane, Orientation) {
 	/**
