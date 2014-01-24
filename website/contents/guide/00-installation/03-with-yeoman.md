@@ -160,7 +160,7 @@ We've kept that simple, too. Since **jide.js** 1.0.0 beta 2, we can use template
 use data binding within those templates to establish bindings between visual elements and logical handlers and data
 provided by the model or view model (the control class or its skin). The `is` binding has a special meaning in that it
 upgrades an element to a **jide.js** control which is fetched asynchronously through AMD. That's why we need to use the
-(@link jidejs/ui/Skin~queryComponent} method to access such a control - it might not have been upgraded by the time the
+(@link jidejs/ui/Skin#queryComponent} method to access such a control - it might not have been upgraded by the time the
 method is called.
 
 ## Adding a navigation
