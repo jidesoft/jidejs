@@ -1,6 +1,14 @@
-/// @private
-/// @internal
-/// This file is not intended as a public API and should not be used outside of jide.js yet.
+/**
+ * This module exports a single function that should be used to convert a string to an HTML template element.
+ * If the client browser doesn't support the new template element, it takes care of shimming its API.
+ *
+ * Please note that unlike the real HTML element such Shims do not support inline script or style elements. If you do use
+ * script or style elements, their value is applied globally.
+ *
+ * If the root template element has a `ref` attribute, the element returned by a query for the selector is used instead.
+ *
+ * @module jidejs/ui/Template
+ */
 define([
 	'./../base/has',
 	'./../base/Util'
@@ -51,6 +59,16 @@ define([
 		return template;
 	}
 
+    /**
+     * Converts a string or element into an HTML5 template element or shims it, if the browser doesn't support
+     * the template element.
+     *
+     * Returns the converted element.
+     *
+     * @alias module:jidejs/ui/Template
+     * @param {String|HTMLElement} template
+     * @returns {HTMLElement}
+     */
 	function template(template) {
 		if(_.isString(template)) {
 			if(cache[template]) {

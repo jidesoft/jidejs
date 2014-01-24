@@ -54,7 +54,7 @@ define([
 			StackPane.alignment.unregister(child);
 		}
 	});
-	StackPane.alignment = AttachedProperty('./StackPane.alignment', function(pos, evt) {
+	StackPane.alignment = AttachedProperty('jidejs/ui/layout/StackPane.alignment', function(pos, evt) {
 		var component = evt.owner;
 		var style = component.style;
 		switch(pos) {

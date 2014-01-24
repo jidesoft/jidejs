@@ -442,7 +442,7 @@ define([
 				style.update();
 			} else if(name !== 'element') {
 				if(name.match(/^(?:(?:Border|Anchor|Grid|Stack|Tile)Pane|[HV]Box)\./)) {
-					target.attributes.set('./layout/'+name, source[name]);
+					target.attributes.set('jidejs/ui/layout/'+name, source[name]);
 				} else if(name.match(/^on/)) {
 					target.on(name.substr(2), source[name]);
 				} else {

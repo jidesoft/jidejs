@@ -786,7 +786,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be placed in the given area.
 	 */
-	GridPane.area = AttachedProperty('./GridPane.area', function(region, evt) {
+	GridPane.area = AttachedProperty('jidejs/ui/layout/GridPane.area', function(region, evt) {
 		var component = evt.owner;
 		var parent = component.parent;
 		var isInGridPane = parent && parent instanceof GridPane;
@@ -822,7 +822,7 @@ define([
 	 * @param {{row:number, column:number, rowspan:number, colspan:number}?} value When specified,
 	 * 		the component will be placed at the given position, with the (optional) rowspan and colspan.
 	 */
-	GridPane.position = AttachedProperty('./GridPane.position', function(pos, evt) {
+	GridPane.position = AttachedProperty('jidejs/ui/layout/GridPane.position', function(pos, evt) {
 		var component = evt.owner;
 		var parent = component.parent;
 		var isInGridPane = parent && parent instanceof GridPane;

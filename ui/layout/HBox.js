@@ -192,7 +192,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the grow priority of the component.
 	 */
-	HBox.grow = AttachedProperty('./HBox.grow', function(priority, evt) {
+	HBox.grow = AttachedProperty('jidejs/ui/layout/HBox.grow', function(priority, evt) {
 		var child = evt.owner;
 		if(priority === 'always') {
 			child.classList.add('jide-hbox-grow');

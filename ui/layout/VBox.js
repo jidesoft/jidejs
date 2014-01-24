@@ -195,7 +195,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the grow priority of the component.
 	 */
-	VBox.grow = AttachedProperty('./VBox.grow', function(priority, evt) {
+	VBox.grow = AttachedProperty('jidejs/ui/layout/VBox.grow', function(priority, evt) {
 		var child = evt.owner;
 		if(priority === 'always') {
 			child.classList.add('jide-vbox-grow');

@@ -191,7 +191,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be moved to that region.
 	 */
-	BorderPane.region = AttachedProperty('./BorderPane.region', function(value, e) {
+	BorderPane.region = AttachedProperty('jidejs/ui/layout/BorderPane.region', function(value, e) {
 		var component = e.owner;
 		var parent = component.parent;
 		var isInBorderPane = parent && parent instanceof BorderPane;
@@ -212,7 +212,7 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be aligned according to the value within its region.
 	 */
-	BorderPane.alignment = AttachedProperty('./BorderPane.alignment', function(alignment, evt) {
+	BorderPane.alignment = AttachedProperty('jidejs/ui/layout/BorderPane.alignment', function(alignment, evt) {
 		var component = evt.owner;
 		if(component.parent && component.parent instanceof BorderPane) {
 			if(has('flexbox') || has('flexbox/legacy')) {
@@ -223,7 +223,7 @@ define([
 			}
 		}
 	});
-	BorderPane.margin = AttachedProperty('./BorderPane.margin', function(margin, evt) {
+	BorderPane.margin = AttachedProperty('jidejs/ui/layout/BorderPane.margin', function(margin, evt) {
 		var component = evt.owner;
 		if(component.parent && component.parent instanceof BorderPane) {
 			if(has('flexbox') || has('flexbox/legacy')) {
