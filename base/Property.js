@@ -8,7 +8,7 @@
  * that all listeners of properties are released and no cyclic dependencies between closures used to create such
  * listeners and the property still exists.
  *
- * A property is similar to an {@link module:jidejs/base/Observable} and can be used whereever an observable is requested,
+ * A property is similar to an {@link module:jidejs/base/Observable} and can be used wherever an observable is requested,
  * but it requires to be created with a `context` object to whom it belongs.
  * Properties dispatch their changes as an event using their `context` which must therefore mixin the
  * {@link module:jidejs/base/EventEmitter}.
