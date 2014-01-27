@@ -17,7 +17,7 @@ parameter. This object is used to configure the control, including its property,
 require([
     'jidejs/ui/control/Button'
 ], function(Button) {
-    new Button({
+    var myButton = new Button({
         // define the text property
         text: 'Click the button',
         // define event listeners

@@ -1,5 +1,5 @@
 ---
-title: Installation with Bower
+title: With Bower & require.js
 template: chapter.html
 ---
 
@@ -34,7 +34,7 @@ This will create a directory named `bower_components` within your working direct
 will contain the dependencies required for using **jide.js**, i.e. **jide.js** itself as well as
 [require.js](http://www.requirejs.org).
 
-## Installation via `bower.json`
+## Installation via bower.json
 
 At the root of your project, create a file called `bower.json` and specify **jide.js** as your dependency.
 
@@ -44,7 +44,7 @@ At the root of your project, create a file called `bower.json` and specify **jid
     version: "0.0.0",
     private: true,
     dependencies: {
-        jidejs: "~1.0.0-beta2",
+        jidejs: "~1.0.0-beta3",
         requirejs: "~2.1.6",
         requirejs-text: "~2.0.6"
     }
@@ -63,10 +63,10 @@ Bower will install **jide.js** as well as [require.js](http://www.requirejs.org)
 
 Now that you have installed all required dependencies for your application, you can start to create your application.
 To keep the scope of this documentation small, we'll create a very simple application. The
-[Yeoman Quickstart]{/guide/00-installation/03-with-yeoman.html) will create a larger sample application and comes with
+[Yeoman Quickstart](/guide/00-installation/03-with-yeoman.html) will create a larger sample application and comes with
 a preview server and several other useful tools.
 
-Create an index.html file at your project root, and insert something along the lines of:
+Create an `index.html` file at your project root, and insert something along the lines of:
 
 ```xml
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ Now, as you might have guessed from the above example, create the `app/main.js` 
 require.config({
     "packages": [{
         name: 'jidejs',
-        location: '/bower_components/jidejs/jidejs'
+        location: '/bower_components/jidejs'
     }],
     paths: {
         text: '/bower_components/requirejs-text/text'
