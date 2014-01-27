@@ -6,6 +6,26 @@ define([
 	'./util/ClassList', './util/js-object-literal-parse', './Component'
 ], function(Observable, DOM, _, ClassList, literalParse, Component) {
 	"use strict";
+
+    var _require;
+    if(window.define && window.define.amd) {
+        _require = function(dependency, callback) {
+            if(controlAlias[dependency]) {
+                callback(controlAlias[dependency]);
+            } else {
+                require([dependency], callback);
+            }
+        }
+    } else {
+        _require = function(dependency, callback) {
+            if(controlAlias[dependency]) {
+                callback(controlAlias[dependency]);
+            } else {
+                callback(require(dependency));
+            }
+        }
+    }
+
 	function bind(element, descriptor, context, component) {
 		var oldValues = {};
 		var state = 0; // 0 -> init, 1 -> update
@@ -24,7 +44,7 @@ define([
                     }
                 };
             delete descriptor.is;
-            require([controlId], function(Control) {
+            _require(controlId, function(Control) {
                 var names = Object.getOwnPropertyNames(descriptor) || [],
                     config = {};
                 for(var i = 0, len = names.length; i < len; i++) {
@@ -81,6 +101,11 @@ define([
 			}
 		};
 	}
+
+    var controlAlias = {};
+    bind.registerComponentAlias = function(alias, control) {
+        controlAlias[alias] = control;
+    };
 
 	bind.attributeName = 'bind';
 	var bindingCache = {};
