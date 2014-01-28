@@ -20,7 +20,7 @@ This guide introduces you to the core concepts of **jide.js** with practical exa
 You'll learn how to use *observable values*, *UI controls* and *layout panes* as well as the general structure of
 **jide.js** controls (the Control, Skin, Template separation).
 
-## Introduction
+## Getting Started
 
 Once you're familiar with the core concepts of **jide.js**, this chapter will guide you through creating your first
 application.
