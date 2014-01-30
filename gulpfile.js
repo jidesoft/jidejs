@@ -47,7 +47,7 @@ gulp.task('copy', function() {
 });
 
 gulp.task('compress', function() {
-    return gulp.src('dest/*')
+    return gulp.src('dist/*')
         .pipe(zip('jidejs-'+pkg.version+'.zip'))
         .pipe(gulp.dest('release'));
 });
