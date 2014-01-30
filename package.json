@@ -1,6 +1,6 @@
 {
   "name": "jide",
-  "version": "1.0.0-beta2",
+  "version": "1.0.0-beta3",
   "author": "Patrick Gotthardt, <patrick@jidesoft.com>",
   "description": "jide.js is a free UI toolkit for modern web applications based on data binding and separation of concerns.",
   "keywords": [
@@ -15,7 +15,8 @@
     "viewmodel",
     "browser",
     "library",
-    "amd"
+    "amd",
+    "browserify"
   ],
   "license": "MIT",
   "licenseString": "@license JIDESOFT, INC; MIT licensed",
@@ -26,6 +27,9 @@
   "bugs": {
     "url": "https://github.com/jidesoft/jidejs/issues"
   },
+  "files": [
+    "base", "ui", "style", "package.json", "LICENSE", "README.md"
+  ],
   "devDependencies": {
     "wintersmith-less": "~0.2.1",
     "wintersmith-nunjucks": "~0.2.1",

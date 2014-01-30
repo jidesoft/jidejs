@@ -1,6 +1,6 @@
 /*!
  *
- *  Project:  GLYPHICONS HALFLINGS
+ *  Project:  GLYPHICONS
  *  Author:   Jan Kovarik - www.glyphicons.com
  *  Twitter:  @jankovarik
  *
@@ -14,16 +14,24 @@
 }
 .glyphicons {
   display: inline-block;
+  position: relative;
+  padding-left: 48px;
+  color: #1d1d1b;
   text-decoration: none;
   *display: inline;
   *zoom: 1;
   vertical-align: middle;
 }
 .glyphicons:before {
+  position: absolute;
+  left: 0;
+  top: 0;
   display: inline-block;
+  margin: 0 5px 0 0;
   font: 24px/1em 'Glyphicons Regular';
   font-style: normal;
   font-weight: normal;
+  color: #1d1d1b;
   *display: inline;
   *zoom: 1;
   vertical-align: middle;
@@ -40,13 +48,13 @@
   content: "\E002";
 }
 .glyphicons.dog:before {
-  content: "\1F415";
+  content: "\E003";
 }
 .glyphicons.user:before {
   content: "\E004";
 }
 .glyphicons.girl:before {
-  content: "\1F467";
+  content: "\E005";
 }
 .glyphicons.car:before {
   content: "\E006";
@@ -67,7 +75,7 @@
   content: "\2709";
 }
 .glyphicons.camera:before {
-  content: "\1F4F7";
+  content: "\E011";
 }
 .glyphicons.heart:before {
   content: "\E013";
@@ -76,7 +84,7 @@
   content: "\E014";
 }
 .glyphicons.train:before {
-  content: "\1F686";
+  content: "\E015";
 }
 .glyphicons.print:before {
   content: "\E016";
@@ -100,7 +108,7 @@
   content: "\2744";
 }
 .glyphicons.fire:before {
-  content: "\1F525";
+  content: "\E023";
 }
 .glyphicons.magnet:before {
   content: "\E024";
@@ -127,7 +135,7 @@
   content: "\270F";
 }
 .glyphicons.bus:before {
-  content: "\1F68C";
+  content: "\E032";
 }
 .glyphicons.wifi_alt:before {
   content: "\E033";
@@ -139,7 +147,7 @@
   content: "\E035";
 }
 .glyphicons.woman:before {
-  content: "\1F469";
+  content: "\E036";
 }
 .glyphicons.file:before {
   content: "\E037";
@@ -169,7 +177,7 @@
   content: "\E045";
 }
 .glyphicons.calendar:before {
-  content: "\1F4C5";
+  content: "\E046";
 }
 .glyphicons.router:before {
   content: "\E047";
@@ -220,7 +228,7 @@
   content: "\E062";
 }
 .glyphicons.paperclip:before {
-  content: "\1F4CE";
+  content: "\E063";
 }
 .glyphicons.power:before {
   content: "\E064";
@@ -250,7 +258,7 @@
   content: "\E072";
 }
 .glyphicons.bookmark:before {
-  content: "\1F516";
+  content: "\E073";
 }
 .glyphicons.wifi:before {
   content: "\E074";
@@ -643,7 +651,7 @@
   content: "\E203";
 }
 .glyphicons.lock:before {
-  content: "\1F512";
+  content: "\E204";
 }
 .glyphicons.unlock:before {
   content: "\E205";
@@ -823,7 +831,7 @@
   content: "\E263";
 }
 .glyphicons.bank:before {
-  content: "\1F3E6";
+  content: "\E264";
 }
 .glyphicons.vcard:before {
   content: "\E265";
@@ -901,10 +909,10 @@
   content: "\E289";
 }
 .glyphicons.bomb:before {
-  content: "\1F4A3";
+  content: "\E290";
 }
 .glyphicons.skull:before {
-  content: "\1F480";
+  content: "\E291";
 }
 .glyphicons.celebration:before {
   content: "\E292";
@@ -915,7 +923,7 @@
 .glyphicons.french_press:before {
   content: "\E294";
 }
-.glyphicons.coffe_cup:before {
+.glyphicons.coffee_cup:before {
   content: "\E295";
 }
 .glyphicons.pot:before {
@@ -928,13 +936,13 @@
   content: "\E298";
 }
 .glyphicons.hospital:before {
-  content: "\1F3E5";
+  content: "\E299";
 }
 .glyphicons.hospital_h:before {
   content: "\E300";
 }
 .glyphicons.microphone:before {
-  content: "\1F3A4";
+  content: "\E301";
 }
 .glyphicons.webcam:before {
   content: "\E302";
@@ -952,7 +960,7 @@
   content: "\E306";
 }
 .glyphicons.bicycle:before {
-  content: "\1F6B2";
+  content: "\E307";
 }
 .glyphicons.life_preserver:before {
   content: "\E308";
@@ -979,7 +987,7 @@
   content: "\E315";
 }
 .glyphicons.bowling:before {
-  content: "\1F3B3";
+  content: "\E316";
 }
 .glyphicons.tree_conifer:before {
   content: "\E317";
@@ -1033,13 +1041,13 @@
   content: "\E333";
 }
 .glyphicons.bell:before {
-  content: "\1F514";
+  content: "\E334";
 }
 .glyphicons.candle:before {
   content: "\E335";
 }
 .glyphicons.pushpin:before {
-  content: "\1F4CC";
+  content: "\E336";
 }
 .glyphicons.iphone_shake:before {
   content: "\E337";
@@ -1048,16 +1056,16 @@
   content: "\E338";
 }
 .glyphicons.turtle:before {
-  content: "\1F422";
+  content: "\E339";
 }
 .glyphicons.rabbit:before {
-  content: "\1F407";
+  content: "\E340";
 }
 .glyphicons.globe:before {
   content: "\E341";
 }
 .glyphicons.briefcase:before {
-  content: "\1F4BC";
+  content: "\E342";
 }
 .glyphicons.hdd:before {
   content: "\E343";
@@ -1114,18 +1122,18 @@
   content: "\E360";
 }
 .glyphicons.bug:before {
-  content: "\1F41B";
+  content: "\E361";
 }
 .glyphicons.crown:before {
-  content: "\1F451";
+  content: "\E362";
 }
 .glyphicons.smoking:before {
   content: "\E363";
 }
-.glyphicons.cloud-upload:before {
+.glyphicons.cloud-download:before {
   content: "\E364";
 }
-.glyphicons.cloud-download:before {
+.glyphicons.cloud-upload:before {
   content: "\E365";
 }
 .glyphicons.restart:before {
@@ -1180,7 +1188,7 @@
   content: "\E382";
 }
 .glyphicons.dress:before {
-  content: "\1F457";
+  content: "\E383";
 }
 .glyphicons.bathrobe:before {
   content: "\E384";
@@ -1267,7 +1275,7 @@
   content: "\E411";
 }
 .glyphicons.package:before {
-  content: "\1F4E6";
+  content: "\E412";
 }
 .glyphicons.cloud_plus:before {
   content: "\E413";
@@ -1351,7 +1359,7 @@
   content: "\E439";
 }
 .glyphicons.wrench:before {
-  content: "\1F527";
+  content: "\E440";
 }
 .glyphicons.folder_closed:before {
   content: "\E441";
@@ -1384,7 +1392,7 @@
   content: "\E450";
 }
 .glyphicons.factory:before {
-  content: "\1F3ED";
+  content: "\E451";
 }
 .glyphicons.shop_window:before {
   content: "\E452";
@@ -2357,7 +2365,7 @@
 .glyphicons-icon.french_press {
   background-position: -140px -1381px;
 }
-.glyphicons-icon.coffe_cup {
+.glyphicons-icon.coffee_cup {
   background-position: -188px -1381px;
 }
 .glyphicons-icon.pot {
@@ -2564,10 +2572,10 @@
 .glyphicons-icon.smoking {
   background-position: -92px -1717px;
 }
-.glyphicons-icon.cloud-upload {
+.glyphicons-icon.cloud-download {
   background-position: -140px -1717px;
 }
-.glyphicons-icon.cloud-download {
+.glyphicons-icon.cloud-upload {
   background-position: -188px -1717px;
 }
 .glyphicons-icon.restart {

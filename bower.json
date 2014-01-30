@@ -1,6 +1,6 @@
 {
 	"name": "jide.js",
-	"version": "1.0.0-beta2",
+	"version": "1.0.0-beta3",
     "description": "jide.js is a free UI toolkit for modern web applications based on data binding and separation of concerns.",
     "authors": ["Patrick Gotthardt <patrick@jidesoft.com> (http://www.pagosoft.com)"],
     "repository": {
@@ -21,7 +21,8 @@
         "viewmodel",
         "browser",
         "library",
-        "amd"
+        "amd",
+        "browserify"
     ],
 	"dependencies": {
 		"requirejs": "~2.1.6",
@@ -46,7 +47,7 @@
         ".gitignore",
         "compileExamples.js",
         "examples.js",
-        "Grundfile.js",
+        "gulpfile.js",
         "package.json"
     ]
 }

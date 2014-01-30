@@ -8,7 +8,8 @@ jide.js
 
 **jide.js** is an **open source**, MIT licensed, **Javascript** toolkit for developing rich, modern web applications. It features various
 powerful UI controls and is built around the concept of properties and data binding and enables highly efficient programming.
-**jide.js** uses the AMD format and can be used with any AMD compatible loader such as [require.js](http://www.requirejs.org).
+**jide.js** uses the AMD format and can be used with any AMD compatible loader such as [require.js](http://www.requirejs.org)
+but also supports [Browserify](http://browserify.org).
 
 Observable variables and data binding
 -------------------------------------

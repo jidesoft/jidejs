@@ -205,9 +205,6 @@ require([
 						items: navigation,
 						selectionModel: new SingleSelectionModel(navigation, true),
 						converter: function(item) {
-                            if(item.icon === 'calendar') {
-                                return '<span class="glyphicons"><i class="glyphicons-icon calendar"></i>'+item.name+'</span>';
-                            }
 							return '<span class="glyphicons '+item.icon+'">'+item.name+'</span>';
 						}
 					})
