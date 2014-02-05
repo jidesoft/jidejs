@@ -50,9 +50,6 @@ define([
 	function Separator(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin = new SeparatorSkin(this, config.element);
-		}
 		Control.call(this, config);
 		this.classList.add('jide-separator');
 	}

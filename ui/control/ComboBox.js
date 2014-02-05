@@ -81,7 +81,6 @@ define([
 	function ComboBox(config) {
 		installer(this);
 		config = _.defaults(config || {}, { tabIndex: 0 });
-		if(!config.skin) config.skin = new ComboBoxSkin(this, config.element);
 
 		ComboBoxBase.call(this, config);
 		this.classList.add('jide-combobox');
@@ -132,6 +131,7 @@ define([
 		converterProperty: null
 	});
 	var installer = Observable.install(ComboBox, 'cellFactory');
+    ComboBox.Skin = ComboBoxSkin;
     register('jide-combobox', ComboBox, ComboBoxBase, ['cellFactory'], []);
 	return ComboBox;
 });

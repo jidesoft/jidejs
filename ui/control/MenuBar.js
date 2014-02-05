@@ -136,6 +136,7 @@ define([
 			return this.content.children;
 		}
 	});
+    MenuBar.Skin = MenuBarSkin;
 
     register('jide-menubar', MenuBar, Control, [], []);
 

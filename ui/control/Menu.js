@@ -82,6 +82,7 @@ define([
 		}
 	});
 	var installer = Observable.install(Menu, 'showing');
+    Menu.Skin = Labeled.Skin;
     register('jide-menu', Menu, Labeled, ['showing'], ['show']);
 
 	return Menu;

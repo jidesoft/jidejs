@@ -24,9 +24,6 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../Control',
 	 */
 	function SVGView(config) {
 		config = config || {};
-		if(!config.skin) {
-			config.skin = new SVGViewSkin(this, config.element);
-		}
 		installer(this);
 		Control.call(this, config);
 		this.contentProperty.subscribe(function(event) {
@@ -84,5 +81,6 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../Control',
 		}
 	});
 	var installer = Observable.install(SVGView, 'content');
+    SVGView.Skin = SVGViewSkin;
 	return SVGView;
 });

@@ -22,6 +22,7 @@ define([
 	}
 	Class(PopupButton).extends(Button).def({
 		dispose: function() {
+            if(this.popup) this.popup.dispose();
 			Button.prototype.dispose.call(this);
 			installer.dispose(this);
 		},
@@ -65,11 +66,12 @@ define([
                 if(popup.element.style.minWidth != width) {
                     popup.element.style.minWidth = width;
                 }
-                popup.setLocation(this.component, Pos.BOTTOM);
+                popup.show(this.component, Pos.BOTTOM);
             }
             if(showing) {
                 document.body.addEventListener('click', this.autoHideHandler, true);
             } else {
+                if(popup) popup.visible = false;
                 document.body.removeEventListener('click', this.autoHideHandler, true);
             }
         },
@@ -78,8 +80,8 @@ define([
             this.autoHideHandler = this.maybeHidePopup.bind(this);
             Button.Skin.prototype.install.call(this);
 
-            this.managed(this.component.showingProperty.subscribe(this.togglePopupVisibility, this));
-            if(this.showing) {
+            this.managed(this.component.showingProperty.subscribe(this.togglePopupVisibility).bind(this));
+            if(this.component.showing) {
                 var popup = this.popup;
                 if(popup) {
                     var box = DOM.getBoundingBox(this.element);
@@ -87,15 +89,15 @@ define([
                     if(popup.element.style.minWidth != width) {
                         popup.element.style.minWidth = width;
                     }
-                    popup.setLocation(this, Pos.BOTTOM);
+                    popup.show(this, Pos.BOTTOM);
                 }
                 document.body.addEventListener('click', this.autoHideHandler, true);
             }
-            this.managed(this.on('action', this.toggleShowing).bind(this));
+            this.managed(this.component.on('action', this.toggleShowing).bind(this));
         },
 
         toggleShowing: function() {
-            this.showing = !this.showing;
+            this.component.showing = !this.component.showing;
         }
     });
     register('jide-popupbutton', PopupButton, Button, ['popup', 'showing'], []);

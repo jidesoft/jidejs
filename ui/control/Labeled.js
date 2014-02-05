@@ -20,9 +20,6 @@ define([
 	function Labeled(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new Labeled.Skin(this, config.element);
-		}
 		Control.call(this, config);
 
 		this.classList.add('jide-labeled');

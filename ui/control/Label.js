@@ -16,9 +16,6 @@ define([
 	 */
 	function Label(config) {
 		config = config || {};
-		if(!config.skin) {
-			config.skin  = new Label.Skin(this, config.element);
-		}
 		Labeled.call(this, config);
 		this.classList.add('jide-label');
 	}

@@ -44,9 +44,6 @@ define([
 		if(_.isString(config)) {
 			config = {src: config};
 		}
-		if(!config.skin) {
-			config.skin  = new ImageViewSkin(this, config.element);
-		}
 		Control.call(this, config);
 	}
 
@@ -68,6 +65,7 @@ define([
 		srcProperty: null
 	});
 	var installer = Observable.install(ImageView, 'src');
+    ImageView.Skin = ImageViewSkin;
     register('jide-imageview', ImageView, Control, ['src'], []);
 
 	return ImageView;

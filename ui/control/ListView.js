@@ -204,7 +204,6 @@ define([
 	function ListView(config) {
 		installer(this);
 		config = _.defaults(config || {}, { tabIndex: 0 });
-		if(!config.skin) config.skin = new ListViewSkin(this, config.element);
 
 		if(!config.items) this.items = new ObservableList();
 		else if(Array.isArray(config.items)) this.items = new ObservableList(Var.unwrap(config.items));
@@ -292,6 +291,7 @@ define([
 		orientationProperty: null
 	});
 	var installer = Observable.install(ListView, 'orientation', 'converter', 'cellFactory');
+    ListView.Skin = ListViewSkin;
     register('jide-listview', ListView, Control, ['orientation', 'converter', 'cellFactory', 'selectionModel', 'items'], []);
 	return ListView;
 });

@@ -21,6 +21,7 @@ define([
 		this.classList.add('jide-menuitem');
 	}
 	Class(MenuItem).extends(ButtonBase);
+    MenuItem.Skin = ButtonBase.Skin;
     register('jide-menuitem', MenuItem, ButtonBase, [], []);
 	return MenuItem;
 });

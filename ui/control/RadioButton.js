@@ -84,6 +84,7 @@ define([
 		 * @property toggleGroupProperty
 		 */
 	});
+    RadioButton.Skin = ButtonBase.Skin;
 
 	return RadioButton;
 });

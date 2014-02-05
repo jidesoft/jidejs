@@ -41,9 +41,6 @@ define([
 		function Hyperlink(config) {
 			installer(this);
 			config = config || {};
-			if(!config.skin) {
-				config.skin  = new Hyperlink.Skin(this, config.element);
-			}
 			ButtonBase.call(this, config);
 			this.classList.add('jide-hyperlink');
 		}

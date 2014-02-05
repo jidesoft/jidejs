@@ -68,7 +68,10 @@ define({
     // Non-functional test suite(s) to run in each browser
     suites: [
         'test/base/Observable',
-        'test/base/Deferred'
+        'test/base/Deferred',
+        'test/base/EventEmitter',
+        'test/ui/Component',
+        'test/ui/control/PopupButton'
     ],
 
     // Functional test suite(s) to run in each browser once non-functional tests are completed

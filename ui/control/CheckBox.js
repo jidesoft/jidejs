@@ -31,7 +31,6 @@ define([
 			installer(this);
 			Toggle.installer(this);
 			config || (config = {});
-			if(!config.skin) config.skin = new CheckBox.Skin(this, config.element);
 			ButtonBase.call(this, config);
 			Toggle.call(this);
 

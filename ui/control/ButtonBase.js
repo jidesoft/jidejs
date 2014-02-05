@@ -51,7 +51,6 @@ define([
 		function ButtonBase(config) {
 			installer(this);
 			config = _.defaults(config || {}, { tabIndex: 0 });
-			if(!config.skin) config.skin = new ButtonBase.Skin(this, config.element);
 			Labeled.call(this, config);
 			this.classList.add('jide-buttonbase');
 		}

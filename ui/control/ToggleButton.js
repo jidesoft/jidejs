@@ -56,5 +56,7 @@ define([
 		 */
 	});
 
+    ToggleButton.Skin = ButtonBase.Skin;
+
 	return ToggleButton;
 });

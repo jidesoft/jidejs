@@ -17,7 +17,6 @@ define([
 	 */
 	function CheckBoxMenuItem(config) {
 		config || (config = {});
-		config.skin || (config.skin = new CheckBoxMenuItem.Skin(this, config.element));
 		CheckBox.call(this, config);
 		this.classList.add('jide-checkboxmenuitem');
 	}

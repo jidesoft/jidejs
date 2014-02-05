@@ -68,9 +68,6 @@ define([
 	function ProgressBar(config) {
 		installer(this);
 		config = config || {};
-		if(!config.skin) {
-			config.skin = new ProgressBarSkin(this, config.element);
-		}
 		Control.call(this, config);
 		this.classList.add('jide-progressbar');
 	}
@@ -104,5 +101,6 @@ define([
 		progressProperty: null
 	});
 	var installer = Observable.install(ProgressBar, 'indeterminate', 'progress');
+    ProgressBar.Skin = ProgressBarSkin;
 	return ProgressBar;
 });

@@ -32,12 +32,13 @@ define([
 		 */
 		function Button(config) {
 			if(!config) config = {};
-			if(!config.skin && !config.element) config.element = document.createElement('button');
 			ButtonBase.call(this, config);
 			this.classList.add('jide-button');
 		}
 		Class(Button).extends(ButtonBase);
-		Button.Skin = Skin.create(ButtonBase.Skin);
+		Button.Skin = Skin.create(ButtonBase.Skin, {
+            defaultElement: 'button'
+        });
 		register('jide-button', Button, ButtonBase);
 		return Button;
 });

@@ -95,7 +95,6 @@ define([
 		installer(this);
 		this.__bindings = null;
 		config || (config = {});
-		if(!config.skin) config.skin = new Cell.Skin(this, config.element);
 		Labeled.call(this, config);
 
 		this.classList.add('jide-cell');

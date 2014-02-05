@@ -95,7 +95,7 @@ define(['./../../base/Class', './../../base/DOM', './../../base/Util', './../Ski
 						document.body.appendChild(this.element);
 						this.classList.add('jide-visible');
 						Dispatcher.invokeLater(function() {
-							this.focus();
+							if(this && this.element) this.focus();
 						}, this);
 						if(popup.autoHide) {
 							//document.addEventListener('click', THIS.autoHideHandler, true);

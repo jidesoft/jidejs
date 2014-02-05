@@ -123,7 +123,6 @@ define([
 		installer(this);
 
 		config = _.defaults(config || {}, { tabIndex: 0 });
-		if(!config.skin) config.skin = new ComboBoxBaseSkin(this, config.element);
 
 		if(!config.items) this.items = new ObservableList();
 		else if(Array.isArray(config.items)) this.items = new ObservableList(config.items);
