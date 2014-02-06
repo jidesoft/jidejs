@@ -115,6 +115,26 @@ gulp.task('website-preview', function(next) {
     console.log('Server started at port '+3000);
 });
 
+gulp.task('run-demo', function(next) {
+    var express = require('express')
+        , http = require('http')
+        , path = require('path');
+
+    var app = express();
+    app.use(express.favicon());
+    app.use(express.logger('dev'));
+    app.use('/jidejs/ui', express.static(__dirname+'/ui'));
+    app.use('/jidejs/base', express.static(__dirname+'/base'));
+    app.use('/jidejs', express.static(__dirname+'/style'));
+    app.use('/demo', express.static(__dirname+'/demo'));
+    app.use('/bower_components', express.static(__dirname+'/bower_components'));
+    app.use('/bower_components/jidejs/ui', express.static(__dirname+'/ui'));
+    app.use('/bower_components/jidejs/base', express.static(__dirname+'/base'));
+    app.use('/bower_components/jidejs', express.static(__dirname+'/style'));
+    app.listen(3000).on('close', next);
+    console.log('Server started at port '+3000);
+});
+
 function exec(cmd, next) {
     var exec = require('child_process').exec;
     var cp = exec(cmd, {stdout: true, stderr: true}, function (err, stdout, stderr) {
