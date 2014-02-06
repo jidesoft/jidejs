@@ -978,7 +978,7 @@ define([
 		}
 		this._bindings = [
 			source.on('change', handleFilterSourceChanged2.bind(this)),
-			this.matcherProperty.subscribe(updateFilter, this),
+			this.matcherProperty.subscribe(updateFilter, this)
 		];
 		this._data = filter(this, source);
 	}

@@ -3,9 +3,15 @@
 /// This API is not yet considered public. There might be substantial changes before it becomes public API.
 define([
 	'./../base/Observable', './../base/DOM', './../base/Util', './../base/Dispatcher',
-	'./util/ClassList', './util/js-object-literal-parse', './Component'
-], function(Observable, DOM, _, Dispatcher, ClassList, literalParse, Component) {
+	'./util/ClassList', './util/js-object-literal-parse', './Component',
+    './bind/content', './bind/foreach', './bind/style'
+], function(
+    Observable, DOM, _, Dispatcher, ClassList, literalParse, Component,
+    contentBindings, foreachBindings, styleBindings
+) {
 	"use strict";
+
+    foreachBindings = foreachBindings(bind);
 
     var _require;
     if(window.define && window.define.amd) {
@@ -228,250 +234,15 @@ define([
     };
 
 	bind.handlers = {
-		text: {
-			update: function(element, value, oldValue, context) {
-                if(value !== oldValue) {
-				    DOM.setTextContent(element, value || '');
-                }
-			}
-		},
+        text: contentBindings.text,
+        html: contentBindings.html,
+        content: contentBindings.content,
 
-		html: {
-			update: function(element, value, oldValue, context) {
-				if(_.isString(value)) {
-					element.innerHTML = value;
-				} else {
-					DOM.removeChildren(element);
-					if(value) {
-						DOM.appendChild(value);
-					}
-				}
-			}
-		},
+        style: styleBindings.style,
+        css: styleBindings.css,
+        attr: styleBindings.attr,
 
-		css: {
-			update: function(element, value, oldValue, context) {
-				var component = DOM.hasData(element) && DOM.getData(element).component || null,
-					target = component || (element.classList && element) || new ClassList(element),
-					classes = Object.getOwnPropertyNames(value);
-				classes.forEach(function(className) {
-					if(value[className]) {
-						target.classList.add(className);
-					} else {
-						target.classList.remove(className);
-					}
-				});
-				if(oldValue) {
-					Object.getOwnPropertyNames(oldValue).forEach(function(className) {
-						if(!value.hasOwnProperty(className)) {
-							target.classList.remove(className);
-						}
-					});
-				}
-			}
-		},
-
-		style: {
-			update: function(element, value) {
-				Object.getOwnPropertyNames(value).forEach(function(styleName) {
-					element.style[styleName] = value[styleName] || '';
-				});
-			}
-		},
-
-		content: {
-			init: function(element, context) {
-				if(element.createShadowRoot) {
-					var contentClass = getBindData(element).contentClass = createRandomShadowContentClass();
-					// add content element at insertion point
-					var content = document.createElement('content');
-					content.select = '.'+contentClass;
-					element.appendChild(content);
-				}
-			},
-
-			update: function(element, value, oldValue, context) {
-				if(!value && !oldValue) return;
-				if(element.createShadowRoot) {
-					var bindData = getBindData(element),
-						contentClass = bindData.contentClass,
-						oldElement = bindData.element,
-						rootElement = context.$rootElement;
-					if(!oldElement) {
-						if(_.isString(value)) {
-							element = document.createElement('div');
-							element.innerHTML = value;
-						} else if(_.isElement(value)) {
-							element = value;
-						} else if(_.isElement(value.element)) {
-							element = value.element;
-						}
-						if(element.classList) element.classList.add(contentClass);
-						else element.className += ' '+contentClass;
-						bindData.element = element;
-						DOM.getData(element).$bindContext = context;
-						rootElement.appendChild(element);
-					} else {
-						if(value != oldValue) {
-							// need to update the content
-							if(!value) {
-								// remove old value
-								DOM.getData(oldElement).$bindContext = null;
-								rootElement.removeChild(oldElement);
-								bindData.element = null;
-							} else if(_.isString(value)) {
-								// this is the only instance where we need to check the old values type
-								if(_.isString(oldValue)) {
-									// easy, just replace the old content with the new one
-									oldElement.innerHTML = value;
-								} else {
-									// need to create a new container element
-									element = document.createElement('div');
-									element.innerHTML = value;
-									if(element.classList) element.classList.add(contentClass);
-									else element.className += ' '+contentClass;
-									bindData.element = element;
-									DOM.getData(element).$bindContext = context;
-									DOM.getData(oldElement).$bindContext = null;
-									rootElement.replaceChild(element, oldElement);
-								}
-							} else if(_.isElement(value)) {
-								if(value.classList) value.classList.add(contentClass);
-								else value.className += ' '+contentClass;
-								bindData.element = value;
-								DOM.getData(value).$bindContext = context;
-								DOM.getData(oldElement).$bindContext = null;
-								rootElement.replaceChild(value, oldElement);
-							} else if(_.isElement(value.element)) {
-								if(value.element.classList) value.element.classList.add(contentClass);
-								else value.element.className += ' '+contentClass;
-								bindData.element = value.element;
-								DOM.getData(value.element).$bindContext = context;
-								DOM.getData(oldElement).$bindContext = null;
-								rootElement.replaceChild(value.element, oldElement);
-							}
-						}
-					}
-					return;
-				}
-				if(_.isString(value)) {
-					// use text
-                    if('innerHTML' in element) {
-                        element.innerHTML = value;
-                    } else {
-                        DOM.setTextContent(element, value);
-                    }
-				} else if(!value) {
-					DOM.removeChildren(element);
-				} else if(_.isElement(value)) {
-					DOM.removeChildren(element);
-					element.appendChild(value);
-				} else if(_.isElement(value.element)) { // assume we're working with a jide.js Component
-					DOM.removeChildren(element);
-					element.appendChild(value.element);
-				}
-			}
-		},
-
-		attr: {
-			update: function(element, value, oldValue, context) {
-				oldValue || (oldValue = {});
-
-				var names = Object.getOwnPropertyNames(value);
-				for(var i = 0, len = names.length; i < len; i++) {
-					var name = names[i],
-						attributeValue = Observable.unwrap(value[name]);
-					if(attributeValue === false || attributeValue === null || attributeValue === undefined) {
-						element.removeAttribute(name);
-					} else {
-						element.setAttribute(name, String(attributeValue));
-					}
-				}
-
-				names = Object.getOwnPropertyNames(oldValue);
-				for(i = 0, len = names.length; i < len; i++) {
-					if(!value.hasOwnProperty(names[i])) {
-						element.removeAttribute(names[i]);
-					}
-				}
-			}
-		},
-
-		foreach: {
-			init: function(element, context) {
-				var template = element.firstElementChild;
-
-				// at this point, the element doesn't have any children left
-				getBindData(element).template = template;
-//				if(template) element.removeChild(template);
-                element.innerHTML = '';
-
-				return true; // controls children
-			},
-
-			update: function(element, value, oldValue, context) {
-				var bindData = getBindData(element),
-					template = bindData.template,
-					disposables = bindData.disposables || (bindData.disposables = []),
-                    useTemplate = template && template.content;
-				var frag = document.createDocumentFragment();
-				if(Array.isArray(value)) {
-					for(var i = 0, len = value.length; i < len; i++) {
-						var item = value[i],
-							cloned = useTemplate
-                                ? template.content.cloneNode(true)
-                                : (item.element || item);
-						if(useTemplate) disposables[i] = bind.to(cloned, context.$item, item);
-						frag.appendChild(cloned);
-					}
-				} else if(value.on) {
-					for(var i = 0, len = value.length; i < len; i++) {
-						var item = value.get(i),
-							cloned = useTemplate
-                                ? template.content.cloneNode(true)
-                                : (item.element || item);
-                        if(useTemplate) disposables[i] = bind.to(cloned, context.$item, item);
-						frag.appendChild(cloned);
-					}
-					value.on('change', function(event) {
-						var changes = event.enumerator();
-						while(changes.moveNext()) {
-							var change = changes.current;
-							if(change.isDelete) {
-                                var templateSize = useTemplate ? template.content.childNodes.length : 1;
-                                for(var len = templateSize; 0 < len; len--) {
-                                    element.removeChild(element.childNodes[change.index * templateSize]);
-                                }
-								disposables.splice(change.index, 1).forEach(function(disposable) {
-									if(disposable) disposable.dispose();
-								});
-							} else if(change.isInsert) {
-								var cloned = useTemplate
-                                        ? template.content.cloneNode(true)
-                                        : (change.newValue.element || change.newValue),
-                                    templateSize = useTemplate ? template.content.childNodes.length : 1;
-								if(useTemplate) disposables.splice(change.index, 0, bind.to(cloned, context.$item, change.newValue));
-								DOM.insertElementAt(element, cloned, change.index * templateSize);
-							} else if(change.isUpdate) {
-                                var cloned = useTemplate
-                                    ? template.content.cloneNode(true)
-                                    : (change.newValue.element || change.newValue);
-                                if(useTemplate) {
-                                    disposables[change.index].dispose();
-                                    disposables[change.index] = bind.to(cloned, context.$item, change.newValue);
-                                }
-                                var templateSize = useTemplate ? template.content.childNodes.length - 1 : 0;
-                                for(var len = templateSize; 0 < len; len--) {
-                                    element.removeChild(element.childNodes[change.index * templateSize]);
-                                }
-								element.replaceChild(cloned, element.childNodes[change.index * templateSize]);
-							}
-						}
-					});
-				}
-				element.appendChild(frag);
-			}
-		},
+        foreach: foreachBindings.foreach,
 
 		on: {
 			update: function(element, value, oldValue, context) {
