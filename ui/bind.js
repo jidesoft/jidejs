@@ -2,9 +2,9 @@
 /// @private
 /// This API is not yet considered public. There might be substantial changes before it becomes public API.
 define([
-	'./../base/Observable', './../base/DOM', './../base/Util',
+	'./../base/Observable', './../base/DOM', './../base/Util', './../base/Dispatcher',
 	'./util/ClassList', './util/js-object-literal-parse', './Component'
-], function(Observable, DOM, _, ClassList, literalParse, Component) {
+], function(Observable, DOM, _, Dispatcher, ClassList, literalParse, Component) {
 	"use strict";
 
     var _require;
@@ -26,69 +26,91 @@ define([
         }
     }
 
-	function bind(element, descriptor, context, component) {
-		var oldValues = {};
-		var state = 0; // 0 -> init, 1 -> update
-		var controlsChildren = false;
-        if(descriptor.is) {
-            var controlId = descriptor.is(),
-                controlInstance = component || null,
-                disposable = {
-                    controlsChildren: true,
-                    dispose: function() {
-                        controlInstance.dispose();
-                        controlInstance = null;
-                        element = null;
-                        descriptor = null;
-                        context = null;
+    function upgradeElement(element, descriptor, context, component) {
+        var controlId = descriptor.is(),
+            controlInstance = component || null,
+            disposable = {
+                controlsChildren: true,
+                dispose: function() {
+                    controlInstance.dispose();
+                    controlInstance = null;
+                    element = null;
+                    descriptor = null;
+                    context = null;
+                }
+            };
+        delete descriptor.is;
+        _require(controlId, function(Control) {
+            var names = Object.getOwnPropertyNames(descriptor) || [],
+                config = {};
+            for(var i = 0, len = names.length; i < len; i++) {
+                var name = names[i],
+                    value = name === 'on' ? descriptor[name]() : Observable.computed(descriptor[name]);
+                config[name] = value;
+            }
+            if(!controlInstance) {
+                config['element'] = element;
+                controlInstance = new Control(config);
+            } else {
+                Component.applyConfiguration(config);
+            }
+            controlInstance.emit('ComponentReady', {
+                source: element,
+                component: controlInstance
+            });
+        });
+        return disposable;
+    }
+
+    function updateBindings(element, context, isInit, updates, oldValues) {
+        for(var i = 0, len = updates.length; i < len; i++) {
+            var update = updates[i],
+                name = update[0],
+                value = update[1],
+                oldValue = oldValues[name];
+            if(isInit || value !== oldValue) {
+                if(bind.handlers.hasOwnProperty(name)) {
+                    if(isInit && bind.handlers[name].hasOwnProperty('init')) {
+                        bind.handlers[name].init(element, context);
                     }
-                };
-            delete descriptor.is;
-            _require(controlId, function(Control) {
-                var names = Object.getOwnPropertyNames(descriptor) || [],
-                    config = {};
+                    bind.handlers[name].update(element, value, oldValue, context);
+                    oldValues[name] = value;
+                } else {
+                    console.log('Trying to use undefined binding handler '+name+' on element', element);
+                }
+            }
+        }
+    }
+
+	function bind(element, descriptor, context, component) {
+		var oldValues = {},
+		    controlsChildren = false,
+            updateTicking = false;
+        if(descriptor.is) {
+            return upgradeElement(element, descriptor, context, component);
+        }
+        var binding = Observable.computed({
+            read: function() {
+                var names = Object.getOwnPropertyNames(descriptor) || [];
+                var result = [];
                 for(var i = 0, len = names.length; i < len; i++) {
                     var name = names[i],
-                        value = name === 'on' ? descriptor[name]() : Observable.computed(descriptor[name]);
-                    config[name] = value;
+                        value = Observable.unwrap(descriptor[name]());
+                    result[result.length] = [name, value];
                 }
-                if(!controlInstance) {
-                    config['element'] = element;
-                    controlInstance = new Control(config);
-                } else {
-                    Component.applyConfiguration(config);
-                }
-                controlInstance.emit('ComponentReady', {
-                    source: element,
-                    component: controlInstance
+                return result;
+            }
+        });
+        binding.subscribe(function() {
+            if(!updateTicking) {
+                updateTicking = true;
+                Dispatcher.requestAnimationFrame(function() {
+                    updateBindings(element, context, false, binding.get(), oldValues);
+                    updateTicking = false;
                 });
-            });
-            return disposable;
-        }
-		var binding = Observable.computed({
-			lazy: false,
-			read: function() {
-				var names = Object.getOwnPropertyNames(descriptor) || [];
-				for(var i = 0, len = names.length; i < len; i++) {
-					var name = names[i],
-						value = Observable.unwrap(descriptor[name]()),
-						oldValue = oldValues[name];
-					if(state === 0 || value !== oldValue) {
-						if(bind.handlers.hasOwnProperty(name)) {
-							if(state === 0 && bind.handlers[name].hasOwnProperty('init')) {
-								controlsChildren = bind.handlers[name].init(element, context) || controlsChildren;
-							}
-							bind.handlers[name].update(element, value, oldValue, context);
-							oldValues[name] = value;
-						} else {
-							console.log('Trying to use undefined binding handler '+name+' on element', element);
-						}
-					}
-				}
-				state = 1;
-			}
-		});
-		binding.get(); // make it apply the bindings for the first time
+            }
+        });
+        updateBindings(element, context, true, binding.get(), oldValues);
 		return {
 			controlsChildren: controlsChildren,
 			dispose: function() {
@@ -147,16 +169,6 @@ define([
 		$root: null
 	};
 	defaultContext.$root = defaultContext;
-
-	function pushContext(parentContext, data) {
-		parentContext || (parentContext = defaultContext);
-		var context = Object.create(data);
-		context.$parentContext = parentContext;
-		context.$parent = parentContext.$item;
-		context.$item = data;
-		context.$root = parentContext.$root;
-		return context;
-	}
 
 	function createDisposable(disposables) {
 		return {
@@ -491,7 +503,7 @@ define([
 			context = null;
 		};
 		return fn;
-	};
+	}
 
 	function getBindData(element) {
 		var data = DOM.getData(element);
