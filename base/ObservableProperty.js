@@ -33,6 +33,8 @@ define([
         this._cancelable = cancelable !== undefined ? cancelable : true;
 	}
 	Class(ObservableProperty).extends(Property).def({
+        get writable() { return true; },
+
 		/**
 		 * Returns the current value of the property.
 		 * @returns {*}

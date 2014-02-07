@@ -588,7 +588,9 @@ define([
 		 */
 		bindToTarget: function(target, converter) {
 			return new Binding(this, target, Binding.ONE_WAY, converter);
-		}
+		},
+
+        get writable() { return true; }
 	});
 
     Observable.Bindings = Bindings;
@@ -607,6 +609,8 @@ define([
 		this._value = undefined;
 	}
 	Class(ComputedObservable).extends(Observable).def({
+        get writable() { return this.writeValue !== null; },
+
 		set: function(value) {
 			if(this.writeValue) {
 				this._value = this.writeValue(value);

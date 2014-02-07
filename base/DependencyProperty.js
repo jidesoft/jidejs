@@ -44,6 +44,8 @@ define([
 	}
 
 	Class(DependencyProperty).extends(Property).def({
+        get writable() { return this.set !== null; },
+
 		_bindings: null,
 		/**
 		 * A flag that signals whether the value of this property is currently invalid and needs to be recalculated.

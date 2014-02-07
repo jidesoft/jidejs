@@ -450,7 +450,11 @@ define([
 					if(desc.get || desc.set) {
 						Object.defineProperty(target, name, desc);
 					} else if(Var.is(source[name]) && (name+'Property') in target) {
-						target[name+'Property'].bind(source[name]);
+                        if(source[name].writable) {
+                            target[name+'Property'].bindBidirectional(source[name]);
+                        } else {
+						    target[name+'Property'].bind(source[name]);
+                        }
 					} else {
 						target[name] = Var.unwrap(source[name]);
 					}
