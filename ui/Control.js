@@ -60,7 +60,7 @@ define([
 			if(child.tagName === 'JIDE-PROP') {
 				config[child.propertyName] = child.propertyValue;
 				element.removeChild(child);
-			} else if(child.hasAtrribute && child.hasAttribute('data-property')) {
+			} else if(child.hasAttribute && child.hasAttribute('data-property')) {
 				config[child.getAttribute('data-property')] = child;
 				element.removeChild(child);
 			} else if(child.tagName === 'TEMPLATE') {

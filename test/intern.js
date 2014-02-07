@@ -71,6 +71,7 @@ define({
         'test/base/Deferred',
         'test/base/EventEmitter',
         'test/ui/Component',
+        'test/ui/control/Button',
         'test/ui/control/PopupButton'
     ],
 
