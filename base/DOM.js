@@ -216,7 +216,7 @@ define([
 		measureCopy: function(e) {
 			var clonedNode = e.cloneNode(true);
 			document.body.appendChild(clonedNode);
-			var result = DOM.measure(clonedNode);
+			var result = DOM.measure(clonedNode, false);
 			document.body.removeChild(clonedNode);
 			return result;
 		},

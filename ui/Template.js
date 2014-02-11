@@ -15,7 +15,27 @@ define([
 ], function(has, _) {
 	"use strict";
 
-	var cache = {};
+	var cache = {}, needsCloneNodeFix = (function() {
+        // as far as I know, IE is the only current browser
+        // that actually needs this fix, but still...
+        if(has('templateElement')) return false;
+        var a = document.createElement('template'),
+            b = document.createElement('template'),
+            aFrag = document.createDocumentFragment(),
+            bFrag = document.createDocumentFragment();
+
+        bFrag.appendChild(document.createTextNode('test'));
+        b.content = bFrag;
+        aFrag.appendChild(b);
+        a.content = aFrag;
+
+        var clone = a.content.cloneNode();
+
+        if(!clone.firstElementChild) return true;
+        if(!clone.firstElementChild.content) return true;
+        return false;
+    }());
+    template.needsCloneNodeFix = needsCloneNodeFix;
 
 	function transformStringToElement(templateContent) {
 		var div = document.createElement('div');
@@ -30,10 +50,19 @@ define([
 			var pseudo = pseudos[i],
 				pseudoId = pseudo.getAttribute('pseudo');
 			if(has('classList')) {
-				pseudo.classList.add(pseudoId);
+                if(!pseudo.classList) {
+                    // special case to support SVG elements
+                    if(typeof pseudo.className.baseVal !== 'undefined') {
+                        pseudo.className.baseVal += ' '+pseudoId;
+                    }
+                } else {
+				    pseudo.classList.add(pseudoId);
+                }
+			} else if(typeof pseudo.className.baseVal !== 'undefined') {
+                pseudo.className.baseVal += ' '+pseudoId;
 			} else {
-				pseudo.className += ' '+pseudoId;
-			}
+                pseudo.className += ' '+pseudoId;
+            }
 		}
 	}
 
@@ -42,22 +71,42 @@ define([
 		while(e.hasChildNodes()) {
 			frag.appendChild(e.firstChild);
 		}
-		e.content = frag;
+        e.content = frag;
 	}
 
 	function rewriteTemplateElements(template) {
-		if(!template.content) removeContentFromDOM(template);
+		if(!template.content) {
+            removeContentFromDOM(template);
+            if(needsCloneNodeFix) fixCloneNode(template);
+        }
 		if(!has('shadowDOM')) addPseudoClass(template);
 		var templates = template.content.querySelectorAll('template');
 		for(var i = 0, len = templates.length; i < len; i++) {
 			var e = templates[i];
-			if(!e.content) removeContentFromDOM(e);
+			if(!e.content) {
+                removeContentFromDOM(e);
+                if(needsCloneNodeFix) fixCloneNode(e);
+            }
 			if(!has('shadowDOM')) {
 				addPseudoClass(e);
 			}
 		}
 		return template;
 	}
+
+    var originalCloneNode = document.createDocumentFragment().cloneNode;
+    function fixCloneNode(e) {
+        var originalTemplates = e.content.querySelectorAll('template');
+        e.content.cloneNode = function(flag) {
+            var copy = originalCloneNode.call(this, flag);
+            var templates = copy.querySelectorAll('template');
+            for(var i = 0, len = templates.length; i < len; i++) {
+                var template = templates[i];
+                if(!template.content) template.content = originalTemplates[i].content;
+            }
+            return copy;
+        };
+    }
 
     /**
      * Converts a string or element into an HTML5 template element or shims it, if the browser doesn't support
@@ -89,6 +138,10 @@ define([
 		}
 		return template;
 	}
+
+    template.getContent = function(template) {
+        return template.content || template.getAttribute('content');
+    };
 
 	return template;
 });
