@@ -1,0 +1,16 @@
+<template>
+    <div class="todo-view">
+        <div pseudo="test">
+            <template>
+                <li><input type="checkbox" bind="
+                    attr: {
+                        checked: $item.done ? 'checked' : null
+                    },
+                    on: {
+                        change: $parent.updateCheckedState.bind($parent)
+                    }
+                "><span bind="text: $item.title"></span></li>
+            </template>
+        </div>
+    </div>
+</template>
