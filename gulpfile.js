@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     replace = require('gulp-replace'),
     less = require('gulp-less'),
     zip = require('gulp-zip'),
+    minifyCSS = require('gulp-minify-css'),
     path = require('path'),
     pkg = require('./package.json');
 
@@ -24,6 +25,15 @@ gulp.task('minify', function() {
         .pipe(gulp.dest('./dist/jidejs/base'));
     return gulp.src('./ui/**/*.js')
         .pipe(uglify())
+        .pipe(header(preamble, preambleConfig))
+        .pipe(gulp.dest('./dist/jidejs/ui'));
+});
+
+gulp.task('copy-source', function() {
+    gulp.src('./base/**/*.js')
+        .pipe(header(preamble, preambleConfig))
+        .pipe(gulp.dest('./dist/jidejs/base'));
+    return gulp.src('./ui/**/*.js')
         .pipe(header(preamble, preambleConfig))
         .pipe(gulp.dest('./dist/jidejs/ui'));
 });
@@ -88,8 +98,17 @@ gulp.task('wintersmith', function(next) {
 });
 
 gulp.task('copy:website', function() {
-    gulp.src('bower_components/**')
-        .pipe(gulp.dest('website/build/bower_components'));
+    gulp.src('bower_components/codemirror/**')
+        .pipe(gulp.dest('website/build/bower_components/codemirror'));
+    gulp.src('bower_components/jquery/**')
+        .pipe(gulp.dest('website/build/bower_components/jquery'));
+    gulp.src('bower_components/Faker/**')
+        .pipe(gulp.dest('website/build/bower_components/Faker'));
+    gulp.src('bower_components/requirejs-text/**')
+        .pipe(gulp.dest('website/build/bower_components/requirejs-text'));
+    gulp.src('bower_components/requirejs/require.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('website/build/bower_components/requirejs'));
     gulp.src('demo/**')
         .pipe(gulp.dest('website/build/demo'));
     gulp.src('dist/jidejs/**')
@@ -98,7 +117,17 @@ gulp.task('copy:website', function() {
         .pipe(gulp.dest('website/build/bower_components/jidejs'));
 });
 
+gulp.task('optimize:website', function() {
+    gulp.src('./website/build/**/*.css')
+        .pipe(minifyCSS({}))
+        .pipe(gulp.dest('./website/build/'));
+    gulp.src('./website/build/**/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('website/build/'));
+});
+
 gulp.task('build', ['compile:template', 'less', 'minify', 'copy'], function() {});
+gulp.task('build-unminified', ['compile:template', 'less', 'copy-source', 'copy'], function() {});
 gulp.task('release', ['build', 'compress'], function() {});
 
 gulp.task('website-preview', function(next) {
