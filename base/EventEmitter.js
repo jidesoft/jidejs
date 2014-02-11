@@ -107,7 +107,7 @@ define([
 				for(var i = 0, len = listeners.length; i < len; ++i) {
 					var listener = listeners[i];
 					listener.dispose();
-					this.emit('removeListener', event, listener);
+                    if(this[$listeners].removeListener) this.emit('removeListener', event, listener);
 				}
 			}
 		},
@@ -129,7 +129,7 @@ define([
 							subscription.disposed = true;
 							subscription.dispose();
 						}
-						this.emit('removeListener', event, listener);
+                        if(this[$listeners].removeListener) this.emit('removeListener', event, listener);
 						return true;
 					}
 				}
