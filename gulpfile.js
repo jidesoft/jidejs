@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     less = require('gulp-less'),
     zip = require('gulp-zip'),
     minifyCSS = require('gulp-minify-css'),
+    rjs = require('gulp-requirejs'),
     path = require('path'),
     pkg = require('./package.json');
 
@@ -124,6 +125,66 @@ gulp.task('optimize:website', function() {
     gulp.src('./website/build/**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('website/build/'));
+});
+
+gulp.task('build:core-js', function() {
+    rjs({
+        baseUrl: './website/build/bower_components/',
+        skipDirOptimize: true,
+
+        name: 'jidejs/base/Class',
+        include: [
+            'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM',
+            'jidejs/base/ObservableList', 'jidejs/base/Binding', 'jidejs/base/DependencyProperty',
+            'jidejs/base/Dispatcher', 'jidejs/base/has', 'jidejs/ui/Control', 'jidejs/ui/Template',
+            'jidejs/ui/control/Button', 'jidejs/ui/control/Label', 'jidejs/ui/layout/HBox', 'jidejs/ui/layout/VBox',
+            'jidejs/ui/control/TextField', 'jidejs/ui/layout/BorderPane', 'jidejs/ui/control/Hyperlink',
+            'jidejs/ui/control/PopupButton', 'jidejs/ui/control/ListView', 'jidejs/ui/control/Cell',
+            'jidejs/ui/control/HTMLView', 'jidejs/ui/control/SingleSelectionModel',
+            'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/control/ChoiceBox',
+            'jidejs/ui/control/ContextMenu', 'jidejs/ui/control/MenuItem', 'jidejs/ui/control/ToolBar',
+            'jidejs/ui/control/Tooltip', 'jidejs/ui/control/Popup', 'jidejs/ui/control/Separator'
+        ],
+
+        out: 'jidejs-core.js'
+    }).pipe(gulp.dest('./website/build/'));
+
+    rjs({
+        baseUrl: './website/build/demo/apps/email/',
+        skipDirOptimize: false,
+        "packages": [{
+            name: 'jidejs',
+            location: '../../../bower_components/jidejs'
+        }],
+        paths: {
+            text: '../../../bower_components/requirejs-text/text'
+        },
+
+        shim: {
+            'Handlebars': {
+                exports: 'Handlebars'
+            },
+            'moment': {
+                exports: 'moment'
+            }
+        },
+
+        name: 'main',
+        exclude: [
+            'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM',
+            'jidejs/base/ObservableList', 'jidejs/base/Binding', 'jidejs/base/DependencyProperty',
+            'jidejs/base/Dispatcher', 'jidejs/base/has', 'jidejs/ui/Control', 'jidejs/ui/Template',
+            'jidejs/ui/control/Button', 'jidejs/ui/control/Label', 'jidejs/ui/layout/HBox', 'jidejs/ui/layout/VBox',
+            'jidejs/ui/control/TextField', 'jidejs/ui/layout/BorderPane', 'jidejs/ui/control/Hyperlink',
+            'jidejs/ui/control/PopupButton', 'jidejs/ui/control/ListView', 'jidejs/ui/control/Cell',
+            'jidejs/ui/control/HTMLView', 'jidejs/ui/control/SingleSelectionModel',
+            'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/control/ChoiceBox',
+            'jidejs/ui/control/ContextMenu', 'jidejs/ui/control/MenuItem', 'jidejs/ui/control/ToolBar',
+            'jidejs/ui/control/Tooltip', 'jidejs/ui/control/Popup', 'jidejs/ui/control/Separator'
+        ],
+
+        out: 'main.js'
+    }).pipe(gulp.dest('./website/build/demo/apps/email/'));
 });
 
 gulp.task('build', ['compile:template', 'less', 'minify', 'copy'], function() {});
