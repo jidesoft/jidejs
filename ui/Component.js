@@ -259,12 +259,12 @@ define([
 			return observer;
 		},
 
-		emit: function(name, data) {
+		emit: function(name, eventData) {
 			if(!this.element || arguments.length > 2) {
 				EventEmitter.prototype.emit.apply(this, arguments);
 			} else {
-				var event = document.createEvent('Event');
-				data || (data = { bubbles: true, cancelable: true });
+				var event = document.createEvent('Event'),
+                    data = eventData || {};
 				event.initEvent(name, 'bubbles' in data ? data.bubbles : true, 'cancelable' in data ? data.cancelable : true);
 				delete data.bubbles;
 				delete data.cancelable;

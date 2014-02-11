@@ -68,7 +68,7 @@ define([
 					listeners = [];
 					this[$listeners][event] = listeners;
 				}
-				this.emit('newListener', event, listener);
+				if(this[$listeners].newListener) this.emit('newListener', event, listener);
 				var subscription = new Subscription(this, event, listener);
 				listeners[listeners.length] = subscription;
 				return subscription;
@@ -166,13 +166,13 @@ define([
 			var listeners = this[$listeners][event];
 			if(Array.isArray(listeners)) {
 				listeners = listeners.slice();
-				args = _.asArray(arguments).slice(1);
+				var params = arguments.length === 2 ? [args] : _.asArray(arguments).slice(1);
 				for(var i = 0, len = listeners.length; i < len; ++i) {
-					listeners[i].notify(args);
+					listeners[i].notify(params);
 				}
 			}
-			if(event !== 'all') {
-				this.emit.apply(this, ['all'].concat(_.asArray(arguments)));
+			if(event !== 'all' && this[$listeners].all) {
+				this.emit.apply(this, ['all'].concat(arguments));
 			}
 		},
 
