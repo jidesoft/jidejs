@@ -513,8 +513,18 @@ define([
 		/**
 		 * Notifies listeners when the observable has changed.
 		 */
-		notify: function() {
-			this.emit.apply(this, ['change'].concat(_.asArray(arguments)));
+		notify: function(event) {
+            switch(arguments.length) {
+                case 0:
+                    this.emit('change');
+                    break;
+                case 1:
+                    this.emit('change', event);
+                    break;
+                default:
+                    this.emit.apply(this, ['change'].concat(_.asArray(arguments)));
+                    break;
+            }
 		},
 
 		/**
@@ -625,12 +635,22 @@ define([
 				DependencyTracker.begin(this);
 				this._value = this.computeValue();
 				var deps = DependencyTracker.end(this);
-				this._bindings.forEach(function(binding) { binding.dispose(); });
-				this._bindings = [];
-				var invalidate = this.invalidate.bind(this);
-				for(var i = 0, len = deps.length; i < len; ++i) {
-					this._bindings.push(deps[i].subscribe(invalidate));
-				}
+                // check if this._bindings and deps are the same
+                var isDirty = deps.length !== this._bindings.length;
+                for(var bindings = this._bindings, i = 0, len = bindings.length; !isDirty && i < len; i++) {
+                    if(bindings[i] !== deps[i]) {
+                        isDirty = true;
+                    }
+                }
+
+                if(isDirty) {
+                    this._bindings.forEach(function(binding) { binding.dispose(); });
+                    this._bindings = [];
+                    var invalidate = this.invalidate.bind(this);
+                    for(var i = 0, len = deps.length; i < len; ++i) {
+                        this._bindings.push(deps[i].subscribe(invalidate));
+                    }
+                }
 				this.invalid = false;
 			} else {
 				DependencyTracker.read(this);

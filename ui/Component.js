@@ -263,6 +263,11 @@ define([
 			if(!this.element || arguments.length > 2) {
 				EventEmitter.prototype.emit.apply(this, arguments);
 			} else {
+                if(eventData && ('bubbles' in eventData) && !eventData.bubbles) {
+                    if(EventEmitter.listenerCount(this, name) === 0) return;
+                    EventEmitter.prototype.emit.call(this, name, eventData);
+                    return;
+                }
 				var event = document.createEvent('Event'),
                     data = eventData || {};
 				event.initEvent(name, 'bubbles' in data ? data.bubbles : true, 'cancelable' in data ? data.cancelable : true);

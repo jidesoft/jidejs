@@ -10,6 +10,27 @@ var gulp = require('gulp'),
     path = require('path'),
     pkg = require('./package.json');
 
+/*
+Sequence to build the website
+
+gulp compile:template
+gulp build
+gulp jsdoc
+gulp wintersmith
+gulp copy:website
+gulp optimize:website
+gulp build:core-js
+
+Run the website preview
+
+gulp website-preview
+
+Run the demo (in dev mode)
+
+gulp run-demo
+
+ */
+
 var preamble = '/*! <%=pkg.name%> <%=pkg.version%> - <%= now %>\n <%= pkg.licenseString %>\n Author: <%=pkg.author%> */\n',
     preambleConfig = {
         pkg: pkg,
@@ -128,23 +149,25 @@ gulp.task('optimize:website', function() {
 });
 
 gulp.task('build:core-js', function() {
+    var jidejsCoreModules = [
+        'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM',
+        'jidejs/base/ObservableList', 'jidejs/base/Binding', 'jidejs/base/DependencyProperty',
+        'jidejs/base/Dispatcher', 'jidejs/base/has', 'jidejs/ui/Control', 'jidejs/ui/Template',
+        'jidejs/ui/control/Button', 'jidejs/ui/control/Label', 'jidejs/ui/layout/HBox', 'jidejs/ui/layout/VBox',
+        'jidejs/ui/control/TextField', 'jidejs/ui/layout/BorderPane', 'jidejs/ui/control/Hyperlink',
+        'jidejs/ui/control/PopupButton', 'jidejs/ui/control/ListView', 'jidejs/ui/control/Cell',
+        'jidejs/ui/control/HTMLView', 'jidejs/ui/control/SingleSelectionModel',
+        'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/control/ChoiceBox',
+        'jidejs/ui/control/ContextMenu', 'jidejs/ui/control/MenuItem', 'jidejs/ui/control/ToolBar',
+        'jidejs/ui/control/Tooltip', 'jidejs/ui/control/Popup', 'jidejs/ui/control/Separator'
+    ];
+
     rjs({
         baseUrl: './website/build/bower_components/',
         skipDirOptimize: true,
 
         name: 'jidejs/base/Class',
-        include: [
-            'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM',
-            'jidejs/base/ObservableList', 'jidejs/base/Binding', 'jidejs/base/DependencyProperty',
-            'jidejs/base/Dispatcher', 'jidejs/base/has', 'jidejs/ui/Control', 'jidejs/ui/Template',
-            'jidejs/ui/control/Button', 'jidejs/ui/control/Label', 'jidejs/ui/layout/HBox', 'jidejs/ui/layout/VBox',
-            'jidejs/ui/control/TextField', 'jidejs/ui/layout/BorderPane', 'jidejs/ui/control/Hyperlink',
-            'jidejs/ui/control/PopupButton', 'jidejs/ui/control/ListView', 'jidejs/ui/control/Cell',
-            'jidejs/ui/control/HTMLView', 'jidejs/ui/control/SingleSelectionModel',
-            'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/control/ChoiceBox',
-            'jidejs/ui/control/ContextMenu', 'jidejs/ui/control/MenuItem', 'jidejs/ui/control/ToolBar',
-            'jidejs/ui/control/Tooltip', 'jidejs/ui/control/Popup', 'jidejs/ui/control/Separator'
-        ],
+        include: jidejsCoreModules,
 
         out: 'jidejs-core.js'
     }).pipe(gulp.dest('./website/build/'));
@@ -157,7 +180,8 @@ gulp.task('build:core-js', function() {
             location: '../../../bower_components/jidejs'
         }],
         paths: {
-            text: '../../../bower_components/requirejs-text/text'
+            text: '../../../bower_components/requirejs-text/text',
+            Faker: '../../../bower_components/Faker/MinFaker'
         },
 
         shim: {
@@ -166,25 +190,41 @@ gulp.task('build:core-js', function() {
             },
             'moment': {
                 exports: 'moment'
+            },
+            'Faker': {
+                exports: 'Faker'
             }
         },
 
         name: 'main',
-        exclude: [
-            'jidejs/base/ObservableProperty', 'jidejs/base/Util', 'jidejs/base/Window', 'jidejs/base/DOM',
-            'jidejs/base/ObservableList', 'jidejs/base/Binding', 'jidejs/base/DependencyProperty',
-            'jidejs/base/Dispatcher', 'jidejs/base/has', 'jidejs/ui/Control', 'jidejs/ui/Template',
-            'jidejs/ui/control/Button', 'jidejs/ui/control/Label', 'jidejs/ui/layout/HBox', 'jidejs/ui/layout/VBox',
-            'jidejs/ui/control/TextField', 'jidejs/ui/layout/BorderPane', 'jidejs/ui/control/Hyperlink',
-            'jidejs/ui/control/PopupButton', 'jidejs/ui/control/ListView', 'jidejs/ui/control/Cell',
-            'jidejs/ui/control/HTMLView', 'jidejs/ui/control/SingleSelectionModel',
-            'jidejs/ui/control/MultipleSelectionModel', 'jidejs/ui/control/ChoiceBox',
-            'jidejs/ui/control/ContextMenu', 'jidejs/ui/control/MenuItem', 'jidejs/ui/control/ToolBar',
-            'jidejs/ui/control/Tooltip', 'jidejs/ui/control/Popup', 'jidejs/ui/control/Separator'
-        ],
+        exclude: jidejsCoreModules,
 
         out: 'main.js'
     }).pipe(gulp.dest('./website/build/demo/apps/email/'));
+
+    rjs({
+        baseUrl: './website/build/demo/apps/contacts/',
+        skipDirOptimize: false,
+        "packages": [{
+            name: 'jidejs',
+            location: '../../../bower_components/jidejs'
+        }],
+        paths: {
+            text: '../../../bower_components/requirejs-text/text',
+            Faker: '../../../bower_components/Faker/MinFaker'
+        },
+
+        shim: {
+            'Faker': {
+                exports: 'Faker'
+            }
+        },
+
+        name: 'main',
+        exclude: jidejsCoreModules,
+
+        out: 'main.js'
+    }).pipe(gulp.dest('./website/build/demo/apps/contacts/'));
 });
 
 gulp.task('build', ['compile:template', 'less', 'minify', 'copy'], function() {});

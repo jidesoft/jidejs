@@ -13,7 +13,7 @@ define([
 
     foreachBindings = foreachBindings(bind);
 
-    var _require;
+    var _require, toString = Object.prototype.toString;
     if(window.define && window.define.amd) {
         _require = function(dependency, callback) {
             if(controlAlias[dependency]) {
@@ -101,7 +101,11 @@ define([
                 var result = [];
                 for(var i = 0, len = names.length; i < len; i++) {
                     var name = names[i],
-                        value = Observable.unwrap(descriptor[name]());
+                        value = descriptor[name]();
+                    if(value && toString.call(value) === '[object Object]'
+                        && value.hasOwnProperty('get') && value.hasOwnProperty('subscribe')) {
+                        value = value.get();
+                    }
                     result[result.length] = [name, value];
                 }
                 return result;

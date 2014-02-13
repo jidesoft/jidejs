@@ -166,7 +166,21 @@ define([
 			var listeners = this[$listeners][event];
 			if(Array.isArray(listeners)) {
 				listeners = listeners.slice();
-				var params = arguments.length === 2 ? [args] : _.asArray(arguments).slice(1);
+				var params;
+                switch(arguments.length) {
+                    case 1:
+                        params = [];
+                        break;
+                    case 2:
+                        params = [args];
+                        break;
+                    case 3:
+                        params = [args, arguments[2]];
+                        break;
+                    default:
+                        params = arguments.length === 2 ? [args] : _.asArray(arguments).slice(1);
+                        break;
+                }
 				for(var i = 0, len = listeners.length; i < len; ++i) {
 					listeners[i].notify(params);
 				}

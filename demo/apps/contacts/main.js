@@ -5,7 +5,13 @@ require.config({
 		location: '/bower_components/jidejs'
 	}],
     paths: {
-        text: '/bower_components/requirejs-text/text'
+        text: '/bower_components/requirejs-text/text',
+        Faker: '/bower_components/Faker/MinFaker'
+    },
+    shim: {
+        'Faker': {
+            exports: 'Faker'
+        }
     }
 });
 //endregion

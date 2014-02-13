@@ -72,8 +72,18 @@ define([
 			this._context.removeListener('change:'+this._name, handler);
 		},
 
-		notify: function() {
-			this._context.emit.apply(this._context, ['change:'+this._name].concat(_.asArray(arguments)));
+		notify: function(event) {
+            switch(arguments.length) {
+                case 0:
+                    this._context.emit('change:'+this._name);
+                    break;
+                case 1:
+                    this._context.emit('change:'+this._name, event);
+                    break;
+                default:
+                    this._context.emit.apply(this._context, ['change:'+this._name].concat(_.asArray(arguments)));
+                    break;
+            }
 		},
 
 		dispose: function() {

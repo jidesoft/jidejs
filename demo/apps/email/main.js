@@ -5,7 +5,8 @@ require.config({
 		location: '/bower_components/jidejs'
 	}],
 	paths: {
-		text: '/bower_components/requirejs-text/text'
+		text: '/bower_components/requirejs-text/text',
+        Faker: '/bower_components/Faker/MinFaker'
 	},
 	shim: {
 		'Handlebars': {
@@ -13,7 +14,10 @@ require.config({
 		},
 		'moment': {
 			exports: 'moment'
-		}
+		},
+        'Faker': {
+            exports: 'Faker'
+        }
 	}
 });
 //endregion
@@ -47,7 +51,7 @@ require([
 	'jidejs/ui/control/Popup',
 	'jidejs/ui/control/Separator',
 
-	'Icon', 'IconStack', 'Handlebars', 'moment',
+	'Icon', 'IconStack', 'Handlebars', 'moment', 'Faker',
 	'text!templates/Item.html',
 	'text!templates/Detail.html'
 ], function(
@@ -55,7 +59,7 @@ require([
 	Component, BorderPane, HBox, VBox,
 	Label, Button, Hyperlink, PopupButton, TextField, ListView, Cell, HTMLView,
 	SingleSelectionModel, MultipleSelectionModel, ChoiceBox, ContextMenu, MenuItem, ToolBar, Tooltip,
-	Popup, Separator, Icon, IconStack, Handlebars, moment,
+	Popup, Separator, Icon, IconStack, Handlebars, moment, Faker,
 	rawItemTemplate, rawMailTemplate
 ) {
 	"use strict";
@@ -139,8 +143,10 @@ require([
 
 	//endregion
 
-	fetchMails(98, true);
-	fetchMails(2, false, true);
+    Dispatcher.requestAnimationFrame(function() {
+        fetchMails(98, true);
+        fetchMails(2, false, true);
+    });
 
 	var navigationView, listView, folderView, filterEditor, toolBar, listViewHeader,
 		mailTemplate = Handlebars.compile(rawMailTemplate),

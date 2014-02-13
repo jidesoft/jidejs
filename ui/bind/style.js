@@ -27,10 +27,14 @@ define([
         },
 
         style: {
-            update: function(element, value) {
-                Object.getOwnPropertyNames(value).forEach(function(styleName) {
-                    element.style[styleName] = value[styleName] || '';
-                });
+            update: function(element, value, oldValue) {
+                for(var i = 0, names = Object.getOwnPropertyNames(value), len = names.length; i < len; i++) {
+                    var styleName = names[i],
+                        css = value[styleName];
+                    if(!oldValue || oldValue[styleName] !== css) {
+                        element.style[styleName] = css || '';
+                    }
+                }
             }
         },
 
@@ -42,6 +46,7 @@ define([
                 for(var i = 0, len = names.length; i < len; i++) {
                     var name = names[i],
                         attributeValue = Observable.unwrap(value[name]);
+                    if(oldValue.hasOwnProperty(name) && Observable.unwrap(oldValue[name]) === attributeValue) continue;
                     if(attributeValue === false || attributeValue === null || attributeValue === undefined) {
                         element.removeAttribute(name);
                     } else {
