@@ -34,21 +34,38 @@ define([
         });
     });
 
-//    describe('Observable', function() {
-//        describe('#async', function() {
-//            it('is not invalidated instantly', function(done) {
-//                var value = Observable('test');
-//                var asyncValue = value.async(function(originalObservable, write) {
-//                    setTimeout(function() {
-//                        write(originalObservable.get());
-//                    });
-//                });
-//                expect(asyncValue.get()).toBe(null);
-//                asyncValue.subscribe(function(event) {
-//                    expect(event.value).to.be('test');
-//                    done();
-//                });
-//            })
-//        })
-//    })
+    describe('Observable', function() {
+        describe('#async', function() {
+            it('is not invalidated instantly', function(done) {
+                var value = Observable('test');
+                var asyncValue = value.async(function(originalObservable) {
+                    var defer = new Deferred();
+                    setTimeout(function() {
+                        defer.fulfill(originalObservable.get());
+                    }, 1);
+                    return defer.promise;
+                });
+                expect(asyncValue.get()).to.equal(null);
+                asyncValue.subscribe(function(event) {
+                    expect(event.value).to.equal('test');
+                    done();
+                });
+            });
+
+            it('It can be used to delay the execution of a computed observable', function(done) {
+                Observable.computed(function() {
+                    return 2 * 2;
+                }).async(function(resultObservable) {
+                    var defer = new Deferred();
+                    setTimeout(function() {
+                        defer.fulfill(resultObservable.get());
+                    }, 1);
+                    return defer.promise;
+                }).subscribe(function(event) {
+                    expect(event.value).to.equal(4);
+                    done();
+                });
+            });
+        })
+    })
 });

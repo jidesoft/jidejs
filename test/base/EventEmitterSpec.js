@@ -32,8 +32,8 @@ define([
                 expect(arguments[2]).to.equal('third');
                 expect(arguments[3]).to.equal('fourth');
                 next();
-                bus.emit('first', 'second', 'third', 'fourth');
             });
+            bus.emit('first', 'second', 'third', 'fourth');
         })
     });
 });

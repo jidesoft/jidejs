@@ -34,6 +34,53 @@ define([
     
     var Bindings = /* @lends module:jidejs/base/Observable.prototype */ {
         /**
+         * Creates an Observable whose value is resolved asynchronously.
+         * The `callback` will receive the original observable and is expected to return
+         * a Promise. Once that Promise is resolved, the value of the new observable will
+         * be changed to the value that the Promise was resolved too.
+         *
+         * @example
+         * // this example demonstrates how to limit evaluation to the animation frame.
+         * Observable.computed(function() {
+         *     return 2 * 2; // slow calculation
+         * }).async(function(resultObservable) {
+         *     var defer = new Deferred();
+         *     Dispatcher.requestAnimationFrame(function() {
+         *         defer.fulfill(resultObservable.get());
+         *     });
+         *     return defer.promise;
+         * }).subscribe(function(event) {
+         *     // do something with event.value
+         * });
+         *
+         * @memberof module:jidejs/base/Observable.prototype
+         * @param {Function} callback
+         * @returns {Observable}
+         */
+        async: function(arg, callback) {
+            var result = new Observable(null),
+                promise,
+                self = arguments.length === 1 ? this : arg,
+                successHandler = function(value) {
+                    promise = null;
+                    result.set(value);
+                },
+                failureHandler = function(reason) {
+                    promise = null;
+                    result.set(reason);
+                };
+            callback || (callback = arg);
+            self.subscribe(function() {
+                if(!promise) {
+                    promise = callback(self).then(successHandler, failureHandler);
+                }
+            });
+            promise = callback(self).then(successHandler, failureHandler);
+
+            return result;
+        },
+
+        /**
          * This type of binding can be used to create a property whose value changes when the bound property
          * takes a truthy or falsy value.
          *
