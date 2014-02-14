@@ -6,10 +6,12 @@ template: index.html
 jide.js
 =======
 
-**jide.js** is an **open source**, MIT licensed, **Javascript** toolkit for developing rich, modern web applications. It features various
-powerful UI controls and is built around the concept of properties and data binding and enables highly efficient programming.
+**jide.js** is an **open source**, MIT licensed, **Javascript** toolkit for developing rich, modern web applications.
+It features various powerful UI controls and is built around the concept of properties and data binding and enables
+highly efficient programming.
 **jide.js** uses the AMD format and can be used with any AMD compatible loader such as [require.js](http://www.requirejs.org)
-but also supports [Browserify](http://browserify.org).
+but also supports [Browserify](http://browserify.org). Don't worry if you don't know what that means, we've prepared
+a [short introduction](/guide/01-core-concepts/00-modules.md) for you.
 
 Observable variables and data binding
 -------------------------------------

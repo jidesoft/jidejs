@@ -13,6 +13,9 @@ at the [Yeoman Quickstart](/guide/00-installation/03-with-yeoman.html).
 Since **jide.js** uses the AMD format, you must start by including an AMD loader in your HTML file. There
 are a lot of options for AMD loaders but we will focus on the quasi standard: [require.js](http://www.requirejs.org).
 
+If you've never heard of AMD or require.js, you don't need to worry. We've prepared a
+[short introduction](/guide/01-core-concepts/00-modules.md) that explains how to get up and running with AMD for you.
+
 For the purpose of this tutorial, we assume that your project has the following directory layout:
 
 * /index.html
