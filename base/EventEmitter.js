@@ -186,7 +186,7 @@ define([
 				}
 			}
 			if(event !== 'all' && this[$listeners].all) {
-				this.emit.apply(this, ['all'].concat(arguments));
+				this.emit.apply(this, ['all'].concat(_.asArray(arguments)));
 			}
 		},
 

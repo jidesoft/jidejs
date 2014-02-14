@@ -29,11 +29,12 @@ require([
 	'jidejs/ui/control/HTMLView',
 	'jidejs/ui/control/ListView',
 	'jidejs/ui/control/TextField',
-	'jidejs/ui/control/Button'
+	'jidejs/ui/control/Button',
+    'Faker'
 ], function(
 	Class, Observable, ObservableProperty, ObservableList,
 	GridPane, BorderPane, HBox, VBox,
-	HTMLView, ListView, TextField, Button
+	HTMLView, ListView, TextField, Button, Faker
 ) {
 	"use strict";
 
