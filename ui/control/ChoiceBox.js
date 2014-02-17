@@ -44,6 +44,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 		Class(ChoiceBoxSkin).extends(Skin).def({
             template: Templates.ChoiceBox,
 			install: function() {
+                Skin.prototype.install.call(this);
 				var choiceBox = this.component;
 				var listView = this.listView = new ListView({
 					classList: ['is-striped'],
@@ -60,8 +61,6 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 				popup.classList.add('jide-choicebox-popup');
 
 				var element = this.element;
-				var label = element.firstChild;
-				var button = element.lastChild;
 
 				this.managed(
 					listView.cellFactoryProperty.bind(choiceBox.cellFactoryProperty),
@@ -121,7 +120,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 			else this.items = config.items; // assume config.items is an ObservableList
 			delete config.items;
 
-            SelectionMixin.call(this, config, this.items);
+            SelectionMixin.call(this, config, this.items, true);
             this.selectionModel = config.selectionModel;
             delete config.selectionModel;
 

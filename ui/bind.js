@@ -58,7 +58,7 @@ define([
                 config['element'] = element;
                 controlInstance = new Control(config);
             } else {
-                Component.applyConfiguration(config);
+                Component.applyConfiguration(controlInstance, config);
             }
             controlInstance.emit('ComponentReady', {
                 source: element,
@@ -103,7 +103,7 @@ define([
                     var name = names[i],
                         value = descriptor[name]();
                     if(value && toString.call(value) === '[object Object]'
-                        && value.hasOwnProperty('get') && value.hasOwnProperty('subscribe')) {
+                        && ('get' in value) && ('subscribe' in value)) {
                         value = value.get();
                     }
                     result[result.length] = [name, value];
