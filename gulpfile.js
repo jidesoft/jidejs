@@ -104,7 +104,6 @@ var preamble = '/*! <%=pkg.name%> <%=pkg.version%> - <%= now %>\n <%= pkg.licens
         output: './website/build',
 
         "plugins": [
-            "wintersmith-livereload",
             "wintersmith-less",
             "wintersmith-nunjucks",
             "./website/plugins/toc.js",
@@ -280,6 +279,12 @@ gulp.task('website:build', ['website:copy', 'website:jsdoc'], function(next) {
     var env = wintersmith(wintersmithConfig);
     env.build(next);
 });
+
+gulp.task('website:build:wintersmith', function(next) {
+    // same as website:build but without copying resources and building jsdoc
+    var env = wintersmith(wintersmithConfig);
+    env.build(next);
+});
 //endregion /WEBSITE:BUILD
 
 //region WEBSITE:OPTIMIZE Optimize the website (minify and concatenate sources and so on)
@@ -379,25 +384,11 @@ gulp.task('website', ['website:build', 'website:optimize']);
 
 //region SERVE Starts a server to see the website, demos or whatever
 gulp.task('serve:website', ['website'], function(next) {
-    var express = require('express')
-        , http = require('http')
-        , path = require('path');
-
-    var app = express();
-    app.use(express.favicon());
-    app.use(express.logger('dev'));
-    app.use(express.compress());
-    app.use(express.static(__dirname+'/website/build'));
-    app.listen(3000).on('close', next);
-    console.log('Server started at port '+3000);
+    serveWebsite(next);
 });
 
-gulp.task('serve:website:plain', ['website:copy', 'website:jsdoc'], function() {
-    var env = wintersmith(wintersmithConfig);
-    env.preview(function(error, server) {
-        if (error) throw error;
-        console.log('Server running!');
-    });
+gulp.task('serve:website:preview', ['website:build'], function(next) {
+    serveWebsite(next);
 });
 
 gulp.task('serve:demos', function(next) {
@@ -433,5 +424,19 @@ function exec(cmd, next) {
         console.log(stderr);
         next();
     });
+}
+
+function serveWebsite(next) {
+    var express = require('express')
+        , http = require('http')
+        , path = require('path');
+
+    var app = express();
+    app.use(express.favicon());
+    app.use(express.logger('dev'));
+    app.use(express.compress());
+    app.use(express.static(__dirname+'/website/build'));
+    app.listen(3000).on('close', next);
+    console.log('Server started at port '+3000);
 }
 //endregion

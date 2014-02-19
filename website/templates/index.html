@@ -1,71 +1,119 @@
 {% extends "layout.html" %}
 
-{% block content %}
-<div class="row-fluid">
-    <article class="span8">
-        {{ env['helpers']['doclink'](page.html, page) }}
-    </article>
-    <aside class="span4">
-        <h2>Version: 1.0.0-beta3</h2>
-        <p><b>jide.js</b> is currently in beta state. This means that it is neither feature complete nor without bugs and
-        that its APIs can change when necessary.</p>
-        <h2>Free and OpenSource</h2>
-        <p><b>jide.js</b> has been released under terms of the OpenSource MIT license. It can be used in personal
-            and commercial projects for free.</p>
-		<p><a class="btn span6" href="http://github.com/jidesoft/jidejs">Get the Source Code</a><a class="btn span6" href="/downloads/jidejs-1.0.0-beta3.zip">Download 1.0.0-beta3</a></p>
-        <p>Or install via Bower <code>bower install jidejs</code>.</p>
-        <h2>Cross Browser Support</h2>
-        <p><b>jide.js</b> works across all modern browsers.  It has been designed to be the future of web development and makes a
-clean break with older browsers such as IE8 and earlier to enable you to develop for the web as it is now and not as it
-was years ago.</p>
-        <ul class="checkbox-list">
-            <li><i class="icon-ok"></i> Internet Explorer 9+</li>
-            <li><i class="icon-ok"></i> Chrome</li>
-            <li><i class="icon-ok"></i> Firefox</li>
-            <li><i class="icon-ok"></i> Safari</li>
-            <li><i class="icon-ok"></i> Android</li>
-            <li><i class="icon-ok"></i> iOS</li>
-        </ul>
+{% block container %}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <article class="span8">
+            <h2>jide.js &mdash; Version 1.0.0-beta3</h2>
 
-        <h2>Professional Support available</h2>
-        <p>While <b>jide.js</b> is an OpenSource project, we understand the need for professional and fast support, thus
-        you can buy professional support for <b>jide.js</b> directly from <a href="http://www.jidesoft.com/store/index.php?cPath=38">JIDE Software</a>.</p>
+            <p><b>jide.js</b> is an <b>open source</b>, MIT licensed, <b>Javascript</b> toolkit for developing rich, modern web applications.
+                It features various powerful UI controls and is built around the concept of properties and data binding and enables
+                highly efficient programming.</p>
+            <p><b>jide.js</b> uses the AMD format and can be used with any AMD compatible loader such as <a href="http://www.requirejs.org">require.js</a>
+                but also supports <a href="http://browserify.org">Browserify</a>. Don't worry if you don't know what that means, we've prepared
+                a <a href="/guide/01-core-concepts/00-modules.md">short introduction</a> for you.</p>
+            <p><b>jide.js</b> is currently in beta state. This means that it is neither feature complete nor without bugs and
+                that its APIs can change when necessary.</p>
+        </article>
+        <article class="span4 well">
+            <h2>Free and OpenSource</h2>
 
-        <h2>What next?</h2>
-        <p><b>jide.js</b> comes bundled with plenty of documentation that you can directly access from this page.</p>
+            <p><b>jide.js</b> has been released under terms of the OpenSource MIT license. It can be used in personal
+                and commercial projects for free.</p>
 
-        <dl>
-            <dt><a href="/guide/index.html">Guide</a></dt>
-            <dd>The Guide provides a structured introduction to <b>jide.js</b> for those who prefer to read.</dd>
-            <dt><a href="/examples/index.html">Examples</a></dt>
-            <dd>The Examples provide an interactive way to learn <b>jide.js</b> in case you'd like to explore and test it before
-                starting to read the detailed guide or diving into the API documentation.</dd>
-            <dt><a href="/api/index.html">API</a></dt>
-            <dd>If you need to explore the API of a class or method in detail, the API documentation is the best way to do so.</dd>
-			<dt><a href="http://www.jidesoft.com/forum/viewforum.php?f=34">Support Forum</a></dt>
-			<dd>Visit our support forum if you need any help or have any questions. For those who paid for the profressional support,
-			you can use <a href="http://www.jidesoft.com/forum/viewforum.php?f=37">this link</a> to access to the customer only forum.
-			If you don't have access, please email your user id to support@jidesoft.com</dd>
-        </dl>
-    </aside>
+            <p><a class="btn span6" href="http://github.com/jidesoft/jidejs">Get the Source Code</a><a class="btn span6" href="/downloads/jidejs-1.0.0-beta3.zip">Download 1.0.0-beta3</a></p>
+
+            <p>Or install via Bower <code>bower install jidejs</code>.</p>
+        </article>
+    </div>
 </div>
-{% endblock %}
-
-{% block secondary_content %}
-<div id="recent_blog_posts" class="container-fluid secondary">
+<div class="container-fluid secondary">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>Observable variables and data binding</h2>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span6">
+            {{ contents['_index_example_js.md'].html }}
+        </div>
+        <div class="span6">
+            {{ contents['_index_example_html.md'].html }}
+        </div>
+    </div>
+</div>
+<div id="recent_blog_posts" class="container-fluid">
     <template>
         <h2>Recent Blog Posts</h2>
         <ul bind="foreach: component.posts" class="row-fluid">
             <template>
                 <li class="span4">
                     <h3><a bind="content: title, attr: { href: url }"></a></h3>
-                    <p bind="content: excerpt"></p>
-                    <p><a class="btn" bind="attr: { href: url }">Read more</a></p>
+                    <div bind="content: excerpt"></div>
                 </li>
             </template>
         </ul>
     </template>
 </div>
+<div class="container-fluid secondary">
+    <div class="row-fluid">
+        <article class="span7">
+            <h2>Developed by experts</h2>
+
+            <p>JIDE Software is a leading provider of professional components for <em>Swing</em> and <em>JavaFX</em> and has years of experience in solving
+                the needs of large businesses and startups. <b>jide.js</b> has been created by those same experts that have been trusted by
+                thousands of clients with their mission critial applications. It leverages all the experience to produce a development
+                experience that is nothing short of astonishing. Develop applications with ease by binding your data to your view. Separate
+                your data model from your view logic, write modular applications by leveraging the power of <em>AMD</em>.</p>
+
+            <h2>Professional Support available</h2>
+            <p>While <b>jide.js</b> is an OpenSource project, we understand the need for professional and fast support, thus
+                you can buy professional support for <b>jide.js</b> directly from <a href="http://www.jidesoft.com/store/index.php?cPath=38">JIDE Software</a>.</p>
+        </article>
+        <aside class="span5">
+            <h2>Cross Browser Support</h2>
+
+            <p><b>jide.js</b> works across all modern browsers.  It has been designed to be the future of web development and makes a
+                clean break with older browsers such as IE8 and earlier to enable you to develop for the web as it is now and not as it
+                was years ago.</p>
+
+            <ul class="checkbox-list">
+                <li><i class="icon-ok"></i> Internet Explorer 9+</li>
+                <li><i class="icon-ok"></i> Chrome</li>
+                <li><i class="icon-ok"></i> Firefox</li>
+                <li><i class="icon-ok"></i> Safari</li>
+                <li><i class="icon-ok"></i> Android</li>
+                <li><i class="icon-ok"></i> iOS</li>
+            </ul>
+        </aside>
+    </div>
+</div>
+<div class="container-fluid">
+    <ul class="row-fluid">
+        <li class="span3">
+            <h3><a href="/guide/index.html">Guide</a></h3>
+            <p>The Guide provides a structured introduction to <b>jide.js</b> for those who prefer to read.</p>
+        </li>
+        <li class="span3">
+            <h3><a href="/examples/index.html">Examples</a></h3>
+            <p>The Examples provide an interactive way to learn <b>jide.js</b> in case you'd like to explore and test it before
+                starting to read the detailed guide or diving into the API documentation.</p>
+        </li>
+        <li class="span3">
+            <h3><a href="/api/index.html">API</a></h3>
+            <p>If you need to explore the API of a class or method in detail, the API documentation is the best way to do so.</p>
+        </li>
+        <li class="span3">
+            <h3><a href="http://www.jidesoft.com/forum/viewforum.php?f=34">Support Forum</a></h3>
+            <p>Visit our support forum if you need any help or have any questions. For those who paid for the profressional support,
+                you can use <a href="http://www.jidesoft.com/forum/viewforum.php?f=37">this link</a> to access to the customer only forum.
+                If you don't have access, please email your user id to support@jidesoft.com</p>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block secondary_content %}
 {% endblock %}
 
 {% block footimport %}

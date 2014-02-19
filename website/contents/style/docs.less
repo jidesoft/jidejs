@@ -179,30 +179,70 @@ dd { margin-left: 40px; }
 }
 
 // implement jidesoft.com styling
-a{color:#B94A48;outline:none;cursor:pointer;text-decoration:none;}
+a{color:#B94A48;outline:none;cursor:pointer;text-decoration:underline;}
 a:hover{text-decoration:underline}
+.btn, .brand {
+  text-decoration: none;
+}
+
+.well h2 {
+  margin-top: 0;
+}
 
 h1, h2, h3, h4, h5, h6 {
   color: #FFF;
   font-family: Museo-300, sans-serif;
   font-weight: normal;
-  // #0a87dd 1px 1px
   text-shadow: 1px 1px 0 #0A87dd;
+  margin: 0px 0 30px;
+}
+
+p, dd, .checkbox-list > li {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+#recent_blog_posts {
+  min-width: 100%;
+}
+
+#recent_blog_posts h3 {
+  min-height: 80px;
+  margin: 0 0 20px;
+}
+
+.checkbox-list li {
+  background: rgba(1, 1, 1, 0.1);
+  margin: 5px 0;
+  padding: 5px;
+}
+
+.checkbox-list i {
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+#tagline {
+  font-size: 0.5em;
+  color: #0DAAE7;
+  display: inline-block;
+  margin-left: 10px;
 }
 
 body {
   padding:0;
   margin:0 auto;
   font-family: Candara, 'Quattrocento Sans', 'Droid Sans', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   //letter-spacing: 0.1em;
   line-height: 1.231;
 }
 
 body > div, body > article {
-  background:url(../images/content-bg.gif) repeat 0 0;
+  background: #0DAAE7 url(../images/content-bg.gif) repeat 0 0;
   padding: 23px 0 52px;
-  color: #222;
+  color: #fff;
 
   & a {
     color: #FFA;
@@ -286,8 +326,7 @@ body > .tertiary {
 
 body > .secondary {
   color: #7D7D7D;
-  background: url(../images/main-bg1.gif) repeat 0 0;
-  min-width: 100%;
+  background: #2B2C30 url(../images/main-bg1.gif) repeat 0 0;
 
   &:before {
     content: " ";
