@@ -1,6 +1,6 @@
 module.exports = function(env, callback) {
 	"use strict";
-	var urlmapping = require('./../build/api/urlmapping');
+	var urlmapping = require('./../contents/api/urlmapping');
 	function linkTo(text, page) {
 		text || (text = page.html || page.markdown);
 		text || (text = '');
