@@ -19,7 +19,7 @@
 		"parser": "gfm"
 	},
 	"opts": {
-		"destination": "./website/build/api",
+		"destination": "./website/contents/api",
 		"recurse": true,
 		"template": "./jsdoc/jidejs",
 		"lenient": true
