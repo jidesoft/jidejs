@@ -42,6 +42,8 @@ var gulp = require('gulp'),
     less = require('gulp-less'),
     zip = require('gulp-zip'),
     minifyCSS = require('gulp-minify-css'),
+    csso = require('gulp-csso'),
+    imagemin = require('gulp-imagemin'),
     rjs = require('gulp-requirejs'),
     clean = require('gulp-clean'),
     rename = require('gulp-rename'),
@@ -133,7 +135,7 @@ gulp.task('clean:jsdoc', function() {
     return gulp.src('./website/contents/api', {read:false})
         .pipe(clean());
 });
-gulp.task('clean', ['clean:compiled', 'clean:build', 'clean:api', 'clean:website']);
+gulp.task('clean', ['clean:compiled', 'clean:build', 'clean:jsdoc', 'clean:website']);
 //endregion /CLEAN
 
 //region COMPILE used resources for jide.js (style, templates)
@@ -363,8 +365,14 @@ gulp.task('website:optimize:rjs', [
 //endregion WEBSITE:OPTIMIZE:RJS
 
 //region WEBSITE:OPTIMIZE:MINIFY Minfiy all build files
+gulp.task('website:optimize:minify:images', ['website:build'], function() {
+    return gulp.src('./website/build/**/*.(gif|jpe?g|png)')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./website/build/'));
+});
 gulp.task('website:optimize:minify:css', ['website:build'], function() {
     return gulp.src('./website/build/**/*.css')
+        .pipe(csso())
         .pipe(minifyCSS({}))
         .pipe(gulp.dest('./website/build/'));
 });
@@ -373,7 +381,11 @@ gulp.task('website:optimize:minify:js', ['website:build', 'website:optimize:rjs'
         .pipe(uglify())
         .pipe(gulp.dest('website/build/'));
 });
-gulp.task('website:optimize:minify', ['website:optimize:minify:css', 'website:optimize:minify:js']);
+gulp.task('website:optimize:minify', [
+    'website:optimize:minify:css',
+    'website:optimize:minify:js',
+    'website:optimize:minify:images'
+]);
 //endregion WEBSITE:OPTIMIZE:MINIFY
 
 gulp.task('website:optimize', ['website:optimize:minify']);

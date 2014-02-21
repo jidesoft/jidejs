@@ -1,6 +1,6 @@
 {
   "name": "jide",
-  "version": "1.0.0-beta3",
+  "version": "1.0.0-beta4",
   "author": "Patrick Gotthardt, <patrick@jidesoft.com>",
   "description": "jide.js is a free UI toolkit for modern web applications based on data binding and separation of concerns.",
   "keywords": [
@@ -74,6 +74,8 @@
     "gulp-changed": "~0.2.0",
     "event-stream": "~3.1.0",
     "gulp-util": "~2.2.14",
-    "wintersmith-livereload": "~0.1.1"
+    "wintersmith-livereload": "~0.1.1",
+    "gulp-csso": "~0.2.3",
+    "gulp-imagemin": "~0.1.5"
   }
 }

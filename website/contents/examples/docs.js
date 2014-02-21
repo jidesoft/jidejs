@@ -4,12 +4,12 @@ function replaceOutput(root, code) {
 
 function initUI(e, example) {
 	require(['jidejs/ui/control/Button'], function(Button) {
-		var outputElement = e.querySelector('[data-role="output"]')
-			, jseditor = e.querySelector('[data-role="jseditor"]')
-			, titleElement = e.querySelector('[data-role="title"]')
-			, introElement = e.querySelector('[data-role="intro"]')
-			, aboutElement = e.querySelector('[data-role="about"]')
-			, buttonElement = e.querySelector('[data-role="run"]');
+		var outputElement = document.querySelector('[data-role="output"]')
+			, jseditor = document.querySelector('[data-role="jseditor"]')
+			, titleElement = document.querySelector('[data-role="title"]')
+			, introElement = document.querySelector('[data-role="intro"]')
+			, aboutElement = document.querySelector('[data-role="about"]')
+			, buttonElement = document.querySelector('[data-role="run"]');
 
 		jseditor.innerHTML = '';
 		buttonElement.innerHTML = '';
@@ -22,7 +22,7 @@ function initUI(e, example) {
 		var runButton = new Button({
 			element: buttonElement,
 			text: 'Run',
-			//classList: ['btn', 'btn-primary'],
+			classList: ['btn', 'btn-primary', 'btn-large'],
 			on: {
 				click: function() {
 					outputElement.innerHTML = example.get().html || '';

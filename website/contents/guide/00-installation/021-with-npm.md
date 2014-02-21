@@ -37,7 +37,7 @@ npm install deamdify --save-dev
 
 Now that you have installed all required dependencies for your application, you can start to create your application.
 To keep the scope of this documentation small, we'll create a very simple application. The
-[Yeoman Quickstart]{/guide/00-installation/03-with-yeoman.html) will create a larger sample application and comes with
+[Yeoman Quickstart](/guide/00-installation/03-with-yeoman.html) will create a larger sample application and comes with
 a preview server and several other useful tools.
 
 Create an index.html file at your project root, and insert something along the lines of:
@@ -79,7 +79,7 @@ document.body.appendChild(new Button({
 # Creating the Bundle
 
 Browserify requires you to create a bundle every time you changed your application. The
-[Yeoman Generator]{/guide/00-installation/03-with-yeoman.html) will help you to create a build script that takes care
+[Yeoman Generator](/guide/00-installation/03-with-yeoman.html) will help you to create a build script that takes care
 of this for you but in the meantime, you can try to run this command:
 
 ```
