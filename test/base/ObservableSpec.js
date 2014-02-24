@@ -100,7 +100,7 @@ define([
                 it('should fire change events even when not accessed before', function(done) {
                     var value = Observable(2),
                         computed = Observable.computed({
-                            lazy: true,
+                            lazy: false,
                             read: function() {
                                 return value.get() * 2;
                             }
