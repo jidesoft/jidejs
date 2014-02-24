@@ -48,5 +48,31 @@ define([
             });
             defer.fulfill('message');
         });
+
+        describe('#then', function() {
+            it('should accept two parameters', function(done) {
+                var defer = new Deferred(),
+                    promise = defer.promise;
+                promise.then(function(message) {
+                    expect(message).to.equal('test');
+                    done();
+                }, function(failure) {
+                    done('should not be invoked');
+                });
+                defer.fulfill('test');
+            });
+
+            it('should dispatch rejected values', function(done) {
+                var defer = new Deferred(),
+                    promise = defer.promise;
+                promise.then(function(message) {
+                    done('should not be invoked');
+                }, function(failure) {
+                    expect(failure).to.equal('test');
+                    done();
+                });
+                defer.reject('test');
+            });
+        });
     });
 });

@@ -792,7 +792,7 @@ define([
             observable.invalidate();
         });
         return observable;
-    }
+    };
 
 	return Observable;
 });
