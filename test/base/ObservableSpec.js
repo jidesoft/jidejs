@@ -168,10 +168,8 @@ define([
                 var value = Observable('test');
                 var asyncValue = value.async(function(originalObservable) {
                     var defer = new Deferred();
-                    setTimeout(function() {
-                        expect(originalObservable.get()).to.equal('test');
-                        defer.fulfill(originalObservable.get());
-                    }, 1);
+                    expect(originalObservable.get()).to.equal('test');
+                    defer.fulfill(originalObservable.get());
                     return defer.promise;
                 });
                 expect(asyncValue.get()).to.equal(null);
@@ -186,10 +184,8 @@ define([
                     return 2 * 2;
                 }).async(function(resultObservable) {
                     var defer = new Deferred();
-                    setTimeout(function() {
-                        expect(resultObservable.get()).to.equal(4);
-                        defer.fulfill(resultObservable.get());
-                    }, 1);
+                    expect(resultObservable.get()).to.equal(4);
+                    defer.fulfill(resultObservable.get());
                     return defer.promise;
                 }).subscribe(function(event) {
                     expect(event.value).to.equal(4);
