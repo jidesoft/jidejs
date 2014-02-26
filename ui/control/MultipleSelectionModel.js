@@ -2,7 +2,6 @@
  * A {@link module:jidejs/ui/control/SelectionModel} that can contain more than just one selected element.
  *
  * @module jidejs/ui/control/MultipleSelectionModel
- * @extends module:jidejs/ui/control/SelectionModel
  */
 define([
 	'./../../base/Class', './../../base/ObservableList', './SelectionModel', './../../base/Util'
@@ -12,12 +11,13 @@ define([
 	 * Creates a new MultipleSelectionModel. The provided List must be the same as is used by the control which relies
 	 * on this selection model.
 	 *
-	 * @memberof module:jidejs/ui/control/MultipleSelectionModel
-	 * @param {module:jidejs/base/ObservableList} list The List of items that can be selected.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/MultipleSelectionModel
+     * @extends module:jidejs/ui/control/SelectionModel
+     *
+     * @param {module:jidejs/base/Collection} list The List of items that can be selected.
 	 */
-	function MultipleSelectionModel(list) {
+	var exports = function MultipleSelectionModel(list) {
 		this.__selectedIndices = new ObservableList();
 		this.__selectedItems = new ObservableList();
 		SelectionModel.call(this, list);
@@ -52,8 +52,9 @@ define([
 				THIS.selectedIndexProperty._value = selectedIndex;
 			}
 		});
-	}
-	Class(MultipleSelectionModel).extends(SelectionModel).def({
+	};
+	Class(MultipleSelectionModel).extends(SelectionModel).def(
+        /** @lends module:jidejs/ui/control/MultipleSelectionModel */ {
 		/**
 		 * An ObservableList of the indices of the selected items.
 		 * @type module:jidejs/base/ObservableList

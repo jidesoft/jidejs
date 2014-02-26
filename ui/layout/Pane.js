@@ -4,9 +4,6 @@
  * A Pane can contain {@link #children} and arrange them according to specific layout rules.
  *
  * @module jidejs/ui/layout/Pane
- * @extends module:jidejs/ui/Component
- * @extends module:jidejs/ui/Container
- * @abstract
  */
 define([
 	'./../../base/Class', './../../base/Util', './../Component', './../../base/Dispatcher', './../../base/DOM',
@@ -14,12 +11,16 @@ define([
 ], function(Class, _, Component, Dispatcher, DOM, Container) {
 	/**
 	 * Invoked by subclasses to initialize them as a Pane.
-	 * @memberof module:jidejs/ui/layout/Pane
-	 * @param {object|Element} configOrElement Either the configuration or the Element that should be managed by the Pane.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/Pane
+     * @extends module:jidejs/ui/Component
+     * @extends module:jidejs/ui/Container
+     * @abstract
+     *
+     * @param {object|Element} configOrElement Either the configuration or the Element that should be managed by the Pane.
 	 */
-	function Pane(configOrElement) {
+	var exports = function Pane(configOrElement) {
 		var el = null, config = null;
 		if(typeof configOrElement !== 'undefined') {
 			if(_.isElement(configOrElement)) {
@@ -34,9 +35,9 @@ define([
 		Container.apply(this);
 		this.classList.add('jide-pane');
 		Component.applyConfiguration(this, config);
-	}
+	};
 
-	Class(Pane).extends(Component).def({
+	Class(Pane).extends(Component).def(/** @lends module:jidejs/ui/layout/Pane# */{
 		/**
 		 * `true`, if the layout needs to be recalculated; `false`, otherwise.
 		 * @protected

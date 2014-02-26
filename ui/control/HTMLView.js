@@ -2,7 +2,6 @@
  * The HTMLView can be used to embed HTML formatted content in a hierarchy of jide.js components.
  *
  * @module jidejs/ui/control/HTMLView
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../Control', './../Skin', './../../base/Util', './../register'
@@ -52,20 +51,21 @@ define([
 	 * 	    content: '<b>Hello from HTMLView!</b>'
 	 * 	});
 	 *
-	 * @memberof module:jidejs/ui/control/HTMLView
-	 * @param {object} config The configuration.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/HTMLView
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
 	 */
-	function HTMLView(config) {
+	var exports = function HTMLView(config) {
 		config = config || {};
 		if(!config.skin) {
 			config.skin = new HTMLView.Skin(this, config.element);
 		}
 		installer(this);
 		Control.call(this, config);
-	}
-	Class(HTMLView).extends(Control).def({
+	};
+	Class(HTMLView).extends(Control).def(/** @lends module:jidejs/ui/control/HTMLView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -86,5 +86,5 @@ define([
 	var installer = Observable.install(HTMLView, 'content');
 	HTMLView.Skin = HTMLViewSkin;
     register('jide-htmlview', HTMLView, Control, ['content'], []);
-	return HTMLView;
+	return exports;
 });

@@ -6,7 +6,6 @@
  * one of them can be expanded at a given time.
  *
  * @module jidejs/ui/control/TitledPane
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/DOM', './../../base/Util', './../../base/Animation', './../../base/ObservableProperty',
@@ -15,20 +14,22 @@ define([
 ], function(Class, DOM, _, Animation, Observable, Component, Control, Skin, register, Templates) {
 	/**
 	 * Creates a new TitledPane.
-	 * @memberof module:jidejs/ui/control/TitledPane
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/TitledPane
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
 	 */
-	function TitledPane(config) {
+	var exports = function TitledPane(config) {
 		installer(this);
 		config = config || {};
 		_.defaults(config, { expanded: true, collapsible: true, animated: true });
 		Control.call(this, config);
 		this.classList.add('jide-titledpane');
-	}
+	};
 
-	Class(TitledPane).extends(Control).def({
+	Class(TitledPane).extends(Control).def(/** @lends module:jidejs/ui/control/TitledPane# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

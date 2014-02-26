@@ -1,10 +1,4 @@
-/**
- * Created with JetBrains WebStorm.
- * User: pago
- * Date: 06.11.12
- * Time: 15:40
- * To change this template use File | Settings | File Templates.
- */
+//@internal
 define(['./../base/Util'], function(_) {
 	var toString = function() {
 		return this.row + " " + this.column;

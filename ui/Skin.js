@@ -40,20 +40,20 @@ define([
 	 *
 	 * Care must be taken that subclasses call both, the `dispose` and the `install` method of this class.
 	 *
-	 * @memberof module:jidejs/ui/Skin
-	 * @param {module:jidejs/ui/Control} component The control to which the Skin belongs.
-	 * @param {Element?} element The DOM element that is managed by this Skin. If not provided, an element will be created.
 	 * @constructor
-	 * @abstract
 	 * @alias module:jidejs/ui/Skin
+     * @abstract
+     *
+     * @param {module:jidejs/ui/Control} component The control to which the Skin belongs.
+     * @param {Element?} element The DOM element that is managed by this Skin. If not provided, an element will be created.
 	 */
-	function Skin(component, element) {
+	var exports = function Skin(component, element) {
 		this.component = component;
 		this.element = element || this.createDefaultRootElement();
 		this[$bindings] = [];
 		this[BINDINGS] = null;
 		this[EVENT_BINDINGS] = null;
-	}
+	};
 
 	function createEventListenerDisposable(element, eventNames, handlers) {
 		return {
@@ -70,7 +70,7 @@ define([
 		};
 	}
 
-	Class(Skin).def({
+	Class(Skin).def(/** @lends module:jidejs/ui/Skin# */{
         /**
          * The template that should be used to create the internal DOM representation of the control.
          * @type {string|Element}
@@ -340,7 +340,14 @@ define([
 		element: null
 	});
 
-	Skin.create = function(ParentSkin, def) {
+    /**
+     * Creates and returns a new Skin class.
+     *
+     * @param {module:jidejs/ui/Skin} ParentSkin The parent Skin
+     * @param {object} def The definitions that should be added to the prototype of the new Skin.
+     * @returns {Function}
+     */
+	exports.create = function(ParentSkin, def) {
 		function Default(component, element) {
 			ParentSkin.call(this, component, element);
 		}
@@ -348,5 +355,5 @@ define([
 		return Default;
 	};
 
-	return Skin;
+	return exports;
 });

@@ -60,18 +60,20 @@ define([
 
 	/**
 	 * Creates a new ProgressBar.
-	 * @memberof module:jidejs/ui/control/ProgressBar
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ProgressBar
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
 	 */
-	function ProgressBar(config) {
+	var exports = function ProgressBar(config) {
 		installer(this);
 		config = config || {};
 		Control.call(this, config);
 		this.classList.add('jide-progressbar');
-	}
-	Class(ProgressBar).extends(Control).def({
+	};
+	Class(ProgressBar).extends(Control).def(/** @lends module:jidejs/ui/control/ProgressBar# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 		},

@@ -13,7 +13,6 @@
  * and instead observe its {@link #selected} and {@link #indeterminate} state.
  *
  * @module jidejs/ui/control/CheckBox
- * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
     './../../base/Class', './../../base/ObservableProperty', './../Skin', './ButtonBase', './Toggle',
@@ -22,12 +21,14 @@ define([
 		/**
 		 * Creates a new CheckBox.
 		 *
-		 * @memberof module:jidejs/ui/control/CheckBox
-		 * @param {object} config The configuration.
 		 * @constructor
 		 * @alias module:jidejs/ui/control/CheckBox
+         * @extends module:jidejs/ui/control/ButtonBase
+         * @extends module:jidejs/ui/control/Toggle
+         *
+         * @param {object} config The configuration.
 		 */
-		function CheckBox(config) {
+		var exports = function CheckBox(config) {
 			installer(this);
 			Toggle.installer(this);
 			config || (config = {});
@@ -35,9 +36,9 @@ define([
 			Toggle.call(this);
 
 			this.classList.add('jide-checkbox');
-		}
+		};
 
-		Class(CheckBox).extends(ButtonBase).mixin(Toggle).def({
+		Class(CheckBox).extends(ButtonBase).mixin(Toggle).def(/** @lends module:jidejs/ui/control/CheckBox# */{
 			/**
 			 * `true`, if the CheckBox is selected; `false`, otherwise.
 			 *

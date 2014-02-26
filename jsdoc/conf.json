@@ -3,14 +3,7 @@
         "allowUnknownTags": true
     },
     "source": {
-		"include": [
-            "./base",
-            "./ui/Component.js",
-            "./ui/Control.js",
-            "./ui/control/Labeled.js",
-            "./ui/control/ButtonBase.js",
-            "./ui/control/Button.js",
-            "./jsdoc/README.md"],
+		"include": ["./base", "./ui", "./jsdoc/README.md"],
         "includePattern": ".+\\.js(doc)?$",
         "excludePattern": "(^|\\/|\\\\)_|Tree(Cell|Model|View)\\.js$"
     },

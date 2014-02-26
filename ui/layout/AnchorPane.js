@@ -17,7 +17,6 @@
  * 	});
  *
  * @module jidejs/ui/layout/AnchorPane
- * @extends jidejs/ui/layout/Pane
  */
 define([
 	'./../../base/Class', './../../base/Util', './Pane', './../AttachedProperty'
@@ -25,12 +24,13 @@ define([
 	/**
 	 * Creates a new AnchorPane.
 	 *
-	 * @memberof module:jidejs/ui/layout/AnchorPane
-	 * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as an AnchorPane.
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/AnchorPane
+     * @extends jidejs/ui/layout/Pane
+     *
+     * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as an AnchorPane.
 	 */
-	function AnchorPane(configOrElement) {
+	var exports = function AnchorPane(configOrElement) {
 		var el = null, config = null;
 		if(typeof configOrElement !== 'undefined') {
 			if(_.isElement(configOrElement)) {
@@ -52,8 +52,8 @@ define([
 		config.element = el;
 		Pane.call(this, config);
 		this.classList.add('jide-anchorpane');
-	}
-	Class(AnchorPane).extends(Pane).def({
+	};
+	Class(AnchorPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/AnchorPane# */{
 		_insertChildAt: function(child, index) {
 			var style = child.style;
 			['top', 'left', 'bottom', 'right'].forEach(function(name) {
@@ -85,12 +85,11 @@ define([
 	 * Specifies how far the component should be from the top edge of the AnchorPane and must be provided
 	 * as a CSS value (including the unit type, i.e. `px`, `em`, `%`, ...).
 	 *
-	 * @memberof module:jidejs/ui/layout/AnchorPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.topAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.topAnchor', function(value, evt) {
+	exports.topAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.topAnchor', function(value, evt) {
 		evt.owner.style.set('top', value).update();
 	});
 	/**
@@ -99,12 +98,11 @@ define([
 	 * Specifies how far the component should be from the left edge of the AnchorPane and must be provided
 	 * as a CSS value (including the unit type, i.e. `px`, `em`, `%`, ...).
 	 *
-	 * @memberof module:jidejs/ui/layout/AnchorPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.leftAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.leftAnchor', function(value, evt) {
+    exports.leftAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.leftAnchor', function(value, evt) {
 		evt.owner.style.set('left', value).update();
 	});
 	/**
@@ -113,12 +111,11 @@ define([
 	 * Specifies how far the component should be from the bottom edge of the AnchorPane and must be provided
 	 * as a CSS value (including the unit type, i.e. `px`, `em`, `%`, ...).
 	 *
-	 * @memberof module:jidejs/ui/layout/AnchorPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.bottomAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.bottomAnchor', function(value, evt) {
+    exports.bottomAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.bottomAnchor', function(value, evt) {
 		evt.owner.style.set('bottom', value).update();
 	});
 	/**
@@ -127,13 +124,12 @@ define([
 	 * Specifies how far the component should be from the right edge of the AnchorPane and must be provided
 	 * as a CSS value (including the unit type, i.e. `px`, `em`, `%`, ...).
 	 *
-	 * @memberof module:jidejs/ui/layout/AnchorPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	AnchorPane.rightAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.rightAnchor', function(value, evt) {
+    exports.rightAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.rightAnchor', function(value, evt) {
 		evt.owner.style.set('right', value).update();
 	});
-	return AnchorPane;
+	return exports;
 });

@@ -67,7 +67,6 @@
  * 	});
  *
  * 	@module jidejs/ui/layout/GridPane
- * 	@extends module:jidejs/ui/layout/Pane
  */
 define([
 	'./../../base/Class',
@@ -429,15 +428,16 @@ define([
 	/**
 	 * Creates a new GridPane.
 	 *
-	 * @memberof module:jidejs/ui/layout/GridPane
-	 * @param {object} config The configuration.
-	 * @param {Array<string>} config.grid The grid template, one item for each row.
-	 * @param {string} config.rowDefinition The row definitions.
-	 * @param {string} config.columnDefinition The column definitions.
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/GridPane
+     * @extends module:jidejs/ui/layout/Pane
+     *
+     * @param {object} config The configuration.
+     * @param {Array<string>} config.grid The grid template, one item for each row.
+     * @param {string} config.rowDefinition The row definitions.
+     * @param {string} config.columnDefinition The column definitions.
 	 */
-	function GridPane(config) {
+	var exports = function GridPane(config) {
 		installer(this);
 		if(HAS_GRID) {
 			if(config.grid) {
@@ -485,8 +485,8 @@ define([
 				.update();
 		}
 		if(this.children.length > 0) this.requestLayout();
-	}
-	Class(GridPane).extends(Pane).def({
+	};
+	Class(GridPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/GridPane# */{
 		dispose: function() {
 			Pane.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -781,12 +781,11 @@ define([
 	 *
 	 * Specifies the area, as defined by the `grid` template, in which the component should be placed.
 	 *
-	 * @memberof module:jidejs/ui/layout/GridPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be placed in the given area.
 	 */
-	GridPane.area = AttachedProperty('jidejs/ui/layout/GridPane.area', function(region, evt) {
+	exports.area = AttachedProperty('jidejs/ui/layout/GridPane.area', function(region, evt) {
 		var component = evt.owner;
 		var parent = component.parent;
 		var isInGridPane = parent && parent instanceof GridPane;
@@ -810,19 +809,19 @@ define([
 		}
 		return component;
 	});
+
 	/**
 	 * Sets or returns the value of the property for the given component.
 	 *
 	 * Specifies the position in which the component should be placed when no `grid` template was used to create
 	 * the GridPane.
 	 *
-	 * @memberof module:jidejs/ui/layout/GridPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {{row:number, column:number, rowspan:number, colspan:number}?} value When specified,
 	 * 		the component will be placed at the given position, with the (optional) rowspan and colspan.
 	 */
-	GridPane.position = AttachedProperty('jidejs/ui/layout/GridPane.position', function(pos, evt) {
+    exports.position = AttachedProperty('jidejs/ui/layout/GridPane.position', function(pos, evt) {
 		var component = evt.owner;
 		var parent = component.parent;
 		var isInGridPane = parent && parent instanceof GridPane;
@@ -846,5 +845,5 @@ define([
 		return component;
 	});
 
-	return GridPane;
+	return exports;
 });

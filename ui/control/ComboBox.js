@@ -6,7 +6,6 @@
  * {@link module:jidejs/ui/control/ListView}.
  *
  * @module jidejs/ui/control/ComboBox
- * @extends module:jidejs/ui/control/ComboBoxBase
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
@@ -26,8 +25,6 @@ define([
 	 * @param choiceBox
 	 * @param element
 	 * @constructor
-	 * @class
-	 * @namespace
 	 * @extends module:jidejs/ui/control/ComboBoxBase.Skin
 	 */
 	function ComboBoxSkin(choiceBox, element) {
@@ -73,19 +70,19 @@ define([
 	/**
 	 * Creates a new ComboBox.
 	 *
-	 * @memberof module:jidejs/ui/control/ComboBox
-	 * @param {object} config The configuration
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ComboBox
+     * @extends module:jidejs/ui/control/ComboBoxBase
+     * @param {object} config The configuration
 	 */
-	function ComboBox(config) {
+	var exports = function ComboBox(config) {
 		installer(this);
 		config = _.defaults(config || {}, { tabIndex: 0 });
 
 		ComboBoxBase.call(this, config);
 		this.classList.add('jide-combobox');
-	}
-	Class(ComboBox).extends(ComboBoxBase).def({
+	};
+	Class(ComboBox).extends(ComboBoxBase).def(/** @lends module:jidejs/ui/control/ComboBox# */{
 		dispose: function() {
 			ComboBoxBase.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -131,7 +128,7 @@ define([
 		converterProperty: null
 	});
 	var installer = Observable.install(ComboBox, 'cellFactory');
-    ComboBox.Skin = ComboBoxSkin;
+    exports.Skin = ComboBoxSkin;
     register('jide-combobox', ComboBox, ComboBoxBase, ['cellFactory'], []);
-	return ComboBox;
+	return exports;
 });

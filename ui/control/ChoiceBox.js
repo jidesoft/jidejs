@@ -12,7 +12,6 @@
  * If the user should be able to enter custom data, use a ComboBox instead.
  *
  * @module jidejs/ui/control/ChoiceBox
- * @extends module:jidejs/ui/Control
  */
 define(['./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
 		'./../../base/DOM', './../../base/ObservableList', './../Control', './../Skin', './../Pos',
@@ -25,12 +24,11 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 		/**
 		 * Creates a new Skin for a given ChoiceBox.
 		 *
-		 * @memberof module:jidejs/ui/control/ChoiceBox
+		 * @memberof! module:jidejs/ui/control/ChoiceBox
 		 * @param {module:jidejs/ui/control/ChoiceBox} choiceBox The ChoiceBox
 		 * @param {Element?} element The HTML element that should be used as the root of the DOM structure.
 		 * @constructor
 		 * @extends module:jidejs/ui/Skin
-		 * @namespace
 		 */
 		function ChoiceBoxSkin(choiceBox, element) {
 			Skin.call(this, choiceBox, element);
@@ -101,16 +99,16 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 		/**
 		 * Creates a new ChoiceBox from the given configuration.
 		 *
-		 *
-		 * @memberof module:jidejs/ui/control/ChoiceBox
-		 * @param {object} config The configuration.
-		 * @param {array<object>} config.items The options that should be displayed to the user.
-		 * @param {module:jidejs/ui/control/SelectionModel?} config.selectionModel The SelectionModel that
-		 * 		should be used by the ChoiceBox. The default choice is a SingleSelectionModel.
 		 * @constructor
 		 * @alias module:jidejs/ui/control/ChoiceBox
+         * @extends module:jidejs/ui/Control
+         *
+         * @param {object} config The configuration.
+         * @param {array<object>} config.items The options that should be displayed to the user.
+         * @param {module:jidejs/ui/control/SelectionModel?} config.selectionModel The SelectionModel that
+         * 		should be used by the ChoiceBox. The default choice is a SingleSelectionModel.
 		 */
-		function ChoiceBox(config) {
+		var exports = function ChoiceBox(config) {
 			installer(this);
 
 			config = _.defaults(config || {}, { tabIndex: 0 });
@@ -126,8 +124,8 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 
 			Control.call(this, config);
 			this.classList.add('jide-choicebox');
-		}
-		Class(ChoiceBox).extends(Control).mixin(SelectionMixin).def({
+		};
+		Class(ChoiceBox).extends(Control).mixin(SelectionMixin).def(/** @lends module:jidejs/ui/control/ChoiceBox# */{
 			dispose: function() {
 				Control.prototype.dispose.call(this);
 				installer.dispose(this);
@@ -202,7 +200,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 		 * that will be used by every **new** ChoiceBox but it will not change that of old ones.
 		 * @type {module:jidejs/ui/control/ChoiceBox.Skin}
 		 */
-		ChoiceBox.Skin = ChoiceBoxSkin;
+		exports.Skin = ChoiceBoxSkin;
         register('jide-choicebox', ChoiceBox, Control, ['value', 'converter', 'showing', 'cellFactory', 'selectionModel', 'items'], []);
-		return ChoiceBox;
+		return exports;
 });

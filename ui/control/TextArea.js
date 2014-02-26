@@ -1,7 +1,7 @@
 /**
  * The TextArea is a multi-line text input control.
+ *
  * @module jidejs/ui/control/TextArea
- * @extends module:jidejs/ui/control/TextInputControl
  */
 define([
 	'./../../base/Class', './../Skin', './TextInputControl', './../../base/ObservableProperty',
@@ -74,19 +74,20 @@ define([
 
 	/**
 	 * Creates a new TextArea.
-	 * @memberof module:jidejs/ui/control/TextArea
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/TextArea
+     * @extends module:jidejs/ui/control/TextInputControl
+     *
+     * @param {object} config The configuration.
 	 */
-	function TextArea(config) {
+	var exports = function TextArea(config) {
 		installer(this);
 		config = config || {};
 		TextInputControl.call(this, config);
 		this.classList.add('jide-textarea');
-
-	}
-	Class(TextArea).extends(TextInputControl).def({
+	};
+	Class(TextArea).extends(TextInputControl).def(/** @lends module:jidejs/ui/control/TextArea# */{
 		dispose: function() {
 			TextInputControl.prototype.dispose.call(this);
 			installer.dispose(this);

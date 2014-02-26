@@ -12,12 +12,14 @@ define(function() {
 	 * The `handler` callback is invoked whenever the value of the property on one of its registered components
 	 * changes.
 	 *
-	 * @memberof module:jidejs/ui/AttachedProperty
+     * @function
+     * @alias module:jidejs/ui/AttachedProperty
+     *
 	 * @param {string} name The name of the property. Must be unique across all available attached properties.
 	 * @param {function} handler Invoked when the property changes on any of its registered components.
 	 * @returns {Function} The property function. Provides methods to register, unregister and update components.
 	 */
-	function AttachedProperty(name, handler) {
+	var exports = function AttachedProperty(name, handler) {
 		var property = function(component, value) {
 			var attributes = component.attributes;
 			if(arguments.length === 1) {
@@ -46,5 +48,5 @@ define(function() {
 		};
 		return property;
 	}
-	return AttachedProperty;
+	return exports;
 });

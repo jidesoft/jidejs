@@ -5,8 +5,6 @@
  * needs one. Using a MenuBar in a web application is much less common.
  *
  * @module jidejs/ui/control/MenuBar
- * @extends module:jidejs/ui/Control
- * @extends module:jidejs/ui/Container
  */
 define([
 	'./../../base/Class', './../../base/DOM', './../Pos', './../layout/HBox', './../Control',
@@ -38,13 +36,15 @@ define([
 	/**
 	 * Creates a new MenuBar.
 	 *
-	 * @memberof module:jidejs/ui/control/MenuBar
-	 * @param {object} config The configuration.
-	 * @param {Array} config.children The array of menus that belong to this MenuBar.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/MenuBar
+     * @extends module:jidejs/ui/Control
+     * @extends module:jidejs/ui/Container
+     *
+     * @param {object} config The configuration.
+     * @param {Array} config.children The array of menus that belong to this MenuBar.
 	 */
-	function MenuBar(config) {
+	var exports = function MenuBar(config) {
 		config = config || {};
 		if(!config.skin) config.skin = new MenuBarSkin(this, config.element);
 		this.element = config.skin.element;
@@ -124,9 +124,9 @@ define([
 				}
 			}
 		});
-	}
+	};
 
-	Class(MenuBar).extends(Control).def({
+	Class(MenuBar).extends(Control).def(/** @lends module:jidejs/ui/control/MenuBar# */{
 		/**
 		 * An ObservableList of menus that should be shown in this MenuBar.
 		 *

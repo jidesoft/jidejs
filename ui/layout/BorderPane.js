@@ -19,7 +19,6 @@
  * It will use the best rendering technique possible in order to minimize the required DOM structure.
  *
  * @module jidejs/ui/layout/BorderPane
- * @extends jidejs/ui/layout/Pane
  */
 define([
 	'./../../base/Class', './../geom/Insets', './Pane', './../../base/Util',
@@ -47,12 +46,14 @@ define([
 
 	/**
 	 * Creates a new BorderPane.
-	 * @memberof module:jidejs/ui/layout/BorderPane
-	 * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as an BorderPane.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/BorderPane
+     * @extends jidejs/ui/layout/Pane
+     *
+     * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as an BorderPane.
 	 */
-	function BorderPane(configOrElement) {
+	var exports = function BorderPane(configOrElement) {
 		var el = null, config = null;
 		if(typeof configOrElement !== 'undefined') {
 			if(_.isElement(configOrElement)) {
@@ -82,7 +83,7 @@ define([
 				: has('flexbox/legacy')
 					? 'jide-use-legacy-flex'
 					: 'jide-use-table');
-	}
+	};
 
 	var regionToIndex = {
 		top: 0, left: 1, center: 1, right: 1, bottom: 2
@@ -105,7 +106,7 @@ define([
 		return e;
 	}
 
-	Class(BorderPane).extends(Pane).def({
+	Class(BorderPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/BorderPane# */{
 		_insertChildAt: function(child, index) {
 			BorderPane.region.register(child);
 			BorderPane.margin.register(child);
@@ -186,12 +187,11 @@ define([
 	 * - right
 	 * - bottom
 	 *
-	 * @memberof module:jidejs/ui/layout/BorderPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be moved to that region.
 	 */
-	BorderPane.region = AttachedProperty('jidejs/ui/layout/BorderPane.region', function(value, e) {
+	exports.region = AttachedProperty('jidejs/ui/layout/BorderPane.region', function(value, e) {
 		var component = e.owner;
 		var parent = component.parent;
 		var isInBorderPane = parent && parent instanceof BorderPane;
@@ -207,12 +207,11 @@ define([
 	 * Specifies the alignment of the component within its region. Allows all values as specified for the
 	 * `verticalAlign` CSS property.
 	 *
-	 * @memberof module:jidejs/ui/layout/BorderPane
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be aligned according to the value within its region.
 	 */
-	BorderPane.alignment = AttachedProperty('jidejs/ui/layout/BorderPane.alignment', function(alignment, evt) {
+    exports.alignment = AttachedProperty('jidejs/ui/layout/BorderPane.alignment', function(alignment, evt) {
 		var component = evt.owner;
 		if(component.parent && component.parent instanceof BorderPane) {
 			if(has('flexbox') || has('flexbox/legacy')) {
@@ -223,7 +222,7 @@ define([
 			}
 		}
 	});
-	BorderPane.margin = AttachedProperty('jidejs/ui/layout/BorderPane.margin', function(margin, evt) {
+    exports.margin = AttachedProperty('jidejs/ui/layout/BorderPane.margin', function(margin, evt) {
 		var component = evt.owner;
 		if(component.parent && component.parent instanceof BorderPane) {
 			if(has('flexbox') || has('flexbox/legacy')) {
@@ -234,5 +233,5 @@ define([
 			}
 		}
 	});
-	return BorderPane;
+	return exports;
 });

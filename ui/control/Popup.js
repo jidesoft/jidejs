@@ -5,7 +5,6 @@
  * Popup itself will manage its position and presence in the DOM.
  *
  * @module jidejs/ui/control/Popup
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../Control', './PopupSkin',
@@ -13,18 +12,20 @@ define([
 ], function(Class, Observable, Control, PopupSkin, DOM, Pos, _, Window, register) {
 	/**
 	 * Creates a new Popup.
-	 * @memberof module:jidejs/ui/control/Popup
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Popup
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
 	 */
-	function Popup(config) {
+	var exports = function Popup(config) {
 		installer(this);
 		config = config || {};
 		Control.call(this, _.defaults(config, {tabIndex: 0}));
 		this.classList.add('jide-popup');
-	}
-	Class(Popup).extends(Control).def({
+	};
+	Class(Popup).extends(Control).def(/** @lends module:jidejs/ui/control/Popup# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

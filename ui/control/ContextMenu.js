@@ -2,8 +2,6 @@
  * A ContextMenu is a special type of Popup that can contain menu items and sub menus.
  *
  * @module jidejs/ui/control/ContextMenu
- * @extends jidejs/ui/control/Popup
- * @extends jidejs/ui/Container
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList', './../../base/DOM', './Popup',
@@ -27,12 +25,15 @@ define([
 
 	/**
 	 * Creates a new ContextMenu.
-	 * @memberof module:jidejs/ui/control/ContextMenu
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ContextMenu
+     * @extends jidejs/ui/control/Popup
+     * @extends jidejs/ui/Container
+     *
+     * @param {object} config The configuration.
 	 */
-	function ContextMenu(config) {
+	var exports = function ContextMenu(config) {
 		config = _.defaults(config || {}, {
 			consumeAutoHidingEvents: false
 		});
@@ -100,11 +101,11 @@ define([
 				}
 			}
 		});
-	}
-	Class(ContextMenu).extends(Popup).def({
+	};
+	Class(ContextMenu).extends(Popup).def(/** @lends module:jidejs/ui/control/ContextMenu# */{
 		/**
 		 * The list of menu items and menus shown by this ContextMenu.
-		 * @type module:jidejs/base/ObservableList
+		 * @type module:jidejs/base/Collection
 		 */
 		children: null,
 		_insertChildAt: function(child, index) {
@@ -135,5 +136,5 @@ define([
 		}
 	});
     register('jide-contextmenu', ContextMenu, Popup, [], []);
-	return ContextMenu;
+	return exports;
 });

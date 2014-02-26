@@ -3,8 +3,6 @@
  * however, it should be used when the user can choose between two or more options and must select exactly one of them.
  *
  * @module jidejs/ui/control/RadioButton
- * @extends module:jidejs/ui/control/ButtonBase
- * @extends module:jidejs/ui/control/Toggle
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './ButtonBase', './Toggle',
@@ -30,12 +28,15 @@ define([
 
 	/**
 	 * Creates a new RadioButton.
-	 * @memberof module:jidejs/ui/control/RadioButton
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/RadioButton
+     * @extends module:jidejs/ui/control/ButtonBase
+     * @extends module:jidejs/ui/control/Toggle
+     *
+     * @param {object} config The configuration.
 	 */
-	function RadioButton(config) {
+	var exports = function RadioButton(config) {
 		Toggle.installer(this);
 		ButtonBase.call(this, config);
 		Toggle.call(this);
@@ -61,9 +62,11 @@ define([
 			this.selected = !this.selected;
 		});
 		this.classList.add('jide-radiobutton');
-	}
+	};
 
-	Class(RadioButton).extends(ButtonBase).mixin(Toggle).def({
+	Class(RadioButton).extends(ButtonBase).mixin(Toggle).def(
+        /** @lends module:jidejs/ui/control/RadioButton# */
+        {
 		/**
 		 * `true`, if the RadioButton is currently selected; `false`, otherwise.
 		 * @type boolean

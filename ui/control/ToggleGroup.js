@@ -7,11 +7,11 @@
 define(['./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList'], function(Class, Observable, ObservableList) {
 	/**
 	 * Creates a new ToggleGroup.
-	 * @memberof module:jidejs/ui/control/ToggleGroup
+     *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ToggleGroup
 	 */
-	function ToggleGroup() {
+	var exports = function ToggleGroup() {
 		installer(this);
 		this.selectedToggleProperty.subscribe(function(event) {
 			var toggle = event.value;
@@ -24,8 +24,8 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/O
 			});
 		});
 		this.toggles = new ObservableList();
-	}
-	Class(ToggleGroup).mixin(Observable).def({
+	};
+	Class(ToggleGroup).mixin(Observable).def(/** @lends module:jidejs/ui/control/ToggleGroup# */{
 		/**
 		 * The currently selected control.
 		 * @type module:jidejs/ui/control/Toggle

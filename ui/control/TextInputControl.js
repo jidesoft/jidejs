@@ -5,8 +5,6 @@
  * the user what kind of data she is supposed to enter into the input field.
  *
  * @module jidejs/ui/control/TextInputControl
- * @extends module:jidejs/ui/Control
- * @abstract
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
@@ -58,19 +56,22 @@ define([
 
 	/**
 	 * Called by subclasses to initialize the TextInputControl.
-	 * @memberof module:jidejs/ui/control/TextInputControl
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/TextInputControl
+     * @extends module:jidejs/ui/Control
+     * @abstract
+     *
+     * @param {object} config The configuration.
 	 */
-	function TextInputControl(config) {
+	var exports = function TextInputControl(config) {
 		installer(this);
 		config = config || {};
 		Control.call(this, _.defaults(config, {tabIndex: 0}));
 		this.classList.add('jide-textinput');
-	}
+	};
 
-	Class(TextInputControl).extends(Control).def({
+	Class(TextInputControl).extends(Control).def(/** @lends module:jidejs/ui/control/TextInputControl# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

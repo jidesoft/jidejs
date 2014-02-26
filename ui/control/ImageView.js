@@ -2,7 +2,6 @@
  * An ImageView can display an external image.
  *
  * @module jidejs/ui/control/ImageView
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/Util', './../Control', './../Skin', './../../base/ObservableProperty',
@@ -34,10 +33,14 @@ define([
 	 *
 	 * 	// or shorter:
 	 * 	new ImageView('<path-to-my-logo>.png');
-	 * @param {object|string} config Either the configuration of the control or just the path to the image file.
+	 *
 	 * @constructor
+     * @alias module:jidejs/ui/control/ImageView
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object|string} config Either the configuration of the control or just the path to the image file.
 	 */
-	function ImageView(config) {
+	var exports = function ImageView(config) {
 		installer(this);
 		config = config || {};
 		// allow a string as an argument
@@ -45,9 +48,9 @@ define([
 			config = {src: config};
 		}
 		Control.call(this, config);
-	}
+	};
 
-	Class(ImageView).extends(Control).def({
+	Class(ImageView).extends(Control).def(/** @lends module:jidejs/ui/control/ImageView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 		},

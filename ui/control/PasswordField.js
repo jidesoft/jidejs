@@ -4,7 +4,6 @@
  * It is best used to, as the name suggests, allow the user to insert a password for a login or similar action.
  *
  * @module jidejs/ui/control/PasswordField
- * @extends module:jidejs/ui/control/TextField
  */
 define([
     './../../base/Class', './TextField', './../Skin', './../register'
@@ -22,15 +21,17 @@ define([
 
 	/**
 	 * Creates a new PasswordField.
-	 * @memberof module:jidejs/ui/control/PasswordField
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/PasswordField
+     * @extends module:jidejs/ui/control/TextField
+     *
+     * @param {object} config The configuration.
 	 */
-	function PasswordField(config) {
+	var exports = function PasswordField(config) {
 		config = config || {};
 		TextField.call(this, config);
-	}
+	};
 	Class(PasswordField).extends(TextField);
     PasswordField.Skin = PasswordFieldSkin;
     register('jide-passwordfield', PasswordField, TextField, [], []);

@@ -8,26 +8,27 @@
  * a button is clicked.
  *
  * @module jidejs/ui/control/Tooltip
- * @extends module:jidejs/ui/control/Popup
- * @see module:jidejs/ui/Component~tooltip
  */
 define(['./../../base/Class', './../../base/Util', './Popup'], function(Class, _, Popup) {
 	/**
 	 * Creates a new Tooltip.
 	 *
-	 * @memberof module:jidejs/ui/control/Tooltip
-	 * @param {object} config The configuration.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Tooltip
+     * @extends module:jidejs/ui/control/Popup
+     *
+     * @see module:jidejs/ui/Component~tooltip
+     *
+     * @param {object} config The configuration.
 	 */
-	function Tooltip(config) {
+	var exports = function Tooltip(config) {
 		config = _.defaults(config || {}, {
 			consumeAutoHidingEvents: false,
 			autoHide: false
 		});
 		Popup.call(this, config);
 		this.classList.add('jide-tooltip');
-	}
+	};
 	Class(Tooltip).extends(Popup);
     Tooltip.Skin = Popup.Skin;
 

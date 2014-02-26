@@ -17,7 +17,6 @@
  * });
  *
  * @module jidejs/ui/control/Cell
- * @extends module:jidejs/ui/control/Labeled
  */
 define([
 	'./../../base/Class', './../../base/Observable', './../../base/ObservableProperty', './../../base/Property', './../Skin',
@@ -86,20 +85,20 @@ define([
 	/**
 	 * Creates a new cell.
 	 *
-	 * @memberof module:jidejs/ui/control/Cell
 	 * @param {object} config The configuration of the cell.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Cell
+     * @extends module:jidejs/ui/control/Labeled
 	 */
-	function Cell(config) {
+	var exports = function Cell(config) {
 		installer(this);
 		this.__bindings = null;
 		config || (config = {});
 		Labeled.call(this, config);
 
 		this.classList.add('jide-cell');
-	}
-	Class(Cell).extends(Labeled).def({
+	};
+	Class(Cell).extends(Labeled).def(/** @lends module:jidejs/ui/control/Cell# */{
 		/**
 		 * The item is the part of the data that should be displayed by the cell.
 		 * Modifying this property will update the cells contents.
@@ -259,6 +258,6 @@ define([
 	 * @memberof module:jidejs/ui/control/Cell
 	 * @type {module:jidejs/ui/control/Cell.Editor}
 	 */
-	Cell.DefaultEditor = Editor;
-	return Cell;
+	exports.DefaultEditor = Editor;
+	return exports;
 });

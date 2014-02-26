@@ -5,10 +5,10 @@
  */
 define(function() {
 	/**
-	 * @memberof module:jidejs/ui/Pos
-	 * @enum
+     * @enum
+     * @alias module:jidejs/ui/Pos
 	 */
-	return {
+	var exports = {
 		/**
 		 * The object should be placed at the top.
 		 */
@@ -63,4 +63,5 @@ define(function() {
 		 */
 		TOP_RIGHT: 12
 	};
+    return exports;
 });

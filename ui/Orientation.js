@@ -3,16 +3,15 @@
  * @module jidejs/ui/Orientation
  */
 define(function() {
-	return {
+	var exports = {
 		/**
 		 * The object should be oriented vertically.
-		 * @memberof module:jidejs/ui/Orientation
 		 */
 		VERTICAL: 'vertical',
 		/**
 		 * The object should be oriented horizontally.
-		 * @memberof module:jidejs/ui/Orientation
 		 */
 		HORIZONTAL: 'horizontal'
 	};
+    return exports;
 });

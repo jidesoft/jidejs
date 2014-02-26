@@ -1,8 +1,8 @@
 /**
  * A PopupButton is a button that shows a Popup when pressed. That Popup might be a ContextMenu or it might be a more
  * complicated popup which allows further configuration of an action.
+ *
  * @module jidejs/ui/control/PopupButton
- * @extends module:jidejs/ui/control/Button
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/DOM', './Button', './../Pos',
@@ -10,17 +10,19 @@ define([
 ], function(Class, Observable, DOM, Button, Pos, Skin, register) {
 	/**
 	 * Creates a new PopupButton.
-	 * @memberof module:jidejs/ui/control/PopupButton
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/PopupButton
+     * @extends module:jidejs/ui/control/Button
+     *
+     * @param {object} config The configuration.
 	 */
-	function PopupButton(config) {
+	var exports = function PopupButton(config) {
 		installer(this);
         Button.call(this, config);
 		this.classList.add('jide-popupbutton');
-	}
-	Class(PopupButton).extends(Button).def({
+	};
+	Class(PopupButton).extends(Button).def(/** @lends module:jidejs/ui/control/PopupButton# */{
 		dispose: function() {
             if(this.popup) this.popup.dispose();
 			Button.prototype.dispose.call(this);

@@ -2,7 +2,6 @@
  * A ToggleButton is used to toggle the state of an object. Good usages include states such as "Auto save enabled".
  *
  * @module jidejs/ui/control/ToggleButton
- * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './ButtonBase', './Toggle'
@@ -10,12 +9,14 @@ define([
 	/**
 	 * Creates a new ToggleButton.
 	 *
-	 * @memberof module:jidejs/ui/control/ToggleButton
-	 * @param {object} config The configuration.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ToggleButton
+     * @extends module:jidejs/ui/control/ButtonBase
+     * @extends module:jidejs/ui/control/Toggle
+     *
+     * @param {object} config The configuration.
 	 */
-	function ToggleButton(config) {
+	var exports = function ToggleButton(config) {
 		Toggle.installer(this);
 		ButtonBase.call(this, config);
 		Toggle.call(this);
@@ -31,9 +32,9 @@ define([
 			this.selected = !this.selected;
 		});
 		this.classList.add('jide-togglebutton');
-	}
+	};
 
-	Class(ToggleButton).extends(ButtonBase).mixin(Toggle).def({
+	Class(ToggleButton).extends(ButtonBase).mixin(Toggle).def(/** @lends module:jidejs/ui/control/ToggleButton# */{
 		/**
 		 * `true`, if the ToggleButton is currently selected; `false`, otherwise.
 		 * @type boolean

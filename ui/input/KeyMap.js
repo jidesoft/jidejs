@@ -70,18 +70,18 @@ define(['./../../base/Class', './KeyCombination'], function(Class, KeyCombinatio
 	/**
 	 * Creates a new KeyMap.
 	 *
-	 * @memberof module:jidejs/ui/input/KeyMap
-	 * @param {object} context The owner of the KeyMap, i.e. the component it belongs to.
 	 * @constructor
 	 * @alias module:jidejs/ui/input/KeyMap
+     *
+     * @param {object} context The owner of the KeyMap, i.e. the component it belongs to.
 	 */
-	function KeyMap(context) {
+	var exports = function KeyMap(context) {
 		this.key = null;
 		this.context = context || null;
 		this.event = null;
 		this.combinations = {};
-	}
-	Class(KeyMap).def({
+	};
+	Class(KeyMap).def(/** @lends module:jidejs/ui/input/KeyMap# */{
 		/**
 		 * Releases all resources held by this instance.
 		 */

@@ -3,7 +3,6 @@
  * actions. Use a {@link module:jidejs/ui/control/Button} if you want a control that allows the user to invoke a command.
  *
  * @module jidejs/ui/control/Hyperlink
- * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
 	'./../../base/Class', './../Component', './ButtonBase',
@@ -33,18 +32,19 @@ define([
 		 * 		href: "http://www.jidesoft.com"
 		 * 	});
 		 *
-		 * @memberof module:jidejs/ui/control/Hyperlink
-		 * @param config
 		 * @constructor
 		 * @alias module:jidejs/ui/control/Hyperlink
+         * @extends module:jidejs/ui/control/ButtonBase
+         *
+         * @param {object} config The configuration
 		 */
-		function Hyperlink(config) {
+		var exports = function Hyperlink(config) {
 			installer(this);
 			config = config || {};
 			ButtonBase.call(this, config);
 			this.classList.add('jide-hyperlink');
-		}
-		Class(Hyperlink).extends(ButtonBase).def({
+		};
+		Class(Hyperlink).extends(ButtonBase).def(/** @lends module:jidejs/ui/control/Hyperlink# */{
 			dispose: function() {
 				ButtonBase.prototype.dispose.call(this);
 				installer.dispose(this);

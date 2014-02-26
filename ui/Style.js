@@ -21,16 +21,16 @@ define([
 
 	/**
 	 * Creates a new `Style` object for the given element.
-	 * @memberof module:jidejs/ui/Style
+     *
+     * @constructor
+     * @alias module:jidejs/ui/Style
 	 * @param {Element} element The DOM element.
-	 * @constructor
-	 * @alias module:jidejs/ui/Style
 	 */
-	function Style(element) {
+	var exports = function Style(element) {
 		this.element = element;
 		this.properties = {};
-	}
-	Class(Style).def({
+	};
+	Class(Style).def(/** @lends module:jidejs/ui/Style# */{
 		/**
 		 * Sets a CSS property. Allows to use CSSOM property names, i.e. `MSTransition` but does not automatically
 		 * add any prefixes.
@@ -91,5 +91,5 @@ define([
 			this.element.style.cssText = style;
 		}
 	});
-	return Style;
+	return exports;
 });

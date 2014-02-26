@@ -6,12 +6,14 @@
 define(['./../../base/Class', './SelectionModel', './../../base/Util'], function(Class, SelectionModel, _) {
 	/**
 	 * Creates a new SingleSelectionModel.
-	 * @memberof module:jidejs/ui/control/SingleSelectionModel
-	 * @param {module:jidejs/base/ObservableList} list The list of items that can be selected.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/SingleSelectionModel
+     * @extends module:jidejs/ui/control/SelectionModel
+     *
+     * @param {module:jidejs/base/ObservableList} list The list of items that can be selected.
 	 */
-	function SingleSelectionModel(list, requireSelectedItem) {
+	var exports = function SingleSelectionModel(list, requireSelectedItem) {
 		SelectionModel.call(this, list);
 		this.requireSelectedItem = requireSelectedItem || false;
 		if(requireSelectedItem && list.length > 0) {
@@ -35,8 +37,8 @@ define(['./../../base/Class', './SelectionModel', './../../base/Util'], function
 				THIS.selectedIndexProperty._value = selectedIndex;
 			}
 		});
-	}
-	Class(SingleSelectionModel).extends(SelectionModel).def({
+	};
+	Class(SingleSelectionModel).extends(SelectionModel).def(/** @lends module:jidejs/ui/control/SingleSelectionModel# */{
 		/**
 		 * Deselects the given index or the currently selected item if no `index` is given.
 		 * @param {number?} index The index of the item that should be deselected.

@@ -4,8 +4,6 @@
  * It allows the user to navigate between its items using the `left` and `right` key of her keyboard.
  *
  * @module jidejs/ui/control/ToolBar
- * @extends module:jidejs/ui/Control
- * @extends module:jidejs/ui/Container
  */
 define([
 	'./../../base/Class', './../../base/DOM', './../Pos', './../layout/HBox', './../Control',
@@ -20,13 +18,16 @@ define([
 
 	/**
 	 * Creates a new ToolBar.
-	 * @memberof module:jidejs/ui/control/ToolBar
-	 * @param {object} config The configuration.
-	 * @param {Array} config.children The controls that should be displayed in the ToolBar.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ToolBar
+     * @extends module:jidejs/ui/Control
+     * @extends module:jidejs/ui/Container
+     *
+     * @param {object} config The configuration.
+     * @param {Array} config.children The controls that should be displayed in the ToolBar.
 	 */
-	function ToolBar(config) {
+	var exports = function ToolBar(config) {
 		config = config || {};
 		if(!config.skin) config.skin = new ToolBarSkin(this, config.element);
 		this.content = new HBox({
@@ -52,9 +53,9 @@ define([
 			var child = children.get(i === 0 ? children.length - 1 : i -1);
 			child.focus();
 		});
-	}
+	};
 
-	Class(ToolBar).extends(Control).def({
+	Class(ToolBar).extends(Control).def(/** @lends module:jidejs/ui/control/ToolBar# */{
 		/**
 		 * An ObservableList of controls that should be displayed within the ToolBar.
 		 *
@@ -66,4 +67,4 @@ define([
 	});
 
 	return ToolBar;
-	});
+});

@@ -3,8 +3,6 @@
  * such as {@link module:jidejs/ui/control/ContextMenu}, {@link modujle:jidejs/ui/control/MenuBar} or Menu itself.
  *
  * @module jidejs/ui/control/Menu
- * @extends module:jidejs/ui/control/Labeled
- * @extends module:jidejs/ui/Container
  */
 define([
 	'./../../base/Class', './../../base/DOM', './../../base/ObservableProperty', './Labeled',
@@ -13,12 +11,14 @@ define([
 	/**
 	 * Creates a new Menu.
 	 *
-	 * @memberof module:jidejs/ui/control/Menu
-	 * @param {object} config The configuration.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Menu
+     * @extends module:jidejs/ui/control/Labeled
+     * @extends module:jidejs/ui/Container
+     *
+     * @param {object} config The configuration.
 	 */
-	function Menu(config) {
+	var exports = function Menu(config) {
 		installer(this);
 		this.content = new ContextMenu();
 		Labeled.call(this, _.defaults(config || {}, { tabIndex: 0 }));
@@ -42,8 +42,8 @@ define([
 			return false;
 		});
 		this.classList.add('jide-menu');
-	}
-	Class(Menu).extends(Labeled).def({
+	};
+	Class(Menu).extends(Labeled).def(/** @lends module:jidejs/ui/control/Menu# */{
 		dispose: function() {
 			Labeled.prototype.dispose.call(this);
 			installer.dispose(this);

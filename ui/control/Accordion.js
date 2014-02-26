@@ -7,8 +7,6 @@
  * It can optionally display an animation or just close and open without animation.
  *
  * @module jidejs/ui/control/Accordion
- * @extends module:jidejs/ui/Control
- * @extends module:jidejs/ui/Container
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/ObservableList', './../Control',
@@ -17,14 +15,16 @@ define([
 	/**
 	 * Creates a new Accordion.
 	 *
-	 * @memberof module:jidejs/ui/control/Accordion
-	 * @param {object} config The configuration
-	 * @param {array<module:jidejs/ui/control/TitledPane>} config.children An array of TitledPanes that should be displayed
-	 * 		in the accordion.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Accordion
+     * @extends module:jidejs/ui/Control
+     * @extends module:jidejs/ui/Container
+     *
+     * @param {object} config The configuration
+     * @param {Array.<module:jidejs/ui/control/TitledPane>} config.children An array of TitledPanes that should be displayed
+     * 		in the accordion.
 	 */
-	function Accordion(config) {
+	var exports = function Accordion(config) {
 		installer(this);
 		config = config || {};
         if(config.children) this.children = ObservableList(config.children);
@@ -32,8 +32,8 @@ define([
         delete config.children;
 		Control.call(this, config);
 		this.classList.add('jide-accordion');
-	}
-	Class(Accordion).extends(Control).def({
+	};
+	Class(Accordion).extends(Control).def(/** @lends module:jidejs/ui/control/Accordion# */{
 		/**
 		 * Contains the currently expanded TitledPane.
 		 *

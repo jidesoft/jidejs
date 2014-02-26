@@ -2,7 +2,6 @@
  * The VBox is a layout pane which places its children in a vertical box.
  *
  * @module jidejs/ui/layout/VBox
- * @extends module:jidejs/ui/layout/Pane
  */
 define([
 	'./../../base/Class', './../../base/Util', './../../base/ObservableProperty',
@@ -42,12 +41,14 @@ define([
 
 	/**
 	 * Creates a new VBox.
-	 * @memberof module:jidejs/ui/layout/VBox
-	 * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as a VBox.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/VBox
+     * @extends module:jidejs/ui/layout/Pane
+     *
+     * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as a VBox.
 	 */
-	function VBox(configOrElement) {
+	var exports = function VBox(configOrElement) {
 		installer(this);
 		this.spacingProperty.converter = setSpacing;
 		Pane.call(this, configOrElement);
@@ -70,9 +71,9 @@ define([
 			: has('flexbox/legacy')
 				? 'jide-use-legacy-flex'
 				: 'jide-use-table');
-	}
+	};
 
-	Class(VBox).extends(Pane).def({
+	Class(VBox).extends(Pane).def(/** @lends module:jidejs/ui/layout/VBox# */{
 		dispose: function() {
 			Pane.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -190,17 +191,16 @@ define([
 	 * - **never**
 	 * 	The component should never grow.
 	 *
-	 * @memberof module:jidejs/ui/layout/VBox
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the grow priority of the component.
 	 */
-	VBox.grow = AttachedProperty('jidejs/ui/layout/VBox.grow', function(priority, evt) {
+	exports.grow = AttachedProperty('jidejs/ui/layout/VBox.grow', function(priority, evt) {
 		var child = evt.owner;
 		if(priority === 'always') {
 			child.classList.add('jide-vbox-grow');
 		}
 	});
 
-	return VBox;
+	return exports;
 });

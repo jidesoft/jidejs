@@ -80,10 +80,10 @@ define([
 	 *
 	 * It will also invoke the `requestLayout` method when required and available.
 	 *
-	 * @memberof module:jidejs/ui/Container
-	 * @param {function?} wrapperCallback An optional callback that can be used to nest children in additional elements.
 	 * @constructor
 	 * @alias module:jidejs/ui/Container
+     *
+     * @param {function?} wrapperCallback An optional callback that can be used to nest children in additional elements.
 	 */
 	function Container(wrapperCallback) {
 		if(!this.children) {
@@ -95,10 +95,10 @@ define([
 			this.children.on('change', handleChildrenChanged.bind(this, wrapperCallback));
 		}
 	}
-	Class(Container).def({
+	Class(Container).def(/** @lends module:jidejs/ui/Container# */{
 		/**
 		 * An ObservableList of children that belong to the component.
-		 * @type module:jidejs/base/ObservableList
+		 * @type {module:jidejs/base/Collection}
 		 */
 		children: null,
 

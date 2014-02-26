@@ -2,7 +2,6 @@
  * The SVGView allows to embed SVG content in the component hierarchy.
  *
  * @module jidejs/ui/control/SVGView
- * @extends module:jidejs/ui/Control
  */
 define(['./../../base/Class', './../../base/ObservableProperty', './../Control', './../Skin'], function(Class, Observable, Control, Skin) {
 	function SVGViewSkin(svgView, el) {
@@ -17,12 +16,13 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../Control',
 	 *
 	 * The element in the {@link #content} property is added to the {@link #element} property.
 	 *
-	 * @memberof module:jidejs/ui/control/SVGView
-	 * @param {object} config The configuration.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/SVGView
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
 	 */
-	function SVGView(config) {
+	var exports = function SVGView(config) {
 		config = config || {};
 		installer(this);
 		Control.call(this, config);
@@ -40,8 +40,8 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../Control',
 			}
 			el.appendChild(this.content);
 		}
-	}
-	Class(SVGView).extends(Control).def({
+	};
+	Class(SVGView).extends(Control).def(/** @lends module:jidejs/ui/control/SVGView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

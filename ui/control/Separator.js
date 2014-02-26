@@ -2,7 +2,6 @@
  * A Separator can be used to separate two controls visually. It is most commonly used in Menus and ToolBars.
  *
  * @module jidejs/ui/control/Separator
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../Control',
@@ -42,18 +41,20 @@ define([
 
 	/**
 	 * Creates a new Separator.
-	 * @memberof module:jidejs/ui/control/Separator
-	 * @param {object} config The configuration.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Separator
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
 	 */
-	function Separator(config) {
+	var exports = function Separator(config) {
 		installer(this);
 		config = config || {};
 		Control.call(this, config);
 		this.classList.add('jide-separator');
-	}
-	Class(Separator).extends(Control).def({
+	};
+	Class(Separator).extends(Control).def(/** @lends module:jidejs/ui/control/Separator# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

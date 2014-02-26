@@ -4,9 +4,7 @@
  *
  * Concrete implementations of this control could be date pickers, color pickers or similar.
  *
- * @abstract
  * @module jidejs/ui/control/ComboBoxBase
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/Util',
@@ -26,7 +24,6 @@ define([
 	 * @param choiceBox
 	 * @param element
 	 * @constructor
-	 * @namespace
 	 */
 	function ComboBoxBaseSkin(choiceBox, element) {
 		Skin.call(this, choiceBox);
@@ -113,13 +110,15 @@ define([
 	/**
 	 * Initializes the new base combo box.
 	 *
-	 * @memberof module:jidejs/ui/control/ComboBoxBase
-	 * @param {object} config The configuration
-	 * @param {Array} config.items The default choices for the user.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ComboBoxBase
+     * @abstract
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration
+     * @param {Array} config.items The default choices for the user.
 	 */
-	function ComboBoxBase(config) {
+	var exports = function ComboBoxBase(config) {
 		installer(this);
 
 		config = _.defaults(config || {}, { tabIndex: 0 });
@@ -135,8 +134,8 @@ define([
 
 		Control.call(this, config);
 		this.classList.add('jide-comboboxbase');
-	}
-	Class(ComboBoxBase).extends(Control).def({
+	};
+	Class(ComboBoxBase).extends(Control).def(/** @lends module:jidejs/ui/control/ComboBoxBase# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

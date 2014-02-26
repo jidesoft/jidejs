@@ -2,25 +2,26 @@
  * The SelectionModel handles the selected items in a {@link module:jidejs/ui/control/ListView} or similar control.
  *
  * @module jidejs/ui/control/SelectionModel
- * @abstract
- * @see module:jidejs/ui/control/SingleSelectionModel
- * @see module:jidejs/ui/control/MultipleSelectionModel
  */
 define(['./../../base/Class', './../../base/ObservableProperty', './../../base/EventEmitter'], function(Class, Observable, EventEmitter) {
 	/**
 	 * Creates a new SelectionModel.
 	 *
-	 * @memberof module:jidejs/ui/control/SelectionModel
-	 * @param {module:jidejs/base/ObservableList} list The list of items that can be selected.
 	 * @constructor
 	 * @alias module:jidejs/ui/control/SelectionModel
+     * @extends module:jidejs/base/EventEmitter
+     * @abstract
+     * @see module:jidejs/ui/control/SingleSelectionModel
+     * @see module:jidejs/ui/control/MultipleSelectionModel
+     *
+     * @param {module:jidejs/base/ObservableList} list The list of items that can be selected.
 	 */
-	function SelectionModel(list) {
+	var exports = function SelectionModel(list) {
 		installer(this);
 		EventEmitter.call(this);
 		this.list = list;
-	}
-	Class(SelectionModel).mixin(EventEmitter).def({
+	};
+	Class(SelectionModel).mixin(EventEmitter).def(/** @lends module:jidejs/ui/control/SelectionModel# */{
 		dispose: function() {
 			EventEmitter.prototype.dispose.call(this);
 			installer.dispose(this);

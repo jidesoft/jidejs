@@ -118,7 +118,7 @@ define([
      * @param {String|HTMLElement} template
      * @returns {HTMLElement}
      */
-	function template(template) {
+	var exports = function template(template) {
 		if(_.isString(template)) {
 			if(cache[template]) {
 				return cache[template];
@@ -137,11 +137,11 @@ define([
 			rewriteTemplateElements(template);
 		}
 		return template;
-	}
+	};
 
-    template.getContent = function(template) {
+    exports.getContent = function(template) {
         return template.content || template.getAttribute('content');
     };
 
-	return template;
+	return exports;
 });

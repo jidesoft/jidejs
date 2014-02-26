@@ -8,7 +8,6 @@
  * arranged components, you should specify the {@link #prefRows} property.
  *
  * @module jidejs/ui/layout/TilePane
- * @extends jidejs/ui/layout/Pane
  */
 define([
 	'./../../base/Class', './../../base/ObservableProperty', './../../base/DOM', './../../base/Util',
@@ -16,12 +15,14 @@ define([
 ], function(Class, Observable, DOM, _, Pane, Orientation) {
 	/**
 	 * Creates a new TilePane.
-	 * @memberof module:jidejs/ui/layout/TilePane
-	 * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as a TilePane.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/TilePane
+     * @extends jidejs/ui/layout/Pane
+     *
+     * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as a TilePane.
 	 */
-	function TilePane(configOrElement) {
+	var exports = function TilePane(configOrElement) {
 		installer(this);
 		Pane.call(this, configOrElement);
 		this.hgapProperty.subscribe(function(event) {
@@ -48,9 +49,9 @@ define([
 		} else {
 			this.classList.add('jide-orientation-vertical');
 		}
-	}
+	};
 
-	Class(TilePane).extends(Pane).def({
+	Class(TilePane).extends(Pane).def(/** @lends module:jidejs/ui/layout/TilePane# */{
 		dispose: function() {
 			Pane.prototype.dispose.call(this);
 			installer.dispose(this);

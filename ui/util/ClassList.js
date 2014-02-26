@@ -51,24 +51,24 @@ define(['./../../base/Class', './../../base/ObservableProperty'], function(Class
 	 * Creates a new ClassList. Will pick the best implementation available, i.e. either one based on the native
 	 * `classList` API or a compatibility layer which works on old and incompatible APIs.
 	 *
-	 * @memberof module:jidejs/ui/util/ClassList
-	 * @param element
 	 * @constructor
 	 * @alias module:jidejs/ui/util/ClassList
+     *
+     * @param {HTMLElement} element
 	 */
-	function ClassList(element) {
+	var exports = function ClassList(element) {
 		installer(this);
 		this.element = element;
 		if(!('classList' in element)) {
 			this.classes = element.className.split(/\w+/);
 			Class(this).def(classListShim);
 		}
-	}
+	};
 	var installer = Observable.install(ClassList, 'changed');
 
 	var classDef = Class(ClassList);
 	if(hasClassList) {
-		classDef.def({
+		classDef.def(/** @lends module:jidejs/ui/util/ClassList# */{
 			/**
 			 * Adds the given class name to the class list.
 			 * @param {string} name The name of the class.
@@ -131,7 +131,7 @@ define(['./../../base/Class', './../../base/ObservableProperty'], function(Class
 		classDef.def(classListShim);
 	}
 
-	classDef.def({
+	classDef.def(/** @lends module:jidejs/ui/util/ClassList# */{
 		bind: function(name, property) {
 			return property.subscribe(function(event) {
 				this[event.value ? 'add' : 'remove'](name);

@@ -21,7 +21,6 @@
  * 	});
  *
  * @module jidejs/ui/control/ListView
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/Observable', './../../base/ObservableProperty', './../../base/ObservableList', './../Control',
@@ -195,13 +194,15 @@ define([
 
 	/**
 	 * Creates a new ListView.
-	 * @memberof module:jidejs/ui/control/ListView
-	 * @param {object} config The configuration.
-	 * @param {Array} config.items The items displayed by this ListView.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ListView
+     * @extends module:jidejs/ui/Control
+     *
+     * @param {object} config The configuration.
+     * @param {Array} config.items The items displayed by this ListView.
 	 */
-	function ListView(config) {
+	var exports = function ListView(config) {
 		installer(this);
 		config = _.defaults(config || {}, { tabIndex: 0 });
 
@@ -217,8 +218,8 @@ define([
 		Control.call(this, config);
 		this.classList.add('jide-listview');
 		this.skin.initialize();
-	}
-	Class(ListView).extends(Control).def({
+	};
+	Class(ListView).extends(Control).def(/** @lends module:jidejs/ui/control/ListView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);

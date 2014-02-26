@@ -2,7 +2,6 @@
  * The HBox is a layout pane which places its children in a horizontal box.
  *
  * @module jidejs/ui/layout/HBox
- * @extends module:jidejs/ui/layout/Pane
  */
 define([
 	'./../../base/Class', './../../base/Util', './../../base/ObservableProperty',
@@ -39,12 +38,14 @@ define([
 
 	/**
 	 * Creates a new HBox.
-	 * @memberof module:jidejs/ui/layout/HBox
-	 * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as a HBox.
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/HBox
+     * @extends module:jidejs/ui/layout/Pane
+     *
+     * @param {object|Element} configOrElement Either the configuration or the Element that should be managed as a HBox.
 	 */
-	function HBox(configOrElement) {
+	var exports = function HBox(configOrElement) {
 		installer(this);
 		this.spacingProperty.converter = setSpacing;
 		Pane.call(this, configOrElement);
@@ -68,9 +69,9 @@ define([
 			: has('flexbox/legacy')
 				? 'jide-use-legacy-flex'
 				: 'jide-use-table');
-	}
+	};
 
-	Class(HBox).extends(Pane).def({
+	Class(HBox).extends(Pane).def(/** @lends module:jidejs/ui/layout/HBox# */{
 		dispose: function() {
 			Pane.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -187,16 +188,15 @@ define([
 	 * - **never**
 	 * 	The component should never grow.
 	 *
-	 * @memberof module:jidejs/ui/layout/HBox
 	 * @function
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the grow priority of the component.
 	 */
-	HBox.grow = AttachedProperty('jidejs/ui/layout/HBox.grow', function(priority, evt) {
+	exports.grow = AttachedProperty('jidejs/ui/layout/HBox.grow', function(priority, evt) {
 		var child = evt.owner;
 		if(priority === 'always') {
 			child.classList.add('jide-hbox-grow');
 		}
 	});
-	return HBox;
+	return exports;
 });

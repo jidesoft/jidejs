@@ -3,7 +3,6 @@
  * and represents a command or action that the user can perform.
  *
  * @module jidejs/ui/control/MenuItem
- * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
 	'./../../base/Class', './../Component', './ButtonBase', './../register'
@@ -11,15 +10,16 @@ define([
 	/**
 	 * Creates a new MenuItem.
 	 *
-	 * @memberof module:jidejs/ui/control/MenuItem
-	 * @param config
 	 * @constructor
 	 * @alias module:jidejs/ui/control/MenuItem
+     * @extends module:jidejs/ui/control/ButtonBase
+     *
+     * @param {object} config The configuration
 	 */
-	function MenuItem(config) {
+	var exports = function MenuItem(config) {
 		ButtonBase.call(this, config);
 		this.classList.add('jide-menuitem');
-	}
+	};
 	Class(MenuItem).extends(ButtonBase);
     MenuItem.Skin = ButtonBase.Skin;
     register('jide-menuitem', MenuItem, ButtonBase, [], []);
