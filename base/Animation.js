@@ -67,19 +67,18 @@ define([
 	/**
 	 * Creates a new Animation.
 	 *
-	 * @memberof module:jidejs/base/Animation
 	 * @param {number|Object} duration The time that the animation should run or an object that should be integrated
 	 * 								   in the animation object.
 	 * @constructor
 	 * @alias module:jidejs/base/Animation
 	 */
-	function Animation(duration) {
+	var exports = function Animation(duration) {
 		if(_.isNumber(duration)) {
 			this.duration = duration;
 		} else {
 			_.extends(this, duration);
 		}
-	}
+	};
 
 	/**
 	 * Tries to animate an element using CSS transitions, if CSS transitions aren't available, it will fallback to
@@ -95,10 +94,9 @@ define([
 	 * @param {string?} config.unit (optional, default: *""*) The unit of the property, i.e. px, em.
 	 * @param {number?} config.duration (optional, default: *1000*) The duration of the animation in milliseconds.
 	 * @param {Function?} config.method (optional, default: *Animation.linear*) The method of the animation which defines its pace.
-	 * @memberof module:jidejs/base/Animation
 	 * @returns {Promise} The promise will be fulfilled when the animation was completed succesfully.
 	 */
-	Animation.cssTransition = function(config) {
+    exports.cssTransition = function(config) {
 		var el = config.element,
 			prop = config.property,
 			start = config.start || 0,
@@ -136,29 +134,26 @@ define([
 	 *
 	 * *true*, if CSS animations are available; *false* otherwise.
 	 *
-	 * @memberof module:jidejs/base/Animation
 	 * @type {boolean}
 	 */
-	Animation.isCSSAnimationSupported = isCSSAnimationSupported;
+    exports.isCSSAnimationSupported = isCSSAnimationSupported;
 	/**
 	 * The name of the Animation property used by CSS, including the browser prefix, if available.
-	 * @memberof module:jidejs/base/Animation
 	 * @type {string}
 	 */
-	Animation.cssAnimationString = animationString;
+    exports.cssAnimationString = animationString;
 	/**
 	 * The prefix required for a css key frame.
-	 * @memberof module:jidejs/base/Animation
 	 * @type {string}
 	 */
-	Animation.cssKeyFramePrefix = keyFramePrefix;
+    exports.cssKeyFramePrefix = keyFramePrefix;
 
 	/**
 	 * This animation method starts slowly and increases its pace until it runs very fast.
 	 * @param {number} progress The progress of the animation, ranging from 0 to 1.
 	 * @returns {number}
 	 */
-	Animation.easeIn = function(progress) {
+    exports.easeIn = function(progress) {
 		return Math.pow(progress, 2);
 	};
 
@@ -167,7 +162,7 @@ define([
 	 * @param {number} progress The progress of the animation, ranging from 0 to 1.
 	 * @returns {number}
 	 */
-	Animation.easeOut = function(progress) {
+    exports.easeOut = function(progress) {
 		return Math.pow(progress, 0.5);
 	};
 
@@ -176,11 +171,11 @@ define([
 	 * @param {number} progress The progress of the animation, ranging from 0 to 1.
 	 * @returns {number}
 	 */
-	Animation.linear = function(progress) {
+    exports.linear = function(progress) {
 		return progress;
 	};
 
-	Class(Animation).def({
+	Class(Animation).def(/** @lends module:jidejs/base/Animation# */{
 		/**
 		 * The start time of the animation.
 		 * @private
@@ -279,5 +274,5 @@ define([
 		done: function() {}
 	});
 
-	return Animation;
+	return exports;
 });

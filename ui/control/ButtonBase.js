@@ -1,4 +1,14 @@
 /**
+ * This event is fired whenever the user invokes the button, usually through a click or tap within
+ * the bounds of the button. If the Button currently has the focus, it might also be fired through keyboard
+ * events such as the spacebar or the enter key.
+ *
+ * It can be observed by listening to the `action` event of a Control.
+ *
+ * @event module:jidejs/ui/control/ButtonBase#action
+ */
+
+/**
  * An extension of {@link module:jidejs/ui/control/Labeled} that is specialized for handling click gestures
  * performed by users.
  *
@@ -14,8 +24,6 @@
  *     Used to toggle the state of an object. Good usages include states such as "Auto save enabled".
  *
  * @module jidejs/ui/control/ButtonBase
- * @extends module:jidejs/ui/control/Labeled
- * @abstract
  */
 define([
 		'./../../base/Class', './../../base/ObservableProperty', './../../base/Util', './../Component', './../Skin',
@@ -28,33 +36,23 @@ define([
 		}
 
 		/**
-		 * This event is fired whenever the user invokes the button, usually through a click or tap within
-		 * the bounds of the button. If the Button currently has the focus, it might also be fired through keyboard
-		 * events such as the spacebar or the enter key.
-		 *
-		 * It can be observed by listening to the `action` event of a Control.
-		 *
-		 * @memberof module:jidejs/ui/control/ButtonBase
-		 * @event ButtonBase#action
-		 */
-
-		/**
 		 * Creates a new ButtonBase. Must only be invoked by subclasses.
 		 *
-		 * @memberof module:jidejs/ui/control/ButtonBase
-		 * @param {object} config The configuration.
-		 * @param {boolean} config.enabled `true`, if the button is enabled; `false`, otherwise.
 		 * @constructor
 		 * @alias module:jidejs/ui/control/ButtonBase
-		 * @fires ButtonBase#action Fired when the user clicks or taps within the buttons bounds.
+         * @extends module:jidejs/ui/control/Labeled
+         * @abstract
+         * @fires module:jidejs/ui/control/ButtonBase#action Fired when the user clicks or taps within the buttons bounds.
+         * @param {object} config The configuration.
+         * @param {boolean} config.enabled `true`, if the button is enabled; `false`, otherwise.
 		 */
-		function ButtonBase(config) {
+        var exports = function ButtonBase(config) {
 			installer(this);
 			config = _.defaults(config || {}, { tabIndex: 0 });
 			Labeled.call(this, config);
 			this.classList.add('jide-buttonbase');
-		}
-		Class(ButtonBase).extends(Labeled).def({
+		};
+		Class(ButtonBase).extends(Labeled).def(/** @lends module:jidejs/ui/control/ButtonBase# */{
 			/**
 			 * `true`, if the button is enabled; `false`, otherwise.
 			 *
@@ -76,7 +74,7 @@ define([
 				installer.dispose(this);
 			}
 		});
-		ButtonBase.Skin = Skin.create(Labeled.Skin, {
+    exports.Skin = Skin.create(Labeled.Skin, {
             template: Templates.ButtonBase,
 			install: function() {
                 Labeled.Skin.prototype.install.call(this);
@@ -159,5 +157,5 @@ define([
 		});
 		var installer = Observable.install(ButtonBase, 'command', 'enabled');
 		register('jide-buttonbase', ButtonBase, Labeled, ['enabled', 'command'], []);
-		return ButtonBase;
+		return exports;
 });

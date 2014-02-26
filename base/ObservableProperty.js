@@ -2,7 +2,6 @@
  * An ObservableProperty is the most basic implementation of a {@link module:jidejs/base/Property} and supports
  * change listeners as well as storing a single value.
  *
- * @extends module:jidejs/base/Property
  * @module jidejs/base/ObservableProperty
  */
 define([
@@ -13,16 +12,18 @@ define([
 	"use strict";
 	/**
 	 * Creates a new observable property.
-	 * @memberof module:jidejs/base/ObservableProperty
+	 *
+     * @constructor
+     * @alias module:jidejs/base/ObservableProperty
+     * @extends module:jidejs/base/Property
+     *
 	 * @param {Object} context The object that this property belongs to.
 	 * @param {String} name The name of the property.
 	 * @param {*} initialValue (Optional) The initial value of the property.
 	 * @param {function} converter (Optional) A converter function that should be used to convert values set to
 	 * 							   this property.
-	 * @constructor
-	 * @alias module:jidejs/base/ObservableProperty
 	 */
-	function ObservableProperty(context, name, initialValue, converter, bubbles, cancelable) {
+	var exports = function ObservableProperty(context, name, initialValue, converter, bubbles, cancelable) {
 		if(!(this instanceof ObservableProperty)) {
 			return new ObservableProperty(context, name, initialValue, converter);
 		}
@@ -31,8 +32,8 @@ define([
 		this.converter = converter;
         this._bubbles = bubbles !== undefined ? bubbles : true;
         this._cancelable = cancelable !== undefined ? cancelable : true;
-	}
-	Class(ObservableProperty).extends(Property).def({
+	};
+	Class(ObservableProperty).extends(Property).def(/** @lends module:jidejs/base/ObservableProperty# */{
         get writable() { return true; },
 
 		/**
@@ -53,7 +54,6 @@ define([
 		 * Notifies all listeners of the changed value.
 		 *
 		 * @param {*} value The new value of the property.
-		 * @fires ObservableProperty#change
 		 */
 		'set': function(value) {
 			var oldValue = this._value;
@@ -104,14 +104,13 @@ define([
 	 * console.log(john.name); // prints 'John Doe'
 	 * john.name = 'Jane Doe'; // modifies the properties value and notifies all listeners
 	 *
-	 * @memberof module:jidejs/base/ObservableProperty
 	 * @param {Object} self The object where the property should be defined on.
 	 * @param {string} name The name of the property field for which get/set definitions should be generated
 	 * @param {*} initialValue (Optional) The initial value of the property.
 	 * @param {function} converter Modifies the property value before it is stored in the property.
 	 * @returns {ObservableProperty}
 	 */
-	ObservableProperty.define = function(self, name, initialValue, converter, bubbles, cancelable) {
+	exports.define = function(self, name, initialValue, converter, bubbles, cancelable) {
 		var property = new ObservableProperty(self, name, initialValue, converter, bubbles, cancelable);
 		Object.defineProperty(self, name, {
 			get: function() {
@@ -157,7 +156,23 @@ define([
         return nameObj;
     }
 
-	ObservableProperty.install = function(proto) {
+    /**
+     * Installs a variable number of observable properties on the object and returns a function
+     * that should be used to initialize them.
+     *
+     * @example
+     *   function Person() {
+     *       installer(this);
+     *   }
+     *   var installer = ObservableProperty.install(Person, 'firstName', 'lastName');
+     *   Person.prototype.dispose = function() {
+     *       installer.dispose(this);
+     *   };
+     *
+     * @param {object|function} proto The class where the properties should be added to.
+     * @returns {Function} An installer function that should be used to initiate the properties on the object.
+     */
+	exports.install = function(proto) {
 		if(_.isFunction(proto)) {
 			proto = proto.prototype;
 		}
@@ -202,5 +217,5 @@ define([
 		};
 		return installer;
 	};
-	return ObservableProperty;
+	return exports;
 });

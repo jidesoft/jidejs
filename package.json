@@ -76,6 +76,7 @@
     "gulp-util": "~2.2.14",
     "wintersmith-livereload": "~0.1.1",
     "gulp-csso": "~0.2.3",
-    "gulp-imagemin": "~0.1.5"
+    "gulp-imagemin": "~0.1.5",
+    "karma-chai-plugins": "~0.2.0"
   }
 }

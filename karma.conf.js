@@ -9,7 +9,7 @@ module.exports = function(config) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'requirejs', 'chai', 'benchmark'],
+    frameworks: ['mocha', 'requirejs', 'chai'],
 
 //      plugins : [
 //          'karma-mocha',

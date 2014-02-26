@@ -1,7 +1,8 @@
 define([
+    'jquery',
     'ui/Component',
     'base/Observable'
-], function (Component, Observable) {
+], function ($, Component, Observable) {
     describe('Component', function () {
         it('should register subscriptions and dispatch events', function() {
             var div = document.createElement('div');
@@ -25,6 +26,12 @@ define([
             subscription.dispose();
             bus.emit('test', { foo: 'bar' });
             expect(count).to.equal(1);
+        });
+
+        it('should have the .jide-component class', function() {
+            var div = document.createElement('div'),
+                c = new Component(div);
+            expect(c.element.className).to.contain('jide-component');
         });
 
         describe('initialization with bidirectional binding', function() {

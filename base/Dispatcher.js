@@ -51,9 +51,9 @@ define(['./DOM'], function(DOM) {
 
 	var concat = Array.prototype.concat;
 	/**
-	 * @alias module: jidejs/base/Dispatcher
+	 * @alias module:jidejs/base/Dispatcher
 	 */
-	return {
+	return /** @lends module:jidejs/base/Dispatcher */  {
 		/**
 		 * The given callback is invoked as soon as possible after the current script has been executed.
 		 *

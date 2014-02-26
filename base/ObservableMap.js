@@ -7,17 +7,17 @@ define([
 	/**
 	 * A map or dictionary type that can be observed for changes.
 	 *
-	 * @memberof module:jidejs/base/ObservableMap
+     * @constructor
+     * @alias module:jidejs/base/ObservableMap
+     * @extends module:jidejs/base/EventEmitter
 	 * @param {Object} owner The owner of this map.
-	 * @constructor
-	 * @alias module:jidejs/base/ObservableMap
 	 */
-	function ObservableMap(owner) {
+	var exports = function ObservableMap(owner) {
 		this.owner = owner;
 		EventEmitter.call(this);
 		this.data = {};
-	}
-	Class(ObservableMap).mixin(EventEmitter).def({
+	};
+	Class(ObservableMap).mixin(EventEmitter).def(/** @lends module:jidejs/base/ObservableMap# */{
 		/**
 		 * Adds or updates the given key value pair.
 		 *
@@ -84,5 +84,5 @@ define([
 			delete this.owner;
 		}
 	});
-	return ObservableMap;
+	return exports;
 });

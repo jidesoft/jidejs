@@ -46,16 +46,17 @@
  *    }
  * });
  * @module jidejs/base/Class
- * @param {Function} target
- * @returns {{mixin: Function, def: Function, extends: Function}}
- * @summary Creates a new {@link ClassType} that can be used to configure the prototype of the given <code>constructor</code>.
  */
 define(['./Util'], function(_) {
 	/**
+     * Creates a new {@link ClassType} that can be used to configure the prototype of the given <code>constructor</code>.
+     *
+     * @constructor
 	 * @alias module:jidejs/base/Class
-	 * @constructor
+     * @param {Function} target
+     * @returns {{mixin: Function, def: Function, extends: Function}}
 	 */
-	function Class(target) {
+	var exports = function Class(target) {
 		if(arguments.length > 1) {
 			var constructor = target,
 				parent, mixins, def, statics;
@@ -167,9 +168,8 @@ define(['./Util'], function(_) {
 	 * @param {Object} target The target object.
 	 * @param {Object} mixin A number of object whose properties should be copied to target.
 	 * @returns {Object} Returns the original object.
-	 * @memberof module:jidejs/base/Class
 	 */
-	Class.mixin = function(target, mixin) {
+	exports.mixin = function(target, mixin) {
 		var copyTarget = target;
 		if(_.isFunction(target)) {
 			copyTarget = target.prototype;
@@ -189,5 +189,5 @@ define(['./Util'], function(_) {
 		return target;
 	};
 
-	return Class;
+	return exports;
 });

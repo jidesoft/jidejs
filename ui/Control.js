@@ -3,7 +3,6 @@
  * and has a {@link module:jidejs/ui/Skin}.
  *
  * @module jidejs/ui/Control
- * @extends module:jidejs/ui/Component
  */
 define([
 	'./../base/Class', './../base/ObservableProperty', './Component', './Skin', './../base/DOM',
@@ -78,13 +77,13 @@ define([
 	 * The `config` object must contain a field named `skin` which must contain the initial {@link module:jidejs/ui/Skin}
 	 * to be used for the control.
 	 *
-	 * @memberof module:jidejs/ui/Control
-	 * @param {object} config The configuration of the Control.
-	 * @param {jidejs/ui/Skin} config.skin The Skin of the control.
 	 * @constructor
 	 * @alias module:jidejs/ui/Control
+     * @extends module:jidejs/ui/Component
+     * @param {object} config The configuration of the Control.
+     * @param {jidejs/ui/Skin} config.skin The Skin of the control.
 	 */
-	function Control(config) {
+	var exports = function Control(config) {
 		installer(this);
 		if(config.element) parseChildren(this, config.element, config);
 		var skin = config.skin || (new (this.constructor.Skin)(this, config.element));
@@ -97,8 +96,8 @@ define([
 		skin.install();
 
 		this.classList.add('jide-control');
-	}
-	Class(Control).extends(Component).def({
+	};
+	Class(Control).extends(Component).def( /** @lends module:jidejs/ui/Control# */ {
 		/**
 		 * The Skin of the control.
 		 */
@@ -153,7 +152,7 @@ define([
         return lastIndex !== -1 && lastIndex === position;
     }
 
-    Control.create = function(name, def) {
+    exports.create = function(name, def) {
         // prepare def and used variables
         var init = def.constructor,
             parent = def.$extends || Control,
@@ -212,5 +211,5 @@ define([
 
 	register('jide-control', Control, Component, ['skin', 'tooltip', 'contextmenu'], []);
 
-	return Control;
+	return exports;
 });

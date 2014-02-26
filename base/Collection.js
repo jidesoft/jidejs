@@ -1,248 +1,42 @@
 /**
+ * This event is fired whenever the list changes and contains all modifications.
+ *
+ * The indices are structured such that following them verbartim leads to an exact duplicate of the
+ * original collection.
+ *
+ * Thus, if two consecutive items are removed from a collection, the index for both removal events would
+ * be the same, since, once the first item is removed, the next one is moved back and takes the same
+ * index.
+ *
+ * @event module:jidejs/base/Collection#change
+ * @type {object}
+ * @property {module:jidejs/base/Collection} source The source of the event.
+ * @property {Array} changes The changes that were made to the source.
+ * @property {Function} enumerator Returns an {@link module:jidejs/base/Enumerator} over all changes.
+ */
+
+/**
  * The collection is the base class for the ObservableList and allows for custom implementations of it.
  *
  * @module jidejs/base/Collection
  */
 define([
 	'./Class',
+    './CollectionChange',
+    './ChangeEventAssembler',
 	'./EventEmitter',
 	'./Property',
 	'./ObservableProperty',
 	'./Observable',
 	'./Util',
 	'./Enumerator'
-], function(Class, EventEmitter, Property, ObservableProperty, Observable, _, Enumerator) {
+], function(Class, Change, ChangeEventAssembler, EventEmitter, Property, ObservableProperty, Observable, _, Enumerator) {
 	"use strict";
-	//region ChangeEvent
-	/**
-	 * This event is fired whenever the list changes and contains all modifications.
-	 *
-	 * The indices are structured such that following them verbartim leads to an exact duplicate of the
-	 * original collection.
-	 *
-	 * Thus, if two consecutive items are removed from a collection, the index for both removal events would
-	 * be the same, since, once the first item is removed, the next one is moved back and takes the same
-	 * index.
-	 *
-	 * @memberof module:jidejs/base/Collection
-	 * @param {module:jidejs/base/Collection} source The source of the event.
-	 * @param {Array<*>} changes The event changes.
-	 * @property {module:jidejs/base/Collection} source The source of the event.
-	 * @property {Array<Change>} changes The changes that were made to the source.
-	 * @method enumerator Returns an enumerator over all changes.
-	 * @alias module:jidejs/base/Collection.ChangeEvent
-	 * @constructor
-	 * @event Collection#change
-	 */
-	function ChangeEvent(source, changes) {
-		this.source = source;
-		this.changes = changes;
-		this.length = changes.length;
-	}
-	Class(ChangeEvent).def({
-		/**
-		 * Returns an enumerator for all changes covered by this event.
-		 * @memberof module:jidejs/base/Collection.ChangeEvent#
-		 * @returns {Enumerator}
-		 */
-		enumerator: function() {
-			return new Enumerator.Array(this.changes);
-		}
-	});
-
-	/**
-	 * Contains information about a single change in a collection.
-	 *
-	 * @alias module:jidejs/base/Collection.Change
-	 * @memberof module:jidejs/base/Collection
-	 * @param {Number} index The index of the change.
-	 * @param {*} oldValue The removed value.
-	 * @param {*} newValue The inserted value.
-	 * @property {Number} index The index of the change.
-	 * @property {*|undefined} oldValue The removed value or `undefined`, if no value was removed.
-	 * @property {*|undefined} newValue The inserted value or `undefined`, if no value was inserted.
-	 * @constructor
-	 */
-	function Change(index, oldValue, newValue) {
-		this.index = index;
-		this.oldValue = oldValue;
-		this.newValue = newValue;
-	}
-	Class(Change).def({
-		/**
-		 * `true`, if this event represents a deletion; `false`, otherwise.
-		 *
-		 * Deletion events only have an {@link #oldValue} property.
-		 *
-		 * @type {boolean}
-		 * @memberof module:jidejs/base/Collection.Change#
-		 */
-		get isDelete() {
-			return this.oldValue !== undefined && this.newValue === undefined;
-		},
-
-		/**
-		 * `true`, if this event represents an update; `false`, otherwise.
-		 *
-		 * Update events have both, {@link #oldValue} and {@link #newValue} properties.
-		 *
-		 * @type {boolean}
-		 * @memberof module:jidejs/base/Collection.Change#
-		 */
-		get isUpdate() {
-			return this.oldValue !== undefined && this.newValue !== undefined;
-		},
-
-		/**
-		 * `true`, if this event represents an insertion; `false`, otherwise.
-		 *
-		 * Insertion events only have a {@link #newValue} property.
-		 *
-		 * @type {boolean}
-		 * @memberof module:jidejs/base/Collection.Change#
-		 */
-		get isInsert() {
-			return this.newValue !== undefined && this.oldValue === undefined;
-		}
-	});
-
-	function changeComparator(a, b) {
-		return a.index - b.index;
-	}
-
-	/**
-	 * The ChangeEventAssembler is responsible for creating a {@link module:jidejs/base/Collection.ChangeEvent}.
-	 *
-	 * @memberof module:jidejs/base/Collection
-	 * @alias module:jidejs/base/Collection.ChangeEventAssembler
-	 * @param {module:jidejs/base/Collection} source The source for the assembled events.
-	 * @constructor
-	 */
-	function ChangeEventAssembler(source) {
-		this.source = source;
-		this.changes = null;
-		this.level = 0;
-		this.useCapture = false;
-		this.needsChangeSorting = false;
-	}
-	Class(ChangeEventAssembler).def({
-		/**
-		 * Adds a new insert event.
-		 * @param {Number} index The index at which the item was inserted.
-		 * @param {*} value The inserted value.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		insert: function(index, value) {
-			this.update(index, undefined, value);
-		},
-
-		/**
-		 * Adds a new delete event.
-		 * @param {Number} index The index from which the item was removed.
-		 * @param {*} value The removed value.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		remove: function(index, value) {
-			this.update(index, value, undefined);
-		},
-
-		/**
-		 * Adds a new update event.
-		 * @param {Number} index The index at which the value was changed.
-		 * @param {*} oldValue The previous value.
-		 * @param {*} newValue The new value.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		update: function(index, oldValue, newValue) {
-			var previousChange = this.changes[this.changes.length-1];
-			if(previousChange && index < previousChange.index) {
-				this.needsChangeSorting = true;
-			}
-			this.changes.push(new Change(index, oldValue, newValue));
-		},
-
-		/**
-		 * Prepares the assembling process, must be called before any other method.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		beginChange: function(useCapture) {
-			if(!this.useCapture) {
-				this.changes = [];
-				this.useCapture = useCapture;
-			} else if(useCapture) {
-				this.level++;
-			}
-		},
-
-		/**
-		 * Dispatches the created `change` event.
-		 * It will reorder all previously created events by their index and tries to compress them when possible.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		commitChange: function() {
-			if(this.useCapture && this.level > 0) {
-				this.level--;
-				return;
-			}
-			if(this.changes.length > 0) {
-				var changes = this.changes;
-				/* // TODO the standard sorting is not smart enough, figure out a way to optimize events anyway
-				if(this.needsChangeSorting) changes.sort(changeComparator);
-				var result = [];
-				for(var i = 0, len = changes.length; i < len; i++) {
-					var change = changes[i], last = result[result.length-1];
-					if(!change.isUpdate && last
-						&& last.index === change.index
-						&& (change.isInsert && last.isDelete || change.isDelete && last.isInsert)) {
-					//if(!change.isUpdate && (last = result[result.length-1]) && !last.isUpdate && last.index === change.index) {
-						if(last.isDelete) {
-							last.newValue = change.newValue;
-						} else {
-							last.oldValue = change.oldValue;
-						}
-					} else if(last && change.index === last.index) {
-						if(last.isUpdate && change.isInsert && last.oldValue === change.newValue) {
-							last.oldValue = undefined;
-						} else {
-							result[result.length] = change;
-						}
-					} else {
-						result[result.length] = change;
-					}
-				}
-				this.needsChangeSorting = false;
-				var event = new ChangeEvent(this.source, result);*/
-				var event = new ChangeEvent(this.source, changes);
-				this.source.emit('change', event);
-			}
-			this.changes = null;
-		},
-
-		/**
-		 * Cancels the event assembling.
-		 * @returns {*|Array} The changes that were generated so far.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		cancelChange: function() {
-			// todo update to revert only the changes done at this level
-			var changes = this.changes;
-			this.level = 0;
-			this.needsChangeSorting = false;
-			this.useCapture = false;
-			this.changes = null;
-			return changes;
-		},
-
-		/**
-		 * Pipes an event from another collection through this EventAssembler.
-		 * @param {jidejs/base/ChangeEvent} event The event.
-		 * @memberof module:jidejs/base/Collection.ChangeEventAssembler#
-		 */
-		pipe: function(event) {
-			this.source.emit('change', new ChangeEvent(this.source, event.changes));
-		}
-	});
-	//endregion
+    //region ChangeEvent
+    function changeComparator(a, b) {
+        return a.index - b.index;
+    }
+    //endregion
 
 	//region Enumerators
 	function ListEnumerator(list) {
@@ -270,17 +64,19 @@ define([
 	 * Creates a new Collection. The abstract methods should be provided trough the config object unless
 	 * an explicit sub class is defined as invokes this as the parents constructor.
 	 *
-	 * @memberof module:jidejs/base/Collection
-	 * @param {object?} config The configuration.
 	 * @constructor
 	 * @alias module:jidejs/base/Collection
+     * @abstract
+     * @extends module:jidejs/base/EventEmitter
+     * @fires module:jidejs/base/Collection#change Fired when an element is added, removed or replaced in this Collection.
+     * @param {object?} config The configuration.
 	 */
-	function Collection(config) {
+	var exports = function Collection(config) {
 		EventEmitter.call(this);
 		if(config) _.extends(this, config);
 		if(!this.updates) this.updates = new ChangeEventAssembler(this);
-	}
-	Class(Collection).mixin(EventEmitter).def({
+	};
+	Class(Collection).mixin(EventEmitter).def(/** @lends module:jidejs/base/Collection# */{
 		/**
 		 * Returns the item at the given `index`.
 		 *
@@ -302,6 +98,11 @@ define([
 		 */
 		length: 0,
 
+        /**
+         * Returns an Enumerator that can be used to iterate over all elements in the collection.
+         *
+         * @returns {ListEnumerator}
+         */
 		enumerator: function() {
 			return new ListEnumerator(this);
 		},
@@ -529,16 +330,13 @@ define([
 				: keySelector, context);
 		}
 	});
-	Collection.ChangeEvent = ChangeEvent;
 	/**
 	 * Returns a new, immutable, collection which contains all items from the given array.
 	 *
-	 * @memberof module:jidejs/base/Collection
-	 * @alias module:jidejs/base/Collection.fromArray
-	 * @param {Array<*>} array An array of items.
+	 * @param {Array} array An array of items.
 	 * @returns {ArrayCollection}
 	 */
-	Collection.fromArray = function(array) {
+    exports.fromArray = function(array) {
 		return new ArrayCollection(array);
 	};
 	function ArrayCollection(data) {
@@ -1666,5 +1464,5 @@ define([
 	StreamCollectionGroup.prototype.stream = GroupTransforms.stream;
 	//endregion
 
-	return Collection;
+	return exports;
 });

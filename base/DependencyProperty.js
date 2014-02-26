@@ -2,7 +2,6 @@
  * This type of {@link jidejs/base/Property} allows to calculate its value based on multiple other properties that are
  * observed for changes.
  *
- * @extends module:jidejs/base/Property
  * @module jidejs/base/DependencyProperty
  */
 define([
@@ -15,7 +14,10 @@ define([
 	 *
 	 * The _computeValue_ function will receive the values all bound properties in order of binding as its parameters.
 	 *
-	 * @memberof module:jidejs/base/DependencyProperty
+     * @constructor
+     * @alias module:jidejs/base/DependencyProperty
+     * @extends module:jidejs/base/Property
+     *
 	 * @param {Object} context The object that is used as the context (i.e. "this")
 	 * 									  of the {@link computeValue} function.
 	 * @param {String} name The name of the property.
@@ -23,10 +25,8 @@ define([
 	 * 				defines the read and write operations.
 	 * @param {Function} computeValue.read The function used to calculate the value.
 	 * @param {Function} computeValue.write A function that updates the otherwise read values when the value of this property is set.
-	 * @constructor
-	 * @alias module:jidejs/base/DependencyProperty
 	 */
-	function DependencyProperty(context, name, computeValue) {
+	var exports = function DependencyProperty(context, name, computeValue) {
 		if(!(this instanceof DependencyProperty)) {
 			return new DependencyProperty(context, name, computeValue);
 		}
@@ -41,9 +41,9 @@ define([
 				this.computeValue = computeValue;
 			}
 		}
-	}
+	};
 
-	Class(DependencyProperty).extends(Property).def({
+	Class(DependencyProperty).extends(Property).def(/** @lends module:jidejs/base/DependencyProperty# */{
         get writable() { return this.set !== null; },
 
 		_bindings: null,
@@ -115,5 +115,5 @@ define([
 		}
 	});
 
-	return DependencyProperty;
+	return exports;
 });

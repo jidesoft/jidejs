@@ -14,23 +14,23 @@ define(['./Class'], function(Class) {
 	/**
 	 * Creates a new Subscription.
 	 *
-	 * @memberof module:jidejs/base/Subscription
+     * @constructor
+     * @alias module:jidejs/base/Subscription
+     *
 	 * @param {module:jidejs/base/EventEmitter} emitter The event emitter that this subscription belongs to.
 	 * @param {String} event The event name.
 	 * @param {Function} listener The event listener.
 	 * @param {boolean} once When `true`, the subscription will be disposed after the first invocation of the event listener.
-	 * @constructor
-	 * @alias module:jidejs/base/Subscription
 	 */
-	function Subscription(emitter, event, listener, once) {
+	var exports = function Subscription(emitter, event, listener, once) {
 		this.emitter = emitter;
 		this.event = event;
 		this.listener = listener;
 		this.disposed = false;
 		this.once = once || false;
 		this.context = emitter;
-	}
-	Class(Subscription).def({
+	};
+	Class(Subscription).def(/** @lends module:jidejs/base/Subscription# */{
 		/**
 		 * When invoked, the subscription will be disposed after the next invocation of the event listener.
 		 * @returns {module:jidejs/base/Subscription}
@@ -70,5 +70,5 @@ define(['./Class'], function(Class) {
 			if(this.once) this.dispose();
 		}
 	});
-	return Subscription;
+	return exports;
 });

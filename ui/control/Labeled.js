@@ -3,8 +3,6 @@
  * user.
  *
  * @module jidejs/ui/control/Labeled
- * @abstract
- * @extends module:jidejs/ui/Control
  */
 define([
 	'./../../base/Class', './../../base/Util', './../../base/ObservableProperty', './../Control', './../Skin',
@@ -12,20 +10,22 @@ define([
 ], function(Class, _, Observable, Control, Skin, DOM, bind, Templates, register) {
 	/**
 	 * Used by subclasses to initialize the Labeled control.
-	 * @memberof module:jidejs/ui/control/Labeled
-	 * @param {object} config The configuration
+	 *
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Labeled
+     * @abstract
+     * @extends module:jidejs/ui/Control
+     * @param {object} config The configuration
 	 */
-	function Labeled(config) {
+	var exports = function Labeled(config) {
 		installer(this);
 		config = config || {};
 		Control.call(this, config);
 
 		this.classList.add('jide-labeled');
-	}
+	};
 
-	Class(Labeled).extends(Control).def({
+	Class(Labeled).extends(Control).def(/** @lends module:jidejs/ui/control/Labeled# */{
 		/**
 		 * The text displayed by this Labeled control.
 		 * @type {string}
@@ -84,15 +84,15 @@ define([
 			installer.dispose(this);
 		}
 	});
-	Labeled.Skin = Skin.create(Skin, {
+    exports.Skin = Skin.create(Skin, {
         graphic: null,
         text: null,
         template: Templates.Labeled,
-        defaultElement: 'span',
+        defaultElement: 'span'
     });
 	var installer = Observable.install(Labeled, 'text', 'contentDisplay', 'graphic', 'graphicTextGap');
 
 	register('jide-labeled', Labeled, Control, ['graphic', 'text', 'graphicTextGap'], []);
 
-	return Labeled;
+	return exports;
 });

@@ -67,12 +67,12 @@ define([
 	/**
 	 * Creates a new component.
 	 *
-	 * @memberof module:jidejs/ui/Component
-	 * @param {Element} element The HTML DOM Element that is managed by this component.
 	 * @constructor
 	 * @alias module:jidejs/ui/Component
+     * @extends module:jidejs/base/EventEmitter
+     * @param {Element} element The HTML DOM Element that is managed by this component.
 	 */
-	function Component(element) {
+	var exports = function Component(element) {
 		this.element = element;
 		DOM.getData(this.element).component = this;
 		installer(this);
@@ -102,9 +102,9 @@ define([
 		this.on('blur', function() {
 			this.focused = false;
 		});
-	}
+	};
 
-	Class(Component).mixin(EventEmitter).def({
+	Class(Component).mixin(EventEmitter).def( /** @lends module:jidejs/ui/Component# */ {
 		/**
 		 * The HTML DOM Element managed by this component.
 		 * @type Element
@@ -369,22 +369,20 @@ define([
 
 	/**
 	 * Retrieves the component that belongs to the DOM Element.
-	 * @memberof module:jidejs/ui/Component
 	 * @param {Element} e The HTML DOM Element.
 	 * @returns {module:jidejs/ui/Component}
 	 */
-	Component.fromElement = function(e) {
+    exports.fromElement = function(e) {
 		return DOM.getData(e).component;
 	};
 
 	/**
 	 * Finds the component that the element that triggered the event belongs to.
-	 * @memberof module:jidejs/ui/Component
 	 * @param {Event} e The native browser Event.
 	 * @param {Element} searchEnd The element at which the search should stop.
 	 * @returns {module:jidejs/ui/Component} The component that triggered the event or `null`, if no component could be found.
 	 */
-	Component.fromEvent = function(e, searchEnd) {
+    exports.fromEvent = function(e, searchEnd) {
 		var element = e.target,
 			component = null;
 		while((!DOM.hasData(element) || !(component = Component.fromElement(element))) && element != searchEnd) {
@@ -417,7 +415,7 @@ define([
 	 * @param {module:jidejs/ui/Component} target The component that should be configured.
 	 * @param {object} source The configuration object.
 	 */
-	Component.applyConfiguration = function(target, source) {
+    exports.applyConfiguration = function(target, source) {
 		if(typeof source === 'undefined' || source === null) return;
 		Object.getOwnPropertyNames(source).forEach(function(name) {
 			if(name === 'on') {
@@ -470,5 +468,5 @@ define([
 
 	register('jide-component', Component, null, [], ['on', 'emit', 'measure', 'dispose']);
 
-	return Component;
+	return exports;
 });

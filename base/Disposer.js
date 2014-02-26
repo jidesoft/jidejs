@@ -15,15 +15,13 @@ define([
 	/**
 	 * Creates a new Disposer.
 	 *
-	 * @memberof module:jidejs/base/Disposer
 	 * @constructor
-	 * @class
 	 * @alias module:jidejs/base/Disposer
 	 */
-	function Disposer() {
+	var exports = function Disposer() {
 		this.disposables = [];
-	}
-	Class(Disposer).def({
+	};
+	Class(Disposer).def(/** @lends module:jidejs/base/Disposer# */{
 		/**
 		 * Adds a new disposable that should be managed by this disposer.
 		 * @param {{dispose:function}} disposable The disposable object.
@@ -42,5 +40,5 @@ define([
 			this.disposables = [];
 		}
 	});
-	return Disposer;
+	return exports;
 });

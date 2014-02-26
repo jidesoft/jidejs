@@ -10,14 +10,14 @@ define([
 	 * Can be used without the _new_ keyword to cast an array to an observable list or return the given value if it is already
 	 * an observable list.
 	 *
-	 * @memberof module:jidejs/base/ObservableList
+     * @constructor
+     * @alias module:jidejs/base/ObservableList
+     * @extends module:jidejs/base/Collection
+     *
 	 * @param {array|jidejs/base/ObservableList?} data The initial data of the observable list.
 	 * @returns {jidejs/base/ObservableList} A new observable list or the _data_ parameter, if it already is an observable list.
-	 * @constructor
-	 * @extends module:jidejs/base/Collection
-	 * @alias module:jidejs/base/ObservableList
 	 */
-	function ObservableList(data) {
+	var exports = function ObservableList(data) {
 		if(!(this instanceof ObservableList)) {
 			if(data instanceof ObservableList) {
 				return data;
@@ -26,9 +26,9 @@ define([
 		}
 		Collection.call(this);
 		this._data = data || [];
-	}
+	};
 
-	Class(ObservableList).extends(Collection).def({
+	Class(ObservableList).extends(Collection).def(/** @lends module:jidejs/base/ObservableList# */{
 		/**
 		 * Releases all resources held by this instance and frees them for garbage collection.
 		 */
@@ -78,7 +78,7 @@ define([
 		/**
 		 * Adds a items to the end of the list.
 		 * @param {...*} item The new items
-		 * @fires ObservableList#change Notifies all listeners of the modification.
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification.
 		 */
 		add: function(item) {
 			var idx = this._data.length;
@@ -99,7 +99,7 @@ define([
 		/**
 		 * Adds all items from the collection or array to the end of the list.
 		 * @param {Array<*>} items The items
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		addAll: function(items) {
 			var idx = this._data.length,
@@ -117,7 +117,7 @@ define([
 		 * Inserts the new items at the specified index.
 		 * @param {number} index The index of the new items.
 		 * @param {...*} child The new items.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		insertAt: function(index, child) {
 			var publisher = this.updates;
@@ -140,7 +140,7 @@ define([
 		 * Inserts the new item directly before the other item.
 		 * @param {*} newChild The new item.
 		 * @param {*} relChild The other item.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		insertBefore: function(newChild, relChild) {
 			var index = this.indexOf(relChild);
@@ -151,7 +151,7 @@ define([
 		 * Inserts the new item directly after the other item.
 		 * @param {*} newChild The new item.
 		 * @param {*} relChild The other item.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		insertAfter: function(newChild, relChild) {
 			var index = this.indexOf(relChild);
@@ -160,7 +160,7 @@ define([
 
 		/**
 		 * Removes all items from the list.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		clear: function() {
 			this.remove(0, this.length);
@@ -174,7 +174,7 @@ define([
 		 * @param {number|*} from The start index of the removal or the item that should be removed.
 		 * @param {number} length The number of elements that should be removed.
 		 * @returns {Array} Returns an array of the removed items.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		remove: function(from, length) {
 			var publisher = this.updates;
@@ -204,7 +204,7 @@ define([
 		/**
 		 * Removes the item at the given index and returns an array containing the item.
 		 * @param {number} index The index of the item that should be removed.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		removeAt: function(index) {
 			this.remove(index, 1);
@@ -231,7 +231,7 @@ define([
 		 * Sets the item at the given index.
 		 * @param {number} index The index at which the item should be stored.
 		 * @param {*} data The value that should be stored at the given index.
-		 * @fires ObservableList#change Notifies all listeners of the modification
+		 * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
 		 */
 		set: function(index, data) {
 			var publisher = this.updates,
@@ -283,5 +283,5 @@ define([
 			return this._data.concat();
 		}
 	});
-	return ObservableList;
+	return exports;
 });

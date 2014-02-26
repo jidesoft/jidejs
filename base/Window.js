@@ -13,7 +13,7 @@ define([
 ], function(Observable, _) {
 	"use strict";
 
-	var Window = {
+	var exports = {
 		/**
 		 * Returns the height of the window.
 		 * @returns {Number}
@@ -48,9 +48,9 @@ define([
 	};
 
 	window.addEventListener('resize', _.throttle(function() {
-		Window.heightProperty.invalidate();
-		Window.widthProperty.invalidate();
+		exports.heightProperty.invalidate();
+		exports.widthProperty.invalidate();
 	}, 200), false);
 
-	return Window;
+	return exports;
 });

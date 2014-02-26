@@ -277,6 +277,10 @@ gulp.task('website:jsdoc', function(next) {
     });
 });
 
+gulp.task('website:jsdoc:force', ['clean:jsdoc'], function(next) {
+    exec('jsdoc.cmd', next);
+});
+
 gulp.task('website:build', ['website:copy', 'website:jsdoc'], function(next) {
     var env = wintersmith(wintersmithConfig);
     env.build(next);

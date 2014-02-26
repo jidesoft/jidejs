@@ -28,14 +28,14 @@ define([
 	 * When invoked with the **new** keyword, creates a new instance of EventEmitter.
 	 *
 	 * Note that it is not necessary to call the constructor when you want to mixin EventEmitter into another class.
-	 * @memberof module:jidejs/base/EventEmitter
+     *
 	 * @constructor
 	 * @alias module:jidejs/base/EventEmitter
 	 */
-	function EventEmitter() {
+	var exports = function EventEmitter() {
 		ensureInitialized(this);
-	}
-	Class(EventEmitter).def({
+	};
+	Class(EventEmitter).def(/** @lends module:jidejs/base/EventEmitter# */ {
 		/**
 		 * Adds an event listener to the event specified as _name_.
 		 *
@@ -206,7 +206,7 @@ define([
 			}
 		}
 	});
-	EventEmitter.prototype.addEventListener = EventEmitter.prototype.on;
+    exports.prototype.addEventListener = EventEmitter.prototype.on;
 	/**
 	 * Returns the number of listeners currently registered for the given event.
 	 * @memberof module:jidejs/base/EventEmitter
@@ -214,11 +214,11 @@ define([
 	 * @param {string} event The event name.
 	 * @returns {number}
 	 */
-	EventEmitter.listenerCount = function(emitter, event) {
+    exports.listenerCount = function(emitter, event) {
 		ensureInitialized(emitter);
 		var listeners = emitter[$listeners][event];
 		return Array.isArray(listeners) ? listeners.length : 0;
 	};
 
-	return EventEmitter;
+	return exports;
 });

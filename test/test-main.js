@@ -12,7 +12,8 @@ requirejs.config({
     baseUrl: '/base',
 
     paths: {
-        'text': 'bower_components/requirejs-text/text'
+        'text': 'bower_components/requirejs-text/text',
+        'jquery': 'bower_components/jquery/jquery'
     },
 
     // ask Require.js to load these files (all our tests)

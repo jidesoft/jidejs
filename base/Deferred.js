@@ -95,7 +95,7 @@ define([
 	 * Promises can't be created, fulfilled or rejected directly. It is managed by a {@link module:jidejs/base/Deferred}
 	 * which provides means to fulfill and reject the promise it manages.
 	 *
-	 * @memberof module:jidejs/base/Deferred
+	 * @memberof! module:jidejs/base/Deferred
 	 * @class
 	 * @alias module:jidejs/base/Deferred.Promise
 	 */
@@ -104,14 +104,14 @@ define([
 		this._value = undefined;
 		this._handlers = [];
 	}
-	Class(Promise).def({
+	Class(Promise).def(/** @lends module:jidejs/base/Deferred.Promise# */{
 		/**
 		 * The `onFulfilled` callback is invoked when this promise is fulfilled.
 		 * The `onRejected` callback is invoked when this promise is rejected.
 		 *
 		 * Neither are called before this method returns in order to guarantee a
 		 *
-		 * @memberof module:jidejs/base/Deferred.Promise#
+		 * @memberof! module:jidejs/base/Deferred.Promise#
 		 * @param {Function?} onFulfilled
 		 * @param {Function?} onRejected
 		 * @returns {Promise} A new promise that is fulfilled or rejected based on the return value of the given
@@ -136,20 +136,20 @@ define([
 	 * When working with Deferred, the actual Deferred instance should be kept private. Only its
 	 * {@link module:jidejs/base/Deferred#promise} should be passed to the client.
 	 *
-	 * @memberof module:jidejs/base/Deferred
 	 * @constructor
 	 * @alias module:jidejs/base/Deferred
 	 */
-	function Deferred(value) {
+	var exports = function Deferred(value) {
 		if(!(this instanceof Deferred)) return new Deferred(value);
 
 		this.promise = new Promise();
 		if(value) this.fulfill(value);
-	}
-	Class(Deferred).def({
+	};
+	Class(Deferred).def(/** @lends module:jidejs/base/Deferred# */{
 		/**
 		 * Fulfills the promise with the given value.
 		 * @param {*} value The value of the promise.
+         * @memberof! module:jidejs/base/Deferred#
 		 */
 		fulfill: function(value) {
 			fulfill(this.promise, value);
@@ -158,18 +158,20 @@ define([
 		/**
 		 * Rejects the promise with the given reason.
 		 * @param {*} reason The reason why the promise was rejected.
+         * @memberof! module:jidejs/base/Deferred#
 		 */
 		reject: function(reason) {
 			reject(this.promise, reason);
-		}
+		},
 
 		/**
 		 * The Promise that belongs to this Deferred.
 		 *
-         * @memberof module:jidejs/base/Deferred.prototype
 		 * @property {module:jidejs/base/Deferred.Promise} promise
+         * @memberof! module:jidejs/base/Deferred#
 		 */
+        promise: null
 	});
 
-	return Deferred;
+	return exports;
 });

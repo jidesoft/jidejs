@@ -12,7 +12,7 @@
 define(['./Class'], function(Class) {
 	/**
 	 * Updates the target whenever the source changes.
-	 * @memberof module:jidejs/base/Binding
+	 *
 	 * @param {module:jidejs/base/Property} source The source property
 	 * @param {module:jidejs/base/Property} target The target property
 	 * @param {Function} converter A function used to convert the value of the source property to a value that the
@@ -22,7 +22,7 @@ define(['./Class'], function(Class) {
 	 * @constructor
 	 * @alias module:jidejs/base/Binding
 	 */
-	function Binding(source, target, direction, converter) {
+	var exports = function Binding(source, target, direction, converter) {
 		this.sourceBinding = null;
 		this.targetBinding = null;
 		this.source = source;
@@ -64,8 +64,8 @@ define(['./Class'], function(Class) {
 			target.set(converter && converter.convertTo(source.get()) || source.get());
 			updating = false;
 		}
-	}
-	Class(Binding).def({
+	};
+	Class(Binding).def(/** @lends module:jidejs/base/Binding# */{
 		/**
 		 * Releases all references stored in the binding to clear up the used memory.
 		 */
@@ -82,18 +82,16 @@ define(['./Class'], function(Class) {
 	 * A flag to indicate that the Binding should work only in one direction, updating the target whenever
 	 * the source property changes.
 	 *
-	 * @memberof module:jidejs/base/Binding
 	 * @type {number}
 	 */
-	Binding.ONE_WAY = 1;
+    exports.ONE_WAY = 1;
 	/**
 	 * A flag to indicate that the Binding should work only in one direction, updating both properties whenever the other
 	 * one changes.
 	 *
-	 * @memberof module:jidejs/base/Binding
 	 * @type {number}
 	 */
-	Binding.BIDIRECTIONAL = 2;
+    exports.BIDIRECTIONAL = 2;
 
-	return Binding;
+	return exports;
 });

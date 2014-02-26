@@ -6,7 +6,6 @@
  * {@link module:jidejs/ui/control/PopupButton PopupButton}.
  *
  * @module jidejs/ui/control/Button
- * @extends module:jidejs/ui/control/ButtonBase
  */
 define([
 	'./../../base/Class', './../Component', './../Skin', './ButtonBase',
@@ -25,20 +24,27 @@ define([
 		 *     }
 		 * });
 		 *
-		 * @memberof module:jidejs/ui/control/Button
-		 * @param {object} config The Button configuration.
 		 * @constructor
 		 * @alias module:jidejs/ui/control/Button
+         * @extends module:jidejs/ui/control/ButtonBase
+         * @param {object} config The Button configuration.
 		 */
-		function Button(config) {
+		var exports = function Button(config) {
 			if(!config) config = {};
 			ButtonBase.call(this, config);
 			this.classList.add('jide-button');
-		}
+		};
 		Class(Button).extends(ButtonBase);
-		Button.Skin = Skin.create(ButtonBase.Skin, {
+    /**
+     * The default Skin used by buttons.
+     * @type {module:jidejs/ui/Skin}
+     */
+        exports.Skin = Skin.create(ButtonBase.Skin, {
+            /**
+             * @memberof! module:jidejs/ui/control/Button.Skin#
+             */
             defaultElement: 'button'
         });
 		register('jide-button', Button, ButtonBase);
-		return Button;
+		return exports;
 });

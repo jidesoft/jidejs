@@ -11,13 +11,13 @@ define([
 	/**
 	 * A general interface for enumerating a set of values.
 	 *
-	 * @memberof module:jidejs/base/Enumerator
 	 * @constructor
 	 * @alias module:jidejs/base/Enumerator
+     * @abstract
 	 */
-	function Enumerator() {
-	}
-	Class(Enumerator).def({
+	var exports = function Enumerator() {
+	};
+	Class(Enumerator).def(/** @lends module:jidejs/base/Enumerator# */{
 		/**
 		 * Contains the current value of the enumeration. If accessed before {@link module:jidejs/base/Enumerator#moveNext}
 		 * has been invoked, its value should be `null` or `undefined`.
@@ -31,7 +31,14 @@ define([
 		moveNext: function() {},
 		peek: function() {}
 	});
-	Enumerator.Array = function(array) {
+    /**
+     * An Enumerator for arrays.
+     *
+     * @constructor
+     * @alias module:jidejs/base/Enumerator.Array
+     * @memberof! module:jidejs/base/Enumerator
+     */
+	exports.Array = function(array) {
 		this.array = array;
 		this.index = -1;
 	};
@@ -49,5 +56,5 @@ define([
 			return this.array[this.index+1];
 		}
 	});
-	return Enumerator;
+	return exports;
 });
