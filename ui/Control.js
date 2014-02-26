@@ -97,6 +97,7 @@ define([
 
 		this.classList.add('jide-control');
 	};
+    var Control = exports;
 	Class(Control).extends(Component).def( /** @lends module:jidejs/ui/Control# */ {
 		/**
 		 * The Skin of the control.

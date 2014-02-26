@@ -15,6 +15,38 @@ define([
 ], function(has, _) {
 	"use strict";
 
+    /**
+     * Converts a string or element into an HTML5 template element or shims it, if the browser doesn't support
+     * the template element.
+     *
+     * Returns the converted element.
+     *
+     * @alias module:jidejs/ui/Template
+     * @param {String|HTMLElement} template
+     * @returns {HTMLElement}
+     */
+    var exports = function template(template) {
+        if(_.isString(template)) {
+            if(cache[template]) {
+                return cache[template];
+            }
+            template = (cache[template] = transformStringToElement(template));
+        }
+        if(template.hasAttribute('ref')) {
+            // support template references
+            var ref = template.getAttribute('ref');
+            var refTemplate = document.querySelector(ref);
+            if(refTemplate) {
+                template = refTemplate;
+            }
+        }
+        if(!has('templateElement') || !has('shadowDOM')) {
+            rewriteTemplateElements(template);
+        }
+        return template;
+    };
+    var template = exports;
+
 	var cache = {}, needsCloneNodeFix = (function() {
         // as far as I know, IE is the only current browser
         // that actually needs this fix, but still...
@@ -107,37 +139,6 @@ define([
             return copy;
         };
     }
-
-    /**
-     * Converts a string or element into an HTML5 template element or shims it, if the browser doesn't support
-     * the template element.
-     *
-     * Returns the converted element.
-     *
-     * @alias module:jidejs/ui/Template
-     * @param {String|HTMLElement} template
-     * @returns {HTMLElement}
-     */
-	var exports = function template(template) {
-		if(_.isString(template)) {
-			if(cache[template]) {
-				return cache[template];
-			}
-			template = (cache[template] = transformStringToElement(template));
-		}
-		if(template.hasAttribute('ref')) {
-			// support template references
-			var ref = template.getAttribute('ref');
-			var refTemplate = document.querySelector(ref);
-			if(refTemplate) {
-				template = refTemplate;
-			}
-		}
-		if(!has('templateElement') || !has('shadowDOM')) {
-			rewriteTemplateElements(template);
-		}
-		return template;
-	};
 
     exports.getContent = function(template) {
         return template.content || template.getAttribute('content');

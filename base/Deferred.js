@@ -145,7 +145,7 @@ define([
 		this.promise = new Promise();
 		if(value) this.fulfill(value);
 	};
-	Class(Deferred).def(/** @lends module:jidejs/base/Deferred# */{
+	Class(exports).def(/** @lends module:jidejs/base/Deferred# */{
 		/**
 		 * Fulfills the promise with the given value.
 		 * @param {*} value The value of the promise.

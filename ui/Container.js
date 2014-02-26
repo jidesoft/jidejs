@@ -95,6 +95,7 @@ define([
 			this.children.on('change', handleChildrenChanged.bind(this, wrapperCallback));
 		}
 	}
+    var Container = exports;
 	Class(Container).def(/** @lends module:jidejs/ui/Container# */{
 		/**
 		 * An ObservableList of children that belong to the component.

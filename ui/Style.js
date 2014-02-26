@@ -30,6 +30,7 @@ define([
 		this.element = element;
 		this.properties = {};
 	};
+    var Style = exports;
 	Class(Style).def(/** @lends module:jidejs/ui/Style# */{
 		/**
 		 * Sets a CSS property. Allows to use CSSOM property names, i.e. `MSTransition` but does not automatically

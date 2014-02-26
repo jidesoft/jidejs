@@ -35,6 +35,6 @@ define(['./../../base/Class', './../../base/ObservableProperty'], function(Class
 			event.value.toggles.add(this);
 		});
 	};
-	Toggle.installer = Observable.install(Toggle, 'selected', 'toggleGroup');
-	return Toggle;
+    exports.installer = Observable.install(exports, 'selected', 'toggleGroup');
+	return exports;
 });

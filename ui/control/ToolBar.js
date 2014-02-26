@@ -55,7 +55,7 @@ define([
 		});
 	};
 
-	Class(ToolBar).extends(Control).def(/** @lends module:jidejs/ui/control/ToolBar# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/ToolBar# */{
 		/**
 		 * An ObservableList of controls that should be displayed within the ToolBar.
 		 *
@@ -66,5 +66,5 @@ define([
 		}
 	});
 
-	return ToolBar;
+	return exports;
 });

@@ -73,7 +73,7 @@ define([
 		Control.call(this, config);
 		this.classList.add('jide-progressbar');
 	};
-	Class(ProgressBar).extends(Control).def(/** @lends module:jidejs/ui/control/ProgressBar# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/ProgressBar# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 		},
@@ -102,7 +102,7 @@ define([
 		 */
 		progressProperty: null
 	});
-	var installer = Observable.install(ProgressBar, 'indeterminate', 'progress');
-    ProgressBar.Skin = ProgressBarSkin;
-	return ProgressBar;
+	var installer = Observable.install(exports, 'indeterminate', 'progress');
+    exports.Skin = ProgressBarSkin;
+	return exports;
 });

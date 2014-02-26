@@ -125,7 +125,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 			Control.call(this, config);
 			this.classList.add('jide-choicebox');
 		};
-		Class(ChoiceBox).extends(Control).mixin(SelectionMixin).def(/** @lends module:jidejs/ui/control/ChoiceBox# */{
+		Class(exports).extends(Control).mixin(SelectionMixin).def(/** @lends module:jidejs/ui/control/ChoiceBox# */{
 			dispose: function() {
 				Control.prototype.dispose.call(this);
 				installer.dispose(this);
@@ -194,13 +194,13 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/U
 			 */
 			showingProperty: null
 		});
-		var installer = Observable.install(ChoiceBox, 'value', 'converter', 'showing', 'cellFactory');
+		var installer = Observable.install(exports, 'value', 'converter', 'showing', 'cellFactory');
 		/**
 		 * Contains the default Skin used by all ChoiceBoxes. By replacing this value, you can specify the skin
 		 * that will be used by every **new** ChoiceBox but it will not change that of old ones.
 		 * @type {module:jidejs/ui/control/ChoiceBox.Skin}
 		 */
 		exports.Skin = ChoiceBoxSkin;
-        register('jide-choicebox', ChoiceBox, Control, ['value', 'converter', 'showing', 'cellFactory', 'selectionModel', 'items'], []);
+        register('jide-choicebox', exports, Control, ['value', 'converter', 'showing', 'cellFactory', 'selectionModel', 'items'], []);
 		return exports;
 });

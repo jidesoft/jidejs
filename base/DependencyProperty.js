@@ -42,6 +42,7 @@ define([
 			}
 		}
 	};
+    var DependencyProperty = exports;
 
 	Class(DependencyProperty).extends(Property).def(/** @lends module:jidejs/base/DependencyProperty# */{
         get writable() { return this.set !== null; },

@@ -70,6 +70,7 @@ define([
 				? 'jide-use-legacy-flex'
 				: 'jide-use-table');
 	};
+    var HBox = exports;
 
 	Class(HBox).extends(Pane).def(/** @lends module:jidejs/ui/layout/HBox# */{
 		dispose: function() {

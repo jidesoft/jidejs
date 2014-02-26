@@ -219,7 +219,7 @@ define([
 		this.classList.add('jide-listview');
 		this.skin.initialize();
 	};
-	Class(ListView).extends(Control).def(/** @lends module:jidejs/ui/control/ListView# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/ListView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -291,8 +291,8 @@ define([
 		 */
 		orientationProperty: null
 	});
-	var installer = Observable.install(ListView, 'orientation', 'converter', 'cellFactory');
-    ListView.Skin = ListViewSkin;
-    register('jide-listview', ListView, Control, ['orientation', 'converter', 'cellFactory', 'selectionModel', 'items'], []);
-	return ListView;
+	var installer = Observable.install(exports, 'orientation', 'converter', 'cellFactory');
+    exports.Skin = ListViewSkin;
+    register('jide-listview', exports, Control, ['orientation', 'converter', 'cellFactory', 'selectionModel', 'items'], []);
+	return exports;
 });

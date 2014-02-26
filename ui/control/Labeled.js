@@ -25,7 +25,7 @@ define([
 		this.classList.add('jide-labeled');
 	};
 
-	Class(Labeled).extends(Control).def(/** @lends module:jidejs/ui/control/Labeled# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/Labeled# */{
 		/**
 		 * The text displayed by this Labeled control.
 		 * @type {string}
@@ -90,9 +90,9 @@ define([
         template: Templates.Labeled,
         defaultElement: 'span'
     });
-	var installer = Observable.install(Labeled, 'text', 'contentDisplay', 'graphic', 'graphicTextGap');
+	var installer = Observable.install(exports, 'text', 'contentDisplay', 'graphic', 'graphicTextGap');
 
-	register('jide-labeled', Labeled, Control, ['graphic', 'text', 'graphicTextGap'], []);
+	register('jide-labeled', exports, Control, ['graphic', 'text', 'graphicTextGap'], []);
 
 	return exports;
 });

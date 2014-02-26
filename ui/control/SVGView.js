@@ -41,7 +41,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../Control',
 			el.appendChild(this.content);
 		}
 	};
-	Class(SVGView).extends(Control).def(/** @lends module:jidejs/ui/control/SVGView# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/SVGView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -80,7 +80,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../Control',
 			};
 		}
 	});
-	var installer = Observable.install(SVGView, 'content');
-    SVGView.Skin = SVGViewSkin;
-	return SVGView;
+	var installer = Observable.install(exports, 'content');
+    exports.Skin = SVGViewSkin;
+	return exports;
 });

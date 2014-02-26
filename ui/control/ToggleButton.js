@@ -34,7 +34,7 @@ define([
 		this.classList.add('jide-togglebutton');
 	};
 
-	Class(ToggleButton).extends(ButtonBase).mixin(Toggle).def(/** @lends module:jidejs/ui/control/ToggleButton# */{
+	Class(exports).extends(ButtonBase).mixin(Toggle).def(/** @lends module:jidejs/ui/control/ToggleButton# */{
 		/**
 		 * `true`, if the ToggleButton is currently selected; `false`, otherwise.
 		 * @type boolean
@@ -57,7 +57,7 @@ define([
 		 */
 	});
 
-    ToggleButton.Skin = ButtonBase.Skin;
+    exports.Skin = ButtonBase.Skin;
 
-	return ToggleButton;
+	return exports;
 });

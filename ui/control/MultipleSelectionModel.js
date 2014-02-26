@@ -53,7 +53,7 @@ define([
 			}
 		});
 	};
-	Class(MultipleSelectionModel).extends(SelectionModel).def(
+	Class(exports).extends(SelectionModel).def(
         /** @lends module:jidejs/ui/control/MultipleSelectionModel */ {
 		/**
 		 * An ObservableList of the indices of the selected items.
@@ -158,5 +158,5 @@ define([
 			this.selectedIndex = items.length-1;
 		}
 	});
-	return MultipleSelectionModel;
+	return exports;
 });

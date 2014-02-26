@@ -59,13 +59,10 @@ define([
 	 */
 	var exports = function HTMLView(config) {
 		config = config || {};
-		if(!config.skin) {
-			config.skin = new HTMLView.Skin(this, config.element);
-		}
 		installer(this);
 		Control.call(this, config);
 	};
-	Class(HTMLView).extends(Control).def(/** @lends module:jidejs/ui/control/HTMLView# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/HTMLView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -83,8 +80,8 @@ define([
 		 */
 		contentProperty: null
 	});
-	var installer = Observable.install(HTMLView, 'content');
-	HTMLView.Skin = HTMLViewSkin;
-    register('jide-htmlview', HTMLView, Control, ['content'], []);
+	var installer = Observable.install(exports, 'content');
+    exports.Skin = HTMLViewSkin;
+    register('jide-htmlview', exports, Control, ['content'], []);
 	return exports;
 });

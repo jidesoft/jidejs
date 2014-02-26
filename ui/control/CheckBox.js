@@ -38,7 +38,7 @@ define([
 			this.classList.add('jide-checkbox');
 		};
 
-		Class(CheckBox).extends(ButtonBase).mixin(Toggle).def(/** @lends module:jidejs/ui/control/CheckBox# */{
+		Class(exports).extends(ButtonBase).mixin(Toggle).def(/** @lends module:jidejs/ui/control/CheckBox# */{
 			/**
 			 * `true`, if the CheckBox is selected; `false`, otherwise.
 			 *
@@ -90,8 +90,8 @@ define([
 				installer.dispose(this);
 			}
 		});
-		var installer = Observable.install(CheckBox, 'indeterminate');
-		CheckBox.Skin = Skin.create(ButtonBase.Skin, {
+		var installer = Observable.install(exports, 'indeterminate');
+    exports.Skin = Skin.create(ButtonBase.Skin, {
             template: Templates.CheckBox,
             handleAction: function() {
                 var checkBox = this.component;
@@ -115,7 +115,7 @@ define([
             }
 		});
 
-        register('jide-checkbox', CheckBox, ButtonBase, ['indeterminate', 'allowIndeterminate'], []);
+        register('jide-checkbox', exports, ButtonBase, ['indeterminate', 'allowIndeterminate'], []);
 
-		return CheckBox;
+		return exports;
 });

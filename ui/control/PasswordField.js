@@ -32,8 +32,8 @@ define([
 		config = config || {};
 		TextField.call(this, config);
 	};
-	Class(PasswordField).extends(TextField);
-    PasswordField.Skin = PasswordFieldSkin;
-    register('jide-passwordfield', PasswordField, TextField, [], []);
-	return PasswordField;
+	Class(exports).extends(TextField);
+    exports.Skin = PasswordFieldSkin;
+    register('jide-passwordfield', exports, TextField, [], []);
+	return exports;
 });

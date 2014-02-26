@@ -20,8 +20,8 @@ define([
 		ButtonBase.call(this, config);
 		this.classList.add('jide-menuitem');
 	};
-	Class(MenuItem).extends(ButtonBase);
-    MenuItem.Skin = ButtonBase.Skin;
-    register('jide-menuitem', MenuItem, ButtonBase, [], []);
-	return MenuItem;
+	Class(exports).extends(ButtonBase);
+    exports.Skin = ButtonBase.Skin;
+    register('jide-menuitem', exports, ButtonBase, [], []);
+	return exports;
 });

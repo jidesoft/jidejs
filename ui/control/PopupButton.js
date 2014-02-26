@@ -22,7 +22,7 @@ define([
         Button.call(this, config);
 		this.classList.add('jide-popupbutton');
 	};
-	Class(PopupButton).extends(Button).def(/** @lends module:jidejs/ui/control/PopupButton# */{
+	Class(exports).extends(Button).def(/** @lends module:jidejs/ui/control/PopupButton# */{
 		dispose: function() {
             if(this.popup) this.popup.dispose();
 			Button.prototype.dispose.call(this);
@@ -50,8 +50,8 @@ define([
 		 */
 		showingProperty: null
 	});
-	var installer = Observable.install(PopupButton, 'popup', 'showing');
-    PopupButton.Skin = Skin.create(Button.Skin, {
+	var installer = Observable.install(exports, 'popup', 'showing');
+    exports.Skin = Skin.create(Button.Skin, {
         maybeHidePopup: function(e) {
             if(this.component.popup && !DOM.isInElement(this.element, { x:e.pageX, y:e.pageY})
                 && !DOM.isInElement(this.component.popup.element, {x: e.pageX, y: e.pageY})) {
@@ -102,6 +102,6 @@ define([
             this.component.showing = !this.component.showing;
         }
     });
-    register('jide-popupbutton', PopupButton, Button, ['popup', 'showing'], []);
-	return PopupButton;
+    register('jide-popupbutton', exports, Button, ['popup', 'showing'], []);
+	return exports;
 });

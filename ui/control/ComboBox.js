@@ -82,7 +82,7 @@ define([
 		ComboBoxBase.call(this, config);
 		this.classList.add('jide-combobox');
 	};
-	Class(ComboBox).extends(ComboBoxBase).def(/** @lends module:jidejs/ui/control/ComboBox# */{
+	Class(exports).extends(ComboBoxBase).def(/** @lends module:jidejs/ui/control/ComboBox# */{
 		dispose: function() {
 			ComboBoxBase.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -127,8 +127,8 @@ define([
 		 */
 		converterProperty: null
 	});
-	var installer = Observable.install(ComboBox, 'cellFactory');
+	var installer = Observable.install(exports, 'cellFactory');
     exports.Skin = ComboBoxSkin;
-    register('jide-combobox', ComboBox, ComboBoxBase, ['cellFactory'], []);
+    register('jide-combobox', exports, ComboBoxBase, ['cellFactory'], []);
 	return exports;
 });

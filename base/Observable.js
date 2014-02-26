@@ -57,6 +57,7 @@ define([
 		EventEmitter.call(this);
 		this._value = value;
 	};
+    var Observable = exports;
 
 	Class(Observable).mixin(EventEmitter).def(/** @lends module:jidejs/base/Observable# */{
 		/**

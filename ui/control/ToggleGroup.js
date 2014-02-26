@@ -25,7 +25,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/O
 		});
 		this.toggles = new ObservableList();
 	};
-	Class(ToggleGroup).mixin(Observable).def(/** @lends module:jidejs/ui/control/ToggleGroup# */{
+	Class(exports).mixin(Observable).def(/** @lends module:jidejs/ui/control/ToggleGroup# */{
 		/**
 		 * The currently selected control.
 		 * @type module:jidejs/ui/control/Toggle
@@ -45,6 +45,6 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/O
 		 */
 		toggles: null
 	});
-	var installer = Observable.install(ToggleGroup, 'selectedToggle');
-	return ToggleGroup;
+	var installer = Observable.install(exports, 'selectedToggle');
+	return exports;
 });

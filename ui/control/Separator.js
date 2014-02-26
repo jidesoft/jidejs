@@ -54,7 +54,7 @@ define([
 		Control.call(this, config);
 		this.classList.add('jide-separator');
 	};
-	Class(Separator).extends(Control).def(/** @lends module:jidejs/ui/control/Separator# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/Separator# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -71,8 +71,8 @@ define([
 		 */
 		orientationProperty: null
 	});
-	Separator.Skin = SeparatorSkin;
-	var installer = Observable.install(Separator, 'orientation');
-	register('jide-separator', Separator, Control, ['orientation']);
-	return Separator;
+    exports.Skin = SeparatorSkin;
+	var installer = Observable.install(exports, 'orientation');
+	register('jide-separator', exports, Control, ['orientation']);
+	return exports;
 });

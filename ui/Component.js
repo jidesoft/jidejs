@@ -103,6 +103,7 @@ define([
 			this.focused = false;
 		});
 	};
+    var Component = exports;
 
 	Class(Component).mixin(EventEmitter).def( /** @lends module:jidejs/ui/Component# */ {
 		/**

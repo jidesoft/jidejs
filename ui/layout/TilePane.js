@@ -50,6 +50,7 @@ define([
 			this.classList.add('jide-orientation-vertical');
 		}
 	};
+    var TilePane = exports;
 
 	Class(TilePane).extends(Pane).def(/** @lends module:jidejs/ui/layout/TilePane# */{
 		dispose: function() {

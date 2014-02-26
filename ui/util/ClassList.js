@@ -64,6 +64,7 @@ define(['./../../base/Class', './../../base/ObservableProperty'], function(Class
 			Class(this).def(classListShim);
 		}
 	};
+    var ClassList = exports;
 	var installer = Observable.install(ClassList, 'changed');
 
 	var classDef = Class(ClassList);

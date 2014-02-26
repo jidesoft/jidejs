@@ -25,7 +25,7 @@ define([
 		Control.call(this, _.defaults(config, {tabIndex: 0}));
 		this.classList.add('jide-popup');
 	};
-	Class(Popup).extends(Control).def(/** @lends module:jidejs/ui/control/Popup# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/Popup# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -164,8 +164,8 @@ define([
 			this.visible = true;
 		}
 	});
-	var installer = Observable.install(Popup, 'content', 'autoHide', 'visible', 'consumeAutoHidingEvents');
-    Popup.Skin = PopupSkin;
-    register('jide-popup', Popup, Control, ['content', 'autoHide', 'visible', 'consumeAutoHidingEvents'], ['show', 'setLocation']);
-	return Popup;
+	var installer = Observable.install(exports, 'content', 'autoHide', 'visible', 'consumeAutoHidingEvents');
+    exports.Skin = PopupSkin;
+    register('jide-popup', exports, Control, ['content', 'autoHide', 'visible', 'consumeAutoHidingEvents'], ['show', 'setLocation']);
+	return exports;
 });

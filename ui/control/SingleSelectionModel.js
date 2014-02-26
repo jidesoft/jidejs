@@ -38,7 +38,7 @@ define(['./../../base/Class', './SelectionModel', './../../base/Util'], function
 			}
 		});
 	};
-	Class(SingleSelectionModel).extends(SelectionModel).def(/** @lends module:jidejs/ui/control/SingleSelectionModel# */{
+	Class(exports).extends(SelectionModel).def(/** @lends module:jidejs/ui/control/SingleSelectionModel# */{
 		/**
 		 * Deselects the given index or the currently selected item if no `index` is given.
 		 * @param {number?} index The index of the item that should be deselected.
@@ -100,5 +100,5 @@ define(['./../../base/Class', './SelectionModel', './../../base/Util'], function
 			this.select(index);
 		}
 	});
-	return SingleSelectionModel;
+	return exports;
 });

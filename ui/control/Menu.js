@@ -43,7 +43,7 @@ define([
 		});
 		this.classList.add('jide-menu');
 	};
-	Class(Menu).extends(Labeled).def(/** @lends module:jidejs/ui/control/Menu# */{
+	Class(exports).extends(Labeled).def(/** @lends module:jidejs/ui/control/Menu# */{
 		dispose: function() {
 			Labeled.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -81,9 +81,9 @@ define([
 			this.content.setLocation(this, typeof pos !== 'undefined' ? pos : Pos.RIGHT);
 		}
 	});
-	var installer = Observable.install(Menu, 'showing');
-    Menu.Skin = Labeled.Skin;
-    register('jide-menu', Menu, Labeled, ['showing'], ['show']);
+	var installer = Observable.install(exports, 'showing');
+    exports.Skin = Labeled.Skin;
+    register('jide-menu', exports, Labeled, ['showing'], ['show']);
 
-	return Menu;
+	return exports;
 });

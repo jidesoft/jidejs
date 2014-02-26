@@ -33,6 +33,7 @@ define([
 		Control.call(this, config);
 		this.classList.add('jide-accordion');
 	};
+    var Accordion = exports;
 	Class(Accordion).extends(Control).def(/** @lends module:jidejs/ui/control/Accordion# */{
 		/**
 		 * Contains the currently expanded TitledPane.

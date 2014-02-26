@@ -98,7 +98,7 @@ define([
 
 		this.classList.add('jide-cell');
 	};
-	Class(Cell).extends(Labeled).def(/** @lends module:jidejs/ui/control/Cell# */{
+	Class(exports).extends(Labeled).def(/** @lends module:jidejs/ui/control/Cell# */{
 		/**
 		 * The item is the part of the data that should be displayed by the cell.
 		 * Modifying this property will update the cells contents.
@@ -223,8 +223,8 @@ define([
 			installer.dispose(this);
 		}
 	});
-	var installer = ObservableProperty.install(Cell, 'item', 'selected', 'editing', 'converter');
-	Cell.Skin = Skin.create(Labeled.Skin, {
+	var installer = ObservableProperty.install(exports, 'item', 'selected', 'editing', 'converter');
+    exports.Skin = Skin.create(Labeled.Skin, {
 		installBindings: function() {
 			var cell = this.component;
 			if(cell.item) {

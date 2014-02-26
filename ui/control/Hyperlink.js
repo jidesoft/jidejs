@@ -44,7 +44,7 @@ define([
 			ButtonBase.call(this, config);
 			this.classList.add('jide-hyperlink');
 		};
-		Class(Hyperlink).extends(ButtonBase).def(/** @lends module:jidejs/ui/control/Hyperlink# */{
+		Class(exports).extends(ButtonBase).def(/** @lends module:jidejs/ui/control/Hyperlink# */{
 			dispose: function() {
 				ButtonBase.prototype.dispose.call(this);
 				installer.dispose(this);
@@ -62,8 +62,8 @@ define([
 			 */
 			hrefProperty: null
 		});
-		var installer = Observable.install(Hyperlink, 'href');
-		Hyperlink.Skin = HyperlinkSkin;
-        register('jide-hyperlink', Hyperlink, ButtonBase, ['href'], []);
-		return Hyperlink;
+		var installer = Observable.install(exports, 'href');
+        exports.Skin = HyperlinkSkin;
+        register('jide-hyperlink', exports, ButtonBase, ['href'], []);
+		return exports;
 });

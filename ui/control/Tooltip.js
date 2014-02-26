@@ -29,8 +29,8 @@ define(['./../../base/Class', './../../base/Util', './Popup'], function(Class, _
 		Popup.call(this, config);
 		this.classList.add('jide-tooltip');
 	};
-	Class(Tooltip).extends(Popup);
-    Tooltip.Skin = Popup.Skin;
+	Class(exports).extends(Popup);
+    exports.Skin = Popup.Skin;
 
-	return Tooltip;
+	return exports;
 });

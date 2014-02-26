@@ -19,7 +19,7 @@ define(['./Class'], function(Class) {
         this.oldValue = oldValue;
         this.newValue = newValue;
     };
-    Class(Change).def(/** @lends module:jidejs/base/CollectionChange# */{
+    Class(exports).def(/** @lends module:jidejs/base/CollectionChange# */{
         /**
          * `true`, if this event represents a deletion; `false`, otherwise.
          *

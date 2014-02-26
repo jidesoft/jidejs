@@ -135,7 +135,7 @@ define([
 		Control.call(this, config);
 		this.classList.add('jide-comboboxbase');
 	};
-	Class(ComboBoxBase).extends(Control).def(/** @lends module:jidejs/ui/control/ComboBoxBase# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/ComboBoxBase# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -198,14 +198,14 @@ define([
 		 */
 		editableProperty: null
 	});
-	var installer = Observable.install(ComboBoxBase, 'value', 'converter', 'showing', 'editable');
+	var installer = Observable.install(exports, 'value', 'converter', 'showing', 'editable');
 	/**
 	 * The default Skin for all new combo boxes.
 	 *
 	 * @memberof module:jidejs/ui/control/ComboBoxBase
 	 * @type {module:jidejs/ui/control/ComboBoxBase.Skin}
 	 */
-	ComboBoxBase.Skin = ComboBoxBaseSkin;
-    register('jide-comboboxbase', ComboBoxBase, Control, ['items', 'value', 'converter', 'showing', 'editable'], []);
-	return ComboBoxBase;
+    exports.Skin = ComboBoxBaseSkin;
+    register('jide-comboboxbase', exports, Control, ['items', 'value', 'converter', 'showing', 'editable'], []);
+	return exports;
 });

@@ -37,7 +37,7 @@ define([
 		Component.applyConfiguration(this, config);
 	};
 
-	Class(Pane).extends(Component).def(/** @lends module:jidejs/ui/layout/Pane# */{
+	Class(exports).extends(Component).def(/** @lends module:jidejs/ui/layout/Pane# */{
 		/**
 		 * `true`, if the layout needs to be recalculated; `false`, otherwise.
 		 * @protected
@@ -97,5 +97,5 @@ define([
 		layoutChildren: function() {}
 	});
 
-	return Pane;
+	return exports;
 });

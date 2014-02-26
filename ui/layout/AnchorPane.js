@@ -53,11 +53,11 @@ define([
 		Pane.call(this, config);
 		this.classList.add('jide-anchorpane');
 	};
-	Class(AnchorPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/AnchorPane# */{
+	Class(exports).extends(Pane).def(/** @lends module:jidejs/ui/layout/AnchorPane# */{
 		_insertChildAt: function(child, index) {
 			var style = child.style;
 			['top', 'left', 'bottom', 'right'].forEach(function(name) {
-				var anchor = AnchorPane[name+'Anchor'];
+				var anchor = exports[name+'Anchor'];
 				anchor.register(child);
 				var value = anchor(child);
 				if(value) {
@@ -72,7 +72,7 @@ define([
 			this.element.removeChild(child.element);
 			var style = child.style;
 			['top', 'left', 'bottom', 'right'].forEach(function(name) {
-				var anchor = AnchorPane[name+'Anchor'];
+				var anchor = exports[name+'Anchor'];
 				anchor.unregister(child);
 				style.remove(name);
 			});

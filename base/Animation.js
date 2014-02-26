@@ -79,6 +79,7 @@ define([
 			_.extends(this, duration);
 		}
 	};
+    var Animation = exports;
 
 	/**
 	 * Tries to animate an element using CSS transitions, if CSS transitions aren't available, it will fallback to

@@ -21,13 +21,13 @@ define([
 		this.classList.add('jide-label');
 	};
 
-	Class(Label).extends(Labeled);
+	Class(exports).extends(Labeled);
 
 	exports.Skin = Skin.create(Labeled.Skin, {
 		defaultElement: 'label'
 	});
 
-    register('jide-label', Label, Labeled, [], []);
+    register('jide-label', exports, Labeled, [], []);
 
 	return exports;
 });

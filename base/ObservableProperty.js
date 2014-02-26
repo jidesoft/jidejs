@@ -33,6 +33,7 @@ define([
         this._bubbles = bubbles !== undefined ? bubbles : true;
         this._cancelable = cancelable !== undefined ? cancelable : true;
 	};
+    var ObservableProperty = exports;
 	Class(ObservableProperty).extends(Property).def(/** @lends module:jidejs/base/ObservableProperty# */{
         get writable() { return true; },
 

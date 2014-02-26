@@ -17,7 +17,7 @@ define(['./../../base/Class', './RadioButton'], function(Class, RadioButton) {
 		RadioButton.call(this, config);
 		this.classList.add('jide-radiobuttonmenuitem');
 	};
-	Class(RadioButtonMenuItem).extends(RadioButton);
-    RadioButtonMenuItem.Skin = RadioButton.Skin;
-	return RadioButtonMenuItem;
+	Class(exports).extends(RadioButton);
+    exports.Skin = RadioButton.Skin;
+	return exports;
 });

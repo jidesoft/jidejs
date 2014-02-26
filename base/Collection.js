@@ -76,7 +76,8 @@ define([
 		if(config) _.extends(this, config);
 		if(!this.updates) this.updates = new ChangeEventAssembler(this);
 	};
-	Class(Collection).mixin(EventEmitter).def(/** @lends module:jidejs/base/Collection# */{
+    var Collection = exports;
+    Class(Collection).mixin(EventEmitter).def(/** @lends module:jidejs/base/Collection# */{
 		/**
 		 * Returns the item at the given `index`.
 		 *

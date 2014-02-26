@@ -30,7 +30,7 @@ define(['./Class'], function(Class) {
 		this.once = once || false;
 		this.context = emitter;
 	};
-	Class(Subscription).def(/** @lends module:jidejs/base/Subscription# */{
+	Class(exports).def(/** @lends module:jidejs/base/Subscription# */{
 		/**
 		 * When invoked, the subscription will be disposed after the next invocation of the event listener.
 		 * @returns {module:jidejs/base/Subscription}

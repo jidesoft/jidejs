@@ -34,8 +34,8 @@ define([
 		this.classList.add('jide-textfield');
 	};
 
-	Class(TextField).extends(TextInputControl);
-    TextField.Skin = Skin.create(TextInputControl.Skin, {
+	Class(exports).extends(TextInputControl);
+    exports.Skin = Skin.create(TextInputControl.Skin, {
         install: function() {
             TextInputControl.Skin.prototype.install.call(this);
             if(supportsPlaceholder) {
@@ -71,7 +71,7 @@ define([
         }
     });
 
-    register('jide-textfield', TextField, TextInputControl, [], []);
+    register('jide-textfield', exports, TextInputControl, [], []);
 
-	return TextField;
+	return exports;
 });

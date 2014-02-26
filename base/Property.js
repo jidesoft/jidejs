@@ -45,6 +45,7 @@ define([
 		this._context = context;
 		this._name = name;
 	};
+    var Property = exports;
 	Class(Property).extends(Observable).def(/** @lends module:jidejs/base/Property# */{
 		/**
 		 * Returns the current value of the property.

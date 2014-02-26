@@ -29,7 +29,7 @@ define([
 		this.classList.add('jide-titledpane');
 	};
 
-	Class(TitledPane).extends(Control).def(/** @lends module:jidejs/ui/control/TitledPane# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/TitledPane# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -92,8 +92,8 @@ define([
 		 */
 		animatedProperty: null
 	});
-	var installer = Observable.install(TitledPane, 'title', 'content', 'collapsible', 'expanded', 'animated');
-    TitledPane.Skin = Skin.create(Skin, {
+	var installer = Observable.install(exports, 'title', 'content', 'collapsible', 'expanded', 'animated');
+    exports.Skin = Skin.create(Skin, {
         defaultElement: 'div',
         template: Templates.TitledPane,
 
@@ -119,7 +119,7 @@ define([
             titledPane.expanded = !titledPane.expanded;
         }
     });
-    register('jide-titledpane', TitledPane, Control, ['title', 'content', 'collapsible', 'expanded', 'animated'], []);
+    register('jide-titledpane', exports, Control, ['title', 'content', 'collapsible', 'expanded', 'animated'], []);
 
-	return TitledPane;
+	return exports;
 });

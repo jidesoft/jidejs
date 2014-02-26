@@ -72,6 +72,7 @@ define([
 				? 'jide-use-legacy-flex'
 				: 'jide-use-table');
 	};
+    var VBox = exports;
 
 	Class(VBox).extends(Pane).def(/** @lends module:jidejs/ui/layout/VBox# */{
 		dispose: function() {

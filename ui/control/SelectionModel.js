@@ -21,7 +21,7 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/E
 		EventEmitter.call(this);
 		this.list = list;
 	};
-	Class(SelectionModel).mixin(EventEmitter).def(/** @lends module:jidejs/ui/control/SelectionModel# */{
+	Class(exports).mixin(EventEmitter).def(/** @lends module:jidejs/ui/control/SelectionModel# */{
 		dispose: function() {
 			EventEmitter.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -124,6 +124,6 @@ define(['./../../base/Class', './../../base/ObservableProperty', './../../base/E
 			}
 		}
 	});
-	var installer = Observable.install(SelectionModel, 'selectedIndex', 'selectedItem');
-	return SelectionModel;
+	var installer = Observable.install(exports, 'selectedIndex', 'selectedItem');
+	return exports;
 });

@@ -50,7 +50,7 @@ define([
 		Control.call(this, config);
 	};
 
-	Class(ImageView).extends(Control).def(/** @lends module:jidejs/ui/control/ImageView# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/ImageView# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 		},
@@ -67,9 +67,9 @@ define([
 		 */
 		srcProperty: null
 	});
-	var installer = Observable.install(ImageView, 'src');
-    ImageView.Skin = ImageViewSkin;
-    register('jide-imageview', ImageView, Control, ['src'], []);
+	var installer = Observable.install(exports, 'src');
+    exports.Skin = ImageViewSkin;
+    register('jide-imageview', exports, Control, ['src'], []);
 
-	return ImageView;
+	return exports;
 });

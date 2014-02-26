@@ -71,7 +71,7 @@ define([
 		this.classList.add('jide-textinput');
 	};
 
-	Class(TextInputControl).extends(Control).def(/** @lends module:jidejs/ui/control/TextInputControl# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/TextInputControl# */{
 		dispose: function() {
 			Control.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -114,8 +114,8 @@ define([
 		 */
 		promptTextProperty: null
 	});
-    TextInputControl.Skin = TextInputControlSkin;
-	var installer = Observable.install(TextInputControl, 'text', 'editable', 'promptText');
-    register('jide-textinput', TextInputControl, Control, ['text', 'editable', 'promptText'], []);
-	return TextInputControl;
+    exports.Skin = TextInputControlSkin;
+	var installer = Observable.install(exports, 'text', 'editable', 'promptText');
+    register('jide-textinput', exports, Control, ['text', 'editable', 'promptText'], []);
+	return exports;
 });

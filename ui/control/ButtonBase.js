@@ -52,7 +52,7 @@ define([
 			Labeled.call(this, config);
 			this.classList.add('jide-buttonbase');
 		};
-		Class(ButtonBase).extends(Labeled).def(/** @lends module:jidejs/ui/control/ButtonBase# */{
+		Class(exports).extends(Labeled).def(/** @lends module:jidejs/ui/control/ButtonBase# */{
 			/**
 			 * `true`, if the button is enabled; `false`, otherwise.
 			 *
@@ -155,7 +155,7 @@ define([
 				}));
 			}
 		});
-		var installer = Observable.install(ButtonBase, 'command', 'enabled');
-		register('jide-buttonbase', ButtonBase, Labeled, ['enabled', 'command'], []);
+		var installer = Observable.install(exports, 'command', 'enabled');
+		register('jide-buttonbase', exports, Labeled, ['enabled', 'command'], []);
 		return exports;
 });

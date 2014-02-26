@@ -81,7 +81,7 @@ define(['./../../base/Class', './KeyCombination'], function(Class, KeyCombinatio
 		this.event = null;
 		this.combinations = {};
 	};
-	Class(KeyMap).def(/** @lends module:jidejs/ui/input/KeyMap# */{
+	Class(exports).def(/** @lends module:jidejs/ui/input/KeyMap# */{
 		/**
 		 * Releases all resources held by this instance.
 		 */
@@ -208,5 +208,5 @@ define(['./../../base/Class', './KeyCombination'], function(Class, KeyCombinatio
 			};
 		}
 	});
-	return KeyMap;
+	return exports;
 });

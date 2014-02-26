@@ -64,7 +64,7 @@ define([
 		this.classList.add('jide-radiobutton');
 	};
 
-	Class(RadioButton).extends(ButtonBase).mixin(Toggle).def(
+	Class(exports).extends(ButtonBase).mixin(Toggle).def(
         /** @lends module:jidejs/ui/control/RadioButton# */
         {
 		/**
@@ -87,7 +87,7 @@ define([
 		 * @property toggleGroupProperty
 		 */
 	});
-    RadioButton.Skin = ButtonBase.Skin;
+    exports.Skin = ButtonBase.Skin;
 
-	return RadioButton;
+	return exports;
 });

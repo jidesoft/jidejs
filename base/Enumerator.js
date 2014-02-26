@@ -17,6 +17,7 @@ define([
 	 */
 	var exports = function Enumerator() {
 	};
+    var Enumerator = exports;
 	Class(Enumerator).def(/** @lends module:jidejs/base/Enumerator# */{
 		/**
 		 * Contains the current value of the enumeration. If accessed before {@link module:jidejs/base/Enumerator#moveNext}

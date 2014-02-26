@@ -54,6 +54,7 @@ define([
 		this[BINDINGS] = null;
 		this[EVENT_BINDINGS] = null;
 	};
+    var Skin = exports;
 
 	function createEventListenerDisposable(element, eventNames, handlers) {
 		return {

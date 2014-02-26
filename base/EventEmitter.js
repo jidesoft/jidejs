@@ -35,6 +35,7 @@ define([
 	var exports = function EventEmitter() {
 		ensureInitialized(this);
 	};
+    var EventEmitter = exports;
 	Class(EventEmitter).def(/** @lends module:jidejs/base/EventEmitter# */ {
 		/**
 		 * Adds an event listener to the event specified as _name_.

@@ -27,7 +27,7 @@ define(['./Class'], function(Class) {
         this.useCapture = false;
         this.needsChangeSorting = false;
     };
-    Class(ChangeEventAssembler).def(/** @lends module:jidejs/base/ChangeEventAssembler# */{
+    Class(exports).def(/** @lends module:jidejs/base/ChangeEventAssembler# */{
         /**
          * Adds a new insert event.
          * @param {Number} index The index at which the item was inserted.

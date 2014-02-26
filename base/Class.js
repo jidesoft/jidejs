@@ -161,7 +161,7 @@ define(['./Util'], function(_) {
 				return this;
 			}
 		};
-	}
+	};
 
 	/**
 	 * A static method that can be used to copy properties between objects.

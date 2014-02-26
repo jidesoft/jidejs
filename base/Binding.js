@@ -65,7 +65,7 @@ define(['./Class'], function(Class) {
 			updating = false;
 		}
 	};
-	Class(Binding).def(/** @lends module:jidejs/base/Binding# */{
+	Class(exports).def(/** @lends module:jidejs/base/Binding# */{
 		/**
 		 * Releases all references stored in the binding to clear up the used memory.
 		 */

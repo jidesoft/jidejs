@@ -102,7 +102,7 @@ define([
 			}
 		});
 	};
-	Class(ContextMenu).extends(Popup).def(/** @lends module:jidejs/ui/control/ContextMenu# */{
+	Class(exports).extends(Popup).def(/** @lends module:jidejs/ui/control/ContextMenu# */{
 		/**
 		 * The list of menu items and menus shown by this ContextMenu.
 		 * @type module:jidejs/base/Collection
@@ -135,6 +135,6 @@ define([
 			}
 		}
 	});
-    register('jide-contextmenu', ContextMenu, Popup, [], []);
+    register('jide-contextmenu', exports, Popup, [], []);
 	return exports;
 });

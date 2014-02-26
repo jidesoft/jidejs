@@ -20,9 +20,9 @@ define([
 		CheckBox.call(this, config);
 		this.classList.add('jide-checkboxmenuitem');
 	};
-	Class(CheckBoxMenuItem).extends(CheckBox);
+	Class(exports).extends(CheckBox);
 	exports.Skin = Skin.create(CheckBox.Skin);
 
-    register('jide-checkboxmenuitem', CheckBoxMenuItem, CheckBox, [], []);
+    register('jide-checkboxmenuitem', exports, CheckBox, [], []);
 	return exports;
 });

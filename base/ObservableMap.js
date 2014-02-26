@@ -17,7 +17,7 @@ define([
 		EventEmitter.call(this);
 		this.data = {};
 	};
-	Class(ObservableMap).mixin(EventEmitter).def(/** @lends module:jidejs/base/ObservableMap# */{
+	Class(exports).mixin(EventEmitter).def(/** @lends module:jidejs/base/ObservableMap# */{
 		/**
 		 * Adds or updates the given key value pair.
 		 *

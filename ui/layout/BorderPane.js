@@ -84,6 +84,7 @@ define([
 					? 'jide-use-legacy-flex'
 					: 'jide-use-table');
 	};
+    var BorderPane = exports;
 
 	var regionToIndex = {
 		top: 0, left: 1, center: 1, right: 1, bottom: 2

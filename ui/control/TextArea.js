@@ -87,7 +87,7 @@ define([
 		TextInputControl.call(this, config);
 		this.classList.add('jide-textarea');
 	};
-	Class(TextArea).extends(TextInputControl).def(/** @lends module:jidejs/ui/control/TextArea# */{
+	Class(exports).extends(TextInputControl).def(/** @lends module:jidejs/ui/control/TextArea# */{
 		dispose: function() {
 			TextInputControl.prototype.dispose.call(this);
 			installer.dispose(this);
@@ -114,8 +114,8 @@ define([
 		 */
 		prefColumnCountProperty: null
 	});
-	var installer = Observable.install(TextArea, 'prefRowCount', 'prefColumnCount');
-    TextArea.Skin = TextAreaSkin;
-    register('jide-textarea', TextArea, TextInputControl, ['prefRowCount', 'prefColumnCount'], []);
-	return TextArea;
+	var installer = Observable.install(exports, 'prefRowCount', 'prefColumnCount');
+    exports.Skin = TextAreaSkin;
+    register('jide-textarea', exports, TextInputControl, ['prefRowCount', 'prefColumnCount'], []);
+	return exports;
 });

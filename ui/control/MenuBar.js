@@ -126,7 +126,7 @@ define([
 		});
 	};
 
-	Class(MenuBar).extends(Control).def(/** @lends module:jidejs/ui/control/MenuBar# */{
+	Class(exports).extends(Control).def(/** @lends module:jidejs/ui/control/MenuBar# */{
 		/**
 		 * An ObservableList of menus that should be shown in this MenuBar.
 		 *
@@ -136,9 +136,9 @@ define([
 			return this.content.children;
 		}
 	});
-    MenuBar.Skin = MenuBarSkin;
+    exports.Skin = MenuBarSkin;
 
-    register('jide-menubar', MenuBar, Control, [], []);
+    register('jide-menubar', exports, Control, [], []);
 
-	return MenuBar;
+	return exports;
 });

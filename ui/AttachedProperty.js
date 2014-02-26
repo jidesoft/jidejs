@@ -47,6 +47,6 @@ define(function() {
 			return this;
 		};
 		return property;
-	}
+	};
 	return exports;
 });

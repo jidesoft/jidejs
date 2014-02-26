@@ -21,7 +21,7 @@ define([
 	var exports = function Disposer() {
 		this.disposables = [];
 	};
-	Class(Disposer).def(/** @lends module:jidejs/base/Disposer# */{
+	Class(exports).def(/** @lends module:jidejs/base/Disposer# */{
 		/**
 		 * Adds a new disposable that should be managed by this disposer.
 		 * @param {{dispose:function}} disposable The disposable object.

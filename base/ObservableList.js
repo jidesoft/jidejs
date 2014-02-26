@@ -27,6 +27,7 @@ define([
 		Collection.call(this);
 		this._data = data || [];
 	};
+    var ObservableList = exports;
 
 	Class(ObservableList).extends(Collection).def(/** @lends module:jidejs/base/ObservableList# */{
 		/**

@@ -34,7 +34,7 @@ define([
 			ButtonBase.call(this, config);
 			this.classList.add('jide-button');
 		};
-		Class(Button).extends(ButtonBase);
+		Class(exports).extends(ButtonBase);
     /**
      * The default Skin used by buttons.
      * @type {module:jidejs/ui/Skin}
@@ -45,6 +45,6 @@ define([
              */
             defaultElement: 'button'
         });
-		register('jide-button', Button, ButtonBase);
+		register('jide-button', exports, ButtonBase);
 		return exports;
 });

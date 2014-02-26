@@ -486,6 +486,7 @@ define([
 		}
 		if(this.children.length > 0) this.requestLayout();
 	};
+    var GridPane = exports;
 	Class(GridPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/GridPane# */{
 		dispose: function() {
 			Pane.prototype.dispose.call(this);
