@@ -22,7 +22,6 @@
  */
 define([
 	'./Class',
-    './CollectionChange',
     './ChangeEventAssembler',
 	'./EventEmitter',
 	'./Property',
@@ -30,7 +29,7 @@ define([
 	'./Observable',
 	'./Util',
 	'./Enumerator'
-], function(Class, Change, ChangeEventAssembler, EventEmitter, Property, ObservableProperty, Observable, _, Enumerator) {
+], function(Class, ChangeEventAssembler, EventEmitter, Property, ObservableProperty, Observable, _, Enumerator) {
 	"use strict";
     //region ChangeEvent
     function changeComparator(a, b) {

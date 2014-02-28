@@ -48,15 +48,22 @@ h5, .container-overview .subsection-title
 }
 
 .name, .signature, .CodeMirror pre, .CodeMirror-linenumber, .prettyprint code, code.prettyprint,
-code, pre, .params .type {
+code, pre, .params dt {
   font-family: "Source Code Pro", Consolas, "Lucida Console", Monaco, monospace;
+  font-weight: bold;
 }
 
-.details {  }
-.details dt { border-left: 2px solid #DDD; }
-.details dd {  }
-.details ul {  }
+.params, .details {
+  margin: .5em 0;
+}
+.details dt { }
+.details dd { }
 .details ul { }
+.details ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .details li { }
 
 dd { margin-left: 40px; }
@@ -95,10 +102,19 @@ dd { margin-left: 40px; }
 .params {
   code {
     color: #FFF;
+    font-size: 16px;
   }
 
   dl {
     margin-left: 10px;
+  }
+
+  dd {
+    margin: 0 0 .2em 1em
+  }
+
+  p {
+    margin: 0 0 .2em 0;
   }
 
   .type {
@@ -114,6 +130,63 @@ dd { margin-left: 40px; }
   }
 }
 
-.apidoc > ul > .nav-header {
-  text-transform: none;
+.members, .events, .methods, .static-methods, .inner-classes {
+  & > dl {
+    margin-left: 1em;
+  }
+
+  dd {
+    margin-left: 1em;
+  }
+
+  & > dl > dd {
+    margin: 0 0 2em 1em;
+  }
+
+  h4.name {
+    margin: 0;
+  }
+}
+
+.apidoc {
+  h3, h4, h5 {
+    margin: 0 0 .5em;
+  }
+
+  .nav-list {
+    margin-bottom: 1em;
+  }
+}
+
+.ancestors {
+  display: block;
+  margin-bottom: 1em;
+  font-size: 16px;
+  line-height: 1.6;
+  list-style: none;
+
+  li:before {
+    content: "\21B3";
+    color: #fff;
+    margin-right: 5px;
+  }
+
+  li:first-child:before {
+    content: "";
+    margin-right: 0;
+  }
+}
+
+.overview, .apidoc {
+  h4 {
+    margin-bottom: .5em;
+  }
+
+  .nav {
+    margin-bottom: 2em;
+
+    li {
+      margin: 0;
+    }
+  }
 }

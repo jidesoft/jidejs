@@ -5,7 +5,6 @@
  */
 define(function() {
 	/**
-     * @enum
      * @alias module:jidejs/ui/Pos
 	 */
 	var exports = {

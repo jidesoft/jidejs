@@ -1,1 +1,1 @@
-./node_modules/jsdoc/jsdoc -c ./jsdoc/conf.json %*
+node ./../../../Github/jsdoc/jsdoc.js -c ./jsdoc/conf.json %*

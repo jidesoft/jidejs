@@ -7,8 +7,10 @@
         "includePattern": ".+\\.js(doc)?$",
         "excludePattern": "(^|\\/|\\\\)_|Tree(Cell|Model|View)\\.js$"
     },
+    "plugins": ["./plugins/markdown"],
 	"opts": {
 		"destination": "./website/contents/api",
+        "template": "./jsdoc/jidejs",
 		"recurse": true,
 		"lenient": true
 	}

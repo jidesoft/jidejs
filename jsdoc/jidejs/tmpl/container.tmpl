@@ -1,23 +1,7 @@
 <?js
+    var data = obj;
     var self = this;
-    function addAncestors(doc, memberOf) {
-        if(doc.augments && doc.augments.length) {
-            doc.augments.forEach(function(ancestor) {
-                memberOf.push(ancestor);
-                var aDoc = self.find({longname: ancestor});
-                if(aDoc && aDoc.length) {
-                    aDoc.forEach(function(doc) {
-                        addAncestors(doc, memberOf);
-                    });
-                }
-            });
-        }
-    }
-
     docs.forEach(function(doc, i) {
-        var memberOf = [doc.longname], cache;
-        addAncestors(doc, memberOf);
-
 ?>
 
 <?js if (doc.kind === 'mainpage' || (doc.kind === 'package')) { ?>
@@ -26,16 +10,27 @@
     <?js= self.partial('source.tmpl', doc) ?>
 <?js } else { ?>
 
-<section>
+<section class="span9">
     
 <header>
-    <h2><?js if (doc.ancestors && doc.ancestors.length) { ?>
-        <span class="ancestors"><?js= doc.ancestors.join('') ?></span>
-    <?js } ?>
+    <h2>
     <?js= doc.name ?>
     <?js if (doc.variation) { ?>
         <sup class="variation"><?js= doc.variation ?></sup>
     <?js } ?></h2>
+    <?js if (doc.ancestors && doc.ancestors.length) { ?>
+        <ul class="ancestors">
+        <?js for(var i = 0, len = doc.ancestors.length; i < len; i++) { ?>
+            <li style="margin-left: <?js= i ?>em"><?js= doc.ancestors[i] ?></li>
+        <?js } ?>
+        </ul>
+    <?js } else if(doc.module && doc.module.ancestors && doc.module.ancestors.length) { ?>
+        <ul class="ancestors">
+        <?js for(var i = 0, len = doc.module.ancestors.length; i < len; i++) { ?>
+            <li style="margin-left: <?js= i ?>em"><?js= doc.module.ancestors[i] ?></li>
+        <?js } ?>
+        </ul>
+    <?js } ?>
     <?js if (doc.classdesc) { ?>
         <div class="class-description"><?js= doc.classdesc ?></div>
     <?js } ?>
@@ -64,14 +59,6 @@
         <?js } ?>
     <?js } ?>
     </div>
-
-    <?js if (doc.augments && doc.augments.length) { ?>
-        <h3 class="subsection-title">Extends</h3>
-
-        <ul><?js doc.augments.forEach(function(a) { ?>
-            <li><?js= self.linkto(a, a) ?></li>
-        <?js }); ?></ul>
-    <?js } ?>
 
     <?js if (doc.mixes && doc.mixes.length) { ?>
         <h3 class="subsection-title">Mixes In</h3>
@@ -107,43 +94,33 @@
     <?js } ?>
     
     <?js
-        cache = {};
-        var members = self.find({kind: 'member', memberof: title === 'Global' ? {isUndefined: true} : memberOf});
+        var members = self.find({kind: 'member', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
         if (members && members.length && members.forEach) { 
     ?>
     <section class="members">
         <h3 class="subsection-title">Members</h3>
         
-        <dl><?js members.forEach(function(p) {
-            if(cache[p.id]) return;
-            cache[p.id] = true;
-        ?>
+        <dl><?js members.forEach(function(p) { ?>
             <?js= self.partial('members.tmpl', p) ?>
         <?js }); ?></dl>
     </section>
     <?js } ?>
 
     <?js
-        cache = {};
-        var events = self.find({kind: 'event', memberof: title === 'Global' ? {isUndefined: true} : memberOf});
+        var events = self.find({kind: 'event', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
         if (events && events.length && events.forEach) {
     ?>
     <section class="events">
     <h3 class="subsection-title">Events</h3>
 
     <dl><?js events.forEach(function(e) { ?>
-        <?js
-        if(cache[e.id]) return;
-        cache[e.id] = true;
-        ?>
         <?js= self.partial('method.tmpl', e) ?>
         <?js }); ?></dl>
     </section>
     <?js } ?>
     
     <?js
-        cache = {};
-        var methods = self.find({kind: 'function', memberof: title === 'Global' ? {isUndefined: true} : memberOf});
+        var methods = self.find({kind: 'function', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
         if (methods && methods.length && methods.forEach) { 
     ?>
     <section class="methods">
@@ -151,8 +128,6 @@
         
         <dl><?js methods.forEach(function(m) {
             if(m.scope === 'static') return;
-            if(cache[m.id]) return;
-            cache[m.id] = true;
             ?>
             <?js= self.partial('method.tmpl', m) ?>
         <?js }); ?></dl>
@@ -207,6 +182,75 @@
 </article>
 
 </section>  
+<section class="span3 overview">
+    <h3>Overview</h3>
+    
+    <?js
+        var members = self.find({kind: 'member', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
+        if (members && members.length && members.forEach) { 
+    ?>
+    <section class="members">
+        <h4 class="subsection-title">Members</h4>
+        
+        <ul class="nav nav-list"><?js members.forEach(function(p) { ?>
+            <li><?js= self.linkto(p.longname, p.name) ?></li>
+        <?js }); ?></ul>
+    </section>
+    <?js } ?>
+
+    <?js
+        var events = self.find({kind: 'event', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
+        if (events && events.length && events.forEach) {
+    ?>
+    <section class="events">
+    <h4 class="subsection-title">Events</h4>
+
+    <ul class="nav nav-list"><?js events.forEach(function(e) { ?>
+        <li><?js= self.linkto(e.longname, e.name) ?></li>
+        <?js }); ?></ul>
+    </section>
+    <?js } ?>
+    
+    <?js
+        var methods = self.find({kind: 'function', memberof: title === 'Global' ? {isUndefined: true} : doc.longname});
+        if (methods && methods.length && methods.forEach) { 
+    ?>
+    <section class="methods">
+        <h4 class="subsection-title">Methods</h4>
+        
+        <ul class="nav nav-list"><?js methods.forEach(function(m) {
+            if(m.scope === 'static') return;
+            ?>
+            <li><?js= self.linkto(m.longname, m.name) ?></li>
+        <?js }); ?></ul>
+    </section>
+    <?js } ?>
+
+    <?js
+        var methods = self.find({kind: 'function', memberof: title === 'Global' ? {isUndefined: true} : doc.longname, scope: 'static'});
+        if (methods && methods.length && methods.forEach) {
+    ?>
+    <section class="static-methods">
+    <h4 class="subsection-title">Static Methods</h4>
+
+    <ul class="nav nav-list"><?js methods.forEach(function(m) { ?>
+        <li><?js= self.linkto(m.longname, m.name) ?></li>
+        <?js }); ?></ul>
+    </section>
+    <?js } ?>
+
+    <?js
+        var classes = self.find({kind: 'class', memberof: doc.longname});
+        if (doc.kind !== 'globalobj' && classes && classes.length > 0 && (classes.length !== 1 || classes[0].longname !== doc.longname)) {
+    ?>
+    <section class="inner-classes">
+        <h4 class="subsection-title">Inner Classes</h4>
+        <ul class="nav nav-list"><?js classes.forEach(function(c) { if(c.longname === doc.longname) return; ?>
+            <li><?js= self.linkto(c.longname, c.name) ?></li>
+            <?js }); ?></ul>
+    </section>
+    <?js } ?>
+</section>
 <?js } ?>
 
 <?js }); ?>

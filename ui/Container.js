@@ -85,7 +85,7 @@ define([
      *
      * @param {function?} wrapperCallback An optional callback that can be used to nest children in additional elements.
 	 */
-	function Container(wrapperCallback) {
+	var exports = function Container(wrapperCallback) {
 		if(!this.children) {
 			this.children = new ObservableList();
 		}
@@ -94,7 +94,7 @@ define([
 		} else {
 			this.children.on('change', handleChildrenChanged.bind(this, wrapperCallback));
 		}
-	}
+	};
     var Container = exports;
 	Class(Container).def(/** @lends module:jidejs/ui/Container# */{
 		/**

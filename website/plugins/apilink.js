@@ -1,6 +1,15 @@
+var fs = require('fs'),
+    path = require('path');
+
 module.exports = function(env, callback) {
 	"use strict";
-	var urlmapping = require('./../contents/api/urlmapping');
+    var urlmapping, mappingFile = path.join(__dirname, '../contents/api/urlmapping');
+    if(fs.existsSync(mappingFile+'.json')) {
+        urlmapping = require(mappingFile);
+    } else {
+        urlmapping = {};
+        console.log("Couldn't find urlmapping.json file at ", mappingFile+'.json');
+    }
 	function linkTo(text, page) {
 		text || (text = page.html || page.markdown);
 		text || (text = '');

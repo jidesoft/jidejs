@@ -1,7 +1,7 @@
 /**
  * @module jidejs/base/ChangeEventAssembler
  */
-define(['./Class'], function(Class) {
+define(['./Class', './CollectionChange', './Enumerator'], function(Class, Change, Enumerator) {
     function ChangeEvent(source, changes) {
         this.source = source;
         this.changes = changes;
