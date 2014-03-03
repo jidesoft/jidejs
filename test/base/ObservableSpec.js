@@ -27,6 +27,68 @@ define([
             value.set('yay');
         });
 
+        describe('#bind', function() {
+            var source, target;
+
+            beforeEach(function() {
+                source = Observable('Hello!');
+                target = Observable();
+                target.bind(source);
+            });
+
+            afterEach(function() {
+                target.dispose();
+                source.dispose();
+            });
+
+            it('should take the initial value of its source', function() {
+                expect(target.get()).to.equal('Hello!');
+            });
+
+            it('should update its value when its source changes', function() {
+                source.set('Goodbye!');
+                expect(target.get()).to.equal('Goodbye!');
+            });
+
+            it('should not change the sources value', function() {
+                expect(source.get()).to.equal('Hello!');
+            });
+
+            it('should not change the sources value even if its own value is changed', function() {
+                target.set('Goodbye!');
+                expect(source.get()).to.equal('Hello!');
+            });
+        });
+
+        describe('#bindBidirectional', function() {
+            var source, target;
+
+            beforeEach(function() {
+                source = Observable('Hello!');
+                target = Observable();
+                target.bindBidirectional(source);
+            });
+
+            afterEach(function() {
+                target.dispose();
+                source.dispose();
+            });
+
+            it('should take the initial value of its source', function() {
+                expect(target.get()).to.equal('Hello!');
+            });
+
+            it('should update its value when its source changes', function() {
+                source.set('Goodbye!');
+                expect(target.get()).to.equal('Goodbye!');
+            });
+
+            it('should change the sources value when if its own value is changed', function() {
+                target.set('Goodbye!');
+                expect(source.get()).to.equal('Goodbye!');
+            });
+        });
+
         describe('#computed(fn)', function() {
             var value, computed;
             beforeEach(function() {
