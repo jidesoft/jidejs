@@ -14,7 +14,7 @@ define([
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Menu
      * @extends module:jidejs/ui/control/Labeled
-     * @extends module:jidejs/ui/Container
+     * @mixes module:jidejs/ui/Container
      *
      * @param {object} config The configuration.
 	 */

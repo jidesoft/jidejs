@@ -1,16 +1,4 @@
 /**
- * This module is a mixin that supports managing children within a {@link jidejs/ui/Component}.
- * It is not necessary to actually mixin this class, just invoke the constructor.
- *
- * You can either provide a `wrapperCallback` function to the constructor which returns an `Element` that should be
- * placed directly within the components element, or you can implement the methods `_insertChildAt` and `_removeChild`
- * for more flexibility.
- *
- * @example
- * function MyComponent() {
- * 	Container.call(this, function(component) { return component.element; });
- * }
- *
  * @module jidejs/ui/Container
  */
 define([
@@ -68,10 +56,13 @@ define([
 	}
 
 	/**
-	 * Initializes a new container, observing the `children` {@link module:jidejs/base/ObservableList}.
-	 *
-	 * You must call this method using the `call` method to change the context to the component you're developing.
-	 *
+     * This module is a mixin that supports managing children within a {@link jidejs/ui/Component}.
+     * It is not necessary to actually mixin this class, just invoke the constructor.
+     *
+     * You can either provide a `wrapperCallback` function to the constructor which returns an `Element` that should be
+     * placed directly within the components element, or you can implement the methods `_insertChildAt` and `_removeChild`
+     * for more flexibility.
+     *
 	 * For simple usages, it is sufficient to use the `wrapperCallback` argument. More complicated usages will require
 	 * the implementation of the `_insertChildAt` and `_removeChild` methods.
 	 *
@@ -80,10 +71,15 @@ define([
 	 *
 	 * It will also invoke the `requestLayout` method when required and available.
 	 *
-	 * @constructor
+	 * @mixin
 	 * @alias module:jidejs/ui/Container
      *
      * @param {function?} wrapperCallback An optional callback that can be used to nest children in additional elements.
+     *
+     * @example
+     * function MyComponent() {
+     * 	Container.call(this, function(component) { return component.element; });
+     * }
 	 */
 	var exports = function Container(wrapperCallback) {
 		if(!this.children) {

@@ -22,7 +22,7 @@ define([
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ToolBar
      * @extends module:jidejs/ui/Control
-     * @extends module:jidejs/ui/Container
+     * @mixes module:jidejs/ui/Container
      *
      * @param {object} config The configuration.
      * @param {Array} config.children The controls that should be displayed in the ToolBar.

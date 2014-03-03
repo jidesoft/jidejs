@@ -18,7 +18,7 @@ define([
 	 * @constructor
 	 * @alias module:jidejs/ui/control/Accordion
      * @extends module:jidejs/ui/Control
-     * @extends module:jidejs/ui/Container
+     * @mixes module:jidejs/ui/Container
      *
      * @param {object} config The configuration
      * @param {Array.<module:jidejs/ui/control/TitledPane>} config.children An array of TitledPanes that should be displayed

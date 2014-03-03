@@ -15,7 +15,7 @@ define([
 	 * @constructor
 	 * @alias module:jidejs/ui/layout/Pane
      * @extends module:jidejs/ui/Component
-     * @extends module:jidejs/ui/Container
+     * @mixes module:jidejs/ui/Container
      * @abstract
      *
      * @param {object|Element} configOrElement Either the configuration or the Element that should be managed by the Pane.

@@ -13,8 +13,3 @@ the [jidejs/base/ObservableList](ObservableList.html), [jidejs/base/Observable](
 jidejs/ui
 ---------
 This package contains all free to use controls and layout panes.
-
-jidejs/grid
-------------------------------------------------------------
-Contains the **commerical** grid controls, like the [jidejs/grid/Table](Table.html). This package is not included in the free
-download and usage is not allowed without a proper license.

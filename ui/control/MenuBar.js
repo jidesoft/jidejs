@@ -39,7 +39,7 @@ define([
 	 * @constructor
 	 * @alias module:jidejs/ui/control/MenuBar
      * @extends module:jidejs/ui/Control
-     * @extends module:jidejs/ui/Container
+     * @mixes module:jidejs/ui/Container
      *
      * @param {object} config The configuration.
      * @param {Array} config.children The array of menus that belong to this MenuBar.

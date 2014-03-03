@@ -29,7 +29,7 @@ define([
 	 * @constructor
 	 * @alias module:jidejs/ui/control/ContextMenu
      * @extends jidejs/ui/control/Popup
-     * @extends jidejs/ui/Container
+     * @mixes jidejs/ui/Container
      *
      * @param {object} config The configuration.
 	 */
