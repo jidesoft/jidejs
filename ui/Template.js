@@ -75,6 +75,7 @@ define([
 		var template = div.firstElementChild;
 		return template;
 	}
+    exports.transformStringToElement = transformStringToElement;
 
 	function addPseudoClass(template) {
 		var pseudos = template.content.querySelectorAll('[pseudo]');

@@ -323,11 +323,13 @@ define([
 
 		/**
 		 * Registers all necessary property bindings.
+         * @deprecated
 		 */
 		installBindings: function() { return []; },
 
 		/**
 		 * Registers all necessary event handlers.
+         * @deprecated
 		 */
 		installListeners: function() { return []; },
 

@@ -115,7 +115,7 @@ define([
             if(!updateTicking) {
                 updateTicking = true;
                 Dispatcher.requestAnimationFrame(function() {
-                    updateBindings(element, context, false, binding.get(), oldValues);
+                    if(binding) updateBindings(element, context, false, binding.get(), oldValues);
                     updateTicking = false;
                 });
             }

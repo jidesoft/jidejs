@@ -145,6 +145,7 @@ define([
 	var installer = Observable.install(Control,
         'skin:no-bubbling:no-cancel', 'tooltip:no-bubbling:no-cancel', 'contextmenu:no-bubbling:no-cancel'
     );
+    Control.Skin = Skin;
 
     function endsWith(string, searchString, position) {
         position = position || string.length;
