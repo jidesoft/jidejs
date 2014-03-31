@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jidejs/grid HTML structure for lists, tables and trees</title>
+    <style>
+        .scrollbar {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /*************************************
+         * General grid layout
+         *************************************/
+
+        .grid {
+            overflow: hidden;
+        }
+
+        .grid-body {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .grid, .grid .row, .grid .column, .grid-header, .grid-body, .grid .row-body, .grid-footer,
+        .grid::before, .grid .row::before, .grid .column::before, .grid-header::before, .grid-body::before, .grid .row-body::before, .grid-footer::before,
+        .grid::after, .grid .row::after, .grid .column::after, .grid-header::after, .grid-body::after, .grid .row-body::after, .grid-footer::after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .grid .row {
+            display: block;
+        }
+
+        .grid .column {
+            display: table-cell;
+            width: 100%;
+        }
+
+        .grid.is-single-col .column {
+            display: block;
+        }
+
+        .grid .column-group {
+        }
+
+        .grid .row-body {
+            clear: both;
+            width: 100%;
+        }
+
+        .grid.scroll-body .grid-body {
+            overflow-y: auto;
+        }
+
+        .grid .h-scroller {
+            overflow: hidden;
+        }
+
+        .grid .grid-footer .h-scroll .h-scroller {
+            /*overflow-x: auto;*/
+            overflow-x: scroll;
+        }
+
+        .grid .grid-footer .h-scroll .h-scroller .column {
+            height: 0;
+        }
+
+        .grid .is-hidden {
+            display: none;
+        }
+
+        /*************************************
+         * Design
+         *************************************/
+
+        .grid, .grid .row, .grid .column, .grid .row-body, .column-group-header, .grid .grid-footer {
+            border: 0 solid black;
+        }
+
+        .grid {
+            border-width: 1px;
+        }
+
+        .grid .row {
+            border-width: 0 0 1px 0;
+        }
+
+        .grid .row:last-child {
+            border-width: 0;
+        }
+
+        .grid .subrow {
+            display: table-cell;
+            padding: 0;
+        }
+
+        .grid .column {
+            border-width: 0 1px 0 0;
+        }
+
+        .grid.is-single-col .column {
+            border-right-width: 0;
+        }
+
+        .grid .column-group .column:last-of-type {
+            border-right-width: 1px;
+        }
+
+        .grid .column-group-header {
+            border-width: 0 1px 1px 0;
+        }
+
+        .grid .column-group {
+            border-width: 0;
+        }
+
+        .grid .row-body {
+            border-width: 1px 0 0 0;
+        }
+
+        .grid .row-body.h-scroll {
+            border-width: 0;
+        }
+
+        .grid .row-body.prefix {
+            border-width: 0;
+        }
+
+        .grid .grid-body + .grid-footer {
+            border-width: 1px 0 0 0;
+        }
+
+        .grid .column, .column-group-header {
+            padding: 5px;
+        }
+
+        /*.grid .grid-body .column .column, .grid .h-scroll .column {*/
+            /*padding: 0;*/
+        /*}*/
+
+        .grid .column-group {
+            padding: 0;
+        }
+
+        .grid .grid-header .column {
+            vertical-align: bottom;
+        }
+
+        /*************************************
+         * Column width definitions
+         *************************************/
+        .grid-3 .column1 {
+            min-width: 200px;
+            width: 200px;
+        }
+
+        .grid-3 .column2 {
+            min-width: 200px;
+            width: 200px;
+        }
+
+        .grid-3 .column4 {
+            min-width: 400px;
+            width: 400px;
+        }
+
+        .grid-3 .column3 {
+            min-width: 300px;
+            width: 300px;
+        }
+
+        .grid-4 .column0 {
+            min-width: 50px;
+            width: 50px;
+        }
+
+        .grid-4 .column1 {
+            min-width: 300px;
+            width: 300px;
+        }
+
+        .grid-4 .column2 {
+            min-width: 150px;
+            width: 150px;
+        }
+
+        .grid-4 .column3 {
+            min-width: 100px;
+            width: 100px;
+        }
+
+        .grid-6 .column1, .grid-6 .column2, .grid-6 .column3 {
+            width: 200px;
+            /*max-width: 200px;*/
+            min-width: 200px;
+        }
+
+        .grid-6 .h-scroller-1 {
+            max-width: 200px;
+        }
+
+        .grid-6 .column4, .grid-6 .column5, .grid-6 .column6, .grid-6 .column7 {
+            width: 100px;
+            /*max-width: 100px;*/
+            min-width: 100px;
+        }
+
+        /*************************************
+         * Handling indents, should be inline
+         *************************************/
+        .grid .indent-1 {
+            padding-left: 20px;
+        }
+
+        .grid .indent-2 {
+            padding-left: 40px;
+        }
+
+        /*************************************
+         * Partial Scrolling, generated
+         *************************************/
+        .grid-6 .h-scroller-1 > .column {
+            -webkit-transform: translateX(-100px);
+            -moz-transform: translateX(-100px);
+            -ms-transform: translateX(-100px);
+            transform: translateX(-100px);
+        }
+    </style>
+</head>
+<body>
+
+<h1>jidejs/grid package</h1>
+<p>This document describes the DOM structure of the components in <code>jidejs/grid</code>.</p>
+<p>It should help to design a common DOM structure for all four types of grids:</p>
+<ul>
+    <li>ListView</li>
+    <li>TableView</li>
+    <li>TreeView</li>
+    <li>TreeTableView</li>
+</ul>
+<p>A grid consists of three parts:</p>
+<ul>
+    <li>grid-header</li>
+    <li>grid-body</li>
+    <li>grid-footer</li>
+</ul>
+<p>Each of those consist of <code>row</code>s, which have at least one <code>column</code>.
+    A <code>row</code> can also contain any number of <code>row-body</code> elements. Grids with
+    more than one <code>column</code> must have a <code>is-single-col</code> class attached to them.</p>
+<p>A <code>row-body</code> element can have any number of <code>row</code>s as children.</p>
+
+<p>A Grid is created with an <code>items</code> property and a set of <em>features</em>. Examples for <em>features</em>
+are <em>columns</em>, <em>detail rows</em>, <em>column groups</em>, <em>tree columns</em> and so on.</p>
+
+<p>Thus, unlike others, there is only one type of control: A grid. By adding <em>features</em> to the grid,
+we can make it a ListView (single Column), a GroupList (TreeColumn + Column), Table (multiple Columns) and so on.</p>
+
+<p>The <code>items</code> property of a Grid is a DataView instance, which is similar to a Collection but can be
+    filtered, sorted and grouped using multiple criteria in place and provides additional information on the collection.</p>
+<p>Such a DataView can be created from a TreeNode or a Collection or be implemented by the user of the API to create
+    lazy implementations.</p>
+
+<h2>Horizontal Scrollbar</h2>
+
+<div class="scrollbar scrollbar-h" style="width: 200px; overflow-x: scroll;">
+    <div class="sizer" style="width: 500px; height: 0;">&nbsp;</div>
+</div>
+
+<h2>Vertical Scrollbar</h2>
+
+<div class="scrollbar scrollbar-v" style="height: 200px; width: 100px; overflow-y: scroll;">
+    <div class="sizer" style="height: 500px; width: 0;">&nbsp;</div>
+</div>
+
+<h2>ListView</h2>
+<div class="grid listview is-single-col grid-1">
+    <ul class="grid-body">
+        <li class="row"><div class="column column1">Hello</div></li>
+        <li class="row"><div class="column column1">World</div></li>
+        <li class="row"><div class="column column1">Universe</div></li>
+        <li class="row"><div class="column column1">Galaxy</div></li>
+        <li class="row"><div class="column column1">Goodbye</div></li>
+    </ul>
+</div>
+
+<h2>ListView with grouping</h2>
+<div class="grid listview is-single-col grid-1">
+    <ul class="grid-body">
+        <li class="row">
+            <div class="row-body prefix">Greetings</div>
+            <ul class="row-body">
+                <li class="row"><div class="column column1">Hello</div></li>
+                <li class="row"><div class="column column1">Goodbye</div></li>
+            </ul>
+        </li>
+        <li class="row">
+            <div class="row-body prefix">Places</div>
+            <ul class="row-body">
+                <li class="row"><div class="column column1">World</div></li>
+                <li class="row"><div class="column column1">Universe</div></li>
+                <li class="row"><div class="column column1">Galaxy</div></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<h2>TableView</h2>
+
+<div class="grid tableview grid-3">
+    <div class="row grid-header">
+        <div class="column column1">First name</div>
+        <div class="column column2">Last name</div>
+        <div class="column column3">eMail</div>
+    </div>
+    <ul class="grid-body">
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+            <div class="row-body">This row is the row-body and belongs to the above row</div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column3">david@jidesoft.com</div>
+        </li>
+    </ul>
+</div>
+
+<h2>TableView with multi rows</h2>
+
+<div class="grid tableview grid-3">
+    <div class="row grid-header">
+        <div class="column column1">First name</div>
+        <div class="column column2">Last name</div>
+        <div class="column column3">eMail</div>
+    </div>
+    <ul class="grid-body">
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="subrow">
+                <div class="row"><div class="column column3">patrick@pagosoft.com</div></div>
+                <div class="row"><div class="column column3">patrick@jidesoft.com</div></div>
+            </div>
+            <div class="row-body">This row is the row-body and belongs to the above row</div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column3">david@jidesoft.com</div>
+        </li>
+    </ul>
+</div>
+
+<h2>TableView with grouped columns</h2>
+
+<div class="grid tableview grid-3">
+    <div class="row grid-header">
+        <div class="column column-group column5">
+            <div class="column-group-header">People</div>
+            <div class="column column-group column4">
+                <div class="column-group-header">Name</div>
+                <div class="column column1">First <br>name</div>
+                <div class="column column2">Last name</div>
+            </div>
+            <div class="column column3">eMail</div>
+        </div>
+    </div>
+    <ul class="grid-body">
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column3">david@jidesoft.com</div>
+        </li>
+    </ul>
+</div>
+
+<h2>TableView with vertical scrolling</h2>
+
+<div class="grid tableview scroll-body grid-3" style="height: 200px;">
+    <div class="row grid-header">
+        <div class="column column1">First name</div>
+        <div class="column column2">Last name</div>
+        <div class="column column3">eMail</div>
+    </div>
+    <ul class="grid-body" style="height: 138px;">
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+            <div class="row-body">This row is the row-body and belongs to the above row</div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column3">david@jidesoft.com</div>
+        </li>
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+        </li>
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+        </li>
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+        </li>
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column3">patrick@pagosoft.com</div>
+        </li>
+    </ul>
+    <div class="row grid-footer">
+        <div class="column column1">First name</div>
+        <div class="column column2">Last name</div>
+        <div class="column column3">eMail</div>
+    </div>
+</div>
+
+<h2>TableView with partial horizontal scrolling</h2>
+
+<div class="grid tableview grid-6" style="width: 600px;">
+    <div class="row grid-header">
+        <div class="column column1">First name</div>
+        <div class="column column2">Last name</div>
+        <div class="column column-group h-scroller h-scroller-1">
+            <div class="column column3">eMail</div>
+            <div class="column column4">A</div>
+            <div class="column column5">B</div>
+            <div class="column column6">C</div>
+            <div class="column column7">D</div>
+        </div>
+    </div>
+    <ul class="grid-body">
+        <li class="row">
+            <div class="column column1">Patrick</div>
+            <div class="column column2">Gotthardt</div>
+            <div class="column column-group h-scroller h-scroller-1">
+                <div class="column column3">patrick@pagosoft.com</div>
+                <div class="column column4">1651</div>
+                <div class="column column5">1656</div>
+                <div class="column column6">7351</div>
+                <div class="column column7">8916</div>
+            </div>
+            <div class="row-body">This row is the row-body and belongs to the above row</div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column-group h-scroller h-scroller-1">
+                <div class="column column3">david@jidesoft.com</div>
+                <div class="column column4">1651</div>
+                <div class="column column5">1656</div>
+                <div class="column column6">7351</div>
+                <div class="column column7">8916</div>
+            </div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column-group h-scroller h-scroller-1">
+                <div class="column column3">david@jidesoft.com</div>
+                <div class="column column4">1651</div>
+                <div class="column column5">1656</div>
+                <div class="column column6">7351</div>
+                <div class="column column7">8916</div>
+            </div>
+        </li>
+        <li class="row">
+            <div class="column column1">David</div>
+            <div class="column column2">Qiao</div>
+            <div class="column column-group h-scroller h-scroller-1">
+                <div class="column column3">david@jidesoft.com</div>
+                <div class="column column4">1651</div>
+                <div class="column column5">1656</div>
+                <div class="column column6">7351</div>
+                <div class="column column7">8916</div>
+            </div>
+        </li>
+    </ul>
+    <div class="row grid-footer">
+        <div class="column column1">First name</div>
+        <div class="column column2">Last name</div>
+        <div class="column column-group h-scroller h-scroller-1">
+            <div class="column column3">eMail</div>
+            <div class="column column4">A</div>
+            <div class="column column5">B</div>
+            <div class="column column6">C</div>
+            <div class="column column7">D</div>
+        </div>
+        <div class="row-body h-scroll" style="overflow: hidden;">
+            <div class="scrollbar scrollbar-h" style="float: left; margin-left: 400px; width: 200px; overflow-x: scroll;">
+                <div class="sizer" style="width: 600px; height: 0;">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>TreeView</h2>
+
+<div class="grid treeview is-single-col grid-2">
+    <ul class="grid-body">
+        <li class="row">
+            <div class="column column1">projects</div>
+            <ul class="row-body tree">
+                <li class="row leaf"><div class="column column1 indent-1">browserify-jide-template</div></li>
+                <li class="row">
+                    <div class="column column1 indent-1 tree">jidejs</div>
+                    <ul class="row-body tree">
+                        <li class="row leaf"><div class="column indent-2 column1">ui</div></li>
+                        <li class="row leaf"><div class="column indent-2 column1">base</div></li>
+                        <li class="row leaf"><div class="column indent-2 column1">grid</div></li>
+                    </ul>
+                </li>
+                <li class="row leaf"><div class="column indent-1 column1">generator-jide</div></li>
+            </ul>
+        </li>
+        <li class="row">
+            <div class="column column1">documents</div>
+            <ul class="row-body tree">
+                <li class="row leaf"><div class="column indent-1 column1">invoices</div></li>
+                <li class="row leaf"><div class="column indent-1 column1">bills</div></li>
+            </ul>
+        </li>
+        <li class="row leaf">
+            <div class="column column1">About.html</div>
+        </li>
+    </ul>
+</div>
+
+<h2>TreeTableView</h2>
+
+<div class="grid treetableview grid-4">
+    <div class="row grid-header">
+        <div class="column column0">ID</div>
+        <div class="column column1">Path</div>
+        <div class="column column2">Size</div>
+        <div class="column column3">Type</div>
+    </div>
+    <ul class="grid-body">
+        <li class="row">
+            <div class="column column0">0</div>
+            <div class="column column1">projects</div>
+            <ul class="row-body tree">
+                <li class="row leaf">
+                    <div class="column column0">1</div>
+                    <div class="column column1 indent-1">browserify-jide-template</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+                <li class="row">
+                    <div class="column column0">2</div>
+                    <div class="column column1 indent-1 tree">jidejs</div>
+                    <ul class="row-body tree">
+                        <li class="row leaf">
+                            <div class="column column0">3</div>
+                            <div class="column column1 indent-2">ui</div>
+                            <div class="column column2">12kb</div>
+                            <div class="column column3">Directory</div>
+                        </li>
+                        <li class="row leaf">
+                            <div class="column column0">4</div>
+                            <div class="column column1 indent-2">base</div>
+                            <div class="column column2">12kb</div>
+                            <div class="column column3">Directory</div>
+                        </li>
+                        <li class="row leaf">
+                            <div class="column column0">5</div>
+                            <div class="column column1 indent-2">grid</div>
+                            <div class="column column2">12kb</div>
+                            <div class="column column3">Directory</div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="row leaf">
+                    <div class="column column0">6</div>
+                    <div class="column column1 indent-1">generator-jide</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+            </ul>
+        </li>
+        <li class="row leaf">
+            <div class="column column0">7</div>
+            <div class="column column1">About.html</div>
+            <div class="column column2">12kb</div>
+            <div class="column column3">File</div>
+        </li>
+        <li class="row">
+            <div class="column column0">8</div>
+            <div class="column column1">documents</div>
+            <div class="column column2">24kb</div>
+            <div class="column column3">Directory</div>
+            <ul class="row-body tree">
+                <li class="row leaf">
+                    <div class="column column0">9</div>
+                    <div class="column column1 indent-1">invoices</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+                <li class="row leaf">
+                    <div class="column column0">10</div>
+                    <div class="column column1 indent-1">bills</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<h2>TreeTableView with vertical scrolling</h2>
+
+<div class="grid treetableview scroll-body grid-4" style="height: 200px;">
+    <div class="row grid-header">
+        <div class="column column0">ID</div>
+        <div class="column column1">Path</div>
+        <div class="column column2">Size</div>
+        <div class="column column3">Type</div>
+    </div>
+    <ul class="grid-body" style="height: calc(200px - 31px - 31px)">
+        <li class="row">
+            <div class="column column0">0</div>
+            <div class="column column1">projects</div>
+            <ul class="row-body tree">
+                <li class="row leaf">
+                    <div class="column column0">1</div>
+                    <div class="column column1 indent-1">browserify-jide-template</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+                <li class="row">
+                    <div class="column column0">2</div>
+                    <div class="column column1 indent-1 tree">jidejs</div>
+                    <ul class="row-body tree">
+                        <li class="row leaf">
+                            <div class="column column0">3</div>
+                            <div class="column column1 indent-2">ui</div>
+                            <div class="column column2">12kb</div>
+                            <div class="column column3">Directory</div>
+                        </li>
+                        <li class="row leaf">
+                            <div class="column column0">4</div>
+                            <div class="column column1 indent-2">base</div>
+                            <div class="column column2">12kb</div>
+                            <div class="column column3">Directory</div>
+                        </li>
+                        <li class="row leaf">
+                            <div class="column column0">5</div>
+                            <div class="column column1 indent-2">grid</div>
+                            <div class="column column2">12kb</div>
+                            <div class="column column3">Directory</div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="row leaf">
+                    <div class="column column0">6</div>
+                    <div class="column column1 indent-1">generator-jide</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+            </ul>
+        </li>
+        <li class="row leaf">
+            <div class="column column0">7</div>
+            <div class="column column1">About.html</div>
+            <div class="column column2">12kb</div>
+            <div class="column column3">File</div>
+        </li>
+        <li class="row">
+            <div class="column column0">8</div>
+            <div class="column column1">documents</div>
+            <div class="column column2">24kb</div>
+            <div class="column column3">Directory</div>
+            <ul class="row-body tree">
+                <li class="row leaf">
+                    <div class="column column0">9</div>
+                    <div class="column column1 indent-1">invoices</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+                <li class="row leaf">
+                    <div class="column column0">10</div>
+                    <div class="column column1 indent-1">bills</div>
+                    <div class="column column2">12kb</div>
+                    <div class="column column3">Directory</div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="row grid-footer">
+        <div class="column column0"></div>
+        <div class="column column1"></div>
+        <div class="column column2">104kb</div>
+        <div class="column column3"></div>
+    </div>
+</div>
+
+</body>
+</html>
