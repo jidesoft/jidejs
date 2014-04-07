@@ -964,14 +964,14 @@ define([
 			insertLength = inserts.length,
 			item;
 		if(!avoidMove || updateLength === 0) {
-			// When we don't need to avoide moving items, i.e. are sorting strictly so that all items in the list are
+			// When we don't need to avoid moving items, i.e. are sorting strictly so that all items in the list are
 			// always sorted, then we don't need to look at every item in the list just to make some changes to it.
 			// Instead, we can use a binary search to find the index where the change should happen.
 			// Since all modifications (inserts and deletes) are sorted internally, we can make the assertion that
 			// we can reuse the left boundary for the search for each modification if we start with the
 			// smallest changed value.
 			// This has the huge benefit that if rather large values are removed, we can potentially skip past half
-			// of the list in the first iteration. Which also means significantly fewer comparisions between the items.
+			// of the list in the first iteration. Which also means significantly fewer comparisons between the items.
 			var l = 0;
 			while(true) {
 				// figure out what to do next
