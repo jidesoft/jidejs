@@ -4,10 +4,10 @@
 define([
 	'./../base/Observable', './../base/DOM', './../base/Util', './../base/Dispatcher',
 	'./util/ClassList', './util/js-object-literal-parse', './Component',
-    './bind/content', './bind/foreach', './bind/style'
+    './bind/content', './bind/foreach', './bind/style', './bind/conditional'
 ], function(
     Observable, DOM, _, Dispatcher, ClassList, literalParse, Component,
-    contentBindings, foreachBindings, styleBindings
+    contentBindings, foreachBindings, styleBindings, conditionalBindings
 ) {
 	"use strict";
 
@@ -244,9 +244,13 @@ define([
 
         style: styleBindings.style,
         css: styleBindings.css,
+        classList: styleBindings.classList,
         attr: styleBindings.attr,
 
         foreach: foreachBindings.foreach,
+
+        'if': conditionalBindings['if'],
+        'unless': conditionalBindings['unless'],
 
 		on: {
 			update: function(element, value, oldValue, context) {

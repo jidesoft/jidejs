@@ -26,6 +26,25 @@ define([
             }
         },
 
+        classList: {
+            update: function(element, value, oldValue, context) {
+                var component = DOM.hasData(element) && DOM.getData(element).component || null,
+                  target = component || (element.classList && element) || new ClassList(element);
+                if(value) {
+                    value.forEach(function(className) {
+                        target.classList.add(className);
+                    });
+                }
+                if(oldValue) {
+                    oldValue.forEach(function(className) {
+                        if(value.indexOf(className) === -1) {
+                            target.classList.remove(className);
+                        }
+                    });
+                }
+            }
+        },
+
         style: {
             update: function(element, value, oldValue) {
                 for(var i = 0, names = Object.getOwnPropertyNames(value), len = names.length; i < len; i++) {
