@@ -29,7 +29,18 @@ define([
 		copyAttributes = function(source, target) {
 			for(var i = 0, len = source.attributes.length; i < len; i++) {
 				var attr = source.attributes[i];
-				target.setAttribute(attr.nodeName, attr.nodeValue);
+                if(attr.nodeName === 'class' && target.hasAttribute('class')) {
+                    if(target.classList) {
+                        var classes = attr.nodeValue.split(/\s+/);
+                        for(var j = 0, classLength = classes.length; j < classLength; j++) {
+                            target.classList.add(classes[j]);
+                        }
+                    } else {
+                        target.setAttribute(attr.nodeName, target.getAttribute('class')+' '+attr.nodeValue);
+                    }
+                } else {
+                    target.setAttribute(attr.nodeName, attr.nodeValue);
+                }
 			}
 		};
 	/**
