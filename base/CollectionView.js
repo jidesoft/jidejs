@@ -129,6 +129,8 @@ define([
         from: function(source) {
             if(source instanceof Collection) {
                 return new CollectionViewSource(source);
+            } else if(Array.isArray(source)) {
+                return new CollectionViewSource(Collection.fromArray(source));
             }
         }
     };
