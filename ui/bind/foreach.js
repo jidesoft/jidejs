@@ -51,10 +51,10 @@ define([
                     disposables[change.index].dispose();
                     disposables[change.index] = bind.to(cloned, context.$item, change.newValue);
                 }
-                for(len = templateSize; 0 < len; len--) {
+                for(len = templateSize-1; 0 < len; len--) {
                     element.removeChild(element.childNodes[changeIndex]);
                 }
-                element.replaceChild(cloned, element.childNodes[change.index]);
+                element.replaceChild(cloned, element.childNodes[changeIndex]);
             }
         }
     }

@@ -5,10 +5,10 @@
  * @module jidejs/base/ObservableProperty
  */
 define([
-	'./Class', './Binding', './Util',
+	'./Class', './Binding', './Util', './Observable',
 	'./PropertyListener', './Property', './EventEmitter',
 	'./DependencyTracker'
-], function(Class, Binding, _, PropertyListener, Property, EventEmitter, DependencyTracker) {
+], function(Class, Binding, _, Observable, PropertyListener, Property, EventEmitter, DependencyTracker) {
 	"use strict";
 	/**
 	 * Creates a new observable property.
@@ -218,5 +218,18 @@ define([
 		};
 		return installer;
 	};
+
+    exports.copyOrBind = function(target, source) {
+        for(var names = Object.getOwnPropertyNames(source), i = 0, len = names.length; i < len; i++) {
+            var name = names[i],
+              value = source[name];
+            if(Observable.is(value) && target[name+'Property']) {
+                target[name+'Property'].bind(value);
+            } else {
+                target[name] = value;
+            }
+        }
+    };
+
 	return exports;
 });

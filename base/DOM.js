@@ -232,6 +232,12 @@ define([
 			parent.insertBefore(node, parent.childNodes[index] || null);
 		},
 
+        contains: function(a, b) {
+            return a.contains
+                ? a !== b && a.contains(b)
+                : !!(a.compareDocumentPosition(b) & 16);
+        },
+
 		removeChildren: function(parent) {
 			var child;
 			while(child = parent.firstChild) {

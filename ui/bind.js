@@ -73,11 +73,12 @@ define([
             var update = updates[i],
                 name = update[0],
                 value = update[1],
-                oldValue = oldValues[name];
+                oldValue = oldValues[name],
+                controlsChildren = false;
             if(isInit || value !== oldValue) {
                 if(bind.handlers.hasOwnProperty(name)) {
                     if(isInit && bind.handlers[name].hasOwnProperty('init')) {
-                        bind.handlers[name].init(element, context);
+                        controlsChildren = bind.handlers[name].init(element, context) || controlsChildren;
                     }
                     bind.handlers[name].update(element, value, oldValue, context);
                     oldValues[name] = value;
@@ -86,6 +87,7 @@ define([
                 }
             }
         }
+        return controlsChildren;
     }
 
 	function bind(element, descriptor, context, component) {
@@ -120,7 +122,7 @@ define([
                 });
             }
         });
-        updateBindings(element, context, true, binding.get(), oldValues);
+        controlsChildren = updateBindings(element, context, true, binding.get(), oldValues);
 		return {
 			controlsChildren: controlsChildren,
 			dispose: function() {

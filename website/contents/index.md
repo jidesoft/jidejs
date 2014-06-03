@@ -12,7 +12,7 @@ template: index.html
         highly efficient programming.</p>
         <p>**jide.js** uses the AMD format and can be used with any AMD compatible loader such as [require.js](http://www.requirejs.org)
         but also supports [Browserify](http://browserify.org). Don't worry if you don't know what that means, we've prepared
-        a [short introduction](/guide/01-core-concepts/00-modules.md) for you.</p>
+        a [short introduction](/guide/01-core-concepts/00-modules.html) for you.</p>
         <p><b>jide.js</b> is currently in beta state. This means that it is neither feature complete nor without bugs and
         that its APIs can change when necessary.</p>
     </article>

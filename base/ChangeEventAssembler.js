@@ -132,9 +132,10 @@ define(['./Class', './CollectionChange', './Enumerator'], function(Class, Change
         /**
          * Pipes an event from another collection through this EventAssembler.
          * @param {jidejs/base/ChangeEvent} event The event.
+         * @param {String?} eventName (Optional) The name of the event, default is `change`.
          */
-        pipe: function(event) {
-            this.source.emit('change', new ChangeEvent(this.source, event.changes));
+        pipe: function(event, eventName) {
+            this.source.emit(eventName || 'change', new ChangeEvent(this.source, event.changes));
         }
     });
     return exports;

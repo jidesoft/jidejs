@@ -135,6 +135,7 @@ define([
 			}
 		}
 	});
+    exports.Skin = Popup.Skin;
     register('jide-contextmenu', exports, Popup, [], []);
 	return exports;
 });

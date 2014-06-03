@@ -67,9 +67,10 @@ define([
 				}
 			}
 			// perform data modification
-			data.splice.apply(data, arguments);
+			var removedItems = data.splice.apply(data, arguments);
 
 			publisher.commitChange();
+            return removedItems;
 		},
 
 		push: function(item) {
@@ -201,6 +202,36 @@ define([
 			publisher.commitChange();
 			return [item];
 		},
+
+        /**
+         * Removes all items except the given one.
+         *
+         * @param {*} item The item that should not be removed.
+         * @returns {Array} Returns an array of the removed items.
+         * @fires module:jidejs/base/Collection#change Notifies all listeners of the modification
+         */
+        retain: function(item) {
+            var publisher = this.updates,
+                data = this._data,
+                found = false,
+                result = [];
+            publisher.beginChange();
+            for(var i = 0, len = data.length; i < len; i++) {
+                var itemB = data[i];
+                if(item === itemB) {
+                    found = true;
+                } else if(found) {
+                    publisher.remove(1, itemB);
+                    result[result.length] = itemB;
+                } else {
+                    publisher.remove(0, itemB);
+                    result[result.length] = itemB;
+                }
+            }
+            this._data = [item];
+            publisher.commitChange();
+            return result;
+        },
 
 		/**
 		 * Removes the item at the given index and returns an array containing the item.

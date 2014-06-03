@@ -53,7 +53,7 @@ define(['./DOM'], function(DOM) {
 	/**
 	 * @alias module:jidejs/base/Dispatcher
 	 */
-	return /** @lends module:jidejs/base/Dispatcher */  {
+	var exports = /** @lends module:jidejs/base/Dispatcher */  {
 		/**
 		 * The given callback is invoked as soon as possible after the current script has been executed.
 		 *
@@ -72,6 +72,15 @@ define(['./DOM'], function(DOM) {
 				this.invokeLater(callback);
 			}
 		},
+
+        nextTickCallback: function(callback, context) {
+            return function() {
+                var args = arguments;
+                return exports.nextTick(function() {
+                    return callback.apply(context, args);
+                });
+            };
+        },
 
 		/**
 		 * Invokes an action at a later time, giving the browser time to re-render the screen, process events and
@@ -102,6 +111,15 @@ define(['./DOM'], function(DOM) {
 			};
 		},
 
+        invokeLaterCallback: function(callback, scope) {
+            return function() {
+                var args = arguments;
+                return exports.invokeLater(function() {
+                    return callback.apply(scope, args);
+                });
+            };
+        },
+
 		/**
 		 * Invokes an action in the next animation frame of the browser.
 		 * @param {Function} callback The callback that should be invoked later.
@@ -117,6 +135,16 @@ define(['./DOM'], function(DOM) {
 					delete animStore[animStore.indexOf(callback)];
 				}
 			};
-		}
+		},
+
+        requestAnimationFrameCallback: function(callback, context) {
+            return function() {
+                var args = arguments;
+                return exports.requestAnimationFrame(function() {
+                    return callback.apply(context, args);
+                });
+            };
+        }
 	};
+    return exports;
 });

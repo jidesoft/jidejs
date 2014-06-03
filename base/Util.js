@@ -23,8 +23,16 @@ define(function() {
 	};
 
 	Util.isElement = function(obj) {
-		return obj && !Util.isNumber(obj) && !Util.isBoolean(obj) && 'nodeType' in obj;
+		return obj && !Util.isString(obj) && !Util.isNumber(obj) && !Util.isBoolean(obj) && 'nodeType' in obj;
 	};
+
+    Util.isPrimitive = function(obj) {
+        return obj == null || Util.isFunction(obj) || Util.isString(obj) || Util.isNumber(obj) || Util.isBoolean(obj);
+    };
+
+    Util.startsWith = function(str, start) {
+        return str && start.length < str.length &&  str.substring(0, start.length) === start;
+    };
 
 	Util.copy = function(obj, fn, context) {
 		Object.getOwnPropertyNames(obj).forEach(function(name) {

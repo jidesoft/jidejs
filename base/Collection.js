@@ -443,9 +443,9 @@ define([
 			} else if(change.isInsert) {
 				var newValue = this.transform.call(this.context, change.newValue, change.index, this.source);
 				data.splice(change.index, 0, newValue);
-				updates.insert(change.index, undefined, newValue);
+				updates.insert(change.index, newValue);
 			} else if(change.isDelete) {
-				updates.remove(change.index, data.splice(change.index, 1), undefined);
+				updates.remove(change.index, data.splice(change.index, 1)[0]);
 			}
 		}
 		updates.commitChange();

@@ -80,7 +80,18 @@ define(function() {
 
 		'classList': function() {
 			return testElement.classList !== undefined;
-		}
+		},
+
+        'localeCompareWithOptions': function() {
+            // as specified in MDN
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+            try {
+                "a".localeCompare("b", "i");
+            } catch (e) {
+                return e.name === "RangeError";
+            }
+            return false;
+        }
 	};
 
 	var cssPropertyNames = {};

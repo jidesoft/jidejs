@@ -42,6 +42,13 @@ define([
         this._sortedData = this._filteredData.sort(this.compare);
         this._groupedData = null;
 
+        this._sortedData.on('change', function(event) {
+            if(!self.hasGroups) {
+                self.updates.pipe(event);
+            }
+            self.updates.pipe(event, 'change:raw');
+        });
+
         this.filterDescriptions.on('change', function(event) {
             var changes = event.enumerator(),
                 isTighten = false,
@@ -69,17 +76,7 @@ define([
         });
 
         this.groupDescriptions.on('change', function(event) {
-//            var changes = event.changes,
-//                insertCount = 0;
-//            while(changes.moveNext()) {
-//                var change = changes.current;
-//                if(change.isInsert) {
-//                    insertCount++;
-//                } else {
             updateGroupStructure(self);
-//                    break;
-//                }
-//            }
         });
     }
     Class(CollectionViewSource).extends(Collection).def({
@@ -109,7 +106,11 @@ define([
         },
 
         relaxFilter: function() {
-            this._filteredData.relaxFilter();
+            if(this.filterDescriptions.length === 0) {
+                this._filteredData.matchAll();
+            } else {
+                this._filteredData.relaxFilter();
+            }
         },
 
         updateFilter: function() {
@@ -136,20 +137,48 @@ define([
     };
 
     function updateGroupStructure(view) {
-        var groupDescriptions = view.groupDescriptions;
+        var groupDescriptions = view.groupDescriptions,
+            oldData;
+        // check if we had groups before
+        if(view._groupedData) {
+            oldData = view._groupedData;
+            // check if we still have groups
+            if(groupDescriptions.length === 0) {
+                view._groupedData = null;
+                // okay, so we used to have groups but don't have them anymore, thus
+                // we need to remove the old, grouped, data and add the sorted data
+                replaceCollectionViewData(view, oldData, view._sortedData);
+                oldData.dispose();
+                return;
+            }
+        } else {
+            // we didn't have groups before so the 'old' data is the sorted data
+            oldData = view._sortedData;
+        }
+
         // for now only support one level
         var topLevelGroup = groupDescriptions.get(0);
         view._groupedData = view._sortedData.groupBy(topLevelGroup.getGroupKey, topLevelGroup).map(function(key, index, source) {
             return new Group(key, source.getByKey(key), groupDescriptions, 1);
         });
+        replaceCollectionViewData(view, oldData, view._groupedData);
+        view._groupedData.on('change', function(event) {
+            view.updates.pipe(event);
+        });
+        if(oldData !== view._sortedData) {
+            oldData.dispose();
+        }
+    }
+
+    function replaceCollectionViewData(view, oldData, newData) {
         var publisher = view.updates;
         publisher.beginChange();
         // remove all old data
-        for(var i = 0, data = view._sortedData, len = data.length; i < len; i++) {
+        for(var i = 0, data = oldData, len = data.length; i < len; i++) {
             publisher.remove(0, data.get(i));
         }
         // add new data
-        for(i = 0, data = view._groupedData, len = data.length; i < len; i++) {
+        for(i = 0, data = newData, len = data.length; i < len; i++) {
             publisher.insert(i, data.get(i));
         }
         publisher.commitChange();
