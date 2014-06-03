@@ -227,3 +227,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+demo/test/perf/bench.js
+demo/test/perf/index.html
