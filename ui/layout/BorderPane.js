@@ -83,6 +83,10 @@ define([
 				: has('flexbox/legacy')
 					? 'jide-use-legacy-flex'
 					: 'jide-use-table');
+
+        BorderPane.region.register(this);
+        BorderPane.margin.register(this);
+        BorderPane.alignment.register(this);
 	};
     var BorderPane = exports;
 
@@ -108,10 +112,14 @@ define([
 	}
 
 	Class(BorderPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/BorderPane# */{
+        dispose: function() {
+            Pane.prototype.dispose.call(this);
+            BorderPane.region.unregister(this);
+            BorderPane.margin.unregister(this);
+            BorderPane.alignment.unregister(this);
+        },
+
 		_insertChildAt: function(child, index) {
-			BorderPane.region.register(child);
-			BorderPane.margin.register(child);
-			BorderPane.alignment.register(child);
 			var region = BorderPane.region(child) || 'center';
 			var margin = BorderPane.margin(child) || new Insets(5);
 			var alignment = BorderPane.alignment(child) || 'top';
@@ -147,9 +155,6 @@ define([
 				e.style.padding = '0';
 				e.style.verticalAlign = 'top';
 			}
-			BorderPane.region.unregister(child);
-			BorderPane.margin.unregister(child);
-			BorderPane.alignment.unregister(child);
 		},
 
 		layoutChildren: function() {
@@ -192,8 +197,8 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be moved to that region.
 	 */
-	exports.region = AttachedProperty('jidejs/ui/layout/BorderPane.region', function(value, e) {
-		var component = e.owner;
+	exports.region = AttachedProperty('jidejs/ui/layout/BorderPane.region', 'BorderPane-region', function(e) {
+		var component = e.source;
 		var parent = component.parent;
 		var isInBorderPane = parent && parent instanceof BorderPane;
 		if(isInBorderPane) {
@@ -212,8 +217,8 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be aligned according to the value within its region.
 	 */
-    exports.alignment = AttachedProperty('jidejs/ui/layout/BorderPane.alignment', function(alignment, evt) {
-		var component = evt.owner;
+    exports.alignment = AttachedProperty('jidejs/ui/layout/BorderPane.alignment', 'BorderPane-alignment', function(evt) {
+		var component = evt.source, alignment = evt.value;
 		if(component.parent && component.parent instanceof BorderPane) {
 			if(has('flexbox') || has('flexbox/legacy')) {
 				component.style.set('verticalAlign', alignment || 'top').update();
@@ -223,8 +228,8 @@ define([
 			}
 		}
 	});
-    exports.margin = AttachedProperty('jidejs/ui/layout/BorderPane.margin', function(margin, evt) {
-		var component = evt.owner;
+    exports.margin = AttachedProperty('jidejs/ui/layout/BorderPane.margin', 'BorderPane-margin', function(evt) {
+		var component = evt.source, margin = evt.value;
 		if(component.parent && component.parent instanceof BorderPane) {
 			if(has('flexbox') || has('flexbox/legacy')) {
 				component.style.set('margin', (margin || new Insets(5)).toString()).update();

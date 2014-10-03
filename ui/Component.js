@@ -280,6 +280,10 @@ define([
 			}
 		},
 
+        notifyLayoutChange: function() {
+            this.emit('change:layout', { bubbles: true, cancelable: true });
+        },
+
 		/**
 		 * Removes the given `handler` from the event.
 		 * @param {string} name The name of the event.

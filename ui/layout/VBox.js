@@ -71,6 +71,8 @@ define([
 			: has('flexbox/legacy')
 				? 'jide-use-legacy-flex'
 				: 'jide-use-table');
+
+        VBox.grow.register(this);
 	};
     var VBox = exports;
 
@@ -103,24 +105,27 @@ define([
 		spacing: new Spacing('5px'),
 
 		_insertChildAt: function(child, index) {
-			VBox.grow.register(child);
+			//VBox.grow.register(child);
 			VBox.grow.update(child);
 			if(has('flexbox') || has('flexbox/legacy')) {
 				if(this.spacing) {
 					var spacing = this.spacing;
 					child.style.set('margin', spacing.row + ' ' + spacing.column).update();
 				}
-				DOM.insertElementAt(this.element, child.element, index);
+				DOM.insertElementAt(this.element, child.element || child, index);
 			} else {
 				var li = document.createElement('div');
-				li.appendChild(child.element);
+				li.appendChild(child.element || child);
 				DOM.insertElementAt(this.element, li, index);
 			}
 		},
 
 		_removeChild: function(child) {
-			this.element.removeChild(has('flexbox') || has('flexbox/legacy') ? child.element : child.element.parentNode);
-			VBox.grow.unregister(child);
+			this.element.removeChild(
+                has('flexbox') || has('flexbox/legacy')
+                    ? child.element || child
+                    : (child.element || child).parentNode);
+			//VBox.grow.unregister(child);
 		},
 
 		layoutChildren: function() {
@@ -196,11 +201,13 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the grow priority of the component.
 	 */
-	exports.grow = AttachedProperty('jidejs/ui/layout/VBox.grow', function(priority, evt) {
-		var child = evt.owner;
-		if(priority === 'always') {
+	exports.grow = AttachedProperty('jidejs/ui/layout/VBox.grow', 'VBox-grow', function(evt) {
+		var child = evt.source;
+		if(evt.value === 'always' && (has('flexbox') || has('flexbox/legacy'))) {
 			child.classList.add('jide-vbox-grow');
 		}
+        evt.stopImmediatePropagation();
+        DOM.notifyLayoutChange(child);
 	});
 
 	return exports;

@@ -313,7 +313,33 @@ define([
 		 */
 		toArray: function() {
 			return this._data.concat();
-		}
+		},
+
+        mirror: function(source) {
+            var self = this;
+            this.clear();
+            this.addAll(source.toArray());
+            source.on('change', function(event) {
+                var publisher = self.updates,
+                    changes = event.enumerator(),
+                    data = self._data;
+                publisher.beginChange();
+                while(changes.moveNext()) {
+                    var change = changes.current;
+                    if(change.isInsert) {
+                        data.splice(change.index, 0, [change.newValue]);
+                        publisher.insert(change.index, change.newValue);
+                    } else if(change.isDelete) {
+                        data.splice(change.index, 1);
+                        publisher.remove(change.index, change.oldValue);
+                    } else if(change.isUpdate) {
+                        data[change.index] = change.newValue;
+                        publisher.update(change.index, change.oldValue, change.newValue);
+                    }
+                }
+                publisher.commitChange();
+            });
+        }
 	});
 	return exports;
 });

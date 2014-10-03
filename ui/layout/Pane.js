@@ -35,6 +35,10 @@ define([
 		Container.apply(this);
 		this.classList.add('jide-pane');
 		Component.applyConfiguration(this, config);
+
+        this.on('change:layout', function(event) {
+            this.requestLayout();
+        }).bind(this);
 	};
 
 	Class(exports).extends(Component).def(/** @lends module:jidejs/ui/layout/Pane# */{

@@ -485,6 +485,9 @@ define([
 				.update();
 		}
 		if(this.children.length > 0) this.requestLayout();
+
+        GridPane.area.register(this);
+        GridPane.position.register(this);
 	};
     var GridPane = exports;
 	Class(GridPane).extends(Pane).def(/** @lends module:jidejs/ui/layout/GridPane# */{
@@ -495,7 +498,7 @@ define([
 
 		cellSpacing: new Spacing(0, 0), cellSpacingProperty: null,
 		_insertChildAt: function(child, index) {
-			GridPane.area.register(child);
+			//GridPane.area.register(child);
 			var area = GridPane.area(child);
 			var pos = GridPane.position(child);
 			if(HAS_GRID) {
@@ -555,7 +558,7 @@ define([
 		},
 
 		_removeChild: function(child) {
-			GridPane.area.unregister(child);
+			//GridPane.area.unregister(child);
 			var area = GridPane.area(child);
 			if(HAS_GRID) {
 				this.element.removeChild(child.element);
@@ -786,8 +789,9 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, the component will be placed in the given area.
 	 */
-	exports.area = AttachedProperty('jidejs/ui/layout/GridPane.area', function(region, evt) {
-		var component = evt.owner;
+	exports.area = AttachedProperty('jidejs/ui/layout/GridPane.area', 'GridPane-area', function(evt) {
+		var component = evt.source,
+            region = evt.value;
 		var parent = component.parent;
 		var isInGridPane = parent && parent instanceof GridPane;
 		if(isInGridPane) {
@@ -822,8 +826,9 @@ define([
 	 * @param {{row:number, column:number, rowspan:number, colspan:number}?} value When specified,
 	 * 		the component will be placed at the given position, with the (optional) rowspan and colspan.
 	 */
-    exports.position = AttachedProperty('jidejs/ui/layout/GridPane.position', function(pos, evt) {
-		var component = evt.owner;
+    exports.position = AttachedProperty('jidejs/ui/layout/GridPane.position', 'GridPane-position', function(evt) {
+		var component = evt.source,
+            pos = evt.value;
 		var parent = component.parent;
 		var isInGridPane = parent && parent instanceof GridPane;
 		if(isInGridPane) {

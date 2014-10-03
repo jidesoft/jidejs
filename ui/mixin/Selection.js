@@ -14,12 +14,20 @@ define([
             this.selectionModel.selectedItem = item;
         },
 
+        get selectedItemProperty() {
+            return this.selectionModel.selectedItemProperty;
+        },
+
         get selectedIndex() {
             return this.selectionModel.selectedIndex;
         },
 
         set selectedIndex(index) {
             this.selectionModel.selectedIndex = index;
+        },
+
+        get selectedIndexProperty() {
+            return this.selectionModel.selectedIndexProperty;
         }
     });
     return Selection;

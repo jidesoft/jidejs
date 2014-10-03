@@ -52,31 +52,38 @@ define([
 		config.element = el;
 		Pane.call(this, config);
 		this.classList.add('jide-anchorpane');
+
+        exports.topAnchor.register(this);
+        exports.leftAnchor.register(this);
+        exports.bottomAnchor.register(this);
+        exports.rightAnchor.register(this);
 	};
 	Class(exports).extends(Pane).def(/** @lends module:jidejs/ui/layout/AnchorPane# */{
 		_insertChildAt: function(child, index) {
 			var style = child.style;
 			['top', 'left', 'bottom', 'right'].forEach(function(name) {
 				var anchor = exports[name+'Anchor'];
-				anchor.register(child);
+				//anchor.register(child);
 				var value = anchor(child);
 				if(value) {
-					style.set(name, value);
+					if(style.set) style.set(name, value);
+                    else style[name] = value;
 				}
 			});
-			style.update();
-			this.element.appendChild(child.element);
+			if(style.update) style.update();
+			this.element.appendChild(child.element || child);
 		},
 
 		_removeChild: function(child) {
-			this.element.removeChild(child.element);
+			this.element.removeChild(child.element || child);
 			var style = child.style;
 			['top', 'left', 'bottom', 'right'].forEach(function(name) {
-				var anchor = exports[name+'Anchor'];
-				anchor.unregister(child);
-				style.remove(name);
+				//var anchor = exports[name+'Anchor'];
+				//anchor.unregister(child);
+				if(style.remove) style.remove(name);
+                else style[name] = undefined;
 			});
-			style.update();
+			if(style.update) style.update();
 		}
 	});
 	/**
@@ -89,8 +96,10 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-	exports.topAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.topAnchor', function(value, evt) {
-		evt.owner.style.set('top', value).update();
+	exports.topAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.topAnchor', 'AnchorPane-top', function(evt) {
+		//evt.owner.style.set('top', value).update();
+        if(evt.source.style.set) evt.source.style.set('top', evt.value).update();
+        else evt.source.style.top = evt.value;
 	});
 	/**
 	 * Sets or returns the value of the property for the given component.
@@ -102,8 +111,10 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-    exports.leftAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.leftAnchor', function(value, evt) {
-		evt.owner.style.set('left', value).update();
+    exports.leftAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.leftAnchor', 'AnchorPane-left', function(evt) {
+		//evt.owner.style.set('left', value).update();
+        if(evt.source.style.set) evt.source.style.set('left', evt.value).update();
+        else evt.source.style.left = evt.value;
 	});
 	/**
 	 * Sets or returns the value of the property for the given component.
@@ -115,8 +126,10 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-    exports.bottomAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.bottomAnchor', function(value, evt) {
-		evt.owner.style.set('bottom', value).update();
+    exports.bottomAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.bottomAnchor', 'AnchorPane-bottom', function(evt) {
+		//evt.owner.style.set('bottom', value).update();
+        if(evt.source.style.set) evt.source.style.set('bottom', evt.value).update();
+        else evt.source.style.bottom = evt.value;
 	});
 	/**
 	 * Sets or returns the value of the property for the given component.
@@ -128,8 +141,10 @@ define([
 	 * @param {module:jidejs/ui/Component} The component.
 	 * @param {string?} value When specified, this value will be set as the value of the anchor.
 	 */
-    exports.rightAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.rightAnchor', function(value, evt) {
-		evt.owner.style.set('right', value).update();
+    exports.rightAnchor = AttachedProperty('jidejs/ui/layout/AnchorPane.rightAnchor', 'AnchorPane-right', function(evt) {
+		//evt.owner.style.set('right', value).update();
+        if(evt.source.style.set) evt.source.style.set('right', evt.value).update();
+        else evt.source.style.right = evt.value;
 	});
 	return exports;
 });

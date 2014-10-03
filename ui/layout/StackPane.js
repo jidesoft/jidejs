@@ -41,6 +41,7 @@ define([
 			}
 		});
 		this.classList.add('jide-anchorpane');
+        StackPane.alignment.register(this);
 	}
 	Class(StackPane).extends(Pane).def({
 		_insertChildAt: function(child) {
@@ -54,8 +55,9 @@ define([
 			StackPane.alignment.unregister(child);
 		}
 	});
-	StackPane.alignment = AttachedProperty('jidejs/ui/layout/StackPane.alignment', function(pos, evt) {
-		var component = evt.owner;
+	StackPane.alignment = AttachedProperty('jidejs/ui/layout/StackPane.alignment', 'StackPane-alignment', function(evt) {
+		var component = evt.source,
+            pos = evt.value;
 		var style = component.style;
 		switch(pos) {
 			case Pos.TOP_LEFT:

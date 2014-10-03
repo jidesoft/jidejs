@@ -18,7 +18,14 @@ define([
                 return true;
             }
             for(var i = 0, len = filters.length; i < len; i++) {
-                if(!filters.get(i).filter(item)) {
+                var filter = filters.get(i);
+                if(typeof filter.canFilter === 'function') {
+                    if(filter.canFilter(item)) {
+                        if(!filter.filter(item)) {
+                            return false;
+                        }
+                    }
+                } else if(filter.filter(item)) {
                     return false;
                 }
             }
@@ -31,7 +38,14 @@ define([
             }
             for(var i = 0, len = sorters.length; i < len; i++) {
                 var comparator = sorters.get(i),
-                    value = comparator.compare(a, b);
+                    value = 0;
+                if(typeof comparator.canCompare === 'function') {
+                    if(comparator.canCompare(a, b)) {
+                        value = comparator.compare(a, b);
+                    }
+                } else {
+                    value = comparator.compare(a, b)
+                }
                 if(value !== 0) {
                     return value;
                 }
@@ -80,6 +94,10 @@ define([
         });
     }
     Class(CollectionViewSource).extends(Collection).def({
+        get sortedData() {
+            return this._sortedData;
+        },
+
         get source() {
             return this._source;
         },
@@ -119,6 +137,12 @@ define([
 
         updateSort: function() {
             this._sortedData.comparatorProperty.notify();
+            if(this._groupedData) {
+                this._groupedData.comparatorProperty.notify();
+                for(var i = 0, groups = this._groupedData, len = groups.length; i < len; i++) {
+                    groups.get(i).updateSort();
+                }
+            }
         },
 
         filterDescriptions: null,
@@ -128,10 +152,14 @@ define([
 
     var exports = {
         from: function(source) {
-            if(source instanceof Collection) {
+            if(source instanceof CollectionViewSource) {
+                return source;
+            } else if(source instanceof Collection) {
                 return new CollectionViewSource(source);
             } else if(Array.isArray(source)) {
                 return new CollectionViewSource(Collection.fromArray(source));
+            } else {
+                throw new Error('Unknown collection view source. Source is neither array nor collection.');
             }
         }
     };
@@ -159,8 +187,8 @@ define([
         // for now only support one level
         var topLevelGroup = groupDescriptions.get(0);
         view._groupedData = view._sortedData.groupBy(topLevelGroup.getGroupKey, topLevelGroup).map(function(key, index, source) {
-            return new Group(key, source.getByKey(key), groupDescriptions, 1);
-        });
+            return new Group(view, key, source.getByKey(key), groupDescriptions, 1);
+        }).filter(view.filter).sort(view.compare);
         replaceCollectionViewData(view, oldData, view._groupedData);
         view._groupedData.on('change', function(event) {
             view.updates.pipe(event);
@@ -184,15 +212,16 @@ define([
         publisher.commitChange();
     }
 
-    function Group(key, items, groupDescriptions, level) {
+    function Group(view, key, items, groupDescriptions, level) {
+        this._view = view;
         this.item = key;
         this._groupDescriptions = groupDescriptions;
         this._level = level;
         if(groupDescriptions.length > level) {
             var groupDescription = groupDescriptions.get(level);
             this.children = items.groupBy(groupDescription.getGroupKey, groupDescription).map(function(key, index, source) {
-                return new Group(key, source.getByKey(key), groupDescriptions, level+1);
-            });
+                return new Group(view, key, source.getByKey(key), groupDescriptions, level+1);
+            }).filter(view.filter).sort(view.compare);
         } else {
             this.children = items;
         }
@@ -200,6 +229,16 @@ define([
     Class(Group).def({
         get isBottomLevel() {
             return this._level < this._groupDescriptions.length;
+        },
+
+        updateSort: function() {
+            if(this.children.comparatorProperty) this.children.comparatorProperty.notify();
+            if(!this.isBottomLevel) {
+                for(var i = 0, groups = this.children, len = groups.length; i < len; i++) {
+                    var group = groups.get(i);
+                    if(group.updateSort) group.updateSort();
+                }
+            }
         }
     });
 

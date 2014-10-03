@@ -48,7 +48,7 @@ define([
 			var button = this.button;
 
 			var over = false, visibleState = false;
-			this.bindings.push(
+			this.managed(
 				listView.cellFactoryProperty.bind(comboBox.cellFactoryProperty),
 				listView.converterProperty.bind(comboBox.converterProperty),
 				listView.selectionModel.selectedItemProperty.subscribe(function(event) {

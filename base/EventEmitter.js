@@ -63,7 +63,7 @@ define([
 		 */
 		on: function(event, listener) {
 			ensureInitialized(this);
-			if(arguments.length === 2) {
+			if(arguments.length > 1) {
 				var listeners = this[$listeners][event];
 				if(!Array.isArray(listeners)) {
 					listeners = [];

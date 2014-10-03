@@ -22,7 +22,7 @@ define(['./Class', './CollectionChange', './Enumerator'], function(Class, Change
      */
     var exports = function ChangeEventAssembler(source) {
         this.source = source;
-        this.changes = null;
+        this.changes = [];
         this.level = 0;
         this.useCapture = false;
         this.needsChangeSorting = false;
@@ -65,7 +65,7 @@ define(['./Class', './CollectionChange', './Enumerator'], function(Class, Change
          */
         beginChange: function(useCapture) {
             if(!this.useCapture) {
-                this.changes = [];
+                //this.changes = [];
                 this.useCapture = useCapture;
             } else if(useCapture) {
                 this.level++;
@@ -112,7 +112,8 @@ define(['./Class', './CollectionChange', './Enumerator'], function(Class, Change
                 var event = new ChangeEvent(this.source, changes);
                 this.source.emit('change', event);
             }
-            this.changes = null;
+            this.changes = [];
+            this.useCapture = false;
         },
 
         /**

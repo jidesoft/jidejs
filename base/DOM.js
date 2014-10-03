@@ -232,6 +232,15 @@ define([
 			parent.insertBefore(node, parent.childNodes[index] || null);
 		},
 
+        insertElementAfter: function(newChild, refChild) {
+            var parent = refChild.parentNode;
+            if(refChild.nextSibling) {
+                parent.insertBefore(newChild, refChild.nextSibling);
+            } else {
+                parent.appendChild(newChild);
+            }
+        },
+
         contains: function(a, b) {
             return a.contains
                 ? a !== b && a.contains(b)
@@ -306,7 +315,29 @@ define([
 			if(isIE9 >= 9) { // force refresh to avoid IE9 rendering bug
 				element.style.zoom = element.style.zoom;
 			}
-		}
+		},
+
+        notifyLayoutChange: function(source) {
+            if(source.notifyLayoutChange) {
+                source.notifyLayoutChange();
+            }
+            this.emit(source, 'change:layout', { bubbles: true, cancelable: true });
+        },
+
+        emit: function(source, name, eventData) {
+            if(source.emit) {
+                source.emit(name, eventData);
+                return;
+            }
+            var event = document.createEvent('Event'),
+                data = eventData || {};
+            event.initEvent(name, 'bubbles' in data ? data.bubbles : true, 'cancelable' in data ? data.cancelable : true);
+            delete data.bubbles;
+            delete data.cancelable;
+            event.source = source;
+            for (var z in data) event[z] = data[z];
+            source.dispatchEvent(event);
+        }
 	};
 
 	if('scrollIntoViewIfNeeded' in Element.prototype) {

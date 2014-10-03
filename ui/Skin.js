@@ -286,7 +286,17 @@ define([
 						THIS[contextMenuHandler].dispose();
 						delete THIS[contextMenuHandler];
 					}
-				})
+				}),
+                c.attributes.on('change', function(event) {
+                    // emit change event for attached properties
+                    c.emit('change:'+event.key, {
+                        bubbles: true,
+                        value: event.value,
+                        oldValue: event.oldValue,
+                        source: event.source,
+                        cancelable: true
+                    });
+                })
 			);
 			this[BINDINGS] = this.installBindings();
 			this[EVENT_BINDINGS] = this.installListeners();

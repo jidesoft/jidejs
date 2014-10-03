@@ -73,6 +73,16 @@ define([
                 var bindData = getBindData(element),
                     template = bindData.template,
                     disposables = bindData.disposables || (bindData.disposables = []);
+
+                if(oldValue) {
+                    // if the actual data collection changed, we need to clean up first
+                    if(bindData.foreachChangedSubscription) {
+                        bindData.foreachChangedSubscription.dispose();
+                        bindData.foreachChangedSubscription = null;
+                    }
+                    element.innerHTML = '';
+                }
+
                 var frag = document.createDocumentFragment();
                 if(Array.isArray(value)) {
                     insertArrayToDOM({
@@ -84,7 +94,7 @@ define([
                 } else if(value.on) {
                     insertArrayToDOM(value, context, frag, template, disposables);
                     var updateTicking = false, eventStore = [];
-                    value.on('change', function(event) {
+                    bindData.foreachChangeSubscription = value.on('change', function(event) {
                         eventStore[eventStore.length] = event;
                         if(!updateTicking) {
                             updateTicking = true;

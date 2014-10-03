@@ -328,7 +328,15 @@ define([
 			return new GroupCollection(this, _.isString(keySelector)
 				? pluckTransform.bind(null, keySelector)
 				: keySelector, context);
-		}
+		},
+
+        toObservable: function() {
+            var observable = new Observable(this);
+            this.on('change', function(event) {
+                observable.notify(event);
+            });
+            return observable;
+        }
 	});
 	/**
 	 * Returns a new, immutable, collection which contains all items from the given array.
@@ -1131,7 +1139,7 @@ define([
 			this.comparator = comparator;
 		}
 		this._data = this.source.toArray().sort(this.comparator);
-		this.bindings = [
+		this._bindings = [
 			this.source.on('change', handleSortSourceChanged.bind(this)),
 			this.comparatorProperty.subscribe(handleReSort.bind(this))
 		];

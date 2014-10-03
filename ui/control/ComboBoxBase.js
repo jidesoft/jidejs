@@ -55,7 +55,7 @@ define([
 			var button = this.button;
 
 			var over = false, visibleState = false;
-			this.bindings = [
+			this.managed(
 				popup.visibleProperty.bind(comboBox.showingProperty),
 				comboBox.showingProperty.subscribe(function(event) {
 					if(event.value) {
@@ -93,18 +93,18 @@ define([
 				comboBox.valueProperty.subscribe(function(event) {
 					textField.text = comboBox.converter(event.value);
 				})
-			];
+            );
 			if(comboBox.editable) {
 				comboBox.classList.add('jide-state-editable');
 				textField.editable = true;
 			}
-		},
-		dispose: function() {
-			this.bindings.forEach(function(binding) {
-				if(binding) binding.dispose();
-			});
-			delete this.bindings;
-		}
+		}//,
+//		dispose: function() {
+//			this.bindings.forEach(function(binding) {
+//				if(binding) binding.dispose();
+//			});
+//			delete this.bindings;
+//		}
 	});
 
 	/**
